@@ -28,10 +28,11 @@ public class Charmovement_2 : MonoBehaviour
         MoveCharacter();
     }
 
-    private Vector2 GetInput()
+    public Vector2 GetInput()
     {
         return new Vector2(Input.GetAxisRaw("Horizontal"), Input.GetAxisRaw("Vertical"));
     }
+
 
     private void MoveCharacter()
     {

@@ -14,6 +14,7 @@ public class Charjump : MonoBehaviour
     private float HorizontalDirection;
     private bool canjump => Input.GetKeyDown(KeyCode.UpArrow) && isGrounded;
     public bool isGrounded;
+    public float checkdistances = 0.2f;
 
 
     void Start()
@@ -29,8 +30,10 @@ public class Charjump : MonoBehaviour
             HorizontalDirection = GetInput().x;
         }
 
-        //Creates Raycast between ground and groundcheck object
-        if (Physics2D.Linecast(transform.position, groundCheck.position, 1 << LayerMask.NameToLayer("Ground")))
+        //Creates 3 Linecasts extending checkdistances at the middle, left and right of transform, with layermask for layer "Ground"
+        if (Physics2D.Raycast(transform.position, Vector2.down, checkdistances, 1 << LayerMask.NameToLayer("Ground")) || 
+            Physics2D.Raycast(new Vector2(transform.position.x + 0.095f, transform.position.y), Vector2.down, checkdistances, 1 << LayerMask.NameToLayer("Ground")) ||
+            Physics2D.Raycast(new Vector2(transform.position.x + -0.095f, transform.position.y), Vector2.down, checkdistances, 1 << LayerMask.NameToLayer("Ground")))
         {
             isGrounded = true;
         }
@@ -103,6 +106,12 @@ public class Charjump : MonoBehaviour
     private void OnDrawGizmos()
     {
         Gizmos.color = Color.green;
-        Gizmos.DrawLine(transform.position, groundCheck.position);
+        Gizmos.DrawRay(transform.position, Vector2.down * checkdistances);
+
+        Gizmos.color = Color.green;
+        Gizmos.DrawRay(new Vector2 (transform.position.x + 0.095f, transform.position.y), Vector2.down * checkdistances);
+
+        Gizmos.color = Color.green;
+        Gizmos.DrawRay(new Vector2(transform.position.x + -0.095f, transform.position.y), Vector2.down * checkdistances);
     }
 }

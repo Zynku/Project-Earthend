@@ -20,7 +20,7 @@ public class Charanimation : MonoBehaviour
     void Update()
     {
         //Creates Raycast between groundcheck object and ground
-        if (Physics2D.Linecast(transform.position, groundCheck.position, 1 << LayerMask.NameToLayer("Ground")))
+        if (GetComponent<Charjump>().isGrounded)
         {
             isGrounded = true;
             animator.SetBool("Grounded", true);
@@ -58,10 +58,5 @@ public class Charanimation : MonoBehaviour
             animator.SetBool("Ground Melee", true);
         }
         else animator.SetBool("Ground Melee", false);
-    }
-    private void OnDrawGizmos()
-    {
-        Gizmos.color = Color.green;
-        Gizmos.DrawLine(transform.position, groundCheck.position);
     }
 }
