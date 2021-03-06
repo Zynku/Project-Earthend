@@ -14,6 +14,7 @@ public class Charattack : MonoBehaviour
     }
 
     // Update is called once per frame
+    // If D is pressed, sets Attacing to true
     void Update()
     {
         if (Input.GetKeyDown(KeyCode.D))
@@ -22,6 +23,7 @@ public class Charattack : MonoBehaviour
         }
     }
 
+    //Used by Animation Events in Melee Animation. On Event 1 activates hitbox, on Event 2 deactivates hitbox
     public void OnMelee1Start()
     {
         Melee1.SetActive(true);
@@ -32,5 +34,4 @@ public class Charattack : MonoBehaviour
         Attacking = false;
         Melee1.SetActive(false);
     }
-
 }

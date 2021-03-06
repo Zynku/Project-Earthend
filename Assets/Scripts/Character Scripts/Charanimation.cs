@@ -7,29 +7,54 @@ public class Charanimation : MonoBehaviour
     public bool isGrounded;
 
     Animator animator;
-
-    [SerializeField] Transform groundCheck;
+    Rigidbody2D rb2d;
 
     // Start is called before the first frame update
     void Start()
     {
         animator = GetComponent<Animator>();
+        rb2d = GetComponent<Rigidbody2D>();
+
     }
 
     // Update is called once per frame
     void Update()
     {
-        //Creates Raycast between groundcheck object and ground
+        //Checks for groundcheck from charjump script, returns true if true
         if (GetComponent<Charjump>().isGrounded)
         {
             isGrounded = true;
             animator.SetBool("Grounded", true);
+            animator.SetBool("Jumping", false);
         }
         else
         {
             isGrounded = false;
             animator.SetBool("Grounded", false);
         }
+
+
+        //---------------------------------------------------------------------------------------------------------------------------------------------
+        //Checks y velocities and plays anims
+        if (rb2d.velocity.y > 0f && !isGrounded)
+        {
+            animator.SetBool("Jumping", true);
+        }
+
+        if (rb2d.velocity.y < 0f && !isGrounded)
+        {
+            animator.SetBool("Jumping", false);
+            animator.SetBool("Falling", true);
+        }
+
+        if (rb2d.velocity.y < -0.1f && isGrounded)
+        {
+            animator.SetBool("Falling", false);
+            animator.SetBool("Landed", true);
+        }
+        else { animator.SetBool("Landed", false); }
+        //---------------------------------------------------------------------------------------------------------------------------------------------
+
 
 
         //Go righttttt, play run anim
@@ -53,10 +78,13 @@ public class Charanimation : MonoBehaviour
             animator.SetBool("Run", false);
         }
 
+        //---------------------------------------------------------------------------------------------------------------------------------------------
+        //Melee Keys
         if ((Input.GetKey("d")) && isGrounded)
         {
-            animator.SetBool("Ground Melee", true);
+            animator.SetBool("Melee 1", true);
         }
-        else animator.SetBool("Ground Melee", false);
+        else animator.SetBool("Melee 1", false);
+        //---------------------------------------------------------------------------------------------------------------------------------------------
     }
 }

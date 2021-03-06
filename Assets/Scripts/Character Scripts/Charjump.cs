@@ -5,12 +5,11 @@ using UnityEngine;
 public class Charjump : MonoBehaviour
 {
     private Rigidbody2D rb2d;
-    [SerializeField] Transform groundCheck;
-    [SerializeField] private float jumpForce;
+    [SerializeField] private float jumpForce = 4f;
     [SerializeField] private float airLinearDrag = 2.5f;
-    [SerializeField] private float groundLinearDrag;
-    [SerializeField] private float fallJumpMultiplier;
-    [SerializeField] private float lowJumpFallMultiplier;
+    [SerializeField] private float groundLinearDrag = 4.67f;
+    [SerializeField] private float fallJumpMultiplier = 0.6f;
+    [SerializeField] private float lowJumpFallMultiplier = 1.29f;
     private float HorizontalDirection;
     private bool canjump => Input.GetKeyDown(KeyCode.UpArrow) && isGrounded;
     public bool isGrounded;
