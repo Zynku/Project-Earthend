@@ -34,6 +34,7 @@ public class Charanimation : MonoBehaviour
         }
 
 
+
         //---------------------------------------------------------------------------------------------------------------------------------------------
         //Checks y velocities and plays anims
         if (rb2d.velocity.y > 0f && !isGrounded)
@@ -49,10 +50,16 @@ public class Charanimation : MonoBehaviour
 
         if (rb2d.velocity.y < -0.1f && isGrounded)
         {
-            animator.SetBool("Falling", false);
             animator.SetBool("Landed", true);
+            animator.SetBool("Falling", false);
         }
         else { animator.SetBool("Landed", false); }
+
+        if (GetComponent<Charjump>().AirJump(true))
+        {
+            animator.Play("Jumping");
+
+        }
         //---------------------------------------------------------------------------------------------------------------------------------------------
 
 
