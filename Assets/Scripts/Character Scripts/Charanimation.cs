@@ -5,6 +5,8 @@ using UnityEngine;
 public class Charanimation : MonoBehaviour
 {
     public bool isGrounded;
+    public float xvel => rb2d.velocity.x;
+    public float yvel => rb2d.velocity.y;
 
     Animator animator;
     Rigidbody2D rb2d;
@@ -37,28 +39,35 @@ public class Charanimation : MonoBehaviour
 
         //---------------------------------------------------------------------------------------------------------------------------------------------
         //Checks y velocities and plays anims
+        //Rising
         if (rb2d.velocity.y > 0f && !isGrounded)
         {
             animator.SetBool("Jumping", true);
+            animator.SetBool("Falling", false);
         }
-
+        //Falling, not on ground
         if (rb2d.velocity.y < 0f && !isGrounded)
         {
             animator.SetBool("Jumping", false);
             animator.SetBool("Falling", true);
+            animator.SetBool("Double Jump", false);
         }
-
-        if (rb2d.velocity.y < -0.1f && isGrounded)
+        //Falling, on ground
+        if (Mathf.Ceil(rb2d.velocity.y) < 0 && isGrounded)
         {
-            animator.SetBool("Landed", true);
             animator.SetBool("Falling", false);
+            animator.SetBool("Double Jump", false);
         }
-        else { animator.SetBool("Landed", false); }
-
-        if (GetComponent<Charjump>().AirJump(true))
+        //AirJumped, not on ground
+        if (GetComponent<Charjump>().airJumped && !isGrounded)
         {
-            animator.Play("Jumping");
-
+            animator.SetBool("Double Jump", true);
+        }
+        //On Ground
+        if (isGrounded)
+        {
+            animator.SetBool("Falling", false);
+            animator.SetBool("Double Jump", false);
         }
         //---------------------------------------------------------------------------------------------------------------------------------------------
 

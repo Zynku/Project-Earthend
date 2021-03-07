@@ -17,6 +17,7 @@ public class Charjump : MonoBehaviour
     public float checkdistances = 0.2f;
     public float wallcheckdistances = 0.3f;
     public float airJumps = 2f;
+    public bool airJumped = false;
     public bool againstWallR = false;
     public bool againstWallL = false;
     public bool wallgrabbed = false;
@@ -54,7 +55,7 @@ public class Charjump : MonoBehaviour
         ApplyAirLinearDrag();
         FallMultiplier();
         WallCheck();
-        AirJump(false);
+        AirJump();
 
         if (isGrounded) {ApplyGroundLinearDrag();}
         else{ApplyAirLinearDrag();}
@@ -73,25 +74,21 @@ public class Charjump : MonoBehaviour
         rb2d.AddForce(Vector2.up * jumpForce, ForceMode2D.Impulse);
     }
 
-    public bool AirJump(bool jump)
+    public void AirJump()
     {
-        if (airJumps > 0 && !isGrounded)
+        if (airJumps > 0 && !isGrounded && (Input.GetKeyDown(KeyCode.UpArrow)))
         {
-            if (Input.GetKeyDown(KeyCode.UpArrow))
-            {
-                rb2d.velocity = new Vector2(0, 0);
-                Jump();
-                airJumps =- 1;
-                return true;
-            }
+            rb2d.velocity = new Vector2(rb2d.velocity.x, 0);
+            Jump();
+            airJumps -= 1f;
+            airJumped = true;
         }
+
         if (isGrounded)
         {
-            airJumps =+ 2;
-            return false;
+            airJumps = 2;
+            airJumped = false;
         }
-        return false;
-
     }
 
     /*private void WallGrab()
