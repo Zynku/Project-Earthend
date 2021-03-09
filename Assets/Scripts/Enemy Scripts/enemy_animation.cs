@@ -20,7 +20,7 @@ public class enemy_animation : MonoBehaviour
     {
         RunningAnim();
 
-        if (gameObject.GetComponent<Find_char>().DetectingRight() == true)
+        if (gameObject.GetComponent<Find_char>().PlayerRight == true)
         {
             DetectingRightapparently = true;
         }
@@ -29,12 +29,12 @@ public class enemy_animation : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (gameObject.GetComponent<Find_char>().DetectingRight() == true || gameObject.GetComponent<Find_char>().DetectingLeft() == true)
+        if (gameObject.GetComponent<Find_char>().PlayerLeft == true || gameObject.GetComponent<Find_char>().PlayerLeft == true)
         {
             Running = true;
         }
 
-        if (gameObject.GetComponent<Find_char>().DetectingRight() == false || gameObject.GetComponent<Find_char>().DetectingLeft() == false)
+        if (gameObject.GetComponent<Find_char>().PlayerRight == false || gameObject.GetComponent<Find_char>().PlayerRight == false)
         {
             Running = false;
         }

@@ -4,8 +4,12 @@ using UnityEngine;
 
 public class Charaudio : MonoBehaviour
 {
-    [SerializeField]
-    private AudioClip[] clips;
+
+    [SerializeField] private AudioClip Footstep;
+    [SerializeField] private AudioClip Footstep2;
+    [SerializeField] private AudioClip Swing;
+    [SerializeField] private AudioClip Jump;
+    [SerializeField] private AudioClip Hit;
 
     private AudioSource audiosource;
     // Start is called before the first frame update
@@ -22,12 +26,18 @@ public class Charaudio : MonoBehaviour
 
     public void OnFootStep()
     {
-        AudioClip clip = GetRandomClip();
-        audiosource.PlayOneShot(clip);
+        audiosource.pitch = (Random.Range(0.5f, 1f));
+        audiosource.PlayOneShot(Footstep);
     }
 
-    private AudioClip GetRandomClip()
+    public void OnSwing()
     {
-        return clips[UnityEngine.Random.Range(0, clips.Length)];
+        audiosource.pitch = (Random.Range(0.9f, 1f));
+        audiosource.PlayOneShot(Swing);
+    }
+
+    public void OnHit()
+    {
+        
     }
 }

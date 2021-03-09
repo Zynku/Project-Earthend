@@ -22,8 +22,8 @@ public class Charanimation : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        //Checks for groundcheck from charjump script, returns true if true
-        if (GetComponent<Charjump>().isGrounded)
+        //Checks for groundcheck from charmovement script, returns true if true
+        if (GetComponent<Charmovement_2>().isGrounded)
         {
             isGrounded = true;
             animator.SetBool("Grounded", true);
@@ -34,9 +34,6 @@ public class Charanimation : MonoBehaviour
             isGrounded = false;
             animator.SetBool("Grounded", false);
         }
-
-
-
         //---------------------------------------------------------------------------------------------------------------------------------------------
         //Checks y velocities and plays anims
         //Rising
@@ -59,7 +56,7 @@ public class Charanimation : MonoBehaviour
             animator.SetBool("Double Jump", false);
         }
         //AirJumped, not on ground
-        if (GetComponent<Charjump>().airJumped && !isGrounded)
+        if (GetComponent<Charmovement_2>().airJumped && !isGrounded)
         {
             animator.SetBool("Double Jump", true);
         }
@@ -70,9 +67,6 @@ public class Charanimation : MonoBehaviour
             animator.SetBool("Double Jump", false);
         }
         //---------------------------------------------------------------------------------------------------------------------------------------------
-
-
-
         //Go righttttt, play run anim
         if ((Input.GetKey("right")) && isGrounded)
         {
@@ -81,8 +75,6 @@ public class Charanimation : MonoBehaviour
         }
         if ((Input.GetKeyUp("right")))
             animator.SetBool("Run", false);
-
-
         //Go left, play run anim flipped
         if ((Input.GetKey("left")) && isGrounded)
         {

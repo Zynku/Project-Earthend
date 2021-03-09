@@ -11,6 +11,7 @@ public class Find_char : MonoBehaviour
     public bool PlayerLeft;
     public float yoffset;
     public float enemyspeed = 1;
+    public float maxMoveSpeed = 3f;
 
 
     // Start is called before the first frame update
@@ -21,18 +22,22 @@ public class Find_char : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (DetectingLeft() == true)
-        {
-            PlayerLeft = true;
-        }
-        else
-        {
-            PlayerLeft = false;
-        }
 
-        if (DetectingRight() == true)
+    }
+
+    private void FixedUpdate()
+    {
+        MovetoPlayer();
+        DetectingRight();
+        DetectingLeft();
+    }
+
+    public void DetectingRight()
+    {
+        if (Physics2D.Raycast(transform.position + new Vector3(0, yoffset), new Vector2(1, 0), senselength, 1 << LayerMask.NameToLayer("Player")))
         {
             PlayerRight = true;
+            MovetoPlayer();
         }
         else
         {
@@ -40,45 +45,37 @@ public class Find_char : MonoBehaviour
         }
     }
 
-    private void FixedUpdate()
+    public void DetectingLeft()
     {
-        MovetoPlayer();
-    }
-
-    public bool DetectingRight()
-    {
-        RaycastHit2D hitr = Physics2D.Raycast(transform.position + new Vector3(0, yoffset), new Vector2(1, 0), senselength, 1 << LayerMask.NameToLayer("Player"));
-        if (hitr.collider != null)
+        if (Physics2D.Raycast(transform.position + new Vector3(0, yoffset), new Vector2(-1, 0), senselength, 1 << LayerMask.NameToLayer("Player")))
         {
-           return (true);
+            PlayerLeft = true;
+            MovetoPlayer();
         }
-        else return (false);
-    }
-
-    public bool DetectingLeft()
-    {
-        RaycastHit2D hitl = Physics2D.Raycast(transform.position + new Vector3(0, yoffset), new Vector2(-1, 0), senselength, 1 << LayerMask.NameToLayer("Player"));
-        if (hitl.collider != null)
+        else
         {
-            return true;
+            PlayerRight = false;
         }
-        else return false;
     }
 
     private void MovetoPlayer()
     {
         if ( PlayerRight == true )
         {
-            rb2d.velocity = new Vector2(enemyspeed, rb2d.velocity.y);
-        }
+            rb2d.AddForce(new Vector2(1, 0f));
 
+            if (Mathf.Abs(rb2d.velocity.x) > maxMoveSpeed)
+                rb2d.velocity = new Vector2(Mathf.Sign(rb2d.velocity.x) * maxMoveSpeed, rb2d.velocity.y);
+        }
 
         if (PlayerLeft == true)
         {
-            rb2d.velocity = new Vector2(-enemyspeed, rb2d.velocity.y);
+            rb2d.AddForce(new Vector2(-1, 0f));
+
+            if (Mathf.Abs(rb2d.velocity.x) > maxMoveSpeed)
+                rb2d.velocity = new Vector2(Mathf.Sign(rb2d.velocity.x) * maxMoveSpeed, rb2d.velocity.y);
         }
     }
-
 
     private void OnDrawGizmos()
     {

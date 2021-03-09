@@ -84,6 +84,11 @@ public class Charjump : MonoBehaviour
             airJumped = true;
         }
 
+        if (rb2d.velocity.y < 0)
+        {
+            airJumped = false;
+        }
+
         if (isGrounded)
         {
             airJumps = 2;

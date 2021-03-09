@@ -5,11 +5,14 @@ using UnityEngine;
 public class trainingball_controller : MonoBehaviour
 {
     private Animator animator;
+    private AudioSource audiosource;
+    [SerializeField] AudioClip Hit;
 
     // Start is called before the first frame update
     void Start()
     {
         animator = GetComponent<Animator>();
+        audiosource = GetComponent<AudioSource>();
     }
 
     // Update is called once per frame
@@ -23,6 +26,7 @@ public class trainingball_controller : MonoBehaviour
         if (collision.gameObject.layer == LayerMask.NameToLayer("Hitboxes"))
         {
             animator.SetBool("BeenHit", true);
+            audiosource.PlayOneShot(Hit);
         }
     }
     public void OnTriggerExit2D(Collider2D collision)
