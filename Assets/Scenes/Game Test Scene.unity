@@ -901,7 +901,6 @@ MonoBehaviour:
   checkdistances: 0.2
   wallcheckdistances: 0.3
   airJumps: 1
-  airJumpshas: 0
   airJumped: 0
   againstWallR: 0
   againstWallL: 0
@@ -1078,7 +1077,8 @@ AudioSource:
   m_GameObject: {fileID: 259083759}
   m_Enabled: 1
   serializedVersion: 4
-  OutputAudioMixerGroup: {fileID: 0}
+  OutputAudioMixerGroup: {fileID: 24300002, guid: 9e7a22ee458a2384596213decec719aa,
+    type: 2}
   m_audioClip: {fileID: 0}
   m_PlayOnAwake: 1
   m_Volume: 1

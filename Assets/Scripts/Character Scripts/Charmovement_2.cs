@@ -15,13 +15,15 @@ public class Charmovement_2 : MonoBehaviour
     [SerializeField] private float fallJumpMultiplier = 0.6f;
     [SerializeField] private float lowJumpFallMultiplier = 1.29f;
     //[SerializeField] private float walljumpForce = 4f;
+
+    [Header("Jump Variables")]
     public bool isGrounded;
     private float HorizontalDirection;
-    public bool canJump => Input.GetKeyDown(KeyCode.UpArrow) && isGrounded;
+    private bool canJump => Input.GetKeyDown(KeyCode.UpArrow) && isGrounded;
     public float checkdistances = 0.2f;
     public float wallcheckdistances = 0.3f;
     public float airJumps = 2f;
-    public float airJumpshas;
+    private float airJumpshas;
     public bool airJumped = false;
     public bool againstWallR = false;
     public bool againstWallL = false;
