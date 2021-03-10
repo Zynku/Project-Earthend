@@ -22,6 +22,18 @@ public class Charanimation : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        //---------------------------------------------------------------------------------------------------------------------------------------------
+        //Checks for direction and plays flipped or unflipped anims
+        if (Input.GetAxisRaw("Horizontal") > 0)
+        {
+            transform.localScale = new Vector3(1, 1, 1);
+        }
+
+        if (Input.GetAxisRaw("Horizontal") < 0)
+        {
+            transform.localScale = new Vector3(-1, 1, 1);
+        }
+
         //Checks for groundcheck from charmovement script, returns true if true
         if (GetComponent<Charmovement_2>().isGrounded)
         {
@@ -71,23 +83,21 @@ public class Charanimation : MonoBehaviour
         if ((Input.GetKey("right")) && isGrounded)
         {
             animator.SetBool("Run", true);
-            transform.localScale = new Vector3(1, 1, 1);
         }
         if ((Input.GetKeyUp("right")))
             animator.SetBool("Run", false);
-        //Go left, play run anim flipped
+        //Go left, play run anim
         if ((Input.GetKey("left")) && isGrounded)
         {
             animator.SetBool("Run", true);
-            transform.localScale = new Vector3(-1, 1, 1);
         }
         if ((Input.GetKeyUp("left")))
         {
             animator.SetBool("Run", false);
         }
-
         //---------------------------------------------------------------------------------------------------------------------------------------------
         //Melee Keys
+        //Check Animation Transitions for Animation States
         if ((Input.GetKey("d")) && isGrounded)
         {
             animator.SetBool("Melee 1", true);

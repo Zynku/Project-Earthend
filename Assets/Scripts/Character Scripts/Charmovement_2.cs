@@ -17,10 +17,11 @@ public class Charmovement_2 : MonoBehaviour
     //[SerializeField] private float walljumpForce = 4f;
     public bool isGrounded;
     private float HorizontalDirection;
-    private bool canJump => Input.GetKeyDown(KeyCode.UpArrow) && isGrounded;
+    public bool canJump => Input.GetKeyDown(KeyCode.UpArrow) && isGrounded;
     public float checkdistances = 0.2f;
     public float wallcheckdistances = 0.3f;
     public float airJumps = 2f;
+    public float airJumpshas;
     public bool airJumped = false;
     public bool againstWallR = false;
     public bool againstWallL = false;
@@ -29,6 +30,7 @@ public class Charmovement_2 : MonoBehaviour
     void Start()
     {
         rb2d = GetComponent<Rigidbody2D>();
+        airJumpshas = airJumps;
     }
     
     private void Update()
@@ -82,11 +84,11 @@ public class Charmovement_2 : MonoBehaviour
 
     public void AirJump()
     {
-        if (airJumps > 0 && !isGrounded && (Input.GetKeyDown(KeyCode.UpArrow)))
+        if (airJumpshas > 0 && !isGrounded && (Input.GetKeyDown(KeyCode.UpArrow)))
         {
             rb2d.velocity = new Vector2(rb2d.velocity.x, 0);
             Jump();
-            airJumps -= 1f;
+            airJumpshas -= 1f;
             airJumped = true;
         }
 
@@ -97,7 +99,7 @@ public class Charmovement_2 : MonoBehaviour
 
         if (isGrounded)
         {
-            airJumps = 2;
+            airJumpshas = airJumps;
             airJumped = false;
         }
     }
