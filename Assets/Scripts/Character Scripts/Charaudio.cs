@@ -10,6 +10,7 @@ public class Charaudio : MonoBehaviour
     [SerializeField] private AudioClip Swing;
     [SerializeField] private AudioClip Jump;
     [SerializeField] private AudioClip Hit;
+    [SerializeField] private AudioClip Coin_Pickup;
 
     public bool Jumped;
 
@@ -23,7 +24,6 @@ public class Charaudio : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
     }
 
     public void OnFootStep()
@@ -48,5 +48,14 @@ public class Charaudio : MonoBehaviour
     public void OnHit()
     {
         
+    }
+
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        if (collision.CompareTag("coin_collectable"))
+        {
+            audiosource.pitch = (Random.Range(0.9f, 1f));
+            audiosource.PlayOneShot(Coin_Pickup);
+        }
     }
 }

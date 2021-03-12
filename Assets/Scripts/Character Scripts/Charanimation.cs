@@ -35,7 +35,7 @@ public class Charanimation : MonoBehaviour
         }
 
         //Checks for groundcheck from charmovement script, returns true if true
-        if (GetComponent<Charmovement_2>().isGrounded)
+        if (GetComponent<Char_control>().isGrounded)
         {
             isGrounded = true;
             animator.SetBool("Grounded", true);
@@ -68,7 +68,7 @@ public class Charanimation : MonoBehaviour
             animator.SetBool("Double Jump", false);
         }
         //AirJumped, not on ground
-        if (GetComponent<Charmovement_2>().airJumped && !isGrounded)
+        if (GetComponent<Char_control>().airJumped && !isGrounded)
         {
             animator.SetBool("Double Jump", true);
         }
