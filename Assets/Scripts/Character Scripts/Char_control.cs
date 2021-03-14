@@ -14,6 +14,7 @@ public class Char_control : MonoBehaviour
     [SerializeField] private float groundLinearDrag = 4.67f;
     [SerializeField] private float fallJumpMultiplier = 0.6f;
     [SerializeField] private float lowJumpFallMultiplier = 1.29f;
+    public float facingDir = 0;
     //[SerializeField] private float walljumpForce = 4f;
 
     [Header("Jump Variables")]
@@ -76,6 +77,7 @@ public class Char_control : MonoBehaviour
         FallMultiplier();
         WallCheck();
         AirJump();
+        GetDir();
 
         if (isGrounded) { ApplyGroundLinearDrag(); }
         else { ApplyAirLinearDrag(); }
@@ -113,6 +115,19 @@ public class Char_control : MonoBehaviour
         {
             airJumpshas = airJumps;
             airJumped = false;
+        }
+    }
+
+    private void GetDir()
+    {
+        if(Input.GetAxisRaw("Horizontal") > 0)
+        {
+            facingDir = 1;
+        }
+
+        if (Input.GetAxisRaw("Horizontal") < 0)
+        {
+            facingDir = -1;
         }
     }
 
@@ -205,4 +220,5 @@ public class Char_control : MonoBehaviour
         Attacking = false;
         Melee1.SetActive(false);
     }
+
 }
