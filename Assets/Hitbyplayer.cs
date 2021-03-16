@@ -28,7 +28,6 @@ public class Hitbyplayer : MonoBehaviour
     {
         if (collision.gameObject.layer == LayerMask.NameToLayer("Ground"))
         {
-            Debug.Log("Hit ground");
             PlaySound();
             
         }

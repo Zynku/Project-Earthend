@@ -106,14 +106,14 @@ AnimationClip:
     floatParameter: 0
     intParameter: 0
     messageOptions: 0
-  - time: 0.13636364
+  - time: 0.18181819
     functionName: OnMelee1Start
     data: 
     objectReferenceParameter: {fileID: 0}
     floatParameter: 0
     intParameter: 0
     messageOptions: 0
-  - time: 0.4090909
+  - time: 0.27272728
     functionName: OnMelee1End
     data: 
     objectReferenceParameter: {fileID: 0}

@@ -6,6 +6,8 @@ TagManager:
   tags:
   - Ground
   - coin_collectable
+  - enemy
+  - hitbox
   layers:
   - Default
   - TransparentFX
@@ -24,7 +26,7 @@ TagManager:
   - Hitboxes
   - BG
   - Collectables
-  - 
+  - Player Ignore
   - 
   - 
   - 

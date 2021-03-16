@@ -20,12 +20,10 @@ public class enemy_collider : MonoBehaviour
     {
         if (collision.gameObject.CompareTag("Player"))
         {
-            Debug.Log("truuuu");
             return true;
         }
         else
         {
-            Debug.Log("false");
             return false;
         }
     }
