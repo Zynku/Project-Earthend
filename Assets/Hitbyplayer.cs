@@ -33,7 +33,7 @@ public class Hitbyplayer : MonoBehaviour
         }
         if (collision.transform.tag == ("hitbox"))
         {
-            rb2d.AddForce(new Vector2(xForce * playerDir, yForce * playerDir));
+            rb2d.AddForce(new Vector2(xForce * playerDir * 10, yForce * 10));
         }
     }
 

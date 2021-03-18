@@ -22,14 +22,46 @@ public class Enemy_animations : MonoBehaviour
         Idle,
         Running,
         Attacking,
-        Dead
+        Dead,
+        Stunned
     }
+
+
     // Update is called once per frame
     void Update()
     {
 
+        //I can't figure out how to get a reference to the enum from here lol
+        if (GetComponent<enemy_controller>().currentState == enemy_controller.State.Idle)
+        {
+            AnimationStates = animstate.Idle;
+        }
 
-        if (GetComponent<enemy_controller>().attack == true)
+        if (GetComponent<enemy_controller>().currentState == enemy_controller.State.MovingToPlayer)
+        {
+            AnimationStates = animstate.Running;
+        }
+
+        if (GetComponent<enemy_controller>().currentState == enemy_controller.State.Attacking)
+        {
+            AnimationStates = animstate.Attacking;
+        }
+
+        if (GetComponent<enemy_controller>().currentState == enemy_controller.State.Dead)
+        {
+            AnimationStates = animstate.Dead;
+        }
+
+        if (GetComponent<enemy_controller>().currentState == enemy_controller.State.Stunned)
+        {
+            AnimationStates = animstate.Stunned;
+        }
+
+
+
+
+
+        if (GetComponent<enemy_controller>().attack == true && AnimationStates == animstate.Attacking)
         {
             animator.SetBool("Attack", true);
         }
@@ -38,13 +70,22 @@ public class Enemy_animations : MonoBehaviour
             animator.SetBool("Attack", false);
         }
 
-        if (GetComponent<enemy_controller>().canFollowPlayer == true && rb2d.velocity.x > 0 || rb2d.velocity.x < 0)
+        if (GetComponent<enemy_controller>().canFollowPlayer == true && rb2d.velocity.x > 0|| rb2d.velocity.x < 0 && AnimationStates != animstate.Attacking)
         {
             animator.SetBool("Running", true);
         }
         else
         {
             animator.SetBool("Running", false);
+        }
+
+        if (AnimationStates == animstate.Stunned)
+        {
+            animator.SetBool("Stunned", true);
+        }
+        else
+        {
+            animator.SetBool("Stunned", false);
         }
 
         if (GetComponent<enemy_controller>().isGrounded == true)
@@ -57,20 +98,7 @@ public class Enemy_animations : MonoBehaviour
         }
 
 
-        switch (AnimationStates)
-        {
-            case animstate.Idle:
-                break;
-
-            case animstate.Attacking:
-                break;
-
-            case animstate.Running:
-                break;
-
-            case animstate.Dead:
-                break;
-        }
+       
 
     }
 }

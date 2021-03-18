@@ -5,14 +5,18 @@ using UnityEngine;
 public class enemy_controller : MonoBehaviour
 {
     public State currentState;
-    public float senseRadius, attackRadius;
+    public float senseRadius, attackRadius, playerTooCloseRadius;
     public float insideRadiusDir, playerDist, moveSpeed, maxMoveSpeed, jumpForce, movingDir;
-    public bool canFollowPlayer, canAttackPlayer;
+    public bool canFollowPlayer, canAttackPlayer, playerTooClose;
+    public bool inControl;
     public float wallCheckLength, groundCheckDistance;
-    public bool wallInfront, isGrounded, attack;
-    public float attackTargetTime = 0.2f;
+    public bool wallInfront, isGrounded, attack, stuncheck;
+    public bool stunned;
+    public float stunchance, stunTime;
+    public float coolDownTimer = 0f, coolDownTargetTime = 0.2f;
     public Vector2 playerPos;
     public Vector2 myPos;
+    public Vector2 speed;
 
     Rigidbody2D rb2d;
 
@@ -21,18 +25,37 @@ public class enemy_controller : MonoBehaviour
         Idle,
         Attacking,
         MovingToPlayer,
+        MovingAwayFromPlayer,
+        Stunned,
         Dead
     }
     // Start is called before the first frame update
     void Start()
     {
         rb2d = GetComponent<Rigidbody2D>();
+        
         currentState = State.Idle;
+        coolDownTimer = coolDownTargetTime;
     }
 
     private void Update()
     {
+        //If cooldown is greater than 0
+        if (coolDownTimer > 0f)
+        {
+            //start timer, if cooldown is less than 0
+            coolDownTimer -= Time.deltaTime;
+            if (coolDownTimer < 0f)
+            {
+                //cooldown is 0
+                coolDownTimer = 0f;
+            }
+        }
+
         
+        playerPos = GameObject.FindWithTag("Player").transform.position;
+        myPos = transform.position;
+        speed = rb2d.velocity;
     }
 
     // Update is called once per frame
@@ -49,6 +72,7 @@ public class enemy_controller : MonoBehaviour
             canFollowPlayer = false;
         }
 
+        //In attack radius
         if (Mathf.Abs(playerDist) < attackRadius)
         {
             canAttackPlayer = true;
@@ -58,10 +82,32 @@ public class enemy_controller : MonoBehaviour
             canAttackPlayer = false;
         }
 
+        //In too close radius
+        if (Mathf.Abs(playerDist) < playerTooCloseRadius)
+        {
+            playerTooClose = true;
+        }
+        else
+        {
+            playerTooClose = false;
+        }
+
+        stuncheck = GetComponentInChildren<enemy_collider>().stunnedcheck;
+        if (stuncheck == true)
+        {
+            if ((Mathf.Ceil(Random.Range(0f, stunchance)) == 1f))
+            {
+                currentState = State.Stunned;
+                stunned = true;
+            }
+        }
+
 
         switch (currentState)
         {
-            //-------------------------------------------------------------------------------------------------------------------------------------
+
+
+                //-------------------------------------------------------------------------------------------------------------------------------------
             case State.Idle:
                 //-------------------------------------------------------------------------------------------------------------------------------------
                 if (canFollowPlayer == true)
@@ -70,6 +116,10 @@ public class enemy_controller : MonoBehaviour
                 }
                 break;
 
+
+
+
+                //-------------------------------------------------------------------------------------------------------------------------------------
             case State.MovingToPlayer:
                 //-------------------------------------------------------------------------------------------------------------------------------------
                 //Check for player and move towards them if inside sense radius
@@ -81,6 +131,7 @@ public class enemy_controller : MonoBehaviour
                         rb2d.velocity = new Vector2((maxMoveSpeed * insideRadiusDir), rb2d.velocity.y);
                     }
                 }
+
                 //If it finds a wall, it jumps
                 if (wallInfront == true && isGrounded)
                 {
@@ -100,16 +151,58 @@ public class enemy_controller : MonoBehaviour
                 attack = false;
 
                 break;
+
+
+
+
+
+                //-------------------------------------------------------------------------------------------------------------------------------------
+            case State.MovingAwayFromPlayer:
+                //-------------------------------------------------------------------------------------------------------------------------------------
+                //Checks to see if inside radius, if player is, move away
+                rb2d.AddForce(new Vector2(-insideRadiusDir, 0f) * moveSpeed);
+                if (Mathf.Abs(rb2d.velocity.x) > maxMoveSpeed)
+                {
+                    rb2d.velocity = new Vector2((maxMoveSpeed * -insideRadiusDir), rb2d.velocity.y);
+                    transform.localScale = new Vector2(-insideRadiusDir, 1);
+                }
+
+                //If outside too close radius, return to attacking
+                if (Mathf.Abs(playerDist) > playerTooCloseRadius)
+                {
+                    currentState = State.Attacking;
+                }
+
+                coolDownTimer = coolDownTargetTime;
+               
+                break;
+
+
+
+
+
                 //-------------------------------------------------------------------------------------------------------------------------------------
             case State.Attacking:
                 //-------------------------------------------------------------------------------------------------------------------------------------
                 canFollowPlayer = false;
+                //STOP MOVING
+                rb2d.velocity = new Vector2(0f, rb2d.velocity.y);
 
-                StartCoroutine(AttackCoolDown());
-
-                if (attack == true)
+                //Sets attack timer to 0, attack is true at 0. If attack, reset timer to cooldown
+                attack = false;
+                if (coolDownTimer == 0f)
                 {
-                    Debug.Log("HIYAAAA");
+                    attack = true;
+                    coolDownTimer = coolDownTargetTime;
+                }
+
+                //Face the player
+                transform.localScale = new Vector2(insideRadiusDir, 1);
+
+                //If inside radius, stop attacking, move to keep player at radius edge
+                if (playerTooClose == true)
+                {
+                    currentState = State.MovingAwayFromPlayer;
                 }
 
                 //Exit Condition
@@ -118,24 +211,33 @@ public class enemy_controller : MonoBehaviour
                     currentState = State.MovingToPlayer;
                 }
                 break;
+
+
+
+
+
+            //-------------------------------------------------------------------------------------------------------------------------------------
+            case State.Stunned:
+                //-------------------------------------------------------------------------------------------------------------------------------------
+                if (stunned == true) 
+                {
+                    StartCoroutine(StunnedState()); 
+                }
+                break;
+            
+
+
+
             //-------------------------------------------------------------------------------------------------------------------------------------
             case State.Dead:
-                //-------------------------------------------------------------------------------------------------------------------------------------
+            //-------------------------------------------------------------------------------------------------------------------------------------
 
                 break;
         }
 
-        playerPos = GameObject.FindWithTag("Player").transform.position;
-        myPos = transform.position;
         PlayerInRadius();
         EnvironmentChecks();
         MovementDir();
-    }
-
-    public IEnumerator AttackCoolDown()
-    {
-        yield return new WaitForSeconds(attackTargetTime);
-        attack = true;
     }
 
     public void PlayerInRadius()
@@ -147,19 +249,36 @@ public class enemy_controller : MonoBehaviour
     public void MovementDir()
     {
         //Moving Left
-        if (rb2d.velocity.x < 0)
+        if (rb2d.velocity.x < -0.05f && currentState == State.MovingToPlayer)
         {
             movingDir = -1f;
             transform.localScale = new Vector2(-1, 1);
         }
 
         //Moving Right
-        if (rb2d.velocity.x > 0)
+        if (rb2d.velocity.x > 0.05f && currentState == State.MovingToPlayer)
         {
             movingDir = 1f;
             transform.localScale = new Vector2(1, 1);
         }
 
+    }
+
+    IEnumerator StunnedState()
+    {
+        //Suspends code for *stunTime* seconds, returns to idle after
+        stunned = false;
+        yield return new WaitForSeconds(stunTime);
+
+        //If inside attack radius, go back to attacking, if not go to idle
+        if (Mathf.Abs(playerDist) < attackRadius)
+        {
+            currentState = State.Attacking;
+        }
+        else
+        {
+            currentState = State.Idle;
+        }
     }
 
     public void EnvironmentChecks()
@@ -205,9 +324,13 @@ public class enemy_controller : MonoBehaviour
         Gizmos.color = Color.red;
         Gizmos.DrawWireSphere(transform.position, senseRadius);
 
-        //Attack player raidus
+        //Attack player radius
         Gizmos.color = Color.yellow;
         Gizmos.DrawWireSphere(transform.position, attackRadius);
+
+        //Player too close radius
+        Gizmos.color = Color.cyan;
+        Gizmos.DrawWireSphere(transform.position, playerTooCloseRadius);
 
         //Line to player position
         Gizmos.color = Color.blue;

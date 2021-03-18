@@ -9,7 +9,7 @@ public class Button_effector : MonoBehaviour
     public AudioClip Press;
     public AudioClip Spawn;
     public float coolDownTimer;
-    public float coolDown = 5f;
+    public float coolDownTargetTime = 5f;
     public GameObject Spawnable;
     private GameObject Spawnableclone;
     public float Spawnamount;
@@ -19,7 +19,7 @@ public class Button_effector : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        coolDownTimer = coolDown;
+        coolDownTimer = coolDownTargetTime;
         animator = GetComponent<Animator>();
         audiosource = GetComponent<AudioSource>();
         Spawnableclone = Spawnable;
@@ -45,7 +45,7 @@ public class Button_effector : MonoBehaviour
             if (Input.GetAxisRaw("Interact") > 0 && coolDownTimer == 0)
             {
                 //restarts cooldown, presses button, plays audio, spawns objects
-                coolDownTimer = coolDown;
+                coolDownTimer = coolDownTargetTime;
                 animator.SetTrigger("Pressed");
                 audiosource.PlayOneShot(Spawn);
                 audiosource.PlayOneShot(Press);

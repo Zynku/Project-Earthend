@@ -4,27 +4,36 @@ using UnityEngine;
 
 public class enemy_collider : MonoBehaviour
 {
+    Rigidbody2D parentrb2d;
+    public bool stunnedcheck;
+
     // Start is called before the first frame update
     void Start()
     {
-        
+        parentrb2d = GetComponentInParent<Rigidbody2D>();
+
     }
 
     // Update is called once per frame
     void Update()
     {
-        
+
     }
 
-    public bool OnTriggerStay2D(Collider2D collision)
+    public void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.gameObject.CompareTag("Player"))
+        if (collision.gameObject.CompareTag("hitbox"))
         {
-            return true;
-        }
-        else
-        {
-            return false;
+            stunnedcheck = true;       
         }
     }
+
+    public void OnTriggerExit2D(Collider2D collision)
+    {
+        if (collision.gameObject.CompareTag("hitbox"))
+        {
+            stunnedcheck = false;
+        }
+    }
+
 }

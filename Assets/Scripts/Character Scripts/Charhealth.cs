@@ -18,6 +18,15 @@ public class Charhealth : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if (currentHealth > maxHealth)
+        {
+            currentHealth = maxHealth;
+        }
+        if (currentHealth < 0)
+        {
+            currentHealth = 0;
+        }
+
         if (Input.GetKeyDown(KeyCode.L))
         {
             TakeDamage(20);
