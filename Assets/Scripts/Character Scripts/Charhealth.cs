@@ -38,13 +38,13 @@ public class Charhealth : MonoBehaviour
         }
     }
 
-    void TakeDamage(int damage)
+    public void TakeDamage(int damage)
     {
         currentHealth -= damage;
         healthbar.SetHealth(currentHealth);
     }
 
-    void ResetHealth()
+    public void ResetHealth()
     {
         currentHealth = maxHealth;
         healthbar.SetHealth(maxHealth);

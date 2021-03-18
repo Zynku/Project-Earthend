@@ -12,11 +12,17 @@ public class enemy_controller : MonoBehaviour
     public float wallCheckLength, groundCheckDistance;
     public bool wallInfront, isGrounded, attack, stuncheck;
     public bool stunned;
-    public float stunchance, stunTime;
+    public float stunchance, stunTime, attackChance;
     public float coolDownTimer = 0f, coolDownTargetTime = 0.2f;
+    public float damage;
+    public float damageMax = 0;
+    public float damageMin = 0;
     public Vector2 playerPos;
     public Vector2 myPos;
     public Vector2 speed;
+
+    [Header("Melee Variables")]
+    public GameObject Melee1;
 
     Rigidbody2D rb2d;
 
@@ -33,25 +39,13 @@ public class enemy_controller : MonoBehaviour
     void Start()
     {
         rb2d = GetComponent<Rigidbody2D>();
-        
+        Melee1.SetActive(false);
         currentState = State.Idle;
         coolDownTimer = coolDownTargetTime;
     }
 
     private void Update()
     {
-        //If cooldown is greater than 0
-        if (coolDownTimer > 0f)
-        {
-            //start timer, if cooldown is less than 0
-            coolDownTimer -= Time.deltaTime;
-            if (coolDownTimer < 0f)
-            {
-                //cooldown is 0
-                coolDownTimer = 0f;
-            }
-        }
-
         
         playerPos = GameObject.FindWithTag("Player").transform.position;
         myPos = transform.position;
@@ -92,6 +86,7 @@ public class enemy_controller : MonoBehaviour
             playerTooClose = false;
         }
 
+        //Check for stunnedcheck from enemy_collider script, runs random chance to determine if stunned. Chance = 1/(stunchance + 1)
         stuncheck = GetComponentInChildren<enemy_collider>().stunnedcheck;
         if (stuncheck == true)
         {
@@ -187,13 +182,14 @@ public class enemy_controller : MonoBehaviour
                 canFollowPlayer = false;
                 //STOP MOVING
                 rb2d.velocity = new Vector2(0f, rb2d.velocity.y);
-
-                //Sets attack timer to 0, attack is true at 0. If attack, reset timer to cooldown
-                attack = false;
-                if (coolDownTimer == 0f)
+                //Start Timer counting down
+                coolDownTimer -= Time.fixedDeltaTime;
+                //When it reaches zero or less, attack, start cooldown with a 0.1s delay
+                if (coolDownTimer <= 0)
                 {
                     attack = true;
-                    coolDownTimer = coolDownTargetTime;
+                    Invoke("AttackCoolDown", 0.1f);
+                    damage = Random.Range(damageMin,damageMax);
                 }
 
                 //Face the player
@@ -240,6 +236,7 @@ public class enemy_controller : MonoBehaviour
         MovementDir();
     }
 
+
     public void PlayerInRadius()
     {
         insideRadiusDir = Mathf.Sign(-transform.position.x + playerPos.x);
@@ -262,6 +259,22 @@ public class enemy_controller : MonoBehaviour
             transform.localScale = new Vector2(1, 1);
         }
 
+    }
+
+    public void AttackCoolDown()
+    {
+        coolDownTimer = coolDownTargetTime;
+        attack = false;
+    }
+
+    public void onMelee1Start()
+    {
+        Melee1.SetActive(true);
+    }
+
+    public void onMelee1End()
+    {
+        Melee1.SetActive(false);
     }
 
     IEnumerator StunnedState()
