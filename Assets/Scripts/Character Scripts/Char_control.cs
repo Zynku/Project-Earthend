@@ -5,6 +5,7 @@ using UnityEngine;
 public class Char_control : MonoBehaviour
 {
     private Rigidbody2D rb2d;
+    private CapsuleCollider2D capCol;
 
     [Header("Movement Variables")]
     [SerializeField] private float movementAcceleration = 9.5f;
@@ -15,6 +16,7 @@ public class Char_control : MonoBehaviour
     [SerializeField] private float fallJumpMultiplier = 0.6f;
     [SerializeField] private float lowJumpFallMultiplier = 1.29f;
     public float facingDir = 0;
+    public bool crouching = false;
     //[SerializeField] private float walljumpForce = 4f;
 
     [Header("Jump Variables")]
@@ -22,6 +24,7 @@ public class Char_control : MonoBehaviour
     private float HorizontalDirection;
     private bool canJump => Input.GetKeyDown(KeyCode.UpArrow) && isGrounded;
     public float checkdistances = 0.2f;
+    public float ycheckOffset;
     public float wallcheckdistances = 0.3f;
     public float airJumps = 2f;
     private float airJumpshas;
@@ -34,8 +37,13 @@ public class Char_control : MonoBehaviour
     public GameObject Melee1;
     public bool Attacking;
 
+    [Header("Capsule Variables")]
+    public Vector2 capColSize;
+    public Vector2 capColOffset;
+
     void Start()
     {
+        capCol = GetComponent<CapsuleCollider2D>();
         rb2d = GetComponent<Rigidbody2D>();
         airJumpshas = airJumps;
         Melee1.SetActive(false);
@@ -52,9 +60,10 @@ public class Char_control : MonoBehaviour
         }
 
         //Creates 3 Linecasts extending checkdistances at the middle, left and right of transform, with layermask for layer "Ground"
-        if (Physics2D.Raycast(transform.position, Vector2.down, checkdistances, 1 << LayerMask.NameToLayer("Ground")) ||
+        /*if (Physics2D.Raycast(transform.position, Vector2.down, checkdistances, 1 << LayerMask.NameToLayer("Ground")) ||
             Physics2D.Raycast(new Vector2(transform.position.x + 0.095f, transform.position.y), Vector2.down, checkdistances, 1 << LayerMask.NameToLayer("Ground")) ||
-            Physics2D.Raycast(new Vector2(transform.position.x + -0.095f, transform.position.y), Vector2.down, checkdistances, 1 << LayerMask.NameToLayer("Ground")))
+            Physics2D.Raycast(new Vector2(transform.position.x + -0.095f, transform.position.y), Vector2.down, checkdistances, 1 << LayerMask.NameToLayer("Ground")))*/
+        if (Physics2D.OverlapCircle(new Vector2(transform.position.x, transform.position.y + ycheckOffset), checkdistances, 1 << LayerMask.NameToLayer("Ground"))) 
         {
             isGrounded = true;
         }
@@ -71,13 +80,14 @@ public class Char_control : MonoBehaviour
 
     private void FixedUpdate()
     {
-        MoveCharacter();
+        if (crouching == false) { MoveCharacter(); }
         ApplyGroundLinearDrag();
         ApplyAirLinearDrag();
         FallMultiplier();
         WallCheck();
         AirJump();
         GetDir();
+        Crouch();
 
         if (isGrounded) { ApplyGroundLinearDrag(); }
         else { ApplyAirLinearDrag(); }
@@ -208,6 +218,24 @@ public class Char_control : MonoBehaviour
         if (Mathf.Abs(rb2d.velocity.x) > maxMoveSpeed)
             rb2d.velocity = new Vector2(Mathf.Sign(rb2d.velocity.x) * maxMoveSpeed, rb2d.velocity.y);
     }
+
+    public void Crouch()
+    {
+        if (Input.GetAxisRaw("Vertical") < 0 && isGrounded)
+        {
+            crouching = true;
+            rb2d.velocity = new Vector2(0, 0);
+            capCol.size = capColSize;
+            capCol.offset = capColOffset;
+        }
+        else
+        {
+            capCol.size = new Vector2(0.11f, 0.54f);
+            capCol.offset = new Vector2(0, 0);
+            crouching = false;
+            rb2d.velocity = rb2d.velocity;
+        }
+    }
     
     public void OnMelee1Start()
     {
@@ -219,6 +247,12 @@ public class Char_control : MonoBehaviour
     {
         Attacking = false;
         Melee1.SetActive(false);
+    }
+
+    private void OnDrawGizmos()
+    {
+        Gizmos.color = Color.green;
+        Gizmos.DrawWireSphere(new Vector2(transform.position.x, transform.position.y + ycheckOffset), checkdistances);
     }
 
 }

@@ -1,0 +1,19 @@
+HD2 Render Settings
+Value: 0.1
+Y: 0.8
+Value: 3.4
+Value: 2.8
+
+Res X: 1920
+Res Y: 1080
+%: 17
+
+HD3 Render Settings
+Value: 0.05
+Y: 0.017
+Value: 3.4
+Value: 2.8
+
+Res X: 1920
+Res Y: 1080
+%: 17

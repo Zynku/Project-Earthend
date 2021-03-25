@@ -5,8 +5,10 @@ using UnityEngine;
 public class Charanimation : MonoBehaviour
 {
     public bool isGrounded;
-    public float xvel => rb2d.velocity.x;
-    public float yvel => rb2d.velocity.y;
+    public float xvel;
+    public float yvel;
+
+
 
     Animator animator;
     Rigidbody2D rb2d;
@@ -16,22 +18,27 @@ public class Charanimation : MonoBehaviour
     {
         animator = GetComponent<Animator>();
         rb2d = GetComponent<Rigidbody2D>();
-
+        
     }
 
     // Update is called once per frame
     void Update()
     {
+        yvel = rb2d.velocity.y;
+        xvel = rb2d.velocity.x;
+
+        
+
         //---------------------------------------------------------------------------------------------------------------------------------------------
         //Checks for direction and plays flipped or unflipped anims
         if (Input.GetAxisRaw("Horizontal") > 0)
         {
-            transform.localScale = new Vector3(1, 1, 1);
+            transform.localScale = new Vector3(0.9f, 0.9f, 0.9f);
         }
 
         if (Input.GetAxisRaw("Horizontal") < 0)
         {
-            transform.localScale = new Vector3(-1, 1, 1);
+            transform.localScale = new Vector3(-0.9f, 0.9f, 0.9f);
         }
 
         //Checks for groundcheck from charmovement script, returns true if true
@@ -79,7 +86,7 @@ public class Charanimation : MonoBehaviour
             animator.SetBool("Double Jump", false);
         }
         //---------------------------------------------------------------------------------------------------------------------------------------------
-        //Go righttttt, play run anim
+        //Go righttttt or left, play run anim
         if ((Input.GetKey("right")) && isGrounded)
         {
             animator.SetBool("Run", true);
@@ -96,13 +103,21 @@ public class Charanimation : MonoBehaviour
             animator.SetBool("Run", false);
         }
         //---------------------------------------------------------------------------------------------------------------------------------------------
-        //Melee Keys
-        //Check Animation Transitions for Animation States
-        if ((Input.GetKey("d")) && isGrounded)
+        //Crouch States
+        if (Input.GetKeyDown(KeyCode.DownArrow))
         {
-            animator.SetBool("Melee 1", true);
+            //animator.SetBool("Crouching", true);
+            animator.SetTrigger("Crouching");
+            animator.Play("Low Poly Girl Into Crouch HD3");
         }
-        else animator.SetBool("Melee 1", false);
         //---------------------------------------------------------------------------------------------------------------------------------------------
+        //Melee Keys
+        //If attack key is pressed and on ground, play first melee anim, sets trigger
+        
+        //---------------------------------------------------------------------------------------------------------------------------------------------
+
+        animator.SetFloat("yVel", Mathf.Clamp(rb2d.velocity.y, -1, 1));
+        animator.SetFloat("verticalPressed", Input.GetAxis("Vertical"));
+        animator.SetFloat("horizontalPressed", Mathf.Abs(Input.GetAxis("Horizontal")));
     }
 }
