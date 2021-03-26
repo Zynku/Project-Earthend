@@ -14,9 +14,8 @@ public class enemy_controller : MonoBehaviour
     public bool stunned;
     public float stunchance, stunTime, attackChance;
     public float coolDownTimer = 0f, coolDownTargetTime = 0.2f;
-    public float damage;
-    public float damageMax = 0;
-    public float damageMin = 0;
+    public float attackdamageMax = 0;
+    public float attackdamageMin = 0;
     public Vector2 playerPos;
     public Vector2 myPos;
     public Vector2 speed;
@@ -87,7 +86,7 @@ public class enemy_controller : MonoBehaviour
         }
 
         //Check for stunnedcheck from enemy_collider script, runs random chance to determine if stunned. Chance = 1/(stunchance + 1)
-        stuncheck = GetComponentInChildren<enemy_collider>().stunnedcheck;
+        stuncheck = GetComponent<Enemyhealth>().stunnedcheck;
         if (stuncheck == true)
         {
             if ((Mathf.Ceil(Random.Range(0f, stunchance)) == 1f))
@@ -159,7 +158,7 @@ public class enemy_controller : MonoBehaviour
                 if (Mathf.Abs(rb2d.velocity.x) > maxMoveSpeed)
                 {
                     rb2d.velocity = new Vector2((maxMoveSpeed * -insideRadiusDir), rb2d.velocity.y);
-                    transform.localScale = new Vector2(-insideRadiusDir, 1);
+                    transform.localScale = new Vector2(-insideRadiusDir * 1.5f, 1.5f);
                 }
 
                 //If outside too close radius, return to attacking
@@ -189,11 +188,10 @@ public class enemy_controller : MonoBehaviour
                 {
                     attack = true;
                     Invoke("AttackCoolDown", 0.1f);
-                    damage = Random.Range(damageMin,damageMax);
                 }
 
                 //Face the player
-                transform.localScale = new Vector2(insideRadiusDir, 1);
+                transform.localScale = new Vector2(insideRadiusDir * 1.5f, 1.5f);
 
                 //If inside radius, stop attacking, move to keep player at radius edge
                 if (playerTooClose == true)
@@ -249,14 +247,14 @@ public class enemy_controller : MonoBehaviour
         if (rb2d.velocity.x < -0.05f && currentState == State.MovingToPlayer)
         {
             movingDir = -1f;
-            transform.localScale = new Vector2(-1, 1);
+            transform.localScale = new Vector2(-1.5f, 1.5f);
         }
 
         //Moving Right
         if (rb2d.velocity.x > 0.05f && currentState == State.MovingToPlayer)
         {
             movingDir = 1f;
-            transform.localScale = new Vector2(1, 1);
+            transform.localScale = new Vector2(1.5f, 1.5f);
         }
 
     }

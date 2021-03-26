@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class Char_control : MonoBehaviour
 {
+      
     private Rigidbody2D rb2d;
     private CapsuleCollider2D capCol;
 
@@ -36,6 +37,8 @@ public class Char_control : MonoBehaviour
     [Header("Melee Variables")]
     public GameObject Melee1;
     public bool Attacking;
+    public int attackdamageMax;
+    public int attackdamageMin;
 
     [Header("Capsule Variables")]
     public Vector2 capColSize;

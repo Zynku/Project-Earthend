@@ -31,7 +31,7 @@ public class Hitbyplayer : MonoBehaviour
             PlaySound();
             
         }
-        if (collision.transform.tag == ("hitbox"))
+        if (collision.transform.tag == ("player_attackhitbox"))
         {
             rb2d.AddForce(new Vector2(xForce * playerDir * 10, yForce * 10));
         }
@@ -39,7 +39,7 @@ public class Hitbyplayer : MonoBehaviour
 
     private void PlaySound()
     {
-        audiosource.pitch = (Random.Range(0.8f, 1f));
-        audiosource.PlayOneShot(hitGround);
+        //audiosource.pitch = (Random.Range(0.8f, 1f));
+        //audiosource.PlayOneShot(hitGround);
     }
 }
