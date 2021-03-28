@@ -5,7 +5,7 @@ using TMPro;
 
 public class Charpickup_inventory : MonoBehaviour
 {
-    public float coins;
+    public float money;
     
     // Start is called before the first frame update
     void Start()
@@ -25,8 +25,17 @@ public class Charpickup_inventory : MonoBehaviour
         {
             Destroy(collision.gameObject);
             Destroy(collision.transform.parent.gameObject);
-            coins++;
+            money += collision.GetComponentInParent<coinscript>().coinValue;
         }
+
+        if (collision.CompareTag("heart_collectable"))
+        {
+            Destroy(collision.gameObject);
+            Destroy(collision.transform.parent.gameObject);
+            var heartValue = collision.gameObject.GetComponent<Heartscript>().heartValue;
+            GetComponentInParent<Charhealth>().AddHealth(Mathf.FloorToInt(heartValue));
+        }
+        
     }
 
     private void OnTriggerExit2D(Collider2D collision)

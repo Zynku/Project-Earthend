@@ -57,6 +57,11 @@ public class Enemy_animations : MonoBehaviour
             AnimationStates = animstate.Stunned;
         }
 
+        if (GetComponent<enemy_controller>().currentState == enemy_controller.State.Dead)
+        {
+            AnimationStates = animstate.Dead;
+        }
+
 
 
 
@@ -97,8 +102,9 @@ public class Enemy_animations : MonoBehaviour
             animator.SetBool("Grounded", false);
         }
 
-
-       
-
+        if (AnimationStates == animstate.Dead)
+        {
+            animator.Play("Dead");
+        }
     }
 }

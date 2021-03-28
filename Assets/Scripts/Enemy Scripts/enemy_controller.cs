@@ -12,6 +12,7 @@ public class enemy_controller : MonoBehaviour
     public float wallCheckLength, groundCheckDistance;
     public bool wallInfront, isGrounded, attack, stuncheck;
     public bool stunned;
+    public bool dead, appliedDeadKB;
     public float stunchance, stunTime, attackChance;
     public float coolDownTimer = 0f, coolDownTargetTime = 0.2f;
     public float attackdamageMax = 0;
@@ -19,6 +20,10 @@ public class enemy_controller : MonoBehaviour
     public Vector2 playerPos;
     public Vector2 myPos;
     public Vector2 speed;
+    public float deadKnockBX;
+    public float deadKnockBY;
+    public float collisionDir;
+    public float despawnTime;
 
     [Header("Melee Variables")]
     public GameObject Melee1;
@@ -47,6 +52,7 @@ public class enemy_controller : MonoBehaviour
     {
         
         playerPos = GameObject.FindWithTag("Player").transform.position;
+        collisionDir = GetComponent<Enemyhealth>().collisionDir;
         myPos = transform.position;
         speed = rb2d.velocity;
     }
@@ -56,33 +62,20 @@ public class enemy_controller : MonoBehaviour
     {
 
         //In Sense Radius?
-        if (Mathf.Abs(playerDist) < senseRadius)
-        {
-            canFollowPlayer = true;
-        }
-        else
-        {
-            canFollowPlayer = false;
-        }
+        if (Mathf.Abs(playerDist) < senseRadius) {canFollowPlayer = true;}
+        else { canFollowPlayer = false;}
 
         //In attack radius
-        if (Mathf.Abs(playerDist) < attackRadius)
-        {
-            canAttackPlayer = true;
-        }
-        else
-        {
-            canAttackPlayer = false;
-        }
+        if (Mathf.Abs(playerDist) < attackRadius) {canAttackPlayer = true;}
+        else {canAttackPlayer = false;}
 
         //In too close radius
-        if (Mathf.Abs(playerDist) < playerTooCloseRadius)
+        if (Mathf.Abs(playerDist) < playerTooCloseRadius) {playerTooClose = true;}
+        else {playerTooClose = false;}
+
+        if (GetComponent<Enemyhealth>().currentHealth <= 0)
         {
-            playerTooClose = true;
-        }
-        else
-        {
-            playerTooClose = false;
+            currentState = State.Dead;
         }
 
         //Check for stunnedcheck from enemy_collider script, runs random chance to determine if stunned. Chance = 1/(stunchance + 1)
@@ -224,8 +217,14 @@ public class enemy_controller : MonoBehaviour
 
             //-------------------------------------------------------------------------------------------------------------------------------------
             case State.Dead:
-            //-------------------------------------------------------------------------------------------------------------------------------------
-
+                //-------------------------------------------------------------------------------------------------------------------------------------
+                dead = true;
+                if (appliedDeadKB == false)
+                {
+                    rb2d.AddForce(new Vector2(Random.Range(deadKnockBX, deadKnockBX + 0.5f) * collisionDir, deadKnockBY), ForceMode2D.Impulse);
+                    appliedDeadKB = true;
+                }
+                Invoke("DestroyGameObject", despawnTime);
                 break;
         }
 
@@ -273,6 +272,11 @@ public class enemy_controller : MonoBehaviour
     public void onMelee1End()
     {
         Melee1.SetActive(false);
+    }
+
+    public void DestroyGameObject()
+    {
+        Destroy(gameObject);
     }
 
     IEnumerator StunnedState()

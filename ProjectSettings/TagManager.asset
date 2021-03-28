@@ -10,6 +10,8 @@ TagManager:
   - hitbox
   - enemy_attackhitbox
   - player_attackhitbox
+  - heart_collectable
+  - damage_object
   layers:
   - Default
   - TransparentFX
@@ -46,4 +48,31 @@ TagManager:
   m_SortingLayers:
   - name: Default
     uniqueID: 0
+    locked: 0
+  - name: BACK 1
+    uniqueID: 1679976319
+    locked: 0
+  - name: BACK 2
+    uniqueID: 600313485
+    locked: 0
+  - name: BACK 3
+    uniqueID: 101517307
+    locked: 0
+  - name: MID 1
+    uniqueID: 799533601
+    locked: 0
+  - name: MID 2
+    uniqueID: 3928614097
+    locked: 0
+  - name: MID 3
+    uniqueID: 352192129
+    locked: 0
+  - name: FRONT 1
+    uniqueID: 4082254121
+    locked: 0
+  - name: FRONT 2
+    uniqueID: 1467175359
+    locked: 0
+  - name: FRONT 3
+    uniqueID: 1703296247
     locked: 0

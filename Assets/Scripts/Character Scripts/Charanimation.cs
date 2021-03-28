@@ -77,13 +77,12 @@ public class Charanimation : MonoBehaviour
         //AirJumped, not on ground
         if (GetComponent<Char_control>().airJumped && !isGrounded)
         {
-            animator.SetBool("Double Jump", true);
+            animator.SetTrigger("Double Jump");
         }
         //On Ground
         if (isGrounded)
         {
             animator.SetBool("Falling", false);
-            animator.SetBool("Double Jump", false);
         }
         //---------------------------------------------------------------------------------------------------------------------------------------------
         //Go righttttt or left, play run anim
@@ -104,7 +103,7 @@ public class Charanimation : MonoBehaviour
         }
         //---------------------------------------------------------------------------------------------------------------------------------------------
         //Crouch States
-        if (Input.GetKeyDown(KeyCode.DownArrow))
+        if (Input.GetKeyDown(KeyCode.DownArrow) && isGrounded)
         {
             //animator.SetBool("Crouching", true);
             animator.SetTrigger("Crouching");

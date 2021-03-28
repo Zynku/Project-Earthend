@@ -6,7 +6,7 @@ public class Char_control : MonoBehaviour
 {
       
     private Rigidbody2D rb2d;
-    private CapsuleCollider2D capCol;
+    private BoxCollider2D boxCol;
 
     [Header("Movement Variables")]
     [SerializeField] private float movementAcceleration = 9.5f;
@@ -23,30 +23,35 @@ public class Char_control : MonoBehaviour
     [Header("Jump Variables")]
     public bool isGrounded;
     private float HorizontalDirection;
-    private bool canJump => Input.GetKeyDown(KeyCode.UpArrow) && isGrounded;
     public float checkdistances = 0.2f;
     public float ycheckOffset;
     public float wallcheckdistances = 0.3f;
     public float airJumps = 2f;
     private float airJumpshas;
-    public bool airJumped = false;
+    [HideInInspector] public bool airJumped = false;
     public bool againstWallR = false;
     public bool againstWallL = false;
     public bool wallgrabbed = false;
 
     [Header("Melee Variables")]
     public GameObject Melee1;
-    public bool Attacking;
+    [HideInInspector] public bool Attacking;
     public int attackdamageMax;
     public int attackdamageMin;
 
-    [Header("Capsule Variables")]
-    public Vector2 capColSize;
-    public Vector2 capColOffset;
+    [Header("Crouch Hitbox Variables")]
+    public Vector2 boxColSize;
+    public Vector2 boxColOffset;
+    public Vector2 boxColCrouchSize;
+    public Vector2 boxColCrouchOffset;
+
 
     void Start()
     {
-        capCol = GetComponent<CapsuleCollider2D>();
+        boxCol = GetComponent<BoxCollider2D>();
+        boxColSize = boxCol.size;
+        boxColOffset = boxCol.offset;
+
         rb2d = GetComponent<Rigidbody2D>();
         airJumpshas = airJumps;
         Melee1.SetActive(false);
@@ -57,15 +62,6 @@ public class Char_control : MonoBehaviour
         // Get Horizontal Input from Method
         HorizontalDirection = GetInput().x;
 
-        if (canJump) Jump();
-        {
-            HorizontalDirection = GetInput().x;
-        }
-
-        //Creates 3 Linecasts extending checkdistances at the middle, left and right of transform, with layermask for layer "Ground"
-        /*if (Physics2D.Raycast(transform.position, Vector2.down, checkdistances, 1 << LayerMask.NameToLayer("Ground")) ||
-            Physics2D.Raycast(new Vector2(transform.position.x + 0.095f, transform.position.y), Vector2.down, checkdistances, 1 << LayerMask.NameToLayer("Ground")) ||
-            Physics2D.Raycast(new Vector2(transform.position.x + -0.095f, transform.position.y), Vector2.down, checkdistances, 1 << LayerMask.NameToLayer("Ground")))*/
         if (Physics2D.OverlapCircle(new Vector2(transform.position.x, transform.position.y + ycheckOffset), checkdistances, 1 << LayerMask.NameToLayer("Ground"))) 
         {
             isGrounded = true;
@@ -79,6 +75,8 @@ public class Char_control : MonoBehaviour
         {
             Attacking = true;
         }
+        if (Input.GetKeyDown(KeyCode.UpArrow) && isGrounded) { Jump(); }
+        AirJump();
     }
 
     private void FixedUpdate()
@@ -88,10 +86,11 @@ public class Char_control : MonoBehaviour
         ApplyAirLinearDrag();
         FallMultiplier();
         WallCheck();
-        AirJump();
+        
         GetDir();
         Crouch();
 
+        
         if (isGrounded) { ApplyGroundLinearDrag(); }
         else { ApplyAirLinearDrag(); }
 
@@ -228,15 +227,16 @@ public class Char_control : MonoBehaviour
         {
             crouching = true;
             rb2d.velocity = new Vector2(0, 0);
-            capCol.size = capColSize;
-            capCol.offset = capColOffset;
+            boxCol.size = boxColCrouchSize;
+            boxCol.offset = boxColCrouchOffset;
         }
         else
         {
-            capCol.size = new Vector2(0.11f, 0.54f);
-            capCol.offset = new Vector2(0, 0);
+            boxCol.size = boxColSize;
+            boxCol.offset = boxColOffset;
             crouching = false;
             rb2d.velocity = rb2d.velocity;
+            
         }
     }
     
