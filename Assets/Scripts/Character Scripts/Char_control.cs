@@ -26,8 +26,8 @@ public class Char_control : MonoBehaviour
     public float checkdistances = 0.2f;
     public float ycheckOffset;
     public float wallcheckdistances = 0.3f;
-    public float airJumps = 2f;
-    private float airJumpshas;
+    public int airJumps = 2;
+    public int airJumpshas;
     [HideInInspector] public bool airJumped = false;
     public bool againstWallR = false;
     public bool againstWallL = false;
@@ -126,7 +126,7 @@ public class Char_control : MonoBehaviour
         {
             rb2d.velocity = new Vector2(rb2d.velocity.x, 0);
             Jump();
-            airJumpshas -= 1f;
+            airJumpshas -= 1;
             airJumped = true;
         }
 

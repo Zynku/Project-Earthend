@@ -37,6 +37,10 @@ public class Charpickup_inventory : MonoBehaviour
             var heartValue = collision.gameObject.GetComponent<Heartscript>().heartValue;
             GetComponentInParent<Charhealth>().AddHealth(Mathf.FloorToInt(heartValue));
         }
+    }
+
+    private void OnTriggerStay2D(Collider2D collision)
+    {
         //If you come across a weapon and you interact, add weapon to weapons list, destroy weapon
         if (collision.CompareTag("dropped_weapon"))
         {
@@ -46,9 +50,7 @@ public class Charpickup_inventory : MonoBehaviour
                 weapons.Add(collision.transform.parent.gameObject);
                 Destroy(collision.transform.parent.gameObject);
             }
-            
         }
-        
     }
 
     private void OnTriggerExit2D(Collider2D collision)

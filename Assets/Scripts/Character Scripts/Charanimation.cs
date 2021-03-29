@@ -7,6 +7,7 @@ public class Charanimation : MonoBehaviour
     public bool isGrounded;
     public float xvel;
     public float yvel;
+    public int airJumpsHas;
     public bool dead;
 
 
@@ -24,7 +25,7 @@ public class Charanimation : MonoBehaviour
     }
 
     // Update is called once per frame
-    void Update()
+    void FixedUpdate()
     {
         yvel = rb2d.velocity.y;
         xvel = rb2d.velocity.x;
@@ -68,18 +69,18 @@ public class Charanimation : MonoBehaviour
         {
             animator.SetBool("Jumping", false);
             animator.SetBool("Falling", true);
-            animator.SetBool("Double Jump", false);
+
         }
         //Falling, on ground
         if (Mathf.Ceil(rb2d.velocity.y) < 0 && isGrounded)
         {
             animator.SetBool("Falling", false);
-            animator.SetBool("Double Jump", false);
         }
         //AirJumped, not on ground
-        if (GetComponent<Char_control>().airJumped && !isGrounded)
+        //if (!isGrounded && Input.GetKeyDown(KeyCode.UpArrow))
+        if (!isGrounded && Input.GetAxisRaw("Vertical") > 0)
         {
-            animator.SetTrigger("Double Jump");
+            animator.Play("Low Poly Whole Jump HD3");
         }
         //On Ground
         if (isGrounded)
@@ -124,5 +125,6 @@ public class Charanimation : MonoBehaviour
         animator.SetFloat("yVel", Mathf.Clamp(rb2d.velocity.y, -1, 1));
         animator.SetFloat("verticalPressed", Input.GetAxis("Vertical"));
         animator.SetFloat("horizontalPressed", Mathf.Abs(Input.GetAxis("Horizontal")));
+        airJumpsHas = GetComponent<Char_control>().airJumpshas;
     }
 }

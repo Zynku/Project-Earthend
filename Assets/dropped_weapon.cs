@@ -15,7 +15,7 @@ public class dropped_weapon : MonoBehaviour
 
     private void FixedUpdate()
     {
-        transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.Euler(new Vector3(0,0,45)), Time.deltaTime);
+        //transform.rotation = Quaternion.Lerp(transform.rotation, Quaternion.Euler(new Vector3(0,0,45)), Time.deltaTime);
         transform.position = spawnLoc;
         
     }
