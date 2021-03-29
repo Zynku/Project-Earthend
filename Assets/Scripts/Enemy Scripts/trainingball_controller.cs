@@ -6,6 +6,8 @@ public class trainingball_controller : MonoBehaviour
 {
     private Animator animator;
     private AudioSource audiosource;
+    public int currentHealth;
+    public int maxHealth;
     [SerializeField] AudioClip Hit;
 
     // Start is called before the first frame update

@@ -34,6 +34,8 @@ public class Charhealth : MonoBehaviour
         if (currentHealth > maxHealth) {currentHealth = maxHealth;}
         if (currentHealth < 0) { currentHealth = 0;}
 
+        healthbar.SetHealth(currentHealth);
+
         if (Input.GetKeyDown(KeyCode.J)) { ResetHealth();}
         if (Input.GetKeyDown(KeyCode.H)) { AddHealth(20); }
     }
@@ -79,7 +81,7 @@ public class Charhealth : MonoBehaviour
     //Instantiates dmg text, gives it dmg value to display
     public void TakeDamage(int damage)
     {
-        if (dmgCooldown <= 0)
+        if (dmgCooldown <= 0 && currentHealth > 0)
         {
             currentHealth -= damage;
             healthbar.SetHealth(currentHealth);

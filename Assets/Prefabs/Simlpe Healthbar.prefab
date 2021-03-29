@@ -181,7 +181,7 @@ GameObject:
   - component: {fileID: 3081294223733203038}
   m_Layer: 0
   m_Name: Simlpe Healthbar
-  m_TagString: Untagged
+  m_TagString: healthbar
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -271,3 +271,4 @@ MonoBehaviour:
   parentMaxHealth: 0
   stunned: 0
   fillPercent: 0
+  currentEnemy: 0

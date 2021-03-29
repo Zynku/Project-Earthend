@@ -7,7 +7,7 @@ public class Charanimation : MonoBehaviour
     public bool isGrounded;
     public float xvel;
     public float yvel;
-
+    public bool dead;
 
 
     Animator animator;
@@ -18,7 +18,9 @@ public class Charanimation : MonoBehaviour
     {
         animator = GetComponent<Animator>();
         rb2d = GetComponent<Rigidbody2D>();
-        
+        dead = GetComponent<Char_control>().dead;
+
+
     }
 
     // Update is called once per frame
@@ -31,12 +33,12 @@ public class Charanimation : MonoBehaviour
 
         //---------------------------------------------------------------------------------------------------------------------------------------------
         //Checks for direction and plays flipped or unflipped anims
-        if (Input.GetAxisRaw("Horizontal") > 0)
+        if (Input.GetAxisRaw("Horizontal") > 0 && !dead)
         {
             transform.localScale = new Vector3(0.9f, 0.9f, 0.9f);
         }
 
-        if (Input.GetAxisRaw("Horizontal") < 0)
+        if (Input.GetAxisRaw("Horizontal") < 0 && !dead)
         {
             transform.localScale = new Vector3(-0.9f, 0.9f, 0.9f);
         }
@@ -56,7 +58,7 @@ public class Charanimation : MonoBehaviour
         //---------------------------------------------------------------------------------------------------------------------------------------------
         //Checks y velocities and plays anims
         //Rising
-        if (rb2d.velocity.y > 0f && !isGrounded)
+        if (rb2d.velocity.y > 0f && !isGrounded && !dead)
         {
             animator.SetBool("Jumping", true);
             animator.SetBool("Falling", false);
@@ -110,8 +112,12 @@ public class Charanimation : MonoBehaviour
             animator.Play("Low Poly Girl Into Crouch HD3");
         }
         //---------------------------------------------------------------------------------------------------------------------------------------------
-        //Melee Keys
-        //If attack key is pressed and on ground, play first melee anim, sets trigger
+        //Deadass lmao
+        if (GetComponent<Charhealth>().currentHealth <= 0)
+        {
+            animator.Play("Low Poly Death HD3");
+        }
+        
         
         //---------------------------------------------------------------------------------------------------------------------------------------------
 

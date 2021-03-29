@@ -106,7 +106,7 @@ public class Enemyhealth : MonoBehaviour
     //Subtracts damage calculated above from health, healthbar reacts to show this
     public void TakeDamage(int damage)
     {
-        if (dmgCooldown <= 0)
+        if (dmgCooldown <= 0 && currentHealth > 0)
         {
             currentHealth -= damage;
 

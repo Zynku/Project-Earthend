@@ -12,6 +12,10 @@ TagManager:
   - player_attackhitbox
   - heart_collectable
   - damage_object
+  - target_dummy
+  - healthbar
+  - player_respawn
+  - dropped_weapon
   layers:
   - Default
   - TransparentFX
@@ -31,7 +35,7 @@ TagManager:
   - BG
   - Collectables
   - Player Ignore
-  - 
+  - Dropped Weapons
   - 
   - 
   - 

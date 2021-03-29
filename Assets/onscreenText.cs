@@ -5,7 +5,7 @@ using UnityEngine;
 public class onscreenText : MonoBehaviour
 {
     [Header("Player")]
-    public GameObject Player;
+    public GameObject[] Player;
 
     [Header("On Screen Variables")]
     public GameObject moneyCounter;
@@ -19,6 +19,7 @@ public class onscreenText : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        moneyCounter.GetComponent<TMPro.TextMeshProUGUI>().text = Player.GetComponent<Charpickup_inventory>().money.ToString();
+        Player = GameObject.FindGameObjectsWithTag("Player");
+        moneyCounter.GetComponent<TMPro.TextMeshProUGUI>().text = Player[0].GetComponent<Charpickup_inventory>().money.ToString();
     }
 }

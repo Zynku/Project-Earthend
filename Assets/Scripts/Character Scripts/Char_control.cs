@@ -39,6 +39,10 @@ public class Char_control : MonoBehaviour
     public int attackdamageMax;
     public int attackdamageMin;
 
+    [Header("Death Variables")]
+    public bool dead;
+    public float despawnTime;
+
     [Header("Crouch Hitbox Variables")]
     public Vector2 boxColSize;
     public Vector2 boxColOffset;
@@ -55,6 +59,8 @@ public class Char_control : MonoBehaviour
         rb2d = GetComponent<Rigidbody2D>();
         airJumpshas = airJumps;
         Melee1.SetActive(false);
+
+        dead = false;
     }
     
     private void Update()
@@ -81,7 +87,7 @@ public class Char_control : MonoBehaviour
 
     private void FixedUpdate()
     {
-        if (crouching == false) { MoveCharacter(); }
+        if (crouching == false && dead == false) { MoveCharacter(); }
         ApplyGroundLinearDrag();
         ApplyAirLinearDrag();
         FallMultiplier();
@@ -93,6 +99,12 @@ public class Char_control : MonoBehaviour
         
         if (isGrounded) { ApplyGroundLinearDrag(); }
         else { ApplyAirLinearDrag(); }
+
+        if (GetComponent<Charhealth>().currentHealth <= 0)
+        {
+            dead = true;
+            //onDeath();
+        }
 
         //if (againstWallR == true && Input.GetKey(KeyCode.RightArrow) && !isGrounded) { WallGrab(); }
     }
@@ -128,6 +140,17 @@ public class Char_control : MonoBehaviour
             airJumpshas = airJumps;
             airJumped = false;
         }
+    }
+
+    private void onDeath()
+    {
+        Invoke("DestroyGameObject", despawnTime);
+        rb2d.velocity = new Vector2(0, 0);
+    }
+
+    private void DestroyGameObject()
+    {
+        Destroy(gameObject);
     }
 
     private void GetDir()
