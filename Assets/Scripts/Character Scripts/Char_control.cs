@@ -18,6 +18,7 @@ public class Char_control : MonoBehaviour
     [SerializeField] private float lowJumpFallMultiplier = 1.29f;
     public float facingDir = 0;
     public bool crouching = false;
+    public bool sliding = true;
     //[SerializeField] private float walljumpForce = 4f;
 
     [Header("Jump Variables")]
@@ -94,7 +95,7 @@ public class Char_control : MonoBehaviour
         WallCheck();
         
         GetDir();
-        Crouch();
+        CrouchorSlide();
 
         
         if (isGrounded) { ApplyGroundLinearDrag(); }
@@ -238,22 +239,36 @@ public class Char_control : MonoBehaviour
             rb2d.velocity = new Vector2(Mathf.Sign(rb2d.velocity.x) * maxMoveSpeed, rb2d.velocity.y);
     }
 
-    public void Crouch()
+    public void CrouchorSlide()
     {
-        if (Input.GetAxisRaw("Vertical") < 0 && isGrounded)
+        //This is crouch
+        if (Mathf.Abs(rb2d.velocity.x) < 0.1f)
         {
-            crouching = true;
-            rb2d.velocity = new Vector2(0, 0);
-            boxCol.size = boxColCrouchSize;
-            boxCol.offset = boxColCrouchOffset;
+            if (Input.GetAxisRaw("Vertical") < 0 && isGrounded)
+            {
+                crouching = true;
+                rb2d.velocity = new Vector2(0, 0);
+                boxCol.size = boxColCrouchSize;
+                boxCol.offset = boxColCrouchOffset;
+            }
+            else
+            {
+                boxCol.size = boxColSize;
+                boxCol.offset = boxColOffset;
+                crouching = false;
+                rb2d.velocity = rb2d.velocity;
+
+            }
         }
-        else
+        //This is slide
+        if (Mathf.Abs(rb2d.velocity.x) > 0.5f)
         {
-            boxCol.size = boxColSize;
-            boxCol.offset = boxColOffset;
-            crouching = false;
-            rb2d.velocity = rb2d.velocity;
-            
+            if (Input.GetAxisRaw("Vertical") < 0 && isGrounded)
+            {
+                sliding = true;
+                rb2d.velocity = rb2d.velocity;
+                //rb2d.AddForce(new Vector2(-HorizontalDirection, 0f) * -movementAcceleration);
+            }
         }
     }
     

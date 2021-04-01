@@ -119,8 +119,6 @@ public class Enemyhealth : MonoBehaviour
             floattext.GetComponent<Rigidbody2D>().AddForce(new Vector2(collisionDir, 0), ForceMode2D.Impulse);
             dmgCooldown = dmgCooldownTargetTime;
         }
-
-       
     }
 
     public void ResetHealth()

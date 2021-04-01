@@ -32,7 +32,7 @@ public class Charanimation : MonoBehaviour
         xvel = rb2d.velocity.x;
 
 
-        
+
 
         //---------------------------------------------------------------------------------------------------------------------------------------------
         //Checks for direction and plays flipped or unflipped anims
@@ -91,33 +91,67 @@ public class Charanimation : MonoBehaviour
         if (isGrounded)
         {
             animator.SetBool("Falling", false);
+
         }
+
+        //On Ground, Sliding
+        //if (!animator.GetBool("Run"))
+        //{
+        if (Mathf.Abs(rb2d.velocity.x) > 0.5f)
+        {
+            if (isGrounded && Input.GetKey(KeyCode.DownArrow))
+            {
+                animator.SetBool("Sliding", true);
+            }
+
+            if ((isGrounded && Input.GetKeyUp(KeyCode.DownArrow)))
+            {
+                animator.SetBool("Sliding", false);
+            }
+                
+        }
+        if (rb2d.velocity.x < 0.1)
+        {
+            animator.SetBool("Sliding", false);
+        }
+    
+        //}
+
         //---------------------------------------------------------------------------------------------------------------------------------------------
         //Go righttttt or left, play run anim
-        if ((Input.GetKey("right")) && isGrounded)
+        if (!animator.GetBool("Sliding"))
         {
-            animator.SetBool("Run", true);
-        }
-        if ((Input.GetKeyUp("right")))
-        {
-            animator.SetBool("Run", false);
-        }   
-        //Go left, play run anim
-        if ((Input.GetKey("left")) && isGrounded)
-        {
-            animator.SetBool("Run", true);
-        }
-        if ((Input.GetKeyUp("left")))
-        {
-            animator.SetBool("Run", false);
+            if (Input.GetKeyDown("right"))
+            {
+                animator.SetBool("Run", true);
+            }
+            if (Input.GetKeyUp("right"))
+            {
+                animator.SetBool("Run", false);
+            }
+            //Go left, play run anim
+            if (Input.GetKeyDown("left"))
+            {
+                animator.SetBool("Run", true);
+            }
+            if (Input.GetKeyUp("left"))
+            {
+                animator.SetBool("Run", false);
+            }
         }
         //---------------------------------------------------------------------------------------------------------------------------------------------
         //Crouch States
-        if (Input.GetKeyDown(KeyCode.DownArrow) && isGrounded)
+        if (Mathf.Abs(rb2d.velocity.x) < 0.1f)
         {
-            //animator.SetBool("Crouching", true);
-            animator.SetTrigger("Crouching");
-            animator.Play("Low Poly Girl Into Crouch HD3");
+            if (Input.GetKey(KeyCode.DownArrow) && isGrounded)
+            {
+                animator.SetBool("Crouch", true);
+            }
+
+            if (Input.GetKeyUp(KeyCode.DownArrow) && isGrounded)
+            {
+                animator.SetBool("Crouch", false);
+            }
         }
         //---------------------------------------------------------------------------------------------------------------------------------------------
         //Deadass lmao
@@ -125,13 +159,19 @@ public class Charanimation : MonoBehaviour
         {
             animator.Play("Low Poly Death HD3");
         }
-        
-        
         //---------------------------------------------------------------------------------------------------------------------------------------------
-
         animator.SetFloat("yVel", Mathf.Clamp(rb2d.velocity.y, -1, 1));
+        animator.SetFloat("xVel", Mathf.Clamp(rb2d.velocity.x, -1, 1));
+        animator.SetFloat("yVelAbs", Mathf.Abs(Mathf.Clamp(rb2d.velocity.y, -1, 1)));
+        animator.SetFloat("xVelAbs", Mathf.Abs(Mathf.Clamp(rb2d.velocity.x, -1, 1)));
         animator.SetFloat("verticalPressed", Input.GetAxis("Vertical"));
         animator.SetFloat("horizontalPressed", Mathf.Abs(Input.GetAxis("Horizontal")));
         airJumpsHas = GetComponent<Char_control>().airJumpshas;
     }
 }
+
+
+
+
+        
+

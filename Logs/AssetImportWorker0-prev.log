@@ -15,11 +15,11 @@ C:/Users/My Acer/Project-Earthend
 -logFile
 Logs/AssetImportWorker0.log
 -srvPort
-53353
+65207
 Successfully changed project path to: C:/Users/My Acer/Project-Earthend
 C:/Users/My Acer/Project-Earthend
 Using Asset Import Pipeline V2.
-Refreshing native plugins compatible for Editor in 207.41 ms, found 0 plugins.
+Refreshing native plugins compatible for Editor in 201.85 ms, found 0 plugins.
 Preloading 0 native plugins for Editor in 0.00 ms.
 Initialize engine version: 2021.1.0f1 (61a549675243)
 [Subsystems] Discovering subsystems at path C:/Program Files/Unity/2021.1.0f1/Editor/Data/Resources/UnitySubsystems
@@ -35,5 +35,158 @@ Initialize mono
 Mono path[0] = 'C:/Program Files/Unity/2021.1.0f1/Editor/Data/Managed'
 Mono path[1] = 'C:/Program Files/Unity/2021.1.0f1/Editor/Data/MonoBleedingEdge/lib/mono/unityjit'
 Mono config path = 'C:/Program Files/Unity/2021.1.0f1/Editor/Data/MonoBleedingEdge/etc'
-Using monoOptions --debugger-agent=transport=dt_socket,embedding=1,server=y,suspend=n,address=127.0.0.1:56872
+Using monoOptions --debugger-agent=transport=dt_socket,embedding=1,server=y,suspend=n,address=127.0.0.1:56824
 Begin MonoManager ReloadAssembly
+Registering precompiled unity dll's ...
+Register platform support module: C:/Program Files/Unity/2021.1.0f1/Editor/Data/PlaybackEngines/WebGLSupport/UnityEditor.WebGL.Extensions.dll
+Register platform support module: C:/Program Files/Unity/2021.1.0f1/Editor/Data/PlaybackEngines/WindowsStandaloneSupport/UnityEditor.WindowsStandalone.Extensions.dll
+Registered in 0.011005 seconds.
+Native extension for WindowsStandalone target not found
+Native extension for WebGL target not found
+Refreshing native plugins compatible for Editor in 198.84 ms, found 0 plugins.
+Preloading 0 native plugins for Editor in 0.00 ms.
+Mono: successfully reloaded assembly
+- Completed reload, in  6.500 seconds
+Platform modules already initialized, skipping
+Registering precompiled user dll's ...
+Registered in 0.006455 seconds.
+Begin MonoManager ReloadAssembly
+Native extension for WindowsStandalone target not found
+Native extension for WebGL target not found
+Refreshing native plugins compatible for Editor in 1.32 ms, found 0 plugins.
+Preloading 0 native plugins for Editor in 0.00 ms.
+Mono: successfully reloaded assembly
+- Completed reload, in  5.091 seconds
+Platform modules already initialized, skipping
+========================================================================
+Worker process is ready to serve import requests
+Launched and connected shader compiler UnityShaderCompiler.exe after 0.30 seconds
+Refreshing native plugins compatible for Editor in 1.24 ms, found 0 plugins.
+Preloading 0 native plugins for Editor in 0.00 ms.
+Unloading 1433 Unused Serialized files (Serialized files now loaded: 0)
+System memory in use before: 70.7 MB.
+System memory in use after: 70.8 MB.
+
+Unloading 14 unused Assets to reduce memory usage. Loaded Objects now: 1894.
+Total: 7.459500 ms (FindLiveObjects: 0.577200 ms CreateObjectMapping: 0.160400 ms MarkObjects: 6.485900 ms  DeleteObjects: 0.230900 ms)
+
+========================================================================
+Received Import Request.
+  path: Assets/Low Poly Girl/Anims/Melee 1/HD3v2/0004.png
+  artifactKey: Guid(12d0a343c66099c42ae49ddf214195c0) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Low Poly Girl/Anims/Melee 1/HD3v2/0004.png using Guid(12d0a343c66099c42ae49ddf214195c0) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: 'e4ffcbfbbd221142585dfcd0ceb8388f') in 1.223920 seconds 
+========================================================================
+Received Import Request.
+  Time since last request: 0.001342 seconds.
+  path: Assets/Low Poly Girl/Anims/Melee 1/HD3v2/0001.png
+  artifactKey: Guid(22778402d8369474a9518b602b041523) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Low Poly Girl/Anims/Melee 1/HD3v2/0001.png using Guid(22778402d8369474a9518b602b041523) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '146772e20ae1b96d7ce5288336f22af5') in 0.112012 seconds 
+========================================================================
+Received Import Request.
+  Time since last request: 0.000521 seconds.
+  path: Assets/Low Poly Girl/Anims/Melee 1/HD3/0001.png
+  artifactKey: Guid(8297cf359e0b5f54186ce467c8bbcc4b) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Low Poly Girl/Anims/Melee 1/HD3/0001.png using Guid(8297cf359e0b5f54186ce467c8bbcc4b) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '742ebbafe71d6066dc6471cb2add8e7e') in 0.071905 seconds 
+========================================================================
+Received Import Request.
+  Time since last request: 5.790719 seconds.
+  path: Assets/Low Poly Girl/Anims/Melee 1/HD3v2/0004.png
+  artifactKey: Guid(12d0a343c66099c42ae49ddf214195c0) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Low Poly Girl/Anims/Melee 1/HD3v2/0004.png using Guid(12d0a343c66099c42ae49ddf214195c0) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: 'de256321c4a7f7752eca6bd8a6e7969a') in 0.074978 seconds 
+========================================================================
+Received Import Request.
+  Time since last request: 71.179752 seconds.
+  path: Assets/Low Poly Girl/Anims/Idle/0001.controller
+  artifactKey: Guid(61c50f57145f0a843807bf764a4b31f9) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Low Poly Girl/Anims/Idle/0001.controller using Guid(61c50f57145f0a843807bf764a4b31f9) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: 'fee72a5a2208d227fdfc7c8a5ce0a5c1') in 0.487845 seconds 
+========================================================================
+Received Import Request.
+  Time since last request: 4.958747 seconds.
+  path: Assets/Low Poly Girl/Anims/Melee 1/HD3v2/Low Poly Melee 1 HD3v2.anim
+  artifactKey: Guid(b84975ef22fb5e94eabb3cec155479e4) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Low Poly Girl/Anims/Melee 1/HD3v2/Low Poly Melee 1 HD3v2.anim using Guid(b84975ef22fb5e94eabb3cec155479e4) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '8b0de8cc230e95cb68fc00f3af0ec3ee') in 0.066450 seconds 
+========================================================================
+Received Prepare
+Registering precompiled user dll's ...
+Registered in 0.005918 seconds.
+Begin MonoManager ReloadAssembly
+Native extension for WindowsStandalone target not found
+Native extension for WebGL target not found
+Refreshing native plugins compatible for Editor in 1.40 ms, found 0 plugins.
+Preloading 0 native plugins for Editor in 0.00 ms.
+Mono: successfully reloaded assembly
+- Completed reload, in  4.372 seconds
+Platform modules already initialized, skipping
+Refreshing native plugins compatible for Editor in 1.34 ms, found 0 plugins.
+Preloading 0 native plugins for Editor in 0.00 ms.
+Unloading 1418 Unused Serialized files (Serialized files now loaded: 0)
+System memory in use before: 75.9 MB.
+System memory in use after: 76.0 MB.
+
+Unloading 5 unused Assets to reduce memory usage. Loaded Objects now: 1962.
+Total: 9.011000 ms (FindLiveObjects: 0.799200 ms CreateObjectMapping: 0.302700 ms MarkObjects: 7.822700 ms  DeleteObjects: 0.081300 ms)
+
+========================================================================
+Received Prepare
+Registering precompiled user dll's ...
+Registered in 0.006508 seconds.
+Begin MonoManager ReloadAssembly
+Native extension for WindowsStandalone target not found
+Native extension for WebGL target not found
+Refreshing native plugins compatible for Editor in 1.30 ms, found 0 plugins.
+Preloading 0 native plugins for Editor in 0.00 ms.
+Mono: successfully reloaded assembly
+- Completed reload, in  4.460 seconds
+Platform modules already initialized, skipping
+Refreshing native plugins compatible for Editor in 3.04 ms, found 0 plugins.
+Preloading 0 native plugins for Editor in 0.00 ms.
+Unloading 1415 Unused Serialized files (Serialized files now loaded: 0)
+System memory in use before: 75.9 MB.
+System memory in use after: 76.0 MB.
+
+Unloading 5 unused Assets to reduce memory usage. Loaded Objects now: 1965.
+Total: 7.253100 ms (FindLiveObjects: 0.537600 ms CreateObjectMapping: 0.155100 ms MarkObjects: 6.478700 ms  DeleteObjects: 0.077100 ms)
+
+========================================================================
+Received Prepare
+Registering precompiled user dll's ...
+Registered in 0.006595 seconds.
+Begin MonoManager ReloadAssembly
+Native extension for WindowsStandalone target not found
+Native extension for WebGL target not found
+Refreshing native plugins compatible for Editor in 1.40 ms, found 0 plugins.
+Preloading 0 native plugins for Editor in 0.00 ms.
+Mono: successfully reloaded assembly
+- Completed reload, in  4.565 seconds
+Platform modules already initialized, skipping
+Refreshing native plugins compatible for Editor in 1.21 ms, found 0 plugins.
+Preloading 0 native plugins for Editor in 0.00 ms.
+Unloading 1415 Unused Serialized files (Serialized files now loaded: 0)
+System memory in use before: 75.9 MB.
+System memory in use after: 76.0 MB.
+
+Unloading 5 unused Assets to reduce memory usage. Loaded Objects now: 1968.
+Total: 7.780800 ms (FindLiveObjects: 0.754000 ms CreateObjectMapping: 0.254200 ms MarkObjects: 6.619200 ms  DeleteObjects: 0.139100 ms)
+
+========================================================================
+Received Prepare
+Registering precompiled user dll's ...
+Registered in 0.006481 seconds.
+Begin MonoManager ReloadAssembly
+Native extension for WindowsStandalone target not found
+Native extension for WebGL target not found
+Refreshing native plugins compatible for Editor in 1.31 ms, found 0 plugins.
+Preloading 0 native plugins for Editor in 0.00 ms.
+Mono: successfully reloaded assembly
+- Completed reload, in  4.449 seconds
+Platform modules already initialized, skipping
+Refreshing native plugins compatible for Editor in 1.22 ms, found 0 plugins.
+Preloading 0 native plugins for Editor in 0.00 ms.
+Unloading 1415 Unused Serialized files (Serialized files now loaded: 0)
+System memory in use before: 75.9 MB.
+System memory in use after: 76.0 MB.
+
+Unloading 5 unused Assets to reduce memory usage. Loaded Objects now: 1971.
+Total: 6.779900 ms (FindLiveObjects: 0.540600 ms CreateObjectMapping: 0.142600 ms MarkObjects: 5.999100 ms  DeleteObjects: 0.092000 ms)
+
+AssetImportWorkerClient::OnTransportError - code=2 error=End of file
