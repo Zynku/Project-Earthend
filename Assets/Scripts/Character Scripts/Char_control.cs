@@ -142,12 +142,6 @@ public class Char_control : MonoBehaviour
         }
     }
 
-    private void onDeath()
-    {
-        Invoke("DestroyGameObject", despawnTime);
-        rb2d.velocity = new Vector2(0, 0);
-    }
-
     private void DestroyGameObject()
     {
         Destroy(gameObject);

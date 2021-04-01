@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class Charhealth : MonoBehaviour
 {
+    Rigidbody2D rb2d;
     public int maxHealth;
     public int currentHealth;
     private int damageDoneToMeMax;
@@ -22,6 +23,7 @@ public class Charhealth : MonoBehaviour
     {
         currentHealth = maxHealth;
         healthbar.SetMaxHealth(maxHealth);
+        rb2d = GetComponent<Rigidbody2D>();
     }
 
     // Update is called once per frame
@@ -38,6 +40,11 @@ public class Charhealth : MonoBehaviour
 
         if (Input.GetKeyDown(KeyCode.J)) { ResetHealth();}
         if (Input.GetKeyDown(KeyCode.H)) { AddHealth(20); }
+    }
+
+    private void FixedUpdate()
+    {
+        OnDeath();
     }
     //Checks for collisions from enemy hitboxes
     public void OnTriggerEnter2D(Collider2D collision)
@@ -114,5 +121,13 @@ public class Charhealth : MonoBehaviour
 
         var floattext = Instantiate(floatingHealthTextPrefab, transform.position + dmgTextOffset, Quaternion.identity);
         floattext.GetComponent<TMPro.TextMeshPro>().text = maxHealth.ToString();
+    }
+
+    public void OnDeath()
+    {
+        if (currentHealth <= 0)
+        {
+            rb2d.velocity = new Vector2(0, 0);
+        }
     }
 }

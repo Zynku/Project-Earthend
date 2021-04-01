@@ -11,6 +11,7 @@ public class Charanimation : MonoBehaviour
     public bool dead;
 
 
+
     Animator animator;
     Rigidbody2D rb2d;
 
@@ -29,6 +30,7 @@ public class Charanimation : MonoBehaviour
     {
         yvel = rb2d.velocity.y;
         xvel = rb2d.velocity.x;
+
 
         
 
@@ -58,6 +60,10 @@ public class Charanimation : MonoBehaviour
         }
         //---------------------------------------------------------------------------------------------------------------------------------------------
         //Checks y velocities and plays anims
+        if (isGrounded && Input.GetKeyDown(KeyCode.UpArrow) && !dead)
+        {
+            animator.Play("Jump Transition");
+        }
         //Rising
         if (rb2d.velocity.y > 0f && !isGrounded && !dead)
         {
@@ -77,10 +83,9 @@ public class Charanimation : MonoBehaviour
             animator.SetBool("Falling", false);
         }
         //AirJumped, not on ground
-        //if (!isGrounded && Input.GetKeyDown(KeyCode.UpArrow))
-        if (!isGrounded && Input.GetAxisRaw("Vertical") > 0)
+        if (!isGrounded && Input.GetKeyDown(KeyCode.UpArrow))
         {
-            animator.Play("Low Poly Whole Jump HD3");
+            animator.Play("Jump Transition");
         }
         //On Ground
         if (isGrounded)
@@ -94,7 +99,9 @@ public class Charanimation : MonoBehaviour
             animator.SetBool("Run", true);
         }
         if ((Input.GetKeyUp("right")))
+        {
             animator.SetBool("Run", false);
+        }   
         //Go left, play run anim
         if ((Input.GetKey("left")) && isGrounded)
         {

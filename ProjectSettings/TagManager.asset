@@ -16,6 +16,7 @@ TagManager:
   - healthbar
   - player_respawn
   - dropped_weapon
+  - teleporter
   layers:
   - Default
   - TransparentFX

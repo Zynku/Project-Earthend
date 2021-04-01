@@ -8,15 +8,15 @@ public class dropped_weapon : MonoBehaviour
 
     private void Start()
     {
-        transform.rotation = Quaternion.Euler(Random.Range(20,-20), 0f, 0f);
-        spawnLoc = transform.position;
+        //transform.rotation = Quaternion.Euler(Random.Range(20,-20), 0f, 0f);
+        //spawnLoc = transform.position;
     }
 
 
     private void FixedUpdate()
     {
-        //transform.rotation = Quaternion.Lerp(transform.rotation, Quaternion.Euler(new Vector3(0,0,45)), Time.deltaTime);
-        transform.position = spawnLoc;
+       //transform.rotation = Quaternion.Lerp(transform.rotation, Quaternion.Euler(new Vector3(0,0,45)), Time.deltaTime);
+       //transform.position = spawnLoc;
         
     }
 
