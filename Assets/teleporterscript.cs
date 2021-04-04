@@ -8,6 +8,7 @@ public class teleporterscript : MonoBehaviour
     public GameObject teleportTo = null;
     public GameObject Player;
     public AudioClip teleport;
+    public bool teleportable;
     //private float teleportcooldown;
     //private float teleportcooldowntargettime = 1;
     Animator animator;
@@ -30,17 +31,29 @@ public class teleporterscript : MonoBehaviour
     {
         //teleportcooldown -= Time.deltaTime;
         //if (teleportcooldown < 0) { teleportcooldown = 0; }
+
+        if (teleportable == true && (Player.GetComponentInParent<Charinputcontrol>().interactDown))
+        {
+            Teleport();
+        }
     }
 
-    private void OnTriggerStay2D(Collider2D collision)
+    private void OnTriggerEnter2D(Collider2D collision)
     {
         if (collision.CompareTag("Player"))
         {
-            if (Input.GetKeyDown(KeyCode.S) /*&& teleportcooldown == 0*/)
-            {
-                Player = collision.gameObject;
-                Teleport();
-            }
+            teleportable = true;
+            Player = collision.gameObject;
+            /*&& teleportcooldown == 0*/
+        }
+    }
+
+    private void OnTriggerExit2D(Collider2D collision)
+    {
+        if (collision.CompareTag("Player"))
+        {
+            teleportable = false;
+            Player = null;
         }
     }
 

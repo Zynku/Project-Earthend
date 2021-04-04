@@ -42,7 +42,7 @@ public class Button_effector : MonoBehaviour
         if (collision.CompareTag("Player"))
         {
             //if they interact and button not on cooldown...
-            if (Input.GetAxisRaw("Interact") > 0 && coolDownTimer == 0)
+            if ((collision.GetComponentInParent<Charinputcontrol>().interact) && coolDownTimer == 0)
             {
                 //restarts cooldown, presses button, plays audio, spawns objects
                 coolDownTimer = coolDownTargetTime;

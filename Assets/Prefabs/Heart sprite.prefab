@@ -185,4 +185,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Jingle: {fileID: 0}
   despawnTimer: 10
-  heartValue: 2
+  heartValue: 5
