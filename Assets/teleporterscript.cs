@@ -6,39 +6,53 @@ public class teleporterscript : MonoBehaviour
 {
     public GameObject[] teleporters;
     public GameObject teleportTo = null;
-    private float teleportcooldown;
-    private float teleportcooldowntargettime = 1;
+    public GameObject Player;
+    public AudioClip teleport;
+    //private float teleportcooldown;
+    //private float teleportcooldowntargettime = 1;
     Animator animator;
     Animator animatorTo;
+    AudioSource audiosource;
+    AudioSource audiosourceTo;
 
     // Start is called before the first frame update
     void Start()
     {
         animator = GetComponent<Animator>();
+        audiosource = GetComponent<AudioSource>();
         animatorTo = teleportTo.GetComponent<Animator>();
+        audiosourceTo = teleportTo.GetComponent<AudioSource>();
         teleporters = GameObject.FindGameObjectsWithTag("teleporter");
     }
 
     // Update is called once per frame
     void Update()
     {
-        teleportcooldown -= Time.deltaTime;
-        if (teleportcooldown < 0) { teleportcooldown = 0; }
-
+        //teleportcooldown -= Time.deltaTime;
+        //if (teleportcooldown < 0) { teleportcooldown = 0; }
     }
 
     private void OnTriggerStay2D(Collider2D collision)
     {
         if (collision.CompareTag("Player"))
         {
-            if (Input.GetKeyDown(KeyCode.S) && teleportcooldown == 0)
+            if (Input.GetKeyDown(KeyCode.S) /*&& teleportcooldown == 0*/)
             {
-                collision.transform.position = teleportTo.transform.position + new Vector3(0, 0.5f, 0);
-                collision.GetComponent<Rigidbody2D>().velocity = new Vector2 (0,0);
-                animator.SetTrigger("Teleport");
-                animatorTo.SetTrigger("Teleport");
-                teleportcooldown = teleportcooldowntargettime;
+                Player = collision.gameObject;
+                Teleport();
             }
         }
+    }
+
+    private void Teleport()
+    {
+        Player.transform.position = teleportTo.transform.position + new Vector3(0, 0.5f, 0);
+        Player.GetComponent<Rigidbody2D>().velocity = new Vector2(0, 0);
+        animator.SetTrigger("Teleport");
+        animatorTo.SetTrigger("Teleport");
+        //teleportcooldown = teleportcooldowntargettime;
+
+        audiosource.PlayOneShot(teleport);
+        audiosourceTo.PlayOneShot(teleport);
     }
 }

@@ -21,18 +21,13 @@ public class Charanimation : MonoBehaviour
         animator = GetComponent<Animator>();
         rb2d = GetComponent<Rigidbody2D>();
         dead = GetComponent<Char_control>().dead;
-
-
     }
 
     // Update is called once per frame
-    void FixedUpdate()
+    void Update()
     {
         yvel = rb2d.velocity.y;
         xvel = rb2d.velocity.x;
-
-
-
 
         //---------------------------------------------------------------------------------------------------------------------------------------------
         //Checks for direction and plays flipped or unflipped anims
@@ -45,7 +40,7 @@ public class Charanimation : MonoBehaviour
         {
             transform.localScale = new Vector3(-0.9f, 0.9f, 0.9f);
         }
-
+        
         //Checks for groundcheck from charmovement script, returns true if true
         if (GetComponent<Char_control>().isGrounded)
         {
@@ -75,7 +70,6 @@ public class Charanimation : MonoBehaviour
         {
             animator.SetBool("Jumping", false);
             animator.SetBool("Falling", true);
-
         }
         //Falling, on ground
         if (Mathf.Ceil(rb2d.velocity.y) < 0 && isGrounded)
@@ -91,13 +85,11 @@ public class Charanimation : MonoBehaviour
         if (isGrounded)
         {
             animator.SetBool("Falling", false);
-
+            animator.SetBool("Jumping", false);
         }
 
-        //On Ground, Sliding
-        //if (!animator.GetBool("Run"))
-        //{
-        if (Mathf.Abs(rb2d.velocity.x) > 0.5f)
+        //On Ground, Running, Sliding
+        if (rb2d.velocity.x > 0.5f || rb2d.velocity.x < -0.5f)
         {
             if (isGrounded && Input.GetKey(KeyCode.DownArrow))
             {
@@ -108,20 +100,18 @@ public class Charanimation : MonoBehaviour
             {
                 animator.SetBool("Sliding", false);
             }
-                
         }
-        if (rb2d.velocity.x < 0.1)
+        //Not on ground, for any reason
+        if (!isGrounded)
         {
             animator.SetBool("Sliding", false);
+            animator.SetBool("Crouch", false);
         }
-    
-        //}
-
         //---------------------------------------------------------------------------------------------------------------------------------------------
         //Go righttttt or left, play run anim
         if (!animator.GetBool("Sliding"))
         {
-            if (Input.GetKeyDown("right"))
+            if (Input.GetKey("right"))
             {
                 animator.SetBool("Run", true);
             }
@@ -130,11 +120,16 @@ public class Charanimation : MonoBehaviour
                 animator.SetBool("Run", false);
             }
             //Go left, play run anim
-            if (Input.GetKeyDown("left"))
+            if (Input.GetKey("left"))
             {
                 animator.SetBool("Run", true);
             }
             if (Input.GetKeyUp("left"))
+            {
+                animator.SetBool("Run", false);
+            }
+            //If you hold both like some sort of maniac
+            if (Input.GetKey("left") && (Input.GetKey("right")))
             {
                 animator.SetBool("Run", false);
             }
@@ -160,10 +155,10 @@ public class Charanimation : MonoBehaviour
             animator.Play("Low Poly Death HD3");
         }
         //---------------------------------------------------------------------------------------------------------------------------------------------
-        animator.SetFloat("yVel", Mathf.Clamp(rb2d.velocity.y, -1, 1));
-        animator.SetFloat("xVel", Mathf.Clamp(rb2d.velocity.x, -1, 1));
-        animator.SetFloat("yVelAbs", Mathf.Abs(Mathf.Clamp(rb2d.velocity.y, -1, 1)));
-        animator.SetFloat("xVelAbs", Mathf.Abs(Mathf.Clamp(rb2d.velocity.x, -1, 1)));
+        animator.SetFloat("yVel", rb2d.velocity.y);
+        animator.SetFloat("xVel", rb2d.velocity.x);
+        animator.SetFloat("yVelAbs", Mathf.Abs(rb2d.velocity.y));
+        animator.SetFloat("xVelAbs", Mathf.Abs(rb2d.velocity.x));
         animator.SetFloat("verticalPressed", Input.GetAxis("Vertical"));
         animator.SetFloat("horizontalPressed", Mathf.Abs(Input.GetAxis("Horizontal")));
         airJumpsHas = GetComponent<Char_control>().airJumpshas;

@@ -33,7 +33,8 @@ public class breakablestaticobject : MonoBehaviour
     {
         GameObject clone;
         clone = Instantiate(brokeObj, transform.position, transform.rotation);
-        Debug.Log("I am dead, no big surprise");
+        clone.transform.localScale = transform.localScale;
+
         Destroy(gameObject);
     }
 }

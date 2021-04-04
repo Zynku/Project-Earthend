@@ -10,7 +10,7 @@ public class Hitbyplayer : MonoBehaviour
     public float xForce = 0;
     public float yForce = 0;
     public float torqueForce = 0;
-    public AudioClip hitGround, hitByPlayer;
+    public AudioClip hitGround, hitByPlayer, destroyed;
     AudioSource audiosource;
 
     public int maxHealth;
@@ -79,13 +79,19 @@ public class Hitbyplayer : MonoBehaviour
 
     private void PlayGroundHit()
     {
-        //audiosource.pitch = (Random.Range(0.8f, 1f));
-        //audiosource.PlayOneShot(hitGround);
+        audiosource.pitch = (Random.Range(0.8f, 1f));
+        audiosource.PlayOneShot(hitGround);
     }
 
     private void PlayPlayerHit()
     {
-        //audiosource.pitch = (Random.Range(0.8f, 1f));
-        //audiosource.PlayOneShot(hitByPlayer);
+        audiosource.pitch = (Random.Range(0.8f, 1f));
+        audiosource.PlayOneShot(hitByPlayer);
+    }
+
+    private void OnDestroy()
+    {
+        audiosource.pitch = (Random.Range(0.8f, 1f));
+        audiosource.PlayOneShot(destroyed);
     }
 }
