@@ -4,8 +4,6 @@ using UnityEngine;
 
 public class Charanimation : MonoBehaviour
 {
-    [SerializeField] internal Charinputcontrol inputScript;
-
     public bool isGrounded;
     public float xvel;
     public float yvel;
@@ -33,16 +31,16 @@ public class Charanimation : MonoBehaviour
 
         //---------------------------------------------------------------------------------------------------------------------------------------------
         //Checks for direction and plays flipped or unflipped anims
-        if (inputScript.right && !dead)
+        if (Input.GetAxisRaw("Horizontal") > 0 && !dead)
         {
             transform.localScale = new Vector3(0.9f, 0.9f, 0.9f);
         }
 
-        if (inputScript.left && !dead)
+        if (Input.GetAxisRaw("Horizontal") < 0 && !dead)
         {
             transform.localScale = new Vector3(-0.9f, 0.9f, 0.9f);
         }
-
+        
         //Checks for groundcheck from charmovement script, returns true if true
         if (GetComponent<Char_control>().isGrounded)
         {
@@ -57,7 +55,7 @@ public class Charanimation : MonoBehaviour
         }
         //---------------------------------------------------------------------------------------------------------------------------------------------
         //Checks y velocities and plays anims
-        if (isGrounded && inputScript.upDown && !dead)
+        if (isGrounded && Input.GetKeyDown(KeyCode.UpArrow) && !dead)
         {
             animator.Play("Jump Transition");
         }
@@ -79,7 +77,7 @@ public class Charanimation : MonoBehaviour
             animator.SetBool("Falling", false);
         }
         //AirJumped, not on ground
-        if (!isGrounded && inputScript.upDown)
+        if (!isGrounded && Input.GetKeyDown(KeyCode.UpArrow))
         {
             animator.Play("Jump Transition");
         }
@@ -93,21 +91,16 @@ public class Charanimation : MonoBehaviour
         //On Ground, Running, Sliding
         if (rb2d.velocity.x > 0.5f || rb2d.velocity.x < -0.5f)
         {
-            if (isGrounded && inputScript.down)
+            if (isGrounded && Input.GetKey(KeyCode.DownArrow))
             {
                 animator.SetBool("Sliding", true);
             }
 
-            if ((isGrounded && inputScript.downUp))
+            if ((isGrounded && Input.GetKeyUp(KeyCode.DownArrow)))
             {
                 animator.SetBool("Sliding", false);
             }
         }
-        else
-        {
-            animator.SetBool("Sliding", false);
-        }
-                
         //Not on ground, for any reason
         if (!isGrounded)
         {
@@ -136,7 +129,7 @@ public class Charanimation : MonoBehaviour
                 animator.SetBool("Run", false);
             }
             //If you hold both like some sort of maniac
-            if (inputScript.left && inputScript.right)
+            if (Input.GetKey("left") && (Input.GetKey("right")))
             {
                 animator.SetBool("Run", false);
             }
@@ -145,12 +138,12 @@ public class Charanimation : MonoBehaviour
         //Crouch States
         if (Mathf.Abs(rb2d.velocity.x) < 0.1f)
         {
-            if (inputScript.down && isGrounded)
+            if (Input.GetKey(KeyCode.DownArrow) && isGrounded)
             {
                 animator.SetBool("Crouch", true);
             }
 
-            if (inputScript.downUp && isGrounded)
+            if (Input.GetKeyUp(KeyCode.DownArrow) && isGrounded)
             {
                 animator.SetBool("Crouch", false);
             }
@@ -166,24 +159,9 @@ public class Charanimation : MonoBehaviour
         animator.SetFloat("xVel", rb2d.velocity.x);
         animator.SetFloat("yVelAbs", Mathf.Abs(rb2d.velocity.y));
         animator.SetFloat("xVelAbs", Mathf.Abs(rb2d.velocity.x));
-
-        if (inputScript.upAxis != 0 || inputScript.downAxis !=  0)
-        {
-            animator.SetFloat("verticalPressed", 1);
-        }
-        else
-        {
-            animator.SetFloat("verticalPressed", 0);
-        }
-
-        if (inputScript.leftAxis != 0 || inputScript.rightAxis != 0)
-        {
-            animator.SetFloat("horizontalPressed", 1);
-        }
-        else
-        {
-            animator.SetFloat("horizontalPressed", 0);
-        }
+        animator.SetFloat("verticalPressed", Input.GetAxis("Vertical"));
+        animator.SetFloat("horizontalPressed", Mathf.Abs(Input.GetAxis("Horizontal")));
+        airJumpsHas = GetComponent<Char_control>().airJumpshas;
     }
 }
 

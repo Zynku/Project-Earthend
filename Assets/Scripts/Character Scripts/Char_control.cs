@@ -4,8 +4,7 @@ using UnityEngine;
 
 public class Char_control : MonoBehaviour
 {
-    [SerializeField] internal Charinputcontrol inputScript;
-    
+      
     private Rigidbody2D rb2d;
     private BoxCollider2D boxCol;
 
@@ -20,7 +19,6 @@ public class Char_control : MonoBehaviour
     public float facingDir = 0;
     public bool crouching = false;
     public bool sliding = true;
-
     //[SerializeField] private float walljumpForce = 4f;
 
     [Header("Jump Variables")]
@@ -29,13 +27,11 @@ public class Char_control : MonoBehaviour
     public float checkdistances = 0.2f;
     public float ycheckOffset;
     public float wallcheckdistances = 0.3f;
-    public float ywallcheckoffset;
     public int airJumps = 2;
     public int airJumpshas;
     [HideInInspector] public bool airJumped = false;
     public bool againstWallR = false;
     public bool againstWallL = false;
-    public bool againstWallFront = false;
     public bool wallgrabbed = false;
 
     [Header("Melee Variables")]
@@ -54,10 +50,6 @@ public class Char_control : MonoBehaviour
     public Vector2 boxColCrouchSize;
     public Vector2 boxColCrouchOffset;
 
-    [Header("Misc Variables")]
-    public float shakeintensity;
-    public float shaketime;
-
 
     void Start()
     {
@@ -69,12 +61,13 @@ public class Char_control : MonoBehaviour
         airJumpshas = airJumps;
         Melee1.SetActive(false);
 
-
         dead = false;
     }
     
     private void Update()
     {
+        // Get Horizontal Input from Method
+        HorizontalDirection = GetInput().x;
 
         if (Physics2D.OverlapCircle(new Vector2(transform.position.x, transform.position.y + ycheckOffset), checkdistances, 1 << LayerMask.NameToLayer("Ground"))) 
         {
@@ -85,31 +78,26 @@ public class Char_control : MonoBehaviour
             isGrounded = false;
         }
 
-        if (inputScript.lightAttackDown)
+        if (Input.GetKeyDown(KeyCode.D))
         {
             Attacking = true;
         }
-        if ((inputScript.upDown) && isGrounded) { Jump(); }
-        if (airJumpshas > 0 && !isGrounded && (inputScript.upDown)) { AirJump(); }
-
+        if (Input.GetKeyDown(KeyCode.UpArrow) && isGrounded) { Jump(); }
+        AirJump();
     }
 
     private void FixedUpdate()
     {
+        if (crouching == false && dead == false) { MoveCharacter(); } 
         ApplyGroundLinearDrag();
         ApplyAirLinearDrag();
         FallMultiplier();
         WallCheck();
+        
+        GetDir();
         CrouchorSlide();
 
-        //If not crouching and not dead...
-        if (crouching == false && dead == false) 
-        {
-            //If you're pressing left or right move character
-            if (inputScript.left || inputScript.right)
-            MoveCharacter(); 
-        } 
-
+        
         if (isGrounded) { ApplyGroundLinearDrag(); }
         else { ApplyAirLinearDrag(); }
 
@@ -119,32 +107,12 @@ public class Char_control : MonoBehaviour
             //onDeath();
         }
 
-        //if (againstWallR == true && inputScript.rightDown && !isGrounded) { WallGrab(); }
+        //if (againstWallR == true && Input.GetKey(KeyCode.RightArrow) && !isGrounded) { WallGrab(); }
     }
 
-    private void MoveCharacter()
+    private Vector2 GetInput()
     {
-        //Adds a force equal to horizontaldirection variable * acceleration if you're not holding down both like a madman
-        if (!(inputScript.right && inputScript.left))
-        {
-            rb2d.AddForce(new Vector2(inputScript.horizontalDir, 0f) * movementAcceleration);
-            facingDir = inputScript.horizontalDir;
-        }
-        
-
-        //If velocity is more than maxmovespeed, set speed to maxmovespeed
-        if (Mathf.Abs(rb2d.velocity.x) > maxMoveSpeed)
-        {
-            rb2d.velocity = new Vector2(Mathf.Sign(rb2d.velocity.x) * maxMoveSpeed, rb2d.velocity.y);
-        }     
-
-        //If against a wall, apply reverse force to cancel out acceleration
-        if (againstWallFront && !isGrounded)
-        {
-            rb2d.AddForce(new Vector2(-inputScript.horizontalDir, 0f) * movementAcceleration);
-        }
-
-        
+        return new Vector2(Input.GetAxisRaw("Horizontal"), Input.GetAxisRaw("Vertical"));
     }
 
     private void Jump()
@@ -155,12 +123,14 @@ public class Char_control : MonoBehaviour
 
     public void AirJump()
     {
-        
-        rb2d.velocity = new Vector2(rb2d.velocity.x, 0);
-        Jump();
-        airJumpshas -= 1;
-        airJumped = true;
-        
+        if (airJumpshas > 0 && !isGrounded && (Input.GetKeyDown(KeyCode.UpArrow)))
+        {
+            rb2d.velocity = new Vector2(rb2d.velocity.x, 0);
+            Jump();
+            airJumpshas -= 1;
+            airJumped = true;
+        }
+
         if (rb2d.velocity.y < 0)
         {
             airJumped = false;
@@ -178,6 +148,18 @@ public class Char_control : MonoBehaviour
         Destroy(gameObject);
     }
 
+    private void GetDir()
+    {
+        if(Input.GetAxisRaw("Horizontal") > 0)
+        {
+            facingDir = 1;
+        }
+
+        if (Input.GetAxisRaw("Horizontal") < 0)
+        {
+            facingDir = -1;
+        }
+    }
 
     /*private void WallGrab()
     {
@@ -190,12 +172,12 @@ public class Char_control : MonoBehaviour
 
     /*private void WallJump()
     {
-        if (inputScript.rightDown)
+        if (Input.GetKeyDown(KeyCode.UpArrow))
         {
             rb2d.AddForce(new Vector2(-1, 1) * walljumpForce, ForceMode2D.Impulse);
             rb2d.gravityScale = 1;
         }
-        else if (inputScript.rightUp)
+        else if (Input.GetKeyUp(KeyCode.RightArrow))
         { rb2d.gravityScale = 1; }
     }*/
 
@@ -205,7 +187,7 @@ public class Char_control : MonoBehaviour
         {
             rb2d.gravityScale = fallJumpMultiplier;
         }
-        else if (rb2d.velocity.y > 0 && !inputScript.up)
+        else if (rb2d.velocity.y > 0 && !Input.GetKeyDown(KeyCode.UpArrow))
         {
             rb2d.gravityScale = lowJumpFallMultiplier;
         }
@@ -234,11 +216,27 @@ public class Char_control : MonoBehaviour
 
     private void WallCheck()
     {
-        if (Physics2D.Raycast(new Vector2(transform.position.x, transform.position.y + ywallcheckoffset), Vector2.right *  facingDir, wallcheckdistances, 1 << LayerMask.NameToLayer("Ground")))
+        if (Physics2D.Raycast(new Vector2(transform.position.x, transform.position.y + 0.2f), Vector2.right, wallcheckdistances, 1 << LayerMask.NameToLayer("Ground")))
         {
-            againstWallFront = true;
+            againstWallR = true;
         }
-        else { againstWallFront = false; }
+        else { againstWallR = false; }
+
+        if (Physics2D.Raycast(new Vector2(transform.position.x, transform.position.y + 0.2f), Vector2.left, wallcheckdistances, 1 << LayerMask.NameToLayer("Ground")))
+        {
+            againstWallL = true;
+        }
+        else { againstWallL = false; }
+    }
+
+    private void MoveCharacter()
+    {
+        //Adds a force equal to horizontaldirection variable * acceleration
+        //If velocity is more than maxmovespeed, set speed to maxmovespeed
+        rb2d.AddForce(new Vector2(HorizontalDirection, 0f) * movementAcceleration);
+
+        if (Mathf.Abs(rb2d.velocity.x) > maxMoveSpeed)
+            rb2d.velocity = new Vector2(Mathf.Sign(rb2d.velocity.x) * maxMoveSpeed, rb2d.velocity.y);
     }
 
     public void CrouchorSlide()
@@ -246,7 +244,7 @@ public class Char_control : MonoBehaviour
         //This is crouch
         if (Mathf.Abs(rb2d.velocity.x) < 0.1f)
         {
-            if (inputScript.down && isGrounded)
+            if (Input.GetAxisRaw("Vertical") < 0 && isGrounded)
             {
                 crouching = true;
                 rb2d.velocity = new Vector2(0, 0);
@@ -265,7 +263,7 @@ public class Char_control : MonoBehaviour
         //This is slide
         if (Mathf.Abs(rb2d.velocity.x) > 0.5f)
         {
-            if (inputScript.down && isGrounded)
+            if (Input.GetAxisRaw("Vertical") < 0 && isGrounded)
             {
                 sliding = true;
                 rb2d.velocity = rb2d.velocity;
@@ -278,7 +276,6 @@ public class Char_control : MonoBehaviour
     {
         //Used by Animation Events in Melee Animation. On Event 1 activates hitbox, on Event 2 deactivates hitbox
         Melee1.SetActive(true);
-        cinemachine_controller.Instance.ShakeCamera(shakeintensity, shaketime);
     }
 
     public void OnMelee1End()
@@ -291,7 +288,6 @@ public class Char_control : MonoBehaviour
     {
         Gizmos.color = Color.green;
         Gizmos.DrawWireSphere(new Vector2(transform.position.x, transform.position.y + ycheckOffset), checkdistances);
-
-        Gizmos.DrawRay(new Vector2(transform.position.x, transform.position.y + ywallcheckoffset), (Vector2.right * facingDir) * wallcheckdistances );
     }
+
 }
