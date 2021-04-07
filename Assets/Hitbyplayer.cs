@@ -104,8 +104,8 @@ public class Hitbyplayer : MonoBehaviour
         audiosource.pitch = 1f;
         audiosource.PlayOneShot(destroyed);
 
-        Destroy(gameObject, 0.1f);
-        Destroy(gameObject.transform.parent, 0.1f);
+        Destroy(this.gameObject, 0.1f);
+        Destroy(this.gameObject.transform.parent, 0.1f);
 
     }
 }

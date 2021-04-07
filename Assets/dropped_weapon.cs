@@ -4,7 +4,11 @@ using UnityEngine;
 
 public class dropped_weapon : MonoBehaviour
 {
-    Vector3 spawnLoc;
+    public int damageMax = 69;
+    public int damageMin = 69;
+    public int fireChance = 69;
+    public int freezeChance = 69;
+    public int poisonChance = 69;
 
     private void Start()
     {
@@ -20,9 +24,15 @@ public class dropped_weapon : MonoBehaviour
         
     }
 
-    private void OnTriggerEnter2D(Collider2D collision)
+    private void OnTriggerStay2D(Collider2D collision)
     {
-
+        if (collision.CompareTag("Player"))
+        {
+            if (Input.GetAxisRaw("Interact") > 0)
+            {
+                
+            }
+        }
         
     }
 }

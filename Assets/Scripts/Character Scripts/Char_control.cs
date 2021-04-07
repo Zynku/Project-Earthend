@@ -36,6 +36,8 @@ public class Char_control : MonoBehaviour
 
     [Header("Melee Variables")]
     public GameObject Melee1;
+    public GameObject MeleeObject;
+    SpriteRenderer spriterenderer;
     [HideInInspector] public bool Attacking;
     public int attackdamageMax;
     public int attackdamageMin;
@@ -62,6 +64,8 @@ public class Char_control : MonoBehaviour
         Melee1.SetActive(false);
 
         dead = false;
+
+        spriterenderer = MeleeObject.GetComponent<SpriteRenderer>();
     }
     
     private void Update()
@@ -282,6 +286,11 @@ public class Char_control : MonoBehaviour
     {
         Attacking = false;
         Melee1.SetActive(false);
+    }
+
+    public void SetMeleeSprite(Sprite sprite)
+    {
+        spriterenderer.sprite = sprite;
     }
 
     private void OnDrawGizmos()

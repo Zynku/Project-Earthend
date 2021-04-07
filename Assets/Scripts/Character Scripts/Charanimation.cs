@@ -109,13 +109,19 @@ public class Charanimation : MonoBehaviour
             if ((isGrounded && Input.GetKeyUp(KeyCode.DownArrow)))
             {
                 animator.SetBool("Sliding", false);
-            } 
+            }
+        }
+        //Not moving
+        if (Mathf.Abs(rb2d.velocity.x) == 0f)
+        {
+            animator.SetBool("Sliding", false);
         }
 
         //---------------------------------------------------------------------------------------------------------------------------------------------
         //Go righttttt or left, play run anim
         if (!animator.GetBool("Sliding"))
         {
+
             if (Input.GetKey("right"))
             {
                 animator.SetBool("Run", true);
@@ -145,7 +151,9 @@ public class Charanimation : MonoBehaviour
                 animator.SetBool("Crouch", false);
                 animator.SetBool("Sliding", false);
             }
+
         }
+
         //---------------------------------------------------------------------------------------------------------------------------------------------
         //Crouch States
         if (Mathf.Abs(rb2d.velocity.x) < 0.1f)
@@ -159,21 +167,22 @@ public class Charanimation : MonoBehaviour
             {
                 animator.SetBool("Crouch", false);
             }
+
+            //---------------------------------------------------------------------------------------------------------------------------------------------
+            //Deadass lmao
+            if (GetComponent<Charhealth>().currentHealth <= 0)
+            {
+                animator.Play("Low Poly Death HD3");
+            }
+            //---------------------------------------------------------------------------------------------------------------------------------------------
+            animator.SetFloat("yVel", Mathf.Clamp(rb2d.velocity.y, -1, 1));
+            animator.SetFloat("xVel", Mathf.Clamp(rb2d.velocity.x, -1, 1));
+            animator.SetFloat("yVelAbs", Mathf.Abs(Mathf.Clamp(rb2d.velocity.y, -1, 1)));
+            animator.SetFloat("xVelAbs", Mathf.Abs(Mathf.Clamp(rb2d.velocity.x, -1, 1)));
+            animator.SetFloat("verticalPressed", Input.GetAxis("Vertical"));
+            animator.SetFloat("horizontalPressed", Mathf.Abs(Input.GetAxis("Horizontal")));
+            airJumpsHas = GetComponent<Char_control>().airJumpshas;
         }
-        //---------------------------------------------------------------------------------------------------------------------------------------------
-        //Deadass lmao
-        if (GetComponent<Charhealth>().currentHealth <= 0)
-        {
-            animator.Play("Low Poly Death HD3");
-        }
-        //---------------------------------------------------------------------------------------------------------------------------------------------
-        animator.SetFloat("yVel", Mathf.Clamp(rb2d.velocity.y, -1, 1));
-        animator.SetFloat("xVel", Mathf.Clamp(rb2d.velocity.x, -1, 1));
-        animator.SetFloat("yVelAbs", Mathf.Abs(Mathf.Clamp(rb2d.velocity.y, -1, 1)));
-        animator.SetFloat("xVelAbs", Mathf.Abs(Mathf.Clamp(rb2d.velocity.x, -1, 1)));
-        animator.SetFloat("verticalPressed", Input.GetAxis("Vertical"));
-        animator.SetFloat("horizontalPressed", Mathf.Abs(Input.GetAxis("Horizontal")));
-        airJumpsHas = GetComponent<Char_control>().airJumpshas;
     }
 }
 

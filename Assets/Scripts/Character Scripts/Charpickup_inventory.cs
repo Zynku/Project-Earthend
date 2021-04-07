@@ -8,16 +8,19 @@ public class Charpickup_inventory : MonoBehaviour
     public float money;
     public List<GameObject> weapons;
     
+    public Char_control char_control;
+    
     // Start is called before the first frame update
     void Start()
     {
         weapons = new List<GameObject>();
+        char_control = GetComponent<Char_control>();
     }
 
     // Update is called once per frame
     void Update()
     {
-
+    //Get damage values from dropped weapon script on collision object, apply to charhealth
     }
 
     public void OnTriggerEnter2D(Collider2D collision)
@@ -44,10 +47,12 @@ public class Charpickup_inventory : MonoBehaviour
         //If you come across a weapon and you interact, add weapon to weapons list, destroy weapon
         if (collision.CompareTag("dropped_weapon"))
         {
-            //if (Input.GetAxis("Interact") > 0)
-            if (Input.GetKeyDown(KeyCode.S))
+            if (Input.GetAxisRaw("Interact")>0)
             {
-                weapons.Add(collision.transform.parent.gameObject);
+                //weapons.Add(collision.transform.parent.gameObject);
+                char_control.attackdamageMax = collision.GetComponentInParent<dropped_weapon>().damageMax;
+                char_control.attackdamageMin = collision.GetComponentInParent<dropped_weapon>().damageMin;
+                char_control.SetMeleeSprite(collision.GetComponentInParent<SpriteRenderer>().sprite);
                 Destroy(collision.transform.parent.gameObject);
             }
         }
