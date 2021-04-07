@@ -88,7 +88,7 @@ public class Char_control : MonoBehaviour
 
     private void FixedUpdate()
     {
-        if (crouching == false && dead == false) { MoveCharacter(); } 
+        if (crouching == false && dead == false) { MoveCharacter(); }
         ApplyGroundLinearDrag();
         ApplyAirLinearDrag();
         FallMultiplier();

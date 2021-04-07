@@ -48,6 +48,7 @@ GameObject:
   - component: {fileID: 1921374811361008847}
   - component: {fileID: 5880433947496919309}
   - component: {fileID: 126708636950315055}
+  - component: {fileID: 4878286130819654467}
   m_Layer: 13
   m_Name: Devlab Item Sprites_2
   m_TagString: Untagged
@@ -169,6 +170,31 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 0.09, y: 0.12}
   m_EdgeRadius: 0
+--- !u!114 &4878286130819654467
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1921374811361008845}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a18f2089b54fd224a83e4947e2d6251b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  hit: 0
+  playerDir: 0
+  xForce: 10
+  yForce: 2
+  torqueForce: 10
+  hitGround: {fileID: 0}
+  hitByPlayer: {fileID: 0}
+  maxHealth: 0
+  currentHealth: 0
+  damageDoneToMe: 0
+  dmgCooldown: 0
+  dmgCooldownTargetTime: 0.1
+  collisionDir: 1
 --- !u!1 &1921374811568783007
 GameObject:
   m_ObjectHideFlags: 0
@@ -181,6 +207,7 @@ GameObject:
   - component: {fileID: 1921374811568782993}
   - component: {fileID: 8469290784369871741}
   - component: {fileID: 959016667038011821}
+  - component: {fileID: 6588224041618718394}
   m_Layer: 13
   m_Name: Devlab Item Sprites_4
   m_TagString: Untagged
@@ -302,6 +329,31 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 0.09, y: 0.09}
   m_EdgeRadius: 0
+--- !u!114 &6588224041618718394
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1921374811568783007}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a18f2089b54fd224a83e4947e2d6251b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  hit: 0
+  playerDir: 0
+  xForce: 10
+  yForce: 2
+  torqueForce: 10
+  hitGround: {fileID: 0}
+  hitByPlayer: {fileID: 0}
+  maxHealth: 0
+  currentHealth: 0
+  damageDoneToMe: 0
+  dmgCooldown: 0
+  dmgCooldownTargetTime: 0.1
+  collisionDir: 1
 --- !u!1 &1921374811796263896
 GameObject:
   m_ObjectHideFlags: 0
@@ -314,6 +366,7 @@ GameObject:
   - component: {fileID: 1921374811796263898}
   - component: {fileID: 3969272564274682098}
   - component: {fileID: 5158418642611120627}
+  - component: {fileID: 6361581007967641843}
   m_Layer: 13
   m_Name: Devlab Item Sprites_1 (1)
   m_TagString: Untagged
@@ -435,6 +488,31 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 0.06, y: 0.15}
   m_EdgeRadius: 0
+--- !u!114 &6361581007967641843
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1921374811796263896}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a18f2089b54fd224a83e4947e2d6251b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  hit: 0
+  playerDir: 0
+  xForce: 10
+  yForce: 2
+  torqueForce: 10
+  hitGround: {fileID: 0}
+  hitByPlayer: {fileID: 0}
+  maxHealth: 0
+  currentHealth: 0
+  damageDoneToMe: 0
+  dmgCooldown: 0
+  dmgCooldownTargetTime: 0.1
+  collisionDir: 1
 --- !u!1 &1921374812158216805
 GameObject:
   m_ObjectHideFlags: 0
@@ -580,6 +658,7 @@ GameObject:
   - component: {fileID: 1921374812238380103}
   - component: {fileID: 1684559751624424880}
   - component: {fileID: 9207702974601977634}
+  - component: {fileID: 3398588229019824150}
   m_Layer: 13
   m_Name: Devlab Item Sprites_1
   m_TagString: Untagged
@@ -701,6 +780,31 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 0.06, y: 0.15}
   m_EdgeRadius: 0
+--- !u!114 &3398588229019824150
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1921374812238380101}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a18f2089b54fd224a83e4947e2d6251b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  hit: 0
+  playerDir: 0
+  xForce: 10
+  yForce: 2
+  torqueForce: 10
+  hitGround: {fileID: 0}
+  hitByPlayer: {fileID: 0}
+  maxHealth: 0
+  currentHealth: 0
+  damageDoneToMe: 0
+  dmgCooldown: 0
+  dmgCooldownTargetTime: 0.1
+  collisionDir: 1
 --- !u!1 &1921374813365895380
 GameObject:
   m_ObjectHideFlags: 0
@@ -713,6 +817,7 @@ GameObject:
   - component: {fileID: 1921374813365895382}
   - component: {fileID: 7996366594840044364}
   - component: {fileID: 6801430756617805028}
+  - component: {fileID: 9155128983529507732}
   m_Layer: 13
   m_Name: Devlab Item Sprites_5
   m_TagString: Untagged
@@ -834,3 +939,28 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 0.05, y: 0.1}
   m_EdgeRadius: 0
+--- !u!114 &9155128983529507732
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1921374813365895380}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a18f2089b54fd224a83e4947e2d6251b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  hit: 0
+  playerDir: 0
+  xForce: 10
+  yForce: 2
+  torqueForce: 10
+  hitGround: {fileID: 0}
+  hitByPlayer: {fileID: 0}
+  maxHealth: 0
+  currentHealth: 0
+  damageDoneToMe: 0
+  dmgCooldown: 0
+  dmgCooldownTargetTime: 0.1
+  collisionDir: 1

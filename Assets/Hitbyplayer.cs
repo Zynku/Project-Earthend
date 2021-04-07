@@ -5,13 +5,15 @@ using UnityEngine;
 public class Hitbyplayer : MonoBehaviour
 {
     Rigidbody2D rb2d;
+    public bool destroyable = false;
     public bool hit;
     public float playerDir = 0;
     public float xForce = 0;
     public float yForce = 0;
     public float torqueForce = 0;
-    public AudioClip hitGround, hitByPlayer;
+    public AudioClip hitGround, hitByPlayer, destroyed;
     AudioSource audiosource;
+    public GameObject brokeObj;
 
     public int maxHealth;
     public int currentHealth;
@@ -26,7 +28,7 @@ public class Hitbyplayer : MonoBehaviour
     void Start()
     {
         rb2d = GetComponentInParent<Rigidbody2D>();
-        audiosource = GetComponentInParent<AudioSource>();
+        audiosource = GetComponent<AudioSource>();
     }
 
     // Update is called once per frame
@@ -38,6 +40,11 @@ public class Hitbyplayer : MonoBehaviour
         //Stops health from overflowing or underflowing
         if (currentHealth > maxHealth) { currentHealth = maxHealth; }
         if (currentHealth < 0) { currentHealth = 0; }
+
+        if (currentHealth <= 0 && destroyable)
+        {
+            onDeactivate();
+        }
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
@@ -79,13 +86,26 @@ public class Hitbyplayer : MonoBehaviour
 
     private void PlayGroundHit()
     {
-        //audiosource.pitch = (Random.Range(0.8f, 1f));
-        //audiosource.PlayOneShot(hitGround);
+        audiosource.pitch = (Random.Range(0.8f, 1f));
+        audiosource.PlayOneShot(hitGround);
     }
 
     private void PlayPlayerHit()
     {
-        //audiosource.pitch = (Random.Range(0.8f, 1f));
-        //audiosource.PlayOneShot(hitByPlayer);
+        audiosource.pitch = (Random.Range(0.8f, 1f));
+        audiosource.PlayOneShot(hitByPlayer);
+    }
+
+    private void onDeactivate()
+    {
+        GameObject clone;
+        clone = Instantiate(brokeObj, transform.position, transform.rotation);
+
+        audiosource.pitch = 1f;
+        audiosource.PlayOneShot(destroyed);
+
+        Destroy(gameObject, 0.1f);
+        Destroy(gameObject.transform.parent, 0.1f);
+
     }
 }
