@@ -58,7 +58,7 @@ public class Hitbyplayer : MonoBehaviour
         {
             rb2d.AddForce(new Vector2(xForce * playerDir * 10, yForce * 10));
             rb2d.AddTorque(Random.Range(torqueForce, -torqueForce));
-            playerDir = collision.GetComponentInParent<Char_control>().facingDir;
+            playerDir = Char_control.facingDir;
             hit = true;
 
             damageDoneToMeMax = Mathf.FloorToInt(collision.gameObject.GetComponentInParent<Char_control>().attackdamageMax);

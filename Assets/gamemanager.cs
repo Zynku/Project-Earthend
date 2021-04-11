@@ -33,7 +33,7 @@ public class gamemanager : MonoBehaviour
         if (mainCharRespawned == false)
         {
             Player.gameObject.transform.position = playerRespawnPoint.gameObject.transform.position;
-            Player.GetComponent<Char_control>().dead = false;
+            Char_control.dead = false;
             mainCharRespawned = true;
             
         }

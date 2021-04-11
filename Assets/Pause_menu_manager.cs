@@ -3,18 +3,40 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
+using UnityEngine.Audio;
 
 public class Pause_menu_manager : MonoBehaviour
 {
+    private GameObject Player;
+    private Animator PlayerAnim;
+    
+
     public static bool isGamePaused = false;
     public GameObject PauseMenuUi;
     public GameObject LoadingScreen;
     public Slider loadingSlider;
 
-    // Start is called before the first frame update
-    void Start()
+    [Header("Audio")]
+    public AudioMixer masterMixer;
+    public Slider masterVol;
+    public Slider soundVol;
+    public Slider musicVol;
+
+    void Awake()
     {
-        
+        masterMixer.SetFloat("MasterVolume", global_script.masterVolfloat);
+        masterMixer.SetFloat("SoundVolume", global_script.soundVolfloat);
+        masterMixer.SetFloat("MusicVolume", global_script.musicVolfloat);
+
+        masterVol.value = global_script.masterVolfloat;
+        soundVol.value = global_script.soundVolfloat;
+        musicVol.value = global_script.musicVolfloat;
+    }
+
+    private void Start()
+    {
+        Player = GameObject.FindGameObjectWithTag("Player");
+        PlayerAnim = Player.GetComponent<Animator>();
     }
 
     // Update is called once per frame
@@ -47,8 +69,6 @@ public class Pause_menu_manager : MonoBehaviour
         AsyncOperation operation = SceneManager.LoadSceneAsync(index);
 
         LoadingScreen.SetActive(true);
-
-        //While its loading...
         while (!operation.isDone)
         {
             //Do some quick maths and apply loading progress to float, then slider bar
@@ -60,6 +80,7 @@ public class Pause_menu_manager : MonoBehaviour
 
     public void Resume()
     {
+        PlayerAnim.enabled = true;
         PauseMenuUi.SetActive(false);
         Time.timeScale = 1;
         isGamePaused = false;
@@ -67,6 +88,7 @@ public class Pause_menu_manager : MonoBehaviour
 
     public void Pause()
     {
+        PlayerAnim.enabled = false;
         PauseMenuUi.SetActive(true);
         Time.timeScale = 0;
         isGamePaused = true;
@@ -76,5 +98,20 @@ public class Pause_menu_manager : MonoBehaviour
     public void ApplicationClose()
     {
         Application.Quit();
+    }
+
+    public void SetMasterVolume(float volume)
+    {
+        masterMixer.SetFloat("MasterVolume", volume);
+    }
+
+    public void SetMusicVolume(float volume)
+    {
+        masterMixer.SetFloat("MusicVolume", volume);
+    }
+
+    public void SetSoundVolume(float volume)
+    {
+        masterMixer.SetFloat("SoundVolume", volume);
     }
 }

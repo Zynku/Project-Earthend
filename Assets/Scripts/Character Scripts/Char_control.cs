@@ -16,34 +16,34 @@ public class Char_control : MonoBehaviour
     [SerializeField] private float groundLinearDrag = 4.67f;
     [SerializeField] private float fallJumpMultiplier = 0.6f;
     [SerializeField] private float lowJumpFallMultiplier = 1.29f;
-    public float facingDir = 0;
-    public bool crouching = false;
-    public bool sliding = true;
+    [HideInInspector] public static float facingDir = 0;
+    [HideInInspector] public static bool crouching = false;
+    [HideInInspector] public static bool sliding = true;
     //[SerializeField] private float walljumpForce = 4f;
 
     [Header("Jump Variables")]
     public bool isGrounded;
-    private float HorizontalDirection;
+    public float HorizontalDirection;
     public float checkdistances = 0.2f;
     public float ycheckOffset;
-    public float wallcheckdistances = 0.3f;
+    //private float wallcheckdistances = 0.3f;
     public int airJumps = 2;
-    public int airJumpshas;
-    [HideInInspector] public bool airJumped = false;
-    public bool againstWallR = false;
-    public bool againstWallL = false;
-    public bool wallgrabbed = false;
+    private int airJumpshas;
+    [HideInInspector] public static bool airJumped = false;
+    //private bool againstWallR = false;
+    //private bool againstWallL = false;
+    //private bool wallgrabbed = false;
 
     [Header("Melee Variables")]
     public GameObject Melee1;
     public GameObject MeleeObject;
-    SpriteRenderer spriterenderer;
     [HideInInspector] public bool Attacking;
     public int attackdamageMax;
     public int attackdamageMin;
+    SpriteRenderer spriterenderer;
 
     [Header("Death Variables")]
-    public bool dead;
+    public static bool dead;
     public float despawnTime;
 
     [Header("Crouch Hitbox Variables")]
@@ -96,7 +96,7 @@ public class Char_control : MonoBehaviour
         ApplyGroundLinearDrag();
         ApplyAirLinearDrag();
         FallMultiplier();
-        WallCheck();
+        //WallCheck();
         
         GetDir();
         CrouchorSlide();
@@ -218,7 +218,7 @@ public class Char_control : MonoBehaviour
         }
     }
 
-    private void WallCheck()
+    /*private void WallCheck()
     {
         if (Physics2D.Raycast(new Vector2(transform.position.x, transform.position.y + 0.2f), Vector2.right, wallcheckdistances, 1 << LayerMask.NameToLayer("Ground")))
         {
@@ -231,7 +231,7 @@ public class Char_control : MonoBehaviour
             againstWallL = true;
         }
         else { againstWallL = false; }
-    }
+    }*/
 
     private void MoveCharacter()
     {
