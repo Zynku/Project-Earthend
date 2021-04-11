@@ -97,6 +97,7 @@ public class Pause_menu_manager : MonoBehaviour
 
     public void ApplicationClose()
     {
+        Debug.Log("Quitting game...");
         Application.Quit();
     }
 

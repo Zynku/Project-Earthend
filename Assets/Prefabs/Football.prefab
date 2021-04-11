@@ -45,9 +45,12 @@ SpriteRenderer:
   m_CastShadows: 0
   m_ReceiveShadows: 0
   m_DynamicOccludee: 1
+  m_StaticShadowCaster: 0
   m_MotionVectors: 1
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
+  m_RayTracingMode: 0
+  m_RayTraceProcedural: 0
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -181,10 +184,25 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a18f2089b54fd224a83e4947e2d6251b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  destroyable: 0
+  applyInitialForce: 0
+  useParent: 1
+  hit: 0
   playerDir: 0
   xForce: 200
   yForce: 0
+  torqueForce: 0
   hitGround: {fileID: 8300000, guid: f321a4ddea690474a86d13f73bd82fea, type: 3}
+  hitByPlayer: {fileID: 0}
+  destroyed: {fileID: 0}
+  brokeObj: {fileID: 0}
+  maxHealth: 0
+  currentHealth: 0
+  damageDoneToMe: 0
+  dmgCooldown: 0
+  dmgCooldownTargetTime: 0.1
+  collisionDir: 1
+  initialForce: 0
 --- !u!82 &7668941372865598819
 AudioSource:
   m_ObjectHideFlags: 0
@@ -194,7 +212,8 @@ AudioSource:
   m_GameObject: {fileID: 4441333683372734709}
   m_Enabled: 1
   serializedVersion: 4
-  OutputAudioMixerGroup: {fileID: 0}
+  OutputAudioMixerGroup: {fileID: 8775981145268342865, guid: 9e7a22ee458a2384596213decec719aa,
+    type: 2}
   m_audioClip: {fileID: 0}
   m_PlayOnAwake: 1
   m_Volume: 1

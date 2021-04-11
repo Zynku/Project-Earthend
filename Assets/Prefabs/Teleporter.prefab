@@ -147,6 +147,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   teleporters: []
   teleportTo: {fileID: 0}
+  teleportingVolume: 1
   teleporting: {fileID: 8300000, guid: 6da94274cc7b6b542b070782ba2e1c3a, type: 3}
 --- !u!82 &4729559823299207116
 AudioSource:
@@ -157,7 +158,8 @@ AudioSource:
   m_GameObject: {fileID: 2320406211907503466}
   m_Enabled: 1
   serializedVersion: 4
-  OutputAudioMixerGroup: {fileID: 0}
+  OutputAudioMixerGroup: {fileID: 8775981145268342865, guid: 9e7a22ee458a2384596213decec719aa,
+    type: 2}
   m_audioClip: {fileID: 0}
   m_PlayOnAwake: 1
   m_Volume: 1

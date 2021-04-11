@@ -6,6 +6,7 @@ public class Charanimation : MonoBehaviour
 {
     public float xvel;
     public float yvel;
+    public float fallThreshold;
     public int airJumpsHas;
     public bool dead;
     public bool grounded;
@@ -62,10 +63,11 @@ public class Charanimation : MonoBehaviour
             animator.SetBool("Falling", false);
         }
         //Falling, not on ground
-        if (rb2d.velocity.y < 0f && !grounded)
+        if (rb2d.velocity.y < fallThreshold && !grounded)
         {
             animator.SetBool("Jumping", false);
             animator.SetBool("Falling", true);
+            animator.Play("Low Poly Girl Whole Fall HD3");
 
         }
         //Falling, on ground

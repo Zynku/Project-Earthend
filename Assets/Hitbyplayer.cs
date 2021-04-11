@@ -5,7 +5,12 @@ using UnityEngine;
 public class Hitbyplayer : MonoBehaviour
 {
     Rigidbody2D rb2d;
+    [Header ("Checks")]
     public bool destroyable = false;
+    public bool applyInitialForce = false;
+    public bool useParent = true;
+
+    [Header ("Variables")]
     public bool hit;
     public float playerDir = 0;
     public float xForce = 0;
@@ -24,11 +29,27 @@ public class Hitbyplayer : MonoBehaviour
     [HideInInspector] public float dmgCooldownTargetTime = 0.1f;
     [HideInInspector] public float collisionDir = 1f;
 
+    public int initialForce;
+
     // Start is called before the first frame update
     void Start()
     {
-        rb2d = GetComponentInParent<Rigidbody2D>();
-        audiosource = GetComponent<AudioSource>();
+        if (useParent)
+        {
+            rb2d = GetComponentInParent<Rigidbody2D>();
+            audiosource = GetComponentInParent<AudioSource>();
+        }
+        else
+        {
+            rb2d = GetComponent<Rigidbody2D>();
+            audiosource = GetComponent<AudioSource>();
+        }
+        
+
+        if (applyInitialForce)
+        {
+            rb2d.AddForce(new Vector2 (Random.Range(initialForce, -initialForce), 0f), ForceMode2D.Impulse);
+        }
     }
 
     // Update is called once per frame
@@ -102,10 +123,9 @@ public class Hitbyplayer : MonoBehaviour
         clone = Instantiate(brokeObj, transform.position, transform.rotation);
 
         audiosource.pitch = 1f;
-        audiosource.PlayOneShot(destroyed);
+        AudioSource.PlayClipAtPoint(destroyed, transform.position, 0.2f);
 
-        Destroy(this.gameObject, 0.1f);
-        Destroy(this.gameObject.transform.parent, 0.1f);
+        Destroy(transform.parent.gameObject);
 
     }
 }
