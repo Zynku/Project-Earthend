@@ -93,6 +93,9 @@ AnimatorStateTransition:
   - m_ConditionMode: 2
     m_ConditionEvent: Crouch
     m_EventTreshold: -0.1
+  - m_ConditionMode: 2
+    m_ConditionEvent: Sliding
+    m_EventTreshold: 0
   m_DstStateMachine: {fileID: 0}
   m_DstState: {fileID: -7649903073100553076}
   m_Solo: 0
@@ -209,6 +212,8 @@ AnimatorStateMachine:
   - {fileID: -2908623091306678094}
   m_EntryTransitions: []
   m_StateMachineTransitions:
+  - first: {fileID: -6151759612074359812}
+    second: []
   - first: {fileID: 1901106524972511609}
     second: []
   - first: {fileID: -1390838577174943628}
@@ -679,11 +684,11 @@ AnimatorStateTransition:
   m_PrefabAsset: {fileID: 0}
   m_Name: 
   m_Conditions:
-  - m_ConditionMode: 1
-    m_ConditionEvent: Grounded
-    m_EventTreshold: 0
   - m_ConditionMode: 2
     m_ConditionEvent: Run
+    m_EventTreshold: 0
+  - m_ConditionMode: 2
+    m_ConditionEvent: Sliding
     m_EventTreshold: 0
   m_DstStateMachine: {fileID: 0}
   m_DstState: {fileID: -7649903073100553076}

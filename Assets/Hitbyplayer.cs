@@ -82,8 +82,8 @@ public class Hitbyplayer : MonoBehaviour
             playerDir = Char_control.facingDir;
             hit = true;
 
-            damageDoneToMeMax = Mathf.FloorToInt(collision.gameObject.GetComponentInParent<Char_control>().attackdamageMax);
-            damageDoneToMeMin = Mathf.FloorToInt(collision.gameObject.GetComponentInParent<Char_control>().attackdamageMin);
+            damageDoneToMeMax = Mathf.FloorToInt(collision.gameObject.GetComponentInParent<Charcontrol>().attackdamageMax);
+            damageDoneToMeMin = Mathf.FloorToInt(collision.gameObject.GetComponentInParent<Charcontrol>().attackdamageMin);
             damageDoneToMe = (Random.Range(damageDoneToMeMax, damageDoneToMeMin));
             TakeDamage(damageDoneToMe);
 

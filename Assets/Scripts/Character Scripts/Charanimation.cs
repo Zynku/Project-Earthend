@@ -14,12 +14,12 @@ public class Charanimation : MonoBehaviour
     Animator animator;
     Rigidbody2D rb2d;
 
+
     // Start is called before the first frame update
     void Start()
     {
         animator = GetComponent<Animator>();
         rb2d = GetComponent<Rigidbody2D>();
-        
         dead = Char_control.dead;
         
     }
@@ -27,7 +27,11 @@ public class Charanimation : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        grounded = GetComponent<Char_control>().isGrounded;
+        //Charcontrol.State currentState = Charcontrol.currentState;
+        //if(currentState == Charcontrol.State.Attacking) { }
+
+        
+        grounded = Charcontrol.isGrounded;
         //---------------------------------------------------------------------------------------------------------------------------------------------
         //Checks for direction and plays flipped or unflipped anims
         if (Input.GetAxisRaw("Horizontal") > 0 && !dead)
