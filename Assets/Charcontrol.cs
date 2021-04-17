@@ -12,13 +12,19 @@ public class Charcontrol : MonoBehaviour
 
     public State currentState;
 
+    
+
     [Header("Variables")]
     public float xVel;
     public float yVel;
+    private float inputX;
+    private float inputY;
     [HideInInspector] public bool playerDead;
 
     [Header("Movement Variables")]
+    public float currentDrag;
     public float runThreshold;
+    public float facingDir = 1;
     [SerializeField] private float walkAcceleration = 9.5f;
     [SerializeField] private float maxWalkSpeed = 1.6f;
     [SerializeField] private float runAcceleration = 9.5f;
@@ -33,6 +39,7 @@ public class Charcontrol : MonoBehaviour
     [Header("Slide Variables")]
     private bool slid = false;
     public float slideForce;
+    public float slideDrag;
 
     [Header("Jump Variables")]
     public static bool isGrounded;
@@ -50,6 +57,10 @@ public class Charcontrol : MonoBehaviour
 
     [Header("Melee Variables")]
     public GameObject MeleeObject;
+    public float attackTimerTargetTime;
+    private float attackTimer;
+    public float attackComboTargetTime;
+    private float attackComboTimer;
     public int attackdamageMax;
     public int attackdamageMin;
     BoxCollider2D meleeBoxCol;
@@ -84,6 +95,8 @@ public class Charcontrol : MonoBehaviour
 
         meleeSpriteR = MeleeObject.GetComponent<SpriteRenderer>();
         meleeBoxCol = MeleeObject.GetComponent<BoxCollider2D>();
+
+        
     }
 
     public enum State
@@ -112,20 +125,33 @@ public class Charcontrol : MonoBehaviour
     {
         xVel = rb2d.velocity.x;
         yVel = rb2d.velocity.y;
+        inputX = Input.GetAxis("Horizontal");
+        inputY = Input.GetAxis("Vertical");
 
-        //FLIP THOSE ANIMS BABY
-        if (Input.GetAxisRaw("Horizontal") > 0)
+        //FLIP THOSE ANIMS BABY UNLESS DED
+        if (!playerDead)
         {
-            transform.localScale = new Vector3(0.9f, 0.9f, 0.9f);
-        }
+            if (Input.GetAxisRaw("Horizontal") > 0)
+            {
+                transform.localScale = new Vector3(0.9f, 0.9f, 0.9f);
+            }
 
-        if (Input.GetAxisRaw("Horizontal") < 0)
+            if (Input.GetAxisRaw("Horizontal") < 0)
+            {
+                transform.localScale = new Vector3(-0.9f, 0.9f, 0.9f);
+            }
+        }
+        if (currentState != State.Sliding)
         {
-            transform.localScale = new Vector3(-0.9f, 0.9f, 0.9f);
+            if (isGrounded) { ApplyGroundLinearDrag(); }
+            else { ApplyAirLinearDrag(); }
         }
-
-        if (isGrounded) { ApplyGroundLinearDrag(); }
-        else { ApplyAirLinearDrag(); }
+        else
+        {
+            ApplySlideDrag();
+        }
+        
+        
 
 
         //Grounded Check
@@ -180,7 +206,10 @@ public class Charcontrol : MonoBehaviour
                     currentState = State.Running;
                 }
                 //Transition to Attacking
-
+                if (Input.GetAxisRaw("Light Attack") != 0 || Input.GetAxisRaw("Heavy Attack") != 0 || Input.GetAxisRaw("Ranged Attack") != 0)
+                {
+                    currentState = State.Attacking;
+                }
                 //Transition to Jumping
                 if (Input.GetAxisRaw("Vertical") > 0)
                 {
@@ -206,7 +235,10 @@ public class Charcontrol : MonoBehaviour
                     currentState = State.Sliding;
                 }
                 //Transition to Attacking
-
+                if (Input.GetAxisRaw("Light Attack") != 0 || Input.GetAxisRaw("Heavy Attack") != 0 || Input.GetAxisRaw("Ranged Attack") != 0)
+                {
+                    currentState = State.Attacking;
+                }
                 //Transition to Jumping
                 if (Input.GetAxisRaw("Vertical") > 0)
                 {
@@ -271,10 +303,9 @@ public class Charcontrol : MonoBehaviour
                 break;
 
             case State.Attacking:
-                if (animator.GetCurrentAnimatorStateInfo(0).normalizedTime > 1)
-                {
-                    currentState = State.Idle;
-                }
+               
+                Attacking();
+                //if (animator.GetCurrentAnimatorStateInfo(0).normalizedTime > 1) { currentState = State.Idle; }
                 break;
 
             case State.Air_Attacking:
@@ -307,10 +338,7 @@ public class Charcontrol : MonoBehaviour
                 Dead();
                 break;
         }
-
         //-------------------------------------------------------------------------------------------------------------------------------------
-        
-        
     }
 
     private void Update()
@@ -321,6 +349,11 @@ public class Charcontrol : MonoBehaviour
             boxCol.offset = boxColOffset;
             rb2d.velocity = rb2d.velocity;
         }
+
+        currentDrag = GetComponent<Rigidbody2D>().drag;
+
+        if (Input.GetAxisRaw("Horizontal") == 1) { facingDir = 1; }
+        if (Input.GetAxisRaw("Horizontal") == -1) { facingDir = -1; }
     }
 
     public void onAnimate()
@@ -389,11 +422,31 @@ public class Charcontrol : MonoBehaviour
 
     }
 
+    public void Attacking()
+    {
+        //Dictates whether in attack state or not based on time
+        attackTimer -= Time.deltaTime;
+        if (attackTimer < 0) { attackTimer = 0; currentState = State.Idle; }
+
+        //Dictates speed at which you can transition to next melee state based on when you press attack key
+        attackComboTimer -= Time.deltaTime;
+        if (attackComboTimer < 0) { attackComboTimer = 0; }
+
+        if (attackComboTimer > 0 && Input.GetAxisRaw("Horizontal") != 0)
+        {
+            animator.SetTrigger("Melee");
+            attackComboTimer = attackComboTargetTime;
+        }
+
+        
+    }
+
     public void Sliding()
     {
         if (slid == false)
         {
             slid = true;
+            rb2d.drag = slideDrag;
             rb2d.AddForce(new Vector2(Input.GetAxisRaw("Horizontal") * slideForce, 0f));
             animator.SetBool("Sliding", true);
             animator.SetBool("Crouch", false);
@@ -435,8 +488,8 @@ public class Charcontrol : MonoBehaviour
         if (airJumpsHas != 0)
         {
             rb2d.velocity = new Vector2(rb2d.velocity.x, 0);
-            rb2d.AddForce(Vector2.up * jumpForce * 3, ForceMode2D.Impulse);
-            rb2d.AddForce(new Vector2(Input.GetAxisRaw("Horizontal") * runAcceleration, 0f));
+            rb2d.AddForce(Vector2.up * jumpForce * 2, ForceMode2D.Impulse);
+            rb2d.AddForce(new Vector2(Input.GetAxisRaw("Horizontal") * runAcceleration * airHorizontalAcc, 0f));
             jumped = true;
             airJumpsHas -= 1;
             currentState = State.Jumping;
@@ -463,6 +516,11 @@ public class Charcontrol : MonoBehaviour
         rb2d.drag = groundLinearDrag;
     }
 
+    private void ApplySlideDrag()
+    {
+        rb2d.drag = slideDrag;
+    }
+
     public void Falling()
     {
         //animator.Play("Fall");
@@ -477,6 +535,11 @@ public class Charcontrol : MonoBehaviour
     public void OnMelee1End()
     {
         meleeBoxCol.enabled = false;
+    }
+
+    public void OnMeleeForceAdd(int forceX)
+    {
+        rb2d.AddForce(new Vector2(facingDir * forceX , 0), ForceMode2D.Impulse);
     }
 
     public void SetMeleeSprite(Sprite sprite)

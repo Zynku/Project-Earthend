@@ -29,6 +29,9 @@ public class trainingball_controller : MonoBehaviour
         {
             animator.SetBool("BeenHit", true);
             audiosource.PlayOneShot(Hit);
+
+            //Loads hit effect from resources folder
+            Instantiate(Resources.Load<GameObject>("Sprites/Hit effects/Hit effect 1"), new Vector3(transform.position.x, transform.position.y, -1.33f), transform.rotation);
         }
     }
     public void OnTriggerExit2D(Collider2D collision)

@@ -5,6 +5,8 @@ using UnityEngine;
 public class Charhealth : MonoBehaviour
 {
     Rigidbody2D rb2d;
+    SpriteRenderer spriterenderer;
+    ParticleSystem poison;
     public int maxHealth;
     public int currentHealth;
     private int damageDoneToMeMax;
@@ -18,12 +20,24 @@ public class Charhealth : MonoBehaviour
     public Vector3 dmgTextOffset;
     public Healthbar healthbar;
 
+    [Header("StatusEffects")]
+    public bool poisoned;
+    public int poisonDamage = 5;
+    public float poisonTargetTime;
+    private float poisonTimer;
+    public float poisonTickTargetTime;
+    private float poisonTickTimer;
+
     // Start is called before the first frame update
     void Start()
     {
         currentHealth = maxHealth;
         healthbar.SetMaxHealth(maxHealth);
         rb2d = GetComponent<Rigidbody2D>();
+        spriterenderer = GetComponent<SpriteRenderer>();
+        poison = GetComponent<ParticleSystem>();
+
+        poisonTimer = poisonTargetTime;
     }
 
     // Update is called once per frame
@@ -40,11 +54,18 @@ public class Charhealth : MonoBehaviour
 
         if (Input.GetKeyDown(KeyCode.J)) { ResetHealth();}
         if (Input.GetKeyDown(KeyCode.H)) { AddHealth(20); }
+
+        if (poisoned) { Poisoned(poisonTargetTime, poisonDamage); }
+        else { poisonTimer = poisonTargetTime; spriterenderer.color = new Color(1, 1, 1, 1); }
+        
     }
 
     private void FixedUpdate()
     {
-        OnDeath();
+        if (currentHealth <= 0)
+        {
+            OnDeath();
+        }
     }
     //Checks for collisions from enemy hitboxes
     public void OnTriggerEnter2D(Collider2D collision)
@@ -123,11 +144,48 @@ public class Charhealth : MonoBehaviour
         floattext.GetComponent<TMPro.TextMeshPro>().text = maxHealth.ToString();
     }
 
+    public void Poisoned(float poisonTargetTime, int poisonDamage)
+    {
+        //End after a certain amount of time
+        var emission = poison.emission;
+        poisonTimer -= Time.fixedDeltaTime;
+        if (poisonTimer < 0) { poisonTimer = 0; }
+        if (poisonTimer == 0) {poisonTimer = poisonTargetTime; spriterenderer.color = new Color(1, 1, 1, 1); poisoned = false; emission.enabled = false; }
+
+        poisonTickTimer -= Time.fixedDeltaTime;
+        if (poisonTickTimer < 0) { poisonTickTimer = 0; }
+
+        //If poison is active
+        if (poisonTimer > 0)
+        {
+            //On every poison tick....
+            if (poisonTickTimer == 0)
+            {
+                //Takes poison damage from health
+                currentHealth -= poisonDamage;
+                healthbar.SetHealth(currentHealth);
+                //Instantiate damage numbers text on every tick
+                var floattext = Instantiate(floatingDmgTextPrefab, transform.position + dmgTextOffset, Quaternion.identity);
+                floattext.GetComponent<TMPro.TextMeshPro>().text = poisonDamage.ToString();
+                floattext.GetComponent<TMPro.TextMeshPro>().color = new Color(.43f, .76f, .18f);
+                //Changes sprite color hue to a sickly green
+                spriterenderer.color = new Color(.58f, .74f, .48f, 1);
+                //Start poison particles
+                emission.enabled = true;
+                poisonTickTimer = poisonTickTargetTime;
+            }
+        }
+        
+        //Sprite effects showing poison
+    }
+
+    public void Frozen()
+    {
+
+    }
+
     public void OnDeath()
     {
-        if (currentHealth <= 0)
-        {
-            rb2d.velocity = new Vector2(0, 0);
-        }
+        rb2d.velocity = new Vector2(0, 0);   
     }
 }

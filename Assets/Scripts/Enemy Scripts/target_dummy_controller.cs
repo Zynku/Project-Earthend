@@ -76,8 +76,8 @@ public class target_dummy_controller : MonoBehaviour
             }
 
             //Gets max and min attack values from enemy script, returns random value between them, applies damage
-            damageDoneToMeMax = Mathf.FloorToInt(collision.gameObject.GetComponentInParent<Char_control>().attackdamageMax);
-            damageDoneToMeMin = Mathf.FloorToInt(collision.gameObject.GetComponentInParent<Char_control>().attackdamageMin);
+            damageDoneToMeMax = Mathf.FloorToInt(collision.gameObject.GetComponentInParent<Charcontrol>().attackdamageMax);
+            damageDoneToMeMin = Mathf.FloorToInt(collision.gameObject.GetComponentInParent<Charcontrol>().attackdamageMin);
             damageDoneToMe = (Random.Range(damageDoneToMeMax, damageDoneToMeMin));
             TakeDamage(damageDoneToMe);
 

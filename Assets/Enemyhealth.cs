@@ -75,11 +75,13 @@ public class Enemyhealth : MonoBehaviour
             }
 
             //Gets max and min attack values from enemy script, returns random value between them, applies damage
-            damageDoneToMeMax = Mathf.FloorToInt(collision.GetComponentInParent<Char_control>().attackdamageMax);
-            damageDoneToMeMin = Mathf.FloorToInt(collision.GetComponentInParent<Char_control>().attackdamageMin);
+            damageDoneToMeMax = Mathf.FloorToInt(collision.GetComponentInParent<Charcontrol>().attackdamageMax);
+            damageDoneToMeMin = Mathf.FloorToInt(collision.GetComponentInParent<Charcontrol>().attackdamageMin);
             damageDoneToMe = (Random.Range(damageDoneToMeMax, damageDoneToMeMin));
             TakeDamage(damageDoneToMe);
 
+            //Loads hit effect from resources folder
+            Instantiate(Resources.Load<GameObject>("Sprites/Hit effects/Hit effect 1"), new Vector3(transform.position.x, transform.position.y, -1.33f), transform.rotation);
             stunnedcheck = true;
         }
     }

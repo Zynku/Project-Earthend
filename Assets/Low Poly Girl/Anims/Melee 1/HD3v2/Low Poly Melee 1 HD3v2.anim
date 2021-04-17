@@ -279,7 +279,7 @@ AnimationClip:
         outWeight: {x: 0.33333334, y: 0.33333334, z: 0.33333334}
       - serializedVersion: 3
         time: 0.2857143
-        value: {x: 0.1164, y: 0.1875, z: 0}
+        value: {x: 0.1164, y: 0.145, z: 0}
         inSlope: {x: 0, y: 2.54598, z: 0}
         outSlope: {x: 0, y: 2.54598, z: 0}
         tangentMode: 0
@@ -869,7 +869,7 @@ AnimationClip:
         outWeight: 0.33333334
       - serializedVersion: 3
         time: 0.2857143
-        value: 0.1875
+        value: 0.145
         inSlope: 2.54598
         outSlope: 2.54598
         tangentMode: 136
@@ -1993,7 +1993,14 @@ AnimationClip:
     floatParameter: 0
     intParameter: 0
     messageOptions: 0
-  - time: 0.2857143
+  - time: 0.17857143
+    functionName: OnMeleeForceAdd
+    data: 
+    objectReferenceParameter: {fileID: 0}
+    floatParameter: 0
+    intParameter: 2
+    messageOptions: 0
+  - time: 0.25
     functionName: OnMelee1Start
     data: 
     objectReferenceParameter: {fileID: 0}

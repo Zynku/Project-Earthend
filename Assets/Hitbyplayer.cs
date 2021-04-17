@@ -88,6 +88,9 @@ public class Hitbyplayer : MonoBehaviour
             TakeDamage(damageDoneToMe);
 
             PlayPlayerHit();
+
+            //Loads hit effect from resources folder
+            Instantiate(Resources.Load<GameObject>("Sprites/Hit effects/Hit effect 1"), new Vector3(transform.position.x, transform.position.y, -1.33f), transform.rotation);
         }
     }
 
