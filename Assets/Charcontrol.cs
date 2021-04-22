@@ -63,7 +63,6 @@ public class Charcontrol : MonoBehaviour
     private float attackComboTimer;
     public int attackdamageMax;
     public int attackdamageMin;
-    BoxCollider2D meleeBoxCol;
     SpriteRenderer meleeSpriteR;
 
 
@@ -93,10 +92,7 @@ public class Charcontrol : MonoBehaviour
         boxColSize = boxCol.size;
         boxColOffset = boxCol.offset;
 
-        meleeSpriteR = MeleeObject.GetComponent<SpriteRenderer>();
-        meleeBoxCol = MeleeObject.GetComponent<BoxCollider2D>();
-
-        
+        meleeSpriteR = MeleeObject.GetComponent<SpriteRenderer>(); 
     }
 
     public enum State
@@ -150,8 +146,6 @@ public class Charcontrol : MonoBehaviour
         {
             ApplySlideDrag();
         }
-        
-        
 
 
         //Grounded Check
@@ -354,6 +348,8 @@ public class Charcontrol : MonoBehaviour
 
         if (Input.GetAxisRaw("Horizontal") == 1) { facingDir = 1; }
         if (Input.GetAxisRaw("Horizontal") == -1) { facingDir = -1; }
+
+
     }
 
     public void onAnimate()
@@ -390,6 +386,9 @@ public class Charcontrol : MonoBehaviour
         animator.SetBool("Crouch", false);
         animator.SetBool("Sliding", false);
         animator.SetBool("Jumping", false);
+
+        attackTimer = attackTimerTargetTime;
+        attackComboTimer = attackComboTargetTime;
     }
 
     public void Walking()
@@ -432,7 +431,7 @@ public class Charcontrol : MonoBehaviour
         attackComboTimer -= Time.deltaTime;
         if (attackComboTimer < 0) { attackComboTimer = 0; }
 
-        if (attackComboTimer > 0 && Input.GetAxisRaw("Horizontal") != 0)
+        if (attackComboTimer > 0)
         {
             animator.SetTrigger("Melee");
             attackComboTimer = attackComboTargetTime;
@@ -529,12 +528,12 @@ public class Charcontrol : MonoBehaviour
     public void OnMelee1Start()
     {
         //Used by Animation Events in Melee Animation. On Event 1 activates hitbox, on Event 2 deactivates hitbox
-        meleeBoxCol.enabled = true;
+        MeleeObject.SetActive(true);
     }
 
     public void OnMelee1End()
     {
-        meleeBoxCol.enabled = false;
+        MeleeObject.SetActive(false);
     }
 
     public void OnMeleeForceAdd(int forceX)

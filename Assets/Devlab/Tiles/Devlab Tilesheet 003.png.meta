@@ -71,6 +71,111 @@ TextureImporter:
   - first:
       213: -2307266374584694525
     second: Devlab Tilesheet 003_22
+  - first:
+      213: 4693684410214012977
+    second: Devlab Tilesheet 003_23
+  - first:
+      213: 3737411745549314135
+    second: Devlab Tilesheet 003_24
+  - first:
+      213: 3133258316082800343
+    second: Devlab Tilesheet 003_25
+  - first:
+      213: 7351306218109447648
+    second: Devlab Tilesheet 003_26
+  - first:
+      213: 2936595302130797610
+    second: Devlab Tilesheet 003_27
+  - first:
+      213: -5752861081875262245
+    second: Devlab Tilesheet 003_28
+  - first:
+      213: 1842285849177952913
+    second: Devlab Tilesheet 003_29
+  - first:
+      213: -4272499749290439781
+    second: Devlab Tilesheet 003_30
+  - first:
+      213: -2318571819864638827
+    second: Devlab Tilesheet 003_31
+  - first:
+      213: -195309888258985295
+    second: Devlab Tilesheet 003_32
+  - first:
+      213: 7690146226658476091
+    second: Devlab Tilesheet 003_33
+  - first:
+      213: -2708262905899171756
+    second: Devlab Tilesheet 003_34
+  - first:
+      213: 7498957662234194218
+    second: Devlab Tilesheet 003_35
+  - first:
+      213: 7133848211558172655
+    second: Devlab Tilesheet 003_36
+  - first:
+      213: -3256056424108868531
+    second: Devlab Back Dirt Mound 2_3
+  - first:
+      213: -627137489928662301
+    second: Devlab Back Dirt Mound 1_4
+  - first:
+      213: -3340437226474440694
+    second: Devlab Back Tree 1_3
+  - first:
+      213: 879038649098644419
+    second: Devlab Back Dirt Mound 2_4
+  - first:
+      213: -4790357771283013613
+    second: Devlab Back Dirt Mound 2_2
+  - first:
+      213: 5072414094255917829
+    second: Devlab Back Dirt Mound 2_1
+  - first:
+      213: -8966485752122340001
+    second: Devlab Back Dirt Mound 1_5
+  - first:
+      213: -5287479424808243050
+    second: Devlab Back Dirt Mound 1_6
+  - first:
+      213: -6910276545929025202
+    second: Devlab Back Tree 1_4
+  - first:
+      213: -9160028970075402386
+    second: Devlab Back Tree 1_1
+  - first:
+      213: -7451622703984829151
+    second: Devlab Back Tree 1_2
+  - first:
+      213: -836381238670600118
+    second: Devlab Back Dirt Mound 1_7
+  - first:
+      213: 1837304126968442537
+    second: Devlab Back Dirt Mound 1_1
+  - first:
+      213: -3620037369096659901
+    second: Devlab Back Dirt Mound 1_2
+  - first:
+      213: -6952541941015599994
+    second: Devlab Back Dirt Mound 1_3
+  - first:
+      213: -5498092708522915931
+    second: Devlab Back Tile 1
+  - first:
+      213: 5313692483090934467
+    second: Devlab Back Tile 2
+  - first:
+      213: -8209858920255543369
+    second: Devlab Back Tile 3
+  - first:
+      213: -4771108553390150535
+    second: Devlab Tilesheet 003_55
+  - first:
+      213: 7896262969838391534
+    second: Devlab Tilesheet 003_56
+  - first:
+      213: 1767077832478273727
+    second: Devlab Tilesheet 003_57
   externalObjects: {}
   serializedVersion: 11
   mipmaps:
@@ -200,11 +305,11 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 8
-        y: 128
+        y: 384
         width: 16
         height: 16
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -221,11 +326,11 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 32
-        y: 128
+        y: 384
         width: 16
         height: 16
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -242,11 +347,11 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 56
-        y: 128
+        y: 384
         width: 16
         height: 16
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -263,11 +368,11 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 80
-        y: 128
+        y: 384
         width: 16
         height: 16
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -284,11 +389,11 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 104
-        y: 128
+        y: 384
         width: 16
         height: 16
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -305,11 +410,11 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 128
-        y: 128
+        y: 384
         width: 16
         height: 16
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -326,11 +431,11 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 152
-        y: 128
-        width: 32
+        y: 384
+        width: 16
         height: 16
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -347,11 +452,11 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 192
-        y: 128
+        y: 384
         width: 16
         height: 16
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -367,12 +472,12 @@ TextureImporter:
       name: Devlab Tilesheet 003_8
       rect:
         serializedVersion: 2
-        x: 48
-        y: 96
-        width: 16
-        height: 16
+        x: 240
+        y: 352
+        width: 112
+        height: 48
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -388,12 +493,12 @@ TextureImporter:
       name: Devlab Tilesheet 003_9
       rect:
         serializedVersion: 2
-        x: 24
-        y: 72
-        width: 16
-        height: 16
+        x: 376
+        y: 384
+        width: 8
+        height: 8
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -409,12 +514,12 @@ TextureImporter:
       name: Devlab Tilesheet 003_10
       rect:
         serializedVersion: 2
-        x: 48
-        y: 72
-        width: 16
-        height: 16
+        x: 360
+        y: 368
+        width: 8
+        height: 8
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -430,12 +535,12 @@ TextureImporter:
       name: Devlab Tilesheet 003_11
       rect:
         serializedVersion: 2
-        x: 72
-        y: 72
-        width: 16
-        height: 16
+        x: 376
+        y: 368
+        width: 8
+        height: 8
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -451,12 +556,12 @@ TextureImporter:
       name: Devlab Tilesheet 003_12
       rect:
         serializedVersion: 2
-        x: 96
-        y: 72
+        x: 48
+        y: 352
         width: 16
         height: 16
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -472,12 +577,12 @@ TextureImporter:
       name: Devlab Tilesheet 003_13
       rect:
         serializedVersion: 2
-        x: 0
-        y: 48
+        x: 24
+        y: 328
         width: 16
         height: 16
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -493,12 +598,12 @@ TextureImporter:
       name: Devlab Tilesheet 003_14
       rect:
         serializedVersion: 2
-        x: 24
-        y: 48
+        x: 48
+        y: 328
         width: 16
         height: 16
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -514,12 +619,12 @@ TextureImporter:
       name: Devlab Tilesheet 003_15
       rect:
         serializedVersion: 2
-        x: 48
-        y: 48
+        x: 72
+        y: 328
         width: 16
         height: 16
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -535,12 +640,12 @@ TextureImporter:
       name: Devlab Tilesheet 003_16
       rect:
         serializedVersion: 2
-        x: 72
-        y: 48
+        x: 96
+        y: 328
         width: 16
         height: 16
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -556,12 +661,12 @@ TextureImporter:
       name: Devlab Tilesheet 003_17
       rect:
         serializedVersion: 2
-        x: 96
-        y: 48
+        x: 160
+        y: 328
         width: 16
         height: 16
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -577,12 +682,12 @@ TextureImporter:
       name: Devlab Tilesheet 003_18
       rect:
         serializedVersion: 2
-        x: 24
-        y: 24
+        x: 184
+        y: 328
         width: 16
         height: 16
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -598,12 +703,12 @@ TextureImporter:
       name: Devlab Tilesheet 003_19
       rect:
         serializedVersion: 2
-        x: 48
-        y: 24
+        x: 208
+        y: 328
         width: 16
         height: 16
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -619,12 +724,12 @@ TextureImporter:
       name: Devlab Tilesheet 003_20
       rect:
         serializedVersion: 2
-        x: 72
-        y: 24
-        width: 16
-        height: 16
+        x: 240
+        y: 288
+        width: 168
+        height: 48
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -640,12 +745,12 @@ TextureImporter:
       name: Devlab Tilesheet 003_21
       rect:
         serializedVersion: 2
-        x: 96
-        y: 24
+        x: 0
+        y: 304
         width: 16
         height: 16
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -661,12 +766,12 @@ TextureImporter:
       name: Devlab Tilesheet 003_22
       rect:
         serializedVersion: 2
-        x: 48
-        y: 0
+        x: 24
+        y: 304
         width: 16
         height: 16
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -674,6 +779,741 @@ TextureImporter:
       bones: []
       spriteID: 3090dace471faffd0800000000000000
       internalID: -2307266374584694525
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Devlab Tilesheet 003_23
+      rect:
+        serializedVersion: 2
+        x: 48
+        y: 304
+        width: 16
+        height: 16
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 13858965a11532140800000000000000
+      internalID: 4693684410214012977
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Devlab Tilesheet 003_24
+      rect:
+        serializedVersion: 2
+        x: 72
+        y: 304
+        width: 16
+        height: 16
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 758e6d05e24fdd330800000000000000
+      internalID: 3737411745549314135
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Devlab Tilesheet 003_25
+      rect:
+        serializedVersion: 2
+        x: 96
+        y: 304
+        width: 16
+        height: 16
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 7d667a776d19b7b20800000000000000
+      internalID: 3133258316082800343
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Devlab Tilesheet 003_26
+      rect:
+        serializedVersion: 2
+        x: 160
+        y: 304
+        width: 16
+        height: 16
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 0eda8857e06150660800000000000000
+      internalID: 7351306218109447648
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Devlab Tilesheet 003_27
+      rect:
+        serializedVersion: 2
+        x: 208
+        y: 304
+        width: 16
+        height: 16
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: a2c46985ed1e0c820800000000000000
+      internalID: 2936595302130797610
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Devlab Tilesheet 003_28
+      rect:
+        serializedVersion: 2
+        x: 24
+        y: 280
+        width: 16
+        height: 16
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: bd4d7a4735bb920b0800000000000000
+      internalID: -5752861081875262245
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Devlab Tilesheet 003_29
+      rect:
+        serializedVersion: 2
+        x: 48
+        y: 280
+        width: 16
+        height: 16
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 1921bfe083d119910800000000000000
+      internalID: 1842285849177952913
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Devlab Tilesheet 003_30
+      rect:
+        serializedVersion: 2
+        x: 72
+        y: 280
+        width: 16
+        height: 16
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: b9b099c5d1805b4c0800000000000000
+      internalID: -4272499749290439781
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Devlab Tilesheet 003_31
+      rect:
+        serializedVersion: 2
+        x: 96
+        y: 280
+        width: 16
+        height: 16
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 59abcb2d637c2dfd0800000000000000
+      internalID: -2318571819864638827
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Devlab Tilesheet 003_32
+      rect:
+        serializedVersion: 2
+        x: 160
+        y: 280
+        width: 16
+        height: 16
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 1b2b33101be1a4df0800000000000000
+      internalID: -195309888258985295
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Devlab Tilesheet 003_33
+      rect:
+        serializedVersion: 2
+        x: 184
+        y: 280
+        width: 16
+        height: 16
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: b300acebf33e8ba60800000000000000
+      internalID: 7690146226658476091
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Devlab Tilesheet 003_34
+      rect:
+        serializedVersion: 2
+        x: 208
+        y: 280
+        width: 16
+        height: 16
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 450438f6c315a6ad0800000000000000
+      internalID: -2708262905899171756
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Devlab Tilesheet 003_35
+      rect:
+        serializedVersion: 2
+        x: 48
+        y: 256
+        width: 16
+        height: 16
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: a21b92b3346a11860800000000000000
+      internalID: 7498957662234194218
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Devlab Tilesheet 003_36
+      rect:
+        serializedVersion: 2
+        x: 360
+        y: 384
+        width: 8
+        height: 8
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: fe70b73d625800360800000000000000
+      internalID: 7133848211558172655
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Devlab Back Dirt Mound 2_3
+      rect:
+        serializedVersion: 2
+        x: 241
+        y: 244
+        width: 16
+        height: 16
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: d4cbc500fe920d2d0800000000000000
+      internalID: -3256056424108868531
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Devlab Back Dirt Mound 1_4
+      rect:
+        serializedVersion: 2
+        x: 278
+        y: 244
+        width: 16
+        height: 16
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 3e2d87f86c5fb47f0800000000000000
+      internalID: -627137489928662301
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Devlab Back Tree 1_3
+      rect:
+        serializedVersion: 2
+        x: 360
+        y: 245
+        width: 16
+        height: 16
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: a08ff797a0264a1d0800000000000000
+      internalID: -3340437226474440694
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Devlab Back Dirt Mound 2_4
+      rect:
+        serializedVersion: 2
+        x: 257
+        y: 244
+        width: 16
+        height: 16
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 3cb2d577ef8f23c00800000000000000
+      internalID: 879038649098644419
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Devlab Back Dirt Mound 2_2
+      rect:
+        serializedVersion: 2
+        x: 257
+        y: 260
+        width: 16
+        height: 16
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 310e4a7ccfa358db0800000000000000
+      internalID: -4790357771283013613
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Devlab Back Dirt Mound 2_1
+      rect:
+        serializedVersion: 2
+        x: 241
+        y: 260
+        width: 16
+        height: 16
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 50b0fc17eb5d46640800000000000000
+      internalID: 5072414094255917829
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Devlab Back Dirt Mound 1_5
+      rect:
+        serializedVersion: 2
+        x: 294
+        y: 244
+        width: 16
+        height: 16
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: f5d852507b4a09380800000000000000
+      internalID: -8966485752122340001
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Devlab Back Dirt Mound 1_6
+      rect:
+        serializedVersion: 2
+        x: 310
+        y: 244
+        width: 16
+        height: 16
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 6903e173a791f96b0800000000000000
+      internalID: -5287479424808243050
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Devlab Back Tree 1_4
+      rect:
+        serializedVersion: 2
+        x: 376
+        y: 245
+        width: 16
+        height: 16
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: e49ef2cf714c910a0800000000000000
+      internalID: -6910276545929025202
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Devlab Back Tree 1_1
+      rect:
+        serializedVersion: 2
+        x: 360
+        y: 261
+        width: 16
+        height: 16
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: e6f4e520f2a01e080800000000000000
+      internalID: -9160028970075402386
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Devlab Back Tree 1_2
+      rect:
+        serializedVersion: 2
+        x: 376
+        y: 261
+        width: 16
+        height: 16
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 12d9fb091a4869890800000000000000
+      internalID: -7451622703984829151
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Devlab Back Dirt Mound 1_7
+      rect:
+        serializedVersion: 2
+        x: 326
+        y: 244
+        width: 16
+        height: 16
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: a48dc3cd1b39464f0800000000000000
+      internalID: -836381238670600118
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Devlab Back Dirt Mound 1_1
+      rect:
+        serializedVersion: 2
+        x: 278
+        y: 260
+        width: 16
+        height: 16
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 9ae20587e5a6f7910800000000000000
+      internalID: 1837304126968442537
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Devlab Back Dirt Mound 1_2
+      rect:
+        serializedVersion: 2
+        x: 294
+        y: 260
+        width: 16
+        height: 16
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 34c9a5d413b03cdc0800000000000000
+      internalID: -3620037369096659901
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Devlab Back Dirt Mound 1_3
+      rect:
+        serializedVersion: 2
+        x: 310
+        y: 260
+        width: 16
+        height: 16
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 684a2c7d0fb938f90800000000000000
+      internalID: -6952541941015599994
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Devlab Back Tile 1
+      rect:
+        serializedVersion: 2
+        x: 392
+        y: 376
+        width: 16
+        height: 16
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 5a7835ecfc9d2b3b0800000000000000
+      internalID: -5498092708522915931
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Devlab Back Tile 2
+      rect:
+        serializedVersion: 2
+        x: 415
+        y: 376
+        width: 16
+        height: 16
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 3ca6c4409270eb940800000000000000
+      internalID: 5313692483090934467
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Devlab Back Tile 3
+      rect:
+        serializedVersion: 2
+        x: 440
+        y: 376
+        width: 16
+        height: 16
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 7b7a81a4fc8b01e80800000000000000
+      internalID: -8209858920255543369
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Devlab Tilesheet 003_55
+      rect:
+        serializedVersion: 2
+        x: 168
+        y: 384
+        width: 16
+        height: 16
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 97c2a529c0e99cdb0800000000000000
+      internalID: -4771108553390150535
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Devlab Tilesheet 003_56
+      rect:
+        serializedVersion: 2
+        x: 392
+        y: 352
+        width: 16
+        height: 16
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: ee0d94ab559259d60800000000000000
+      internalID: 7896262969838391534
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Devlab Tilesheet 003_57
+      rect:
+        serializedVersion: 2
+        x: 416
+        y: 352
+        width: 16
+        height: 16
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: fb0b55f1debe58810800000000000000
+      internalID: 1767077832478273727
       vertices: []
       indices: 
       edges: []

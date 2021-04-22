@@ -5,18 +5,20 @@ using UnityEngine;
 public class TransitionOneBehaviour : StateMachineBehaviour
 {
     // OnStateEnter is called when a transition starts and the state machine starts to evaluate this state
-    //override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
-    //{
-    //    
-    //}
+    override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
+    {
+        animator.SetBool("Melee 1", false);
+    }
 
     // OnStateUpdate is called on each Update frame between OnStateEnter and OnStateExit callbacks
     override public void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
         if (Input.GetKeyDown(KeyCode.D))
         {
-            animator.SetTrigger("Melee 2");
+            animator.SetBool("Melee 2", true);
         }
+
+        Charcontrol.Instance.currentState = Charcontrol.State.Attacking;
     }
 
     // OnStateExit is called when a transition ends and the state machine finishes evaluating this state
