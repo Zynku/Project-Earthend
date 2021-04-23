@@ -21,6 +21,7 @@ public class Charcontrol : MonoBehaviour
     private float inputY;
     public static GameObject closestNPC;
     [HideInInspector] public bool playerDead;
+    public bool checkForSlopes;
 
     [Header("Movement Variables")]
     public float currentDrag;
@@ -148,17 +149,8 @@ public class Charcontrol : MonoBehaviour
             ApplySlideDrag();
         }
 
-
-        //Grounded Check
-        if (Physics2D.OverlapCircle(new Vector2(transform.position.x, transform.position.y + ycheckOffset), checkdistances, 1 << LayerMask.NameToLayer("Ground")))
-        {
-            isGrounded = true;
-        }
-        else
-        {
-            isGrounded = false;
-        }
-
+        checkforGrounded();
+        //checkforSlope();
         onAnimate();
         FindClosestNPC();
 
@@ -216,7 +208,7 @@ public class Charcontrol : MonoBehaviour
             case State.Running:
                 Running();
                 //Transition back to Idle
-                if (Input.GetAxisRaw("Horizontal") == 0 && Mathf.Abs(Mathf.Ceil(rb2d.velocity.x)) == 0)
+                if (Input.GetAxisRaw("Horizontal") == 0 /*&& Mathf.Abs(Mathf.Ceil(rb2d.velocity.x)) == 0*/)
                 {
                     currentState = State.Idle;
                 }
@@ -354,6 +346,35 @@ public class Charcontrol : MonoBehaviour
 
     }
 
+    void checkforGrounded()
+    {
+        //Grounded Check
+        if (Physics2D.OverlapCircle(new Vector2(transform.position.x, transform.position.y + ycheckOffset), checkdistances, 1 << LayerMask.NameToLayer("Ground")))
+        {
+            isGrounded = true;
+        }
+        else
+        {
+            isGrounded = false;
+        }
+    }
+
+    void checkforSlope()
+    {
+        //THIS SHIT IS FUCKING BROKE. ENABLING ABSOLUTELY DECIMATES THE FIND CLOSEST NPC METHOD AND THE CHECK FOR GROUNDED METHOD. WHY? NO IDEA. UN COMMENT IN
+        //FIXED UPDATE AT YOUR OWN FUCKING RISK
+        //Checks for SLOPES
+        Collider2D[] result = new Collider2D[1]; // requires a size, it will return only up to a max of the size available.
+        ContactFilter2D filter2D = new ContactFilter2D();
+        filter2D.layerMask = LayerMask.NameToLayer("Ground_slopes");
+        Physics2D.OverlapCircle(new Vector2(transform.position.x, transform.position.y + ycheckOffset), checkdistances, filter2D, new Collider2D[1]);
+        Debug.Log(result[0].gameObject);
+        if (result[0].gameObject.CompareTag("Ground_slopes"))
+        {
+            Debug.Log("on a slope");
+        }
+    }
+
     public void onAnimate()
     {
         if (isGrounded)
@@ -404,6 +425,7 @@ public class Charcontrol : MonoBehaviour
         }
 
         //animator.SetBool("Run", true);
+        animator.SetBool("Run", false);
 
     }
 

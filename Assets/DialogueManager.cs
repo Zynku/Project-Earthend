@@ -135,12 +135,12 @@ public class DialogueManager : MonoBehaviour
             {
                 dialogueText.text = "";
                 dialogueText.text = line.ToString();
-                yield return new WaitForSeconds(0.2f);
+                yield return new WaitForSecondsRealtime(0.2f);
                 isTyping = false;
                 yield break;
             }
 
-            yield return new WaitForSeconds(1f / lettersPerSecond);
+            yield return new WaitForSecondsRealtime(1f / lettersPerSecond);
         }
         isTyping = false;
     }

@@ -3,12 +3,14 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
+using UnityEngine.EventSystems;
 using UnityEngine.Audio;
 
 public class Pause_menu_manager : MonoBehaviour
 {
     private GameObject Player;
     private Animator PlayerAnim;
+    private EventSystem eventsystem;
     
 
     public static bool isGamePaused = false;
@@ -24,6 +26,7 @@ public class Pause_menu_manager : MonoBehaviour
 
     void Awake()
     {
+        Debug.Log("I am awake");
         masterMixer.SetFloat("MasterVolume", global_script.masterVolfloat);
         masterMixer.SetFloat("SoundVolume", global_script.soundVolfloat);
         masterMixer.SetFloat("MusicVolume", global_script.musicVolfloat);
@@ -31,12 +34,16 @@ public class Pause_menu_manager : MonoBehaviour
         masterVol.value = global_script.masterVolfloat;
         soundVol.value = global_script.soundVolfloat;
         musicVol.value = global_script.musicVolfloat;
+
+        eventsystem = FindObjectOfType<EventSystem>();
     }
 
     private void Start()
     {
+        Debug.Log("I have started");
         Player = GameObject.FindGameObjectWithTag("Player");
         PlayerAnim = Player.GetComponent<Animator>();
+        PauseMenuUi.SetActive(false);
     }
 
     // Update is called once per frame
@@ -101,7 +108,8 @@ public class Pause_menu_manager : MonoBehaviour
         Application.Quit();
     }
 
-    public void SetMasterVolume(float volume)
+    //For some reason these 3 methods absolutely destroy this script. Uncomment at your own risk
+    /*public void SetMasterVolume(float volume)
     {
         masterMixer.SetFloat("MasterVolume", volume);
     }
@@ -114,5 +122,5 @@ public class Pause_menu_manager : MonoBehaviour
     public void SetSoundVolume(float volume)
     {
         masterMixer.SetFloat("SoundVolume", volume);
-    }
+    }*/
 }

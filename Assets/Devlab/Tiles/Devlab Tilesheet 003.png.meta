@@ -176,6 +176,18 @@ TextureImporter:
   - first:
       213: 1767077832478273727
     second: Devlab Tilesheet 003_57
+  - first:
+      213: -3513931749984003993
+    second: Devlab Tilesheet 003_Stairs
+  - first:
+      213: -7950784232809081871
+    second: Devlab Tilesheet 003_Stairs Reverse
+  - first:
+      213: -2506395928980384287
+    second: Devlab Tilesheet 003_60
+  - first:
+      213: -7344887252275576192
+    second: Devlab Tilesheet 003_Bigass Screen
   externalObjects: {}
   serializedVersion: 11
   mipmaps:
@@ -1514,6 +1526,90 @@ TextureImporter:
       bones: []
       spriteID: fb0b55f1debe58810800000000000000
       internalID: 1767077832478273727
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Devlab Tilesheet 003_Stairs
+      rect:
+        serializedVersion: 2
+        x: 184
+        y: 256
+        width: 16
+        height: 16
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 7689c35e0b10c3fc0800000000000000
+      internalID: -3513931749984003993
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Devlab Tilesheet 003_Stairs Reverse
+      rect:
+        serializedVersion: 2
+        x: 208
+        y: 256
+        width: 16
+        height: 16
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 1f353a58dd329a190800000000000000
+      internalID: -7950784232809081871
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Devlab Tilesheet 003_60
+      rect:
+        serializedVersion: 2
+        x: 208
+        y: 232
+        width: 16
+        height: 16
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 1e593aa9e2e773dd0800000000000000
+      internalID: -2506395928980384287
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Devlab Tilesheet 003_Bigass Screen
+      rect:
+        serializedVersion: 2
+        x: 5
+        y: 77
+        width: 153
+        height: 123
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 082c1dc75f7b11a90800000000000000
+      internalID: -7344887252275576192
       vertices: []
       indices: 
       edges: []

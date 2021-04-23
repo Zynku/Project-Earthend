@@ -19,6 +19,7 @@ TagManager:
   - teleporter
   - NPC
   - gas_cloud
+  - Ground_slopes
   layers:
   - Default
   - TransparentFX

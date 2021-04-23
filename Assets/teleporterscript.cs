@@ -43,7 +43,7 @@ public class teleporterscript : MonoBehaviour
     {
         if (collision.CompareTag("Player"))
         {
-            if (Input.GetAxisRaw("Interact") > 0 && teleportcooldown == 0)
+            if (Input.GetButtonDown("Interact") && teleportcooldown == 0)
             {
                 collision.transform.position = teleportTo.transform.position + new Vector3(0, 0.5f, 0);
                 collision.GetComponent<Rigidbody2D>().velocity = new Vector2 (0,0);
