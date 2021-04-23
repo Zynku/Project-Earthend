@@ -33,10 +33,22 @@ AnimatorController:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: Default Lab Guy 1_0
+  m_Name: Default Lab Guy Sprite
   serializedVersion: 5
   m_AnimatorParameters:
   - m_Name: Talking
+    m_Type: 4
+    m_DefaultFloat: 0
+    m_DefaultInt: 0
+    m_DefaultBool: 0
+    m_Controller: {fileID: 0}
+  - m_Name: Player In Range
+    m_Type: 4
+    m_DefaultFloat: 0
+    m_DefaultInt: 0
+    m_DefaultBool: 0
+    m_Controller: {fileID: 0}
+  - m_Name: Been Talked To
     m_Type: 4
     m_DefaultFloat: 0
     m_DefaultInt: 0

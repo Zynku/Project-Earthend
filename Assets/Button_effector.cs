@@ -8,13 +8,14 @@ public class Button_effector : MonoBehaviour
     AudioSource audiosource;
     public AudioClip Press;
     public AudioClip Spawn;
-    public float coolDownTimer;
+    private float coolDownTimer;
     public float coolDownTargetTime = 5f;
     public GameObject Spawnable;
     private GameObject Spawnableclone;
     public float Spawnamount;
     public float forceX;
     public float forceY;
+    public float forceRotation;
     
     // Start is called before the first frame update
     void Start()
@@ -53,7 +54,8 @@ public class Button_effector : MonoBehaviour
                 for (int i = 0; i < Spawnamount; i++)
                 {
                     Spawnableclone = Instantiate(Spawnable, new Vector2(transform.position.x, transform.position.y + 0.2f), Quaternion.identity);
-                    Spawnableclone.GetComponent<Rigidbody2D>().velocity = new Vector2(forceX * Random.Range(0.0f, 0.5f), (forceY * Random.Range(0.0f, 0.5f) + 0.2f));
+                    Spawnableclone.GetComponent<Rigidbody2D>().velocity = new Vector2(forceX/2 + Random.Range(-0.5f, 0.5f), (forceY/2 + Random.Range(-0.5f, 0.5f) + 0.2f));
+                    Spawnableclone.GetComponent<Rigidbody2D>().AddTorque(Random.Range(forceRotation, -forceRotation));
                 }
             }
         }

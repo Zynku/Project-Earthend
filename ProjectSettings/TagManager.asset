@@ -17,6 +17,8 @@ TagManager:
   - player_respawn
   - dropped_weapon
   - teleporter
+  - NPC
+  - gas_cloud
   layers:
   - Default
   - TransparentFX

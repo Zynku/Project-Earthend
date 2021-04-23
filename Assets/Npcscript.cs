@@ -4,13 +4,22 @@ using UnityEngine;
 
 public class Npcscript : MonoBehaviour
 {
+    [Header("Set these in Inspector")]
     public bool facePlayer;
-    [HideInInspector] public bool playerInRange;
-    [SerializeField] Dialogue dialogue;
-
-    [Range(0f, 1f)]
-    public float talkingVolume = 1;
+    public bool hasSpecialDialogue;
+    public int talkedToTimesForSpecialDialogue;
+    [Range(0f, 1f)] public float talkingVolume = 1;
     public AudioClip talkingClip;
+
+    public bool beenTalkedTo = false;   
+    private int talkedToTimes = 0;
+    public bool inConversation = false;
+    public bool playerInRange;                                  //Is controlled by Npccollisionhandler script on child
+    [SerializeField] Dialogue dialogue;                         //Dialogue is a function of the dialogue class. Check Systems folder in Assets
+    [SerializeField] Dialogue aboveHeadDialogue;
+    [SerializeField] Dialogue specialDialogue;
+
+    
 
     AudioSource audiosource;
     GameObject Player;
@@ -32,19 +41,34 @@ public class Npcscript : MonoBehaviour
     {
         if (facePlayer) { alwaysFacePlayer(); }
 
+        //If player is in range
+        if (playerInRange && !inConversation)
+        {
+            animator.SetBool("Player In Range", true);
+            DialogueManager.Instance.ShowAboveHeadDialogue(aboveHeadDialogue);
+        }
+
+        //Out of range and this is not the closest NPC
+        if (!playerInRange && Charcontrol.closestNPC == this.gameObject)
+        {
+            DialogueManager.Instance.HideDialogue();
+        }
+
         //Initiates dialogue
-        if (playerInRange && Input.GetAxisRaw("Interact") > 0)
+        if (playerInRange && Input.GetButtonDown("Interact"))
         {
             if (canTalk)
             {
-                DialogueManager.Instance.ShowDialogue(dialogue);
-                StartCoroutine(TalkCoolDown());
-                animator.SetBool("Talking", true);
-
-                audiosource.loop = true;
-                audiosource.volume = talkingVolume;
-                audiosource.clip = talkingClip;
-                audiosource.Play();
+                //Sends special dialogue to dialogue manager if the correct amount of times has been reached, other than that sends regular dialogue
+                if (hasSpecialDialogue && (talkedToTimes == talkedToTimesForSpecialDialogue))
+                {
+                    StartSpecialDialogue();
+                }
+                else
+                {
+                    StartDialogue();
+                }
+                
             }
         }
 
@@ -56,12 +80,22 @@ public class Npcscript : MonoBehaviour
         }
 
         //Stops talking if player isnt in range
-        if (!playerInRange)
+        if (!playerInRange && inConversation)
         {
             DialogueManager.Instance.HideDialogue();
             DialogueManager.Instance.currentLine = 0;
+            inConversation = false;
             animator.SetBool("Talking", false);
+            animator.SetBool("Player In Range", false);
             audiosource.Stop();
+            ++talkedToTimes;
+        }
+
+        //If the end of the conversation is reached
+        if (DialogueManager.Instance.endOfConversation)
+        {
+            inConversation = false;
+            ++talkedToTimes;
         }
     }
 
@@ -87,5 +121,39 @@ public class Npcscript : MonoBehaviour
             //Player to the left
             transform.localScale = new Vector2(-1, 1);
         }
+    }
+
+    public void StartDialogue()
+    {
+        DialogueManager.Instance.ShowDialogue(dialogue);
+        //DialogueManager.Instance.ShowDialogueCharacter(dialogueanimator);
+        StartCoroutine(TalkCoolDown());
+        beenTalkedTo = true;
+        inConversation = true;
+
+        animator.SetBool("Talking", true);
+        animator.SetBool("Been Talked To", true);
+
+        audiosource.loop = true;
+        audiosource.volume = talkingVolume;
+        audiosource.clip = talkingClip;
+        audiosource.Play();
+    }
+
+    public void StartSpecialDialogue()
+    {
+        DialogueManager.Instance.ShowDialogue(specialDialogue);
+        //DialogueManager.Instance.ShowDialogueCharacter(dialogueanimator);
+        StartCoroutine(TalkCoolDown());
+        beenTalkedTo = true;
+        inConversation = true;
+
+        animator.SetBool("Talking", true);
+        animator.SetBool("Been Talked To", true);
+
+        audiosource.loop = true;
+        audiosource.volume = talkingVolume;
+        audiosource.clip = talkingClip;
+        audiosource.Play();
     }
 }

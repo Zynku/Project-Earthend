@@ -8,13 +8,21 @@ public class DialogueManager : MonoBehaviour
 {
     public static DialogueManager Instance;
 
+    public GameObject aboveheaddialogueBox;
+    public TextMeshPro aboveheaddialogue;
+
     public GameObject dialogueBox;
+    //public GameObject dialogueCharacter;           //Sprite / Animation of character doing the talking
+    Animator dialogueCharAnim;                     //Animator component of the dialogue character
     public TextMeshProUGUI dialogueText;           //Dialogue that is actually shown on screen at any given point
     public int lettersPerSecond;
+    private Vector2 NPCPos;
+    public Vector2 AboveHeadDialogueOffset;
     [HideInInspector] public int currentLine = 0;
     public Dialogue dialogue;
     public Dialogue line;
     public bool isTyping = false;
+    public bool endOfConversation = false;
 
     private void Awake()
     {
@@ -32,14 +40,46 @@ public class DialogueManager : MonoBehaviour
     void Start()
     {
         dialogueBox.SetActive(false);
+
+        aboveheaddialogueBox.SetActive(false);
+        aboveheaddialogue.enabled = false;
+
+        //Makes sure text renders infront everything else
+        aboveheaddialogue.GetComponent<MeshRenderer>().sortingOrder = 69;
+
+        //dialogueCharAnim = dialogueCharacter.GetComponent<Animator>();
     }
 
+
+    public void Update()
+    {
+        //Finds closest NPC position from Charcontrol.
+        NPCPos = new Vector2(Charcontrol.closestNPC.transform.position.x, Charcontrol.closestNPC.transform.position.y);
+    }
+
+    public void LateUpdate()
+    {
+        endOfConversation = false;
+    }
+
+    public void ShowAboveHeadDialogue(Dialogue dialogue)
+    {
+        aboveheaddialogue.enabled = true;
+        aboveheaddialogueBox.SetActive(true);
+
+        aboveheaddialogue.transform.position = NPCPos + AboveHeadDialogueOffset;
+        aboveheaddialogueBox.transform.position = NPCPos + AboveHeadDialogueOffset;
+
+        aboveheaddialogue.text = dialogue.Lines[0].ToString();
+    }
 
     //Takes dialogue and passes it to coroutine, also sets text box to be active
     public void ShowDialogue(Dialogue dialogue)
     {
         this.dialogue = dialogue;
         dialogueBox.SetActive(true);
+        aboveheaddialogueBox.SetActive(false);
+        aboveheaddialogue.enabled = false;
 
         if (!isTyping)
         {
@@ -47,28 +87,33 @@ public class DialogueManager : MonoBehaviour
             {
                 currentLine = 0;
                 HideDialogue();
+                endOfConversation = true;
             }
             else
             {
                 StartCoroutine(TypeDialogue(dialogue.Lines[currentLine]));
+                endOfConversation = false;
             }
         }
     }
 
-    //Shows next line and shit
-    public void Update()
+    public void ShowDialogueCharacterAnim(Animation animation)
     {
         
     }
 
+
     public void HideDialogue()
     {
         dialogueBox.SetActive(false);
+        aboveheaddialogueBox.SetActive(false);
+        aboveheaddialogue.enabled = false;
     }
 
     //Takes dialogue and shows it letter by letter
     public IEnumerator TypeDialogue(string line)
     {
+        //Code to show line instantly, for debugging purposes
         /*isTyping = true;
         dialogueText.text = line;
         ++currentLine;
@@ -78,22 +123,23 @@ public class DialogueManager : MonoBehaviour
         isTyping = true;
         dialogueText.text = "";
         ++currentLine;
-        yield return new WaitForSeconds(0.2f);
+        yield return new WaitForSeconds(0.1f);
 
-        
 
         foreach (var letter in line.ToCharArray())
         {
             dialogueText.text += letter;
 
-            /*if (isTyping && Input.GetAxisRaw("Interact") != 0)
+            //Allows player to interrupt if they press interact key during typing. Prints whole line and stops letter by letter typing
+            if (isTyping && Input.GetButtonDown("Interact"))
             {
                 dialogueText.text = "";
                 dialogueText.text = line.ToString();
-                yield return new WaitForSeconds(0.4f);
+                yield return new WaitForSeconds(0.2f);
                 isTyping = false;
                 yield break;
-            }*/
+            }
+
             yield return new WaitForSeconds(1f / lettersPerSecond);
         }
         isTyping = false;

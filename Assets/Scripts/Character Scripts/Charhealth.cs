@@ -27,6 +27,8 @@ public class Charhealth : MonoBehaviour
     private float poisonTimer;
     public float poisonTickTargetTime;
     private float poisonTickTimer;
+    public bool frozen;
+    public bool onFire;
 
     // Start is called before the first frame update
     void Start()
@@ -104,6 +106,22 @@ public class Charhealth : MonoBehaviour
             damageDoneToMe = collision.gameObject.GetComponent<damageObject>().damage;
             TakeDamage(damageDoneToMe);
         }
+
+        if (collision.gameObject.CompareTag("gas_cloud"))
+        {
+            Gascloudscript gascloudscript = collision.GetComponent<Gascloudscript>();
+            switch (collision.GetComponent<Gascloudscript>().CloudType)
+            {
+                case Gascloudscript.cloudType.Poison:
+                    poisonTargetTime = gascloudscript.poisonTime;
+                    poisonDamage = gascloudscript.poisonDamage;
+                    poisoned = true;
+                    break;
+
+                case Gascloudscript.cloudType.Freeze:
+                    break;
+            }
+        }
     }
     //Subtracts damage calculated above from health, healthbar reacts to show this. Only executes when damage cooldown timer is 0 or less
     //Instantiates dmg text, gives it dmg value to display
@@ -164,12 +182,16 @@ public class Charhealth : MonoBehaviour
                 //Takes poison damage from health
                 currentHealth -= poisonDamage;
                 healthbar.SetHealth(currentHealth);
+                poisonTickTimer = poisonTickTargetTime;
+
                 //Instantiate damage numbers text on every tick
                 var floattext = Instantiate(floatingDmgTextPrefab, transform.position + dmgTextOffset, Quaternion.identity);
                 floattext.GetComponent<TMPro.TextMeshPro>().text = poisonDamage.ToString();
                 floattext.GetComponent<TMPro.TextMeshPro>().color = new Color(.43f, .76f, .18f);
+
                 //Changes sprite color hue to a sickly green
                 spriterenderer.color = new Color(.58f, .74f, .48f, 1);
+
                 //Start poison particles
                 emission.enabled = true;
                 poisonTickTimer = poisonTickTargetTime;
@@ -180,6 +202,11 @@ public class Charhealth : MonoBehaviour
     }
 
     public void Frozen()
+    {
+
+    }
+
+    public void OnFire()
     {
 
     }
