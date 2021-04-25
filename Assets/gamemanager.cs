@@ -5,6 +5,14 @@ using UnityEngine.SceneManagement;
 
 public class gamemanager : MonoBehaviour
 {
+    [Header("Time")]
+    [Range(0.001f, 1f)]
+    public float timeScale = 1;
+
+    [Header("Frame Rate")]
+    [Range(1f, 60f)]
+    public int frameRate = -1;
+
     public GameObject Player;
     public GameObject playerRespawnPoint;
     public GameObject[] Enemies;
@@ -18,7 +26,12 @@ public class gamemanager : MonoBehaviour
         playerRespawnPoint = GameObject.FindWithTag("player_respawn");
     }
 
-    // Update is called once per frame
+    private void Update()
+    {
+        Time.timeScale = timeScale;
+        Application.targetFrameRate = frameRate;
+    }
+
     void FixedUpdate()
     {
         Enemies = GameObject.FindGameObjectsWithTag("enemy");

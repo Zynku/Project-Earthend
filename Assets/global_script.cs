@@ -9,6 +9,7 @@ public class global_script : MonoBehaviour
 {
     public static global_script Instance;
 
+
     [Header("Audio")]
     public AudioMixer masterMixer;
     public static float masterVolfloat;
@@ -35,7 +36,10 @@ public class global_script : MonoBehaviour
         GetMasterVolume();
         GetMusicVolume();
         GetSoundVolume();
+
+        
     }
+
 
     public float GetMasterVolume()
     {

@@ -39,13 +39,13 @@ public class Charcontrol : MonoBehaviour
     public Vector2 boxColCrouchOffset;
 
     [Header("Slide Variables")]
-    private bool slid = false;
+    [HideInInspector] public bool slid = false;
     public float slideForce;
     public float slideDrag;
 
     [Header("Jump Variables")]
     public static bool isGrounded;
-    private bool jumped;
+    [HideInInspector] public bool jumped;
     public float fallThreshold;
     [SerializeField] private float jumpForce = 4f;
     [SerializeField] private float airLinearDrag = 2.5f;
@@ -62,11 +62,29 @@ public class Charcontrol : MonoBehaviour
     public float attackTimerTargetTime;
     private float attackTimer;
     public float attackComboTargetTime;
-    private float attackComboTimer;
+    [HideInInspector] public float attackComboTimer;
     public int attackdamageMax;
     public int attackdamageMin;
     SpriteRenderer meleeSpriteR;
-
+    public enum State
+    {
+        Idle,
+        Walking,
+        Running,
+        Jumping,
+        AirJumping,
+        Falling,
+        Landing,
+        Crouching,
+        CrouchWalking,
+        Attacking,
+        Air_Attacking,
+        Sliding,
+        Ledgegrabbing,
+        Ledgejumping,
+        Stunned,
+        Dead
+    }
 
     void Awake()
     {
@@ -97,27 +115,6 @@ public class Charcontrol : MonoBehaviour
         meleeSpriteR = MeleeObject.GetComponent<SpriteRenderer>(); 
     }
 
-    public enum State
-    {
-        Idle,
-        Walking,
-        Running,
-        Jumping,
-        AirJumping,
-        Falling,
-        Landing,
-        Crouching,
-        CrouchWalking,
-        Attacking,
-        Air_Attacking,
-        Sliding,
-        Ledgegrabbing,
-        Ledgejumping,
-        Stunned,
-        Dead
-    }
-
-    
     // Update is called once per frame
     void FixedUpdate()
     {
@@ -149,9 +146,8 @@ public class Charcontrol : MonoBehaviour
             ApplySlideDrag();
         }
 
-        checkforGrounded();
+
         //checkforSlope();
-        onAnimate();
         FindClosestNPC();
 
         //-------------------------------------------------------------------------------------------------------------------------------------
@@ -213,10 +209,7 @@ public class Charcontrol : MonoBehaviour
                     currentState = State.Idle;
                 }
                 //Transition back to Walk
-                /*if (Mathf.Abs(rb2d.velocity.x) < runThreshold)
-                {
-                    currentState = State.Walking;
-                }*/
+                //Nothing haha fuck you
                 //Transition to Sliding
                 if (Input.GetAxisRaw("Vertical") < 0)
                 {
@@ -236,19 +229,18 @@ public class Charcontrol : MonoBehaviour
 
             case State.Jumping:
                 Jump();
-
                 //Transition to Falling
                 if (rb2d.velocity.y < fallThreshold)
                 {
                     currentState = State.Falling;
                 }
-
                 //Transition back to Idle
-                if (isGrounded)
+                if (isGrounded && yVel < 0)
                 {
                     currentState = State.Idle;
                 }
                 break;
+
             case State.AirJumping:
                 AirJump();
                 //Transition to Falling
@@ -260,13 +252,11 @@ public class Charcontrol : MonoBehaviour
 
             case State.Falling:
                 Falling();
-
                 //Transition back to Idle
                 if (isGrounded)
                 {
                     currentState = State.Idle;
                 }
-
                 //Transition to AirJumping
                 if (Input.GetAxisRaw("Vertical") > 0 && airJumpsHas != 0)
                 {
@@ -343,7 +333,7 @@ public class Charcontrol : MonoBehaviour
         if (Input.GetAxisRaw("Horizontal") == 1) { facingDir = 1; }
         if (Input.GetAxisRaw("Horizontal") == -1) { facingDir = -1; }
 
-
+        checkforGrounded();
     }
 
     void checkforGrounded()
@@ -375,40 +365,11 @@ public class Charcontrol : MonoBehaviour
         }
     }
 
-    public void onAnimate()
-    {
-        if (isGrounded)
-        {
-            animator.SetBool("Grounded", true);
-            animator.SetBool("Jumping", false);
-        }
-        if (!isGrounded)
-        {
-            animator.SetBool("Grounded", false);
-        }
-
-        if (GetComponent<Charhealth>().currentHealth <= 0)
-        {
-            currentState = State.Dead;
-        }
-
-        animator.SetFloat("yVel", Mathf.Clamp(rb2d.velocity.y, -1, 1));
-        animator.SetFloat("xVel", Mathf.Clamp(rb2d.velocity.x, -1, 1));
-        animator.SetFloat("yVelAbs", Mathf.Abs(Mathf.Clamp(rb2d.velocity.y, -1, 1)));
-        animator.SetFloat("xVelAbs", Mathf.Abs(Mathf.Clamp(rb2d.velocity.x, -1, 1)));
-        animator.SetFloat("verticalPressed", Input.GetAxis("Vertical"));
-        animator.SetFloat("horizontalPressed", Mathf.Abs(Input.GetAxis("Horizontal")));
-    }
-
     public void Idle()
     {
         currentState = State.Idle;
         airJumpsHas = airJumps;
         slid = false;
-        animator.SetBool("Run", false);
-        animator.SetBool("Crouch", false);
-        animator.SetBool("Sliding", false);
-        animator.SetBool("Jumping", false);
 
         attackTimer = attackTimerTargetTime;
         attackComboTimer = attackComboTargetTime;
@@ -423,10 +384,6 @@ public class Charcontrol : MonoBehaviour
         {
             rb2d.velocity = new Vector2(maxWalkSpeed * Input.GetAxisRaw("Horizontal"), rb2d.velocity.y);
         }
-
-        //animator.SetBool("Run", true);
-        animator.SetBool("Run", false);
-
     }
 
     public void Running()
@@ -439,10 +396,6 @@ public class Charcontrol : MonoBehaviour
             rb2d.velocity = new Vector2(maxRunSpeed * Input.GetAxisRaw("Horizontal"), rb2d.velocity.y);
         }
         slid = false;
-        animator.SetBool("Run", true);
-        animator.SetBool("Crouch", false);
-        animator.SetBool("Sliding", false);
-
     }
 
     public void Attacking()
@@ -460,8 +413,6 @@ public class Charcontrol : MonoBehaviour
             animator.SetTrigger("Melee");
             attackComboTimer = attackComboTargetTime;
         }
-
-        
     }
 
     public void Sliding()
@@ -471,33 +422,25 @@ public class Charcontrol : MonoBehaviour
             slid = true;
             rb2d.drag = slideDrag;
             rb2d.AddForce(new Vector2(Input.GetAxisRaw("Horizontal") * slideForce, 0f));
-            animator.SetBool("Sliding", true);
-            animator.SetBool("Crouch", false);
-            animator.SetBool("Run", false);
         }
     }
 
     public void Crouching()
     {
-        animator.SetBool("Crouch", true);
-        animator.SetBool("Run", false);
-        animator.SetBool("Sliding", false);
+        
         rb2d.velocity = new Vector2(0, 0);
         boxCol.size = boxColCrouchSize;
         boxCol.offset = boxColCrouchOffset;
-
     }
 
     public void Jump()
     {
         if (jumped == false)
         {
-            rb2d.AddForce(Vector2.up * jumpForce, ForceMode2D.Impulse);
-            rb2d.AddForce(new Vector2(Input.GetAxisRaw("Horizontal") * runAcceleration * airHorizontalAcc, 0f));
-
+            //rb2d.AddForce(Vector2.up * jumpForce, ForceMode2D.Force); 
+            rb2d.velocity = new Vector2 ((Input.GetAxisRaw("Horizontal") * airHorizontalAcc), jumpForce);
+            //rb2d.AddForce(new Vector2(Input.GetAxisRaw("Horizontal") * runAcceleration * airHorizontalAcc, 0f));
             jumped = true;
-            animator.Play("Jump Transition");
-            animator.SetBool("Jumping", true);
         }
         //Jumped Check
         if (isGrounded)
@@ -511,14 +454,11 @@ public class Charcontrol : MonoBehaviour
         if (airJumpsHas != 0)
         {
             rb2d.velocity = new Vector2(rb2d.velocity.x, 0);
-            rb2d.AddForce(Vector2.up * jumpForce * 2, ForceMode2D.Impulse);
+            rb2d.AddForce(Vector2.up * jumpForce, ForceMode2D.Impulse);
             rb2d.AddForce(new Vector2(Input.GetAxisRaw("Horizontal") * runAcceleration * airHorizontalAcc, 0f));
             jumped = true;
-            airJumpsHas -= 1;
-            currentState = State.Jumping;
-            animator.Play("Jump Transition");
-            animator.SetBool("Jumping", true);
-            
+            --airJumpsHas;
+            currentState = State.Jumping;       
         }
     }
 
@@ -546,7 +486,7 @@ public class Charcontrol : MonoBehaviour
 
     public void Falling()
     {
-        //animator.Play("Fall");
+        rb2d.AddForce(new Vector2(Input.GetAxisRaw("Horizontal") * airHorizontalAcc, 0f));
     }
 
     public void OnMelee1Start()

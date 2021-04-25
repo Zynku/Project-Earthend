@@ -1,0 +1,22 @@
+fileFormatVersion: 2
+guid: 64c2a6dcf0a27d94c880cd98364fddfd
+TrueTypeFontImporter:
+  externalObjects: {}
+  serializedVersion: 4
+  fontSize: 16
+  forceTextureCase: -2
+  characterSpacing: 0
+  characterPadding: 1
+  includeFontData: 1
+  fontNames:
+  - Lazenby Computer
+  fallbackFontReferences:
+  - {fileID: 12800000, guid: 4055a0e937d07f442ab157b34f3c6cbb, type: 3}
+  customCharacters: 
+  fontRenderingMode: 0
+  ascentCalculationMode: 1
+  useLegacyBoundsCalculation: 0
+  shouldRoundAdvanceValue: 1
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

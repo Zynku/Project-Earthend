@@ -48,7 +48,7 @@ public class Npcscript : MonoBehaviour
             DialogueManager.Instance.ShowAboveHeadDialogue(aboveHeadDialogue);
         }
 
-        //Out of range and this is not the closest NPC
+        //Out of range and this is the closest NPC
         if (!playerInRange && Charcontrol.closestNPC == this.gameObject)
         {
             DialogueManager.Instance.HideDialogue();

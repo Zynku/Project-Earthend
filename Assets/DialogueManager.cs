@@ -18,6 +18,7 @@ public class DialogueManager : MonoBehaviour
     public int lettersPerSecond;
     private Vector2 NPCPos;
     public Vector2 AboveHeadDialogueOffset;
+    public Vector2 AboveHeadDialogueBoxOffset;
     [HideInInspector] public int currentLine = 0;
     public Dialogue dialogue;
     public Dialogue line;
@@ -68,7 +69,9 @@ public class DialogueManager : MonoBehaviour
         aboveheaddialogueBox.SetActive(true);
 
         aboveheaddialogue.transform.position = NPCPos + AboveHeadDialogueOffset;
-        aboveheaddialogueBox.transform.position = NPCPos + AboveHeadDialogueOffset;
+        aboveheaddialogueBox.transform.position = NPCPos + AboveHeadDialogueBoxOffset;
+
+        aboveheaddialogueBox.transform.localScale = new Vector2((dialogue.Lines[0].Length * 0.21f), 1f);
 
         aboveheaddialogue.text = dialogue.Lines[0].ToString();
     }

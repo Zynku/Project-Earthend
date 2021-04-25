@@ -4,28 +4,28 @@ TextureImporter:
   internalIDToNameTable:
   - first:
       213: 8287542772097880991
-    second: Devlab Tilesheet 003_0
+    second: Devlab Tile 1
   - first:
       213: 7414268096547342732
-    second: Devlab Tilesheet 003_1
+    second: Devlab Tile 2
   - first:
       213: 5771839997050903671
-    second: Devlab Tilesheet 003_2
+    second: Devlab BG Tile 1
   - first:
       213: -4661939953930399863
-    second: Devlab Tilesheet 003_3
+    second: Devlab BG Tile 2
   - first:
       213: 8104541585102848441
-    second: Devlab Tilesheet 003_4
+    second: Devlab BG Tile 3
   - first:
       213: 1720822796425802135
-    second: Devlab Tilesheet 003_5
+    second: Devlab BG Tile 4
   - first:
       213: -2352826165923449835
-    second: Devlab Tilesheet 003_6
+    second: Devlab BG Drawer Tile 1
   - first:
       213: -2456611111469497165
-    second: Devlab Tilesheet 003_7
+    second: Devlab BG Tile 5
   - first:
       213: -8868765481323418589
     second: Devlab Tilesheet 003_8
@@ -169,7 +169,7 @@ TextureImporter:
     second: Devlab Back Tile 3
   - first:
       213: -4771108553390150535
-    second: Devlab Tilesheet 003_55
+    second: Devlab BG Drawer Tile 2
   - first:
       213: 7896262969838391534
     second: Devlab Tilesheet 003_56
@@ -188,6 +188,12 @@ TextureImporter:
   - first:
       213: -7344887252275576192
     second: Devlab Tilesheet 003_Bigass Screen
+  - first:
+      213: 5428550895797208761
+    second: Devlab Tilesheet 003_62
+  - first:
+      213: 3164756288111913526
+    second: Devlab Tilesheet 003_63
   externalObjects: {}
   serializedVersion: 11
   mipmaps:
@@ -313,7 +319,7 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: Devlab Tilesheet 003_0
+      name: Devlab Tile 1
       rect:
         serializedVersion: 2
         x: 8
@@ -334,7 +340,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Devlab Tilesheet 003_1
+      name: Devlab Tile 2
       rect:
         serializedVersion: 2
         x: 32
@@ -355,7 +361,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Devlab Tilesheet 003_2
+      name: Devlab BG Tile 1
       rect:
         serializedVersion: 2
         x: 56
@@ -376,7 +382,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Devlab Tilesheet 003_3
+      name: Devlab BG Tile 2
       rect:
         serializedVersion: 2
         x: 80
@@ -397,7 +403,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Devlab Tilesheet 003_4
+      name: Devlab BG Tile 3
       rect:
         serializedVersion: 2
         x: 104
@@ -418,7 +424,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Devlab Tilesheet 003_5
+      name: Devlab BG Tile 4
       rect:
         serializedVersion: 2
         x: 128
@@ -439,7 +445,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Devlab Tilesheet 003_6
+      name: Devlab BG Drawer Tile 1
       rect:
         serializedVersion: 2
         x: 152
@@ -460,7 +466,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Devlab Tilesheet 003_7
+      name: Devlab BG Tile 5
       rect:
         serializedVersion: 2
         x: 192
@@ -1468,7 +1474,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Devlab Tilesheet 003_55
+      name: Devlab BG Drawer Tile 2
       rect:
         serializedVersion: 2
         x: 168
@@ -1602,7 +1608,7 @@ TextureImporter:
         width: 153
         height: 123
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -1610,6 +1616,48 @@ TextureImporter:
       bones: []
       spriteID: 082c1dc75f7b11a90800000000000000
       internalID: -7344887252275576192
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Devlab Tilesheet 003_62
+      rect:
+        serializedVersion: 2
+        x: 24
+        y: 352
+        width: 16
+        height: 16
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 9b60f1d2746165b40800000000000000
+      internalID: 5428550895797208761
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Devlab Tilesheet 003_63
+      rect:
+        serializedVersion: 2
+        x: 96
+        y: 352
+        width: 16
+        height: 16
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 63a289193197beb20800000000000000
+      internalID: 3164756288111913526
       vertices: []
       indices: 
       edges: []
