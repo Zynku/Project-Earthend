@@ -5,6 +5,7 @@ using TMPro;
 
 public class Charpickup_inventory : MonoBehaviour
 {
+    public InventoryObject inventory;
     public float money;
     public List<GameObject> weapons;
     
@@ -40,9 +41,16 @@ public class Charpickup_inventory : MonoBehaviour
             var heartValue = collision.gameObject.GetComponent<Heartscript>().heartValue;
             GetComponentInParent<Charhealth>().AddHealth(Mathf.FloorToInt(heartValue));
         }
+
+        var item = collision.GetComponent<Item>();
+        if (item)
+        {
+            inventory.AddItem(item.item, 1);
+            Destroy(collision.gameObject);
+        }
     }
 
-    private void OnTriggerStay2D(Collider2D collision)
+        private void OnTriggerStay2D(Collider2D collision)
     {
         //If you come across a weapon and you interact, add weapon to weapons list, destroy weapon
         if (collision.CompareTag("dropped_weapon"))
@@ -60,5 +68,10 @@ public class Charpickup_inventory : MonoBehaviour
 
     private void OnTriggerExit2D(Collider2D collision)
     {
+    }
+
+    private void OnApplicationQuit()
+    {
+        inventory.Container.Clear();
     }
 }
