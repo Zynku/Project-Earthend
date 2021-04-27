@@ -20,6 +20,7 @@ TagManager:
   - NPC
   - gas_cloud
   - Ground_slopes
+  - item_collectable
   layers:
   - Default
   - TransparentFX
