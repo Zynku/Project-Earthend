@@ -10,6 +10,7 @@ public class Charpickup_inventory : MonoBehaviour
     public float money;
     public static Charpickup_inventory instance;
     private Char_control char_control;
+    private bool hasInteracted;
 
     #region Singleton
     private void Awake()
@@ -25,6 +26,9 @@ public class Charpickup_inventory : MonoBehaviour
 
     public delegate void onItemChanged();
     public onItemChanged onItemChangedCallback;
+
+    public delegate void onClearInventory();
+    public onClearInventory onClearInventoryCallback;
 
     // Start is called before the first frame update
     void Start()
@@ -46,18 +50,20 @@ public class Charpickup_inventory : MonoBehaviour
             return false;
         }
 
-        if (onItemChangedCallback != null)
-            onItemChangedCallback.Invoke();
 
+        //Loop through all items, if new item has the same name of an item you already have, dont add item, but still increase amountHas
         for (int i = 0; i < items.Count; i++)
         {
             if (items[i].name == item.name)
             {
-                ++items[i].amount;
+                items[i].amountHas += items[i].amount;
+                if (onItemChangedCallback != null) { onItemChangedCallback.Invoke(); }
                 return true;
             }
         }
         items.Add(item);
+        item.amountHas += item.amount;
+        if (onItemChangedCallback != null) { onItemChangedCallback.Invoke(); }
         return true;
     }
 
@@ -68,37 +74,59 @@ public class Charpickup_inventory : MonoBehaviour
             onItemChangedCallback.Invoke();
     }
 
+    public void ClearInventory()
+    {
+        for (int i = 0; i < items.Count; i++)
+        {
+            items[i].amountHas = 0;
+            items.RemoveAt(i);
+            i--;
+        }
+
+        if (onClearInventoryCallback != null)
+            onClearInventoryCallback.Invoke();
+    }
+
     public void OnTriggerEnter2D(Collider2D collision)
     {
-        //If you come across a coin, pick it up, destroy the coin, add coinvalue to player inv
-        if (collision.CompareTag("coin_collectable"))
+        if (!hasInteracted)
         {
-            Destroy(collision.gameObject);
-            Destroy(collision.transform.parent.gameObject);
-            money += collision.GetComponentInParent<coinscript>().coinValue;
-        }
-        //If you come across a heart, pick it up, destroy the heart, add health value to health
-        if (collision.CompareTag("heart_collectable"))
-        {
-            Destroy(collision.gameObject);
-            Destroy(collision.transform.parent.gameObject);
-            var heartValue = collision.gameObject.GetComponent<Heartscript>().heartValue;
-            GetComponentInParent<Charhealth>().AddHealth(Mathf.FloorToInt(heartValue));
-        }
-        if (collision.CompareTag("item_collectable"))
-        {
-            Interactable interactable = collision.gameObject.GetComponent<Interactable>();
-            if (interactable != null)
+            //If you come across a coin, pick it up, destroy the coin, add coinvalue to player inv
+            if (collision.CompareTag("coin_collectable"))
             {
-                interactable.Interact();
+                Destroy(collision.gameObject);
+                Destroy(collision.transform.parent.gameObject);
+                money += collision.GetComponentInParent<coinscript>().coinValue;
+            }
+            //If you come across a heart, pick it up, destroy the heart, add health value to health
+            if (collision.CompareTag("heart_collectable"))
+            {
+                Destroy(collision.gameObject);
+                Destroy(collision.transform.parent.gameObject);
+                var heartValue = collision.gameObject.GetComponent<Heartscript>().heartValue;
+                GetComponentInParent<Charhealth>().AddHealth(Mathf.FloorToInt(heartValue));
+            }
+            if (collision.CompareTag("item_collectable"))
+            {
+                Interactable interactable = collision.gameObject.GetComponentInParent<Interactable>();
+                if (interactable != null)
+                {
+                    hasInteracted = true;
+                    collision.gameObject.SetActive(false);
+                    //Destroy(interactable.gameObject);
+                    interactable.Interact();
+                }
                 //This is how an item is added to the inventory. Interact() is called here, from Interactable script, but is overidden in ItemPickup by Pickup()
                 //Pickup destroys the gameObject and calls the AddItem() function from this script, which, if there is enough room, invokes onItemChangedCallback 
                 //to add the item to the inventory UI, to which UpdateUI is subscribed in InventoryUI. UpdateUI adds the item to the [i]th place via 
                 //AddItem from InventoryItemSlot script.
             }
         }
-
     }
+
+    
+
+
 
     private void OnTriggerStay2D(Collider2D collision)
     {
@@ -118,6 +146,7 @@ public class Charpickup_inventory : MonoBehaviour
 
     private void OnTriggerExit2D(Collider2D collision)
     {
+        hasInteracted = false;
     }
 
 }

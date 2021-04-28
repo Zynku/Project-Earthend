@@ -19,6 +19,7 @@ public class Charhealth : MonoBehaviour
     public GameObject floatingHealthTextPrefab;
     public Vector3 dmgTextOffset;
     public Healthbar healthbar;
+    public int level = 1;
 
     [Header("StatusEffects")]
     public bool poisoned;

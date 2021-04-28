@@ -26,7 +26,6 @@ public class Pause_menu_manager : MonoBehaviour
 
     void Awake()
     {
-        Debug.Log("I am awake");
         masterMixer.SetFloat("MasterVolume", global_script.masterVolfloat);
         masterMixer.SetFloat("SoundVolume", global_script.soundVolfloat);
         masterMixer.SetFloat("MusicVolume", global_script.musicVolfloat);
@@ -40,7 +39,6 @@ public class Pause_menu_manager : MonoBehaviour
 
     private void Start()
     {
-        Debug.Log("I have started");
         Player = GameObject.FindGameObjectWithTag("Player");
         PlayerAnim = Player.GetComponent<Animator>();
         PauseMenuUi.SetActive(false);

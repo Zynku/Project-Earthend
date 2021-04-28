@@ -7,8 +7,11 @@ public class ItemScriptable : ScriptableObject
 {
     new public string name = "New Item";
     public int amount = 1;                  //In the future, there could be implementation for varying amounts, but for now we sticking with 1
+    public int amountHas = 0;
+    public int amountInStorage = 0;
     public Sprite Icon = null;
-    public bool isDefaultItem = false;
+    [TextArea(15, 20)]
+    public string description;
 
     public virtual void Use()
     {
