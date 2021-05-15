@@ -48,8 +48,10 @@ public class Button_effector : MonoBehaviour
                 //restarts cooldown, presses button, plays audio, spawns objects
                 coolDownTimer = coolDownTargetTime;
                 animator.SetTrigger("Pressed");
-                audiosource.PlayOneShot(Spawn);
-                audiosource.PlayOneShot(Press);
+
+                if (Spawn != null) audiosource.PlayOneShot(Spawn);
+                if (Press != null) audiosource.PlayOneShot(Press);
+
                 //loops spawning *spawnamount* amount of times. Second line applies random velocity based on params
                 for (int i = 0; i < Spawnamount; i++)
                 {

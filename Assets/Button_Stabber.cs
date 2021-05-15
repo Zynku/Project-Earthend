@@ -48,7 +48,8 @@ public class Button_Stabber : MonoBehaviour
                 //restarts cooldown, presses button, plays audio, does the thing
                 coolDownTimer = coolDownTargetTime;
                 animator.SetTrigger("Pressed");
-                audiosource.PlayOneShot(Press);
+
+                if (Press != null) audiosource.PlayOneShot(Press);
             }
         }
     }

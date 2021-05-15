@@ -17,8 +17,8 @@ public class Charcontrol : MonoBehaviour
     [Header("Variables")]
     public float xVel;
     public float yVel;
-    private float inputX;
-    private float inputY;
+    public float inputX;
+    public float inputY;
     public static GameObject closestNPC;
     [HideInInspector] public bool playerDead;
     public bool checkForSlopes;
@@ -120,8 +120,8 @@ public class Charcontrol : MonoBehaviour
     {
         xVel = rb2d.velocity.x;
         yVel = rb2d.velocity.y;
-        inputX = Input.GetAxis("Horizontal");
-        inputY = Input.GetAxis("Vertical");
+        inputX = Input.GetAxisRaw("Horizontal");
+        inputY = Input.GetAxisRaw("Vertical");
 
         //FLIP THOSE ANIMS BABY UNLESS DED
         if (!playerDead)
@@ -156,7 +156,7 @@ public class Charcontrol : MonoBehaviour
             case State.Idle:
                 Idle();
                 //Transition to Walking
-                if (Input.GetAxis("Horizontal") != 0)
+                if (Input.GetAxisRaw("Horizontal") != 0)
                 {
                     currentState = State.Walking;
                 }

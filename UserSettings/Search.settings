@@ -2,17 +2,17 @@ trackSelection = true
 fetchPreview = true
 wantsMore = false
 keepOpen = false
-itemIconSize = 1
 queryFolder = "Assets"
 onBoardingDoNotAskAgain = true
 showPackageIndexes = false
 showStatusBar = false
 scopes = {
-	"last_search.83F126EB" = "enemy"
+	"last_search.83F126EB" = ""
 	"m_ShownPanels.83F126EB" = "3"
 	"m_SideBarSplitter.83F126EB" = "180"
 	"m_DetailsPanelSplitter.83F126EB" = "700"
 	"currentGroup.83F126EB" = "asset"
+	"InspectorPreview.83F126EB" = "0"
 }
 providers = {
 	asset = {
@@ -54,4 +54,7 @@ providers = {
 recentSearches = [
 	"enemy"
 ]
+searchItemFavorites = [
+]
 savedSearchesSortOrder = 0
+showSavedSearchPanel = false

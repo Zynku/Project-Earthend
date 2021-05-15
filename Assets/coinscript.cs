@@ -14,7 +14,7 @@ public class coinscript : MonoBehaviour
     void Start()
     {
         audiosource = GetComponent<AudioSource>();
-        audiosource.PlayOneShot(Jingle);
+        if (Jingle != null) audiosource.PlayOneShot(Jingle);
         despawnTimer += Random.Range(-3f, 3f);
     }
 

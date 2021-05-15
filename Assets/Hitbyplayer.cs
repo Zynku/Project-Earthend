@@ -110,14 +110,20 @@ public class Hitbyplayer : MonoBehaviour
 
     private void PlayGroundHit()
     {
-        audiosource.pitch = (Random.Range(0.8f, 1f));
-        audiosource.PlayOneShot(hitGround);
+        if (hitGround != null)
+        {
+            audiosource.pitch = (Random.Range(0.8f, 1f));
+            audiosource.PlayOneShot(hitGround);
+        }
     }
 
     private void PlayPlayerHit()
     {
-        audiosource.pitch = (Random.Range(0.8f, 1f));
-        audiosource.PlayOneShot(hitByPlayer);
+        if (hitByPlayer != null)
+        {
+            audiosource.pitch = (Random.Range(0.8f, 1f));
+            audiosource.PlayOneShot(hitByPlayer);
+        }
     }
 
     private void onDeactivate()
@@ -125,10 +131,12 @@ public class Hitbyplayer : MonoBehaviour
         GameObject clone;
         clone = Instantiate(brokeObj, transform.position, transform.rotation);
 
-        audiosource.pitch = 1f;
-        AudioSource.PlayClipAtPoint(destroyed, transform.position, 0.2f);
+        if (destroyed != null)
+        {
+            audiosource.pitch = 1f;
+            AudioSource.PlayClipAtPoint(destroyed, transform.position, 0.2f);
+        }
 
-        Destroy(transform.parent.gameObject);
-
+        Destroy(transform.parent.gameObject);        
     }
 }

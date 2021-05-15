@@ -44,6 +44,7 @@ public class Charpickup_inventory : MonoBehaviour
 
     public bool AddItem(ItemScriptable item)
     {
+        //If there is no more room for a new item
         if (items.Count >= inventorySpace)
         {
             Debug.Log("Not enough room...");
@@ -88,7 +89,7 @@ public class Charpickup_inventory : MonoBehaviour
     }
 
     public void OnTriggerEnter2D(Collider2D collision)
-    {
+    {        
         if (!hasInteracted)
         {
             //If you come across a coin, pick it up, destroy the coin, add coinvalue to player inv

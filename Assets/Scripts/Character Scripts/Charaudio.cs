@@ -49,51 +49,69 @@ public class Charaudio : MonoBehaviour
 
     public void AudOnFootStep()
     {
-        audiosource.volume = footstepVolume;
-        audiosource.pitch = (Random.Range(0.5f, 1f));
-        audiosource.PlayOneShot(Footstep);
+        if (Footstep != null)
+        {
+            audiosource.volume = footstepVolume;
+            audiosource.pitch = (Random.Range(0.5f, 1f));
+            audiosource.PlayOneShot(Footstep);
+        }
     }
 
     public void AudOnSwing()
     {
-        audiosource.volume = swingVolume;
-        audiosource.pitch = (Random.Range(0.5f, 1f));
-        audiosource.PlayOneShot(Swing);
+        if (Swing != null)
+        {
+            audiosource.volume = swingVolume;
+            audiosource.pitch = (Random.Range(0.5f, 1f));
+            audiosource.PlayOneShot(Swing);
+        }
     }
 
     public void AudOnJump()
     {
-        audiosource.volume = jumpVolume;
-        audiosource.pitch = 1;
-        audiosource.PlayOneShot(Jump);
+        if (Jump != null)
+        {
+            audiosource.volume = jumpVolume;
+            audiosource.pitch = 1;
+            audiosource.PlayOneShot(Jump);
+        }
         Jumped = true;
     }
 
 
     public void AudVoiceonJump()
     {
-        audiosource.volume = voiceJumpVolume;
-        audiosource.pitch = 1;
-        audiosource.clip = voice_jump[Random.Range(0, voice_jump.Length)];
-        audiosource.Play();
+        if (voice_jump != null)
+        {
+            audiosource.volume = voiceJumpVolume;
+            audiosource.pitch = 1;
+            audiosource.clip = voice_jump[Random.Range(0, voice_jump.Length)];
+            audiosource.Play();
+        }
     }
 
 
     public void AudVoiceonSwing()
     {
-        audiosource.volume = voiceSwingVolume;
-        audiosource.pitch = 1;
-        audiosource.clip = voice_swing[Random.Range(0, voice_swing.Length)];
-        audiosource.Play();
+        if (voice_swing != null)
+        {
+            audiosource.volume = voiceSwingVolume;
+            audiosource.pitch = 1;
+            audiosource.clip = voice_swing[Random.Range(0, voice_swing.Length)];
+            audiosource.Play();
+        }
     }
 
 
     public void AudVoiceonGetHit()
     {
-        audiosource.volume = voiceGetHitVolume;
-        audiosource.pitch = 1;
-        audiosource.clip = voice_get_hit[Random.Range(0, voice_get_hit.Length)];
-        audiosource.Play();
+        if (voice_get_hit != null)
+        {
+            audiosource.volume = voiceGetHitVolume;
+            audiosource.pitch = 1;
+            audiosource.clip = voice_get_hit[Random.Range(0, voice_get_hit.Length)];
+            audiosource.Play();
+        }
     }
 
 
@@ -103,17 +121,23 @@ public class Charaudio : MonoBehaviour
         {
             if (collision.gameObject.CompareTag("coin_collectable"))
             {
-                audiosource.volume = coinPickupVolume;
-                audiosource.pitch = (Random.Range(0.9f, 1f));
-                audiosource.PlayOneShot(Coin_Pickup);
+                if (Coin_Pickup != null)
+                {
+                    audiosource.volume = coinPickupVolume;
+                    audiosource.pitch = (Random.Range(0.9f, 1f));
+                    audiosource.PlayOneShot(Coin_Pickup);
+                }
             }
         }
         if (collision.gameObject.CompareTag("enemy_attackhitbox"))
         {
-            audiosource.volume = voiceGetHitVolume;
-            audiosource.pitch = 1;
-            audiosource.clip = voice_get_hit[Random.Range(0, voice_get_hit.Length)];
-            audiosource.Play();
+            if (voice_get_hit != null)
+            {
+                audiosource.volume = voiceGetHitVolume;
+                audiosource.pitch = 1;
+                audiosource.clip = voice_get_hit[Random.Range(0, voice_get_hit.Length)];
+                audiosource.Play();
+            }
         }
     }
 }
