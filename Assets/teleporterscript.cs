@@ -11,6 +11,7 @@ public class teleporterscript : MonoBehaviour
     private float teleportcooldown;
     private float teleportcooldowntargettime = 1;
     private bool canTeleport;
+    public bool DebugDistance;
 
     [Range(0f, 1f)]
     public float teleportingVolume = 1;
@@ -43,7 +44,8 @@ public class teleporterscript : MonoBehaviour
         if (teleportcooldown < 0) { teleportcooldown = 0; }
         if (teleportcooldown == 0 && (Vector3.Distance(Player.transform.position, transform.position) < teleportRange)) 
         {
-            canTeleport = true; 
+            canTeleport = true;
+            Debug.Log("In range");
         }
         else
         {
@@ -57,7 +59,8 @@ public class teleporterscript : MonoBehaviour
                 canTeleport = false;
                 Teleport();
             }
-        } 
+        }
+        if (DebugDistance) { Debug.Log(Vector3.Distance(Player.transform.position, transform.position)); }
     }
 
     private void OnTriggerStay2D(Collider2D collision)

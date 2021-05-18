@@ -114,7 +114,7 @@ BoxCollider2D:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2320406211907503466}
-  m_Enabled: 1
+  m_Enabled: 0
   m_Density: 1
   m_Material: {fileID: 0}
   m_IsTrigger: 1
@@ -148,7 +148,7 @@ MonoBehaviour:
   teleporters: []
   teleportTo: {fileID: 0}
   Player: {fileID: 0}
-  teleportRange: 0.68
+  teleportRange: 0.5
   teleportingVolume: 1
   teleporting: {fileID: 8300000, guid: 6da94274cc7b6b542b070782ba2e1c3a, type: 3}
 --- !u!82 &4729559823299207116

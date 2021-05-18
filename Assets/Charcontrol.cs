@@ -218,10 +218,10 @@ public class Charcontrol : MonoBehaviour
                     currentState = State.Sliding;
                 }
                 //Transition to Attacking
-                if (Input.GetAxisRaw("Light Attack") != 0 || Input.GetAxisRaw("Heavy Attack") != 0 || Input.GetAxisRaw("Ranged Attack") != 0)
+                /*if (Input.GetAxisRaw("Light Attack") != 0 || Input.GetAxisRaw("Heavy Attack") != 0 || Input.GetAxisRaw("Ranged Attack") != 0)
                 {
                     currentState = State.Attacking;
-                }
+                }*/
                 //Transition to Jumping
                 if (Input.GetAxisRaw("Vertical") > 0)
                 {

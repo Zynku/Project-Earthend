@@ -74,10 +74,25 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a18f2089b54fd224a83e4947e2d6251b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  destroyable: 0
+  applyInitialForce: 0
+  useParent: 1
+  hit: 0
   playerDir: 0
   xForce: 300
   yForce: 600
+  torqueForce: 0
   hitGround: {fileID: 0}
+  hitByPlayer: {fileID: 0}
+  destroyed: {fileID: 0}
+  brokeObj: {fileID: 0}
+  maxHealth: 0
+  currentHealth: 0
+  damageDoneToMe: 0
+  dmgCooldown: 0
+  dmgCooldownTargetTime: 0.1
+  collisionDir: 1
+  initialForce: 0
 --- !u!1 &526904912014367182
 GameObject:
   m_ObjectHideFlags: 0
@@ -325,8 +340,8 @@ MonoBehaviour:
   attackChance: 0
   coolDownTimer: 0
   coolDownTargetTime: 0.5
-  attackdamageMax: 5
-  attackdamageMin: 1
+  attackdamageMax: 30
+  attackdamageMin: 10
   playerPos: {x: -9.851, y: -3.4464216}
   myPos: {x: -10.684911, y: -3.450973}
   speed: {x: 0, y: 0}
