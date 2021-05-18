@@ -9,7 +9,7 @@ public class SavegameManager : MonoBehaviour
     Charpickup_inventory Charpickup_Inventoryscript;
     Charhealth Charhealthscript;
 
-    private void Start()
+    private void Awake()
     {
         Player = GameObject.FindWithTag("Player");
         Charcontrolscript = Player.GetComponent<Charcontrol>();
@@ -24,6 +24,9 @@ public class SavegameManager : MonoBehaviour
     public void SavePlayer()
     {
         SaveSystem.SavePlayer(Charcontrolscript, Charpickup_Inventoryscript, Charhealthscript);
+        Debug.Log(Charcontrolscript);
+        Debug.Log(Charpickup_Inventoryscript);
+        Debug.Log(Charhealthscript);
     }
 
     public void LoadPlayer()

@@ -57,12 +57,15 @@ public class Charpickup_inventory : MonoBehaviour
         {
             if (items[i].name == item.name)
             {
+                //Has item
                 items[i].amountHas += items[i].amount;
                 if (onItemChangedCallback != null) { onItemChangedCallback.Invoke(); }
                 return true;
             }
         }
+        //Does not have item
         items.Add(item);
+        item.amountHas = 0;
         item.amountHas += item.amount;
         if (onItemChangedCallback != null) { onItemChangedCallback.Invoke(); }
         return true;

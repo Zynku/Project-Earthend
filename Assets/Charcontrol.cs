@@ -66,6 +66,7 @@ public class Charcontrol : MonoBehaviour
     public int attackdamageMax;
     public int attackdamageMin;
     SpriteRenderer meleeSpriteR;
+    ParticleSystem particles;
     public enum State
     {
         Idle,
@@ -112,7 +113,8 @@ public class Charcontrol : MonoBehaviour
         boxColSize = boxCol.size;
         boxColOffset = boxCol.offset;
 
-        meleeSpriteR = MeleeObject.GetComponent<SpriteRenderer>(); 
+        meleeSpriteR = MeleeObject.GetComponent<SpriteRenderer>();
+        particles = GetComponentInChildren<ParticleSystem>();
     }
 
     // Update is called once per frame
@@ -271,7 +273,7 @@ public class Charcontrol : MonoBehaviour
                 Crouching();
 
                 //Transition back to Idle
-                if (Input.GetAxisRaw("Vertical") == 0)
+                if (!Input.GetButton("Vertical"))
                 {
                     currentState = State.Idle;
                 }
@@ -292,7 +294,7 @@ public class Charcontrol : MonoBehaviour
             case State.Sliding:
                 Sliding();
                 //Transition back to Running
-                if (Input.GetAxisRaw("Vertical") == 0)
+                if (!Input.GetButton("Vertical"))
                 {
                     currentState = State.Running;
                 }
@@ -427,7 +429,6 @@ public class Charcontrol : MonoBehaviour
 
     public void Crouching()
     {
-        
         rb2d.velocity = new Vector2(0, 0);
         boxCol.size = boxColCrouchSize;
         boxCol.offset = boxColCrouchOffset;
@@ -493,11 +494,15 @@ public class Charcontrol : MonoBehaviour
     {
         //Used by Animation Events in Melee Animation. On Event 1 activates hitbox, on Event 2 deactivates hitbox
         MeleeObject.SetActive(true);
+        var emission = particles.emission; // Stores the module in a local variable
+        emission.enabled = true; // Applies the new value directly to the Particle 
     }
 
     public void OnMelee1End()
     {
         MeleeObject.SetActive(false);
+        var emission = particles.emission; // Stores the module in a local variable
+        emission.enabled = false; // Applies the new value directly to the Particle 
     }
 
     public void OnMeleeForceAdd(int forceX)

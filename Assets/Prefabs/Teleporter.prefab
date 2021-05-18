@@ -120,7 +120,7 @@ BoxCollider2D:
   m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0, y: 0.19}
+  m_Offset: {x: 0.053367615, y: 0.19}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0}
@@ -131,7 +131,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 0.27, y: 0.38}
+  m_Size: {x: 0.81744957, y: 0.38}
   m_EdgeRadius: 0
 --- !u!114 &2320406211907503469
 MonoBehaviour:
@@ -147,6 +147,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   teleporters: []
   teleportTo: {fileID: 0}
+  Player: {fileID: 0}
+  teleportRange: 0.68
   teleportingVolume: 1
   teleporting: {fileID: 8300000, guid: 6da94274cc7b6b542b070782ba2e1c3a, type: 3}
 --- !u!82 &4729559823299207116
