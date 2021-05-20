@@ -54,13 +54,15 @@ public class DialogueManager : MonoBehaviour
 
     public void Update()
     {
-        //Finds closest NPC position from Charcontrol.
-        NPCPos = new Vector2(Charcontrol.closestNPC.transform.position.x, Charcontrol.closestNPC.transform.position.y);
+
     }
 
     public void LateUpdate()
     {
         endOfConversation = false;
+
+        //Finds closest NPC position from Charcontrol.
+        NPCPos = new Vector2(Charcontrol.closestNPC.transform.position.x, Charcontrol.closestNPC.transform.position.y);
     }
 
     public void ShowAboveHeadDialogue(Dialogue dialogue)

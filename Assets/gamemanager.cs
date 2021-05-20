@@ -6,12 +6,16 @@ using UnityEngine.SceneManagement;
 public class gamemanager : MonoBehaviour
 {
     [Header("Time")]
+    public bool overwriteTime;
     [Range(0.001f, 1f)]
     public float timeScale = 1;
 
     [Header("Frame Rate")]
     [Range(1f, 60f)]
     public int frameRate = -1;
+
+    public GameObject hurtScreen;
+    private Animator hurtScreenAnimator;
 
     public GameObject Player;
     public GameObject playerRespawnPoint;
@@ -24,34 +28,31 @@ public class gamemanager : MonoBehaviour
     {
         Player = GameObject.FindWithTag("Player");
         playerRespawnPoint = GameObject.FindWithTag("player_respawn");
+        if (!overwriteTime) Time.timeScale = 1f;
+
+        hurtScreenAnimator = hurtScreen.GetComponent<Animator>();
     }
 
     private void Update()
-    {
-        Time.timeScale = timeScale;
+    { 
+        if (overwriteTime) 
+        {            
+            Time.timeScale = timeScale; 
+        }
         Application.targetFrameRate = frameRate;
+
+        Charhealth.Hit += HurtFlash;
+    }
+
+    void HurtFlash()
+    {
+        hurtScreenAnimator.SetTrigger("HurtFlash");
     }
 
     void FixedUpdate()
     {
         Enemies = GameObject.FindGameObjectsWithTag("enemy");
-        if (Player.gameObject.GetComponent<Charhealth>().currentHealth <= 0)
-        {
-            Invoke("ReloadScene", 3f);
-        }
     }
-
-    void RespawnPlayer()
-    {
-        if (mainCharRespawned == false)
-        {
-            Player.gameObject.transform.position = playerRespawnPoint.gameObject.transform.position;
-            Char_control.dead = false;
-            mainCharRespawned = true;
-            
-        }
-    }
-
   
     void ReloadScene()
     {

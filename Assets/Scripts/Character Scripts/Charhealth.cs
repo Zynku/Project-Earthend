@@ -20,6 +20,8 @@ public class Charhealth : MonoBehaviour
     public Vector3 dmgTextOffset;
     public Healthbar healthbar;
     public int level = 1;
+    public delegate void gotHit();
+    public static event gotHit Hit;
 
     [Header("StatusEffects")]
     public bool poisoned;
@@ -38,7 +40,7 @@ public class Charhealth : MonoBehaviour
         healthbar.SetMaxHealth(maxHealth);
         rb2d = GetComponent<Rigidbody2D>();
         spriterenderer = GetComponent<SpriteRenderer>();
-        poison = GetComponent<ParticleSystem>();
+        //poison = GetComponent<ParticleSystem>();
 
         poisonTimer = poisonTargetTime;
     }
@@ -57,6 +59,8 @@ public class Charhealth : MonoBehaviour
 
         if (Input.GetKeyDown(KeyCode.J)) { ResetHealth();}
         if (Input.GetKeyDown(KeyCode.H)) { AddHealth(20); }
+        if (Input.GetKeyDown(KeyCode.K)) { TakeDamage(maxHealth); }
+        if (Input.GetKeyDown(KeyCode.L)) { TakeDamage(20); }
 
         if (poisoned) { Poisoned(poisonTargetTime, poisonDamage); }
         else { poisonTimer = poisonTargetTime; spriterenderer.color = new Color(1, 1, 1, 1); }
@@ -138,6 +142,10 @@ public class Charhealth : MonoBehaviour
             //Applies force to show direction hit from.
             floattext.GetComponent<Rigidbody2D>().AddForce(new Vector2(collisionDir, 0), ForceMode2D.Impulse);
             dmgCooldown = dmgCooldownTargetTime;
+            if (Hit != null)
+            {
+                Hit();
+            }
         }
     }
 
@@ -166,10 +174,10 @@ public class Charhealth : MonoBehaviour
     public void Poisoned(float poisonTargetTime, int poisonDamage)
     {
         //End after a certain amount of time
-        var emission = poison.emission;
+        //var emission = poison.emission;
         poisonTimer -= Time.fixedDeltaTime;
         if (poisonTimer < 0) { poisonTimer = 0; }
-        if (poisonTimer == 0) {poisonTimer = poisonTargetTime; spriterenderer.color = new Color(1, 1, 1, 1); poisoned = false; emission.enabled = false; }
+        if (poisonTimer == 0) {poisonTimer = poisonTargetTime; spriterenderer.color = new Color(1, 1, 1, 1); poisoned = false; /*emission.enabled = false;*/ }
 
         poisonTickTimer -= Time.fixedDeltaTime;
         if (poisonTickTimer < 0) { poisonTickTimer = 0; }
@@ -194,7 +202,7 @@ public class Charhealth : MonoBehaviour
                 spriterenderer.color = new Color(.58f, .74f, .48f, 1);
 
                 //Start poison particles
-                emission.enabled = true;
+                //emission.enabled = true;
                 poisonTickTimer = poisonTickTargetTime;
             }
         }
@@ -214,6 +222,7 @@ public class Charhealth : MonoBehaviour
 
     public void OnDeath()
     {
+        Charcontrol.Instance.currentState = Charcontrol.State.Dead;
         rb2d.velocity = new Vector2(0, 0);   
     }
 }
