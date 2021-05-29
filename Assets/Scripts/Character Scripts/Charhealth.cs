@@ -64,7 +64,8 @@ public class Charhealth : MonoBehaviour
 
         if (poisoned) { Poisoned(poisonTargetTime, poisonDamage); }
         else { poisonTimer = poisonTargetTime; spriterenderer.color = new Color(1, 1, 1, 1); }
-        
+
+        if (Charcontrol.Instance.tree) { Debug.Log("tree"); }
     }
 
     private void FixedUpdate()

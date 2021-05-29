@@ -15,8 +15,8 @@ public class InventoryItemSlot : MonoBehaviour
     {
         amountText.enabled = false;
         nameText.enabled = false;
-        amountText.text = "WHAT ARE YA DOING JIMBO";
-        nameText.text = "WHAT ARE YA DOING JIMBO";
+        amountText.text = "You shouldn't be able to see this";
+        nameText.text = "You shouldn't be able to see this";
     }
 
     public void AddItem(ItemScriptable newItem)
@@ -29,6 +29,7 @@ public class InventoryItemSlot : MonoBehaviour
         nameText.text = newItem.name.ToString();
         amountText.enabled = true;
         nameText.enabled = true;
+        Debug.Log("Item added");
     }
 
     public void ClearSlot()
@@ -39,6 +40,7 @@ public class InventoryItemSlot : MonoBehaviour
         icon.enabled = false;
         amountText.enabled = false;
         nameText.enabled = false;
+        Debug.Log("Item cleared");
     }
 
     public void UseItem()

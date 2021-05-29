@@ -9,7 +9,7 @@ public class teleporterscript : MonoBehaviour
     public GameObject Player;
     public float teleportRange;
     private float teleportcooldown;
-    private float teleportcooldowntargettime = 1;
+    //private float teleportcooldowntargettime = 1;
     private bool canTeleport;
     public bool DebugDistance;
 
@@ -57,35 +57,19 @@ public class teleporterscript : MonoBehaviour
             if (Input.GetButtonDown("Interact"))
             {
                 canTeleport = false;
-                Teleport();
+                ShowTeleportOptions();
             }
         }
         if (DebugDistance) { Debug.Log(Vector3.Distance(Player.transform.position, transform.position)); }
     }
 
-    private void OnTriggerStay2D(Collider2D collision)
+    public void ShowTeleportOptions()
     {
-        /*if (collision.CompareTag("Player"))
-        {
-            if (Input.GetButtonDown("Interact") && canTeleport)
-            {
-                collision.transform.position = teleportTo.transform.position + new Vector3(0, 0.5f, 0);
-                collision.GetComponent<Rigidbody2D>().velocity = new Vector2 (0,0);
-                animator.SetTrigger("Teleport");
-                animatorTo.SetTrigger("Teleport");
-                teleportcooldown = teleportcooldowntargettime;
-                teleportTo.GetComponent<teleporterscript>().teleportcooldown = teleportcooldown;
-                canTeleport = false;
+        teleporternetwork Network = GetComponentInParent<teleporternetwork>();
 
-                audiosource.volume = teleportingVolume;
-                audiosource.PlayOneShot(teleporting);
-            }
-        }*/
-    }
 
-    public void Teleport()
-    {
-        Player.transform.position = teleportTo.transform.position + new Vector3(0, 0.5f, 0);
+
+        /*Player.transform.position = teleportTo.transform.position + new Vector3(0, 0.5f, 0);
         Player.GetComponent<Rigidbody2D>().velocity = new Vector2(0, 0);
         animator.SetTrigger("Teleport");
         animatorTo.SetTrigger("Teleport");
@@ -98,6 +82,7 @@ public class teleporterscript : MonoBehaviour
         audiosource.PlayOneShot(teleporting);
 
         Debug.Log(teleportTo);
+        */
     }
 
     private void OnDrawGizmos()

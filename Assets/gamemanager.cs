@@ -31,6 +31,7 @@ public class gamemanager : MonoBehaviour
         if (!overwriteTime) Time.timeScale = 1f;
 
         hurtScreenAnimator = hurtScreen.GetComponent<Animator>();
+        hurtScreen.SetActive(false);
     }
 
     private void Update()
@@ -46,7 +47,16 @@ public class gamemanager : MonoBehaviour
 
     void HurtFlash()
     {
+        StartCoroutine("DoHurtFlash");
+    }
+
+    IEnumerator DoHurtFlash()
+    {
+        hurtScreen.SetActive(true);
         hurtScreenAnimator.SetTrigger("HurtFlash");
+        float waittime = 0.2f;
+        yield return new WaitForSeconds(waittime);
+        hurtScreen.SetActive(false);
     }
 
     void FixedUpdate()

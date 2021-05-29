@@ -18,6 +18,9 @@ public class Enemyhealth : MonoBehaviour
     public GameObject floatingDmgTextPrefab;
     public GameObject floatingHealthTextPrefab;
     public Vector3 dmgTextOffset;
+    public delegate void EnemyGotHit();
+    public static event EnemyGotHit EnemyBeenHit;
+
 
     // Start is called before the first frame update
     void Start()
@@ -79,6 +82,11 @@ public class Enemyhealth : MonoBehaviour
             damageDoneToMeMin = Mathf.FloorToInt(collision.GetComponentInParent<Charcontrol>().attackdamageMin);
             damageDoneToMe = (Random.Range(damageDoneToMeMax, damageDoneToMeMin));
             TakeDamage(damageDoneToMe);
+
+            if (EnemyBeenHit != null)
+            {
+                EnemyBeenHit();
+            }
 
             //Loads hit effect from resources folder
             Instantiate(Resources.Load<GameObject>("Sprites/Hit effects/Hit effect 1"), new Vector3(transform.position.x, transform.position.y, -1.33f), transform.rotation);

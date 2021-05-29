@@ -19,9 +19,13 @@ public class Charaudio : MonoBehaviour
     [Range(0f, 1f)]
     public float jumpVolume = 1;
 
-    [SerializeField] private AudioClip Coin_Pickup;
+    [SerializeField] private AudioClip coin_Pickup;
     [Range(0f, 1f)]
     public float coinPickupVolume = 1;
+
+    [SerializeField] private AudioClip hit_Something;
+    [Range(0f, 1f)]
+    public float hitSomethingVolume = 1;
 
 
 
@@ -45,6 +49,11 @@ public class Charaudio : MonoBehaviour
     private void Start()
     {
         audiosource = GetComponent<AudioSource>();
+    }
+
+    private void Update()
+    {
+        Enemyhealth.EnemyBeenHit += HitSomething;
     }
 
     public void AudOnFootStep()
@@ -114,6 +123,17 @@ public class Charaudio : MonoBehaviour
         }
     }
 
+    public void HitSomething()
+    {
+        if (hit_Something != null)
+        {
+            audiosource.volume = hitSomethingVolume;
+            audiosource.pitch = 1;
+            audiosource.clip = hit_Something;
+            audiosource.Play();
+        }
+    }
+
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
@@ -121,11 +141,11 @@ public class Charaudio : MonoBehaviour
         {
             if (collision.gameObject.CompareTag("coin_collectable"))
             {
-                if (Coin_Pickup != null)
+                if (coin_Pickup != null)
                 {
                     audiosource.volume = coinPickupVolume;
                     audiosource.pitch = (Random.Range(0.9f, 1f));
-                    audiosource.PlayOneShot(Coin_Pickup);
+                    audiosource.PlayOneShot(coin_Pickup);
                 }
             }
         }

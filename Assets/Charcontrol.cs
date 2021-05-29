@@ -12,6 +12,7 @@ public class Charcontrol : MonoBehaviour
 
     public State currentState;
 
+    public bool tree;
     
 
     [Header("Variables")]

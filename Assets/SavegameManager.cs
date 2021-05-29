@@ -24,9 +24,6 @@ public class SavegameManager : MonoBehaviour
     public void SavePlayer()
     {
         SaveSystem.SavePlayer(Charcontrolscript, Charpickup_Inventoryscript, Charhealthscript);
-        Debug.Log(Charcontrolscript);
-        Debug.Log(Charpickup_Inventoryscript);
-        Debug.Log(Charhealthscript);
     }
 
     public void LoadPlayer()
