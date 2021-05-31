@@ -18,15 +18,35 @@ public class gamemanager : MonoBehaviour
     private Animator hurtScreenAnimator;
 
     public GameObject Player;
+    private Animator PlayerAnim;
     public GameObject playerRespawnPoint;
     public GameObject[] Enemies;
 
     public bool mainCharRespawned = false;
 
+    public static bool pause, resume;
+    public bool paused, resumed;
+
+    public static gamemanager instance;
+
+    #region Singleton
+    private void Awake()
+    {
+        if (instance != null)
+        {
+            Debug.LogWarning("More than one instance of Game Manager found!");
+            return;
+        }
+        instance = this;
+    }
+    #endregion
+
     // Start is called before the first frame update
     void Start()
     {
         Player = GameObject.FindWithTag("Player");
+        PlayerAnim = Player.GetComponent<Animator>();
+
         playerRespawnPoint = GameObject.FindWithTag("player_respawn");
         if (!overwriteTime) Time.timeScale = 1f;
 
@@ -36,6 +56,13 @@ public class gamemanager : MonoBehaviour
 
     private void Update()
     { 
+        if (Input.GetKeyDown(KeyCode.P)) { PauseGame(); }
+        if (Input.GetKeyDown(KeyCode.O)) { ResumeGame(); }
+
+        if (pause) { paused = true; }
+        if (resume) { resumed = true; }
+
+
         if (overwriteTime) 
         {            
             Time.timeScale = timeScale; 
@@ -43,6 +70,20 @@ public class gamemanager : MonoBehaviour
         Application.targetFrameRate = frameRate;
 
         Charhealth.Hit += HurtFlash;
+    }
+
+    public void PauseGame()
+    {
+        Debug.Log("Pausing game...");
+        PlayerAnim.enabled = false;
+        Time.timeScale = 0;
+    }
+
+    public void ResumeGame()
+    {
+        Debug.Log("Resuming game...");
+        PlayerAnim.enabled = true;
+        Time.timeScale = 1;
     }
 
     void HurtFlash()

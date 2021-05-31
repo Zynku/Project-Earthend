@@ -2,24 +2,49 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
-
+using UnityEngine.EventSystems;
 public class teleporternetwork : MonoBehaviour
 {
+    public GameObject Player;
     public GameObject[] teleporters;
+    public GameObject activatedAt;
+    public GameObject teleportedTo;
+
     public TextMeshProUGUI[] teleporterNames;
     public TextMeshProUGUI pageNumberText;
+
     public GameObject TeleportCanvas;
-    public int pageNumber = 1;
+    public GameObject firstSelected;
+
+    Animator animator;
+    Animator animatorTo;
+
+    AudioSource audiosource;
+    AudioSource audiosourceTo;
+
+    public int pageNumber = 0;
     public int startTeleporterNumber;
-    //public TextMeshProUGUI TeleporterOne;
-    //public TextMeshProUGUI TeleporterTwo;
-    //public TextMeshProUGUI TeleporterThree;
 
     private void Start()
-    { 
+    {
+        Player = GameObject.FindWithTag("Player");
         teleporters = GameObject.FindGameObjectsWithTag("teleporter");
-        pageNumber = 1;
         AssignTeleporters(0);
+        TeleportCanvas.gameObject.SetActive(false);
+    }
+
+    public void showNetworkUI()
+    {
+        TeleportCanvas.SetActive(true);
+        EventSystem.current.SetSelectedGameObject(null);
+        EventSystem.current.SetSelectedGameObject(firstSelected);
+        gamemanager.instance.PauseGame();
+    }
+
+    public void hideNetworkUI()
+    {
+        TeleportCanvas.SetActive(false);
+        gamemanager.instance.ResumeGame();
     }
 
     // Update is called once per frame
@@ -37,30 +62,18 @@ public class teleporternetwork : MonoBehaviour
             PreviousPage();
         }
     }
-    public void AssignTeleporters(int startteleporter)
+    public void AssignTeleporters(int tp)
     {
-        for (int i = startteleporter; i < startteleporter + 3; i++)
+        int q = 0;
+        for (int i = tp; i < tp + 3; i++, q++)
         {
-            int q = 0;
-            if (i == teleporters.Length)
+            if (i < teleporters.Length)
             {
-                teleporterNames[q].text = "No teleporter found!";
-                i = startteleporter;
-                Debug.Log("No teleporter at " + teleporters[i]);
+                teleporterNames[q].text = teleporters[i].name.ToString();
             }
             else
             {
-                if (q < 3)
-                {
-                    teleporterNames[q].text = teleporters[i].name.ToString();
-                    q++;
-                    Debug.Log(teleporters.Length);
-                    Debug.Log(i);
-                }
-                else
-                {
-                    q = 0;
-                }
+                teleporterNames[q].text = "[No Teleporter Found]";
             }
         }
     }
@@ -68,6 +81,8 @@ public class teleporternetwork : MonoBehaviour
     public void NextPage()
     {
         pageNumber++;
+        if (pageNumber < 1) { pageNumber = 1; }
+        if (pageNumber > (teleporters.Length/3 + 1)) { pageNumber = teleporters.Length / 3 + 1; }
         startTeleporterNumber = (3 * (pageNumber - 1));
         AssignTeleporters(startTeleporterNumber);
     }
@@ -75,19 +90,73 @@ public class teleporternetwork : MonoBehaviour
     public void PreviousPage()
     {
         pageNumber--;
+        if (pageNumber < 1) { pageNumber = 1; }
+        if (pageNumber > (teleporters.Length / 3 + 1)) { pageNumber = teleporters.Length / 3 + 1; }
         startTeleporterNumber = (3 * (pageNumber - 1));
         AssignTeleporters(startTeleporterNumber);
-        //Decrement Page number
-        //Calculate Start Teleporter Number
-        //Call AssignTeleporters
     }
 
+    public void TeleportToOne()
+    {
+        Debug.Log(teleporters[3 * (pageNumber - 1)]);
+        if (teleporters[3 * (pageNumber - 1)] != null)
+        {
+            Player.transform.position = teleporters[3 * (pageNumber - 1)].transform.position + new Vector3(0, 0.5f, 0);
+            Player.GetComponent<Rigidbody2D>().velocity = new Vector2(0, 0);
 
-    //Page 1 start at teleporter 0 ;
-    //Page 2 start at teleporter 3 ;
-    //Page 3 start at teleporter 6 ;
-    //Page 4 start at teleporter 9 ;
-    //Page 5 start at teleporter 12 ;
-    //Formula is tp# = 3 (pg# - 1)
+            animator = activatedAt.GetComponent<Animator>();
+            animatorTo = teleporters[3 * (pageNumber - 1)].GetComponent<Animator>();
 
+            audiosource = activatedAt.GetComponent<AudioSource>();
+            audiosourceTo = teleporters[3 * (pageNumber - 1)].GetComponent<AudioSource>();
+
+            animator.SetTrigger("Teleport");
+            animatorTo.SetTrigger("Teleport");
+
+            audiosource.volume = GetComponent<teleporterscript>().teleportingVolume;
+            audiosource.PlayOneShot(GetComponent<teleporterscript>().teleporting);
+            audiosourceTo.volume = GetComponent<teleporterscript>().teleportingVolume;
+            audiosourceTo.PlayOneShot(GetComponent<teleporterscript>().teleporting);
+
+            TeleportCanvas.SetActive(false);
+
+            gamemanager.instance.ResumeGame();
+        }
+    }
+
+    public void TeleportToTwo()
+    {
+        if (teleporters[(3 * (pageNumber - 1) + 1)] != null)
+        {
+            Debug.Log(teleporters[(3 * (pageNumber - 1) + 1)]);
+
+            Player.transform.position = teleporters[(3 * (pageNumber - 1) + 1)].transform.position + new Vector3(0, 0.5f, 0);
+            Player.GetComponent<Rigidbody2D>().velocity = new Vector2(0, 0);
+
+            animator = activatedAt.GetComponent<Animator>();
+            animatorTo = teleporters[3 * (pageNumber - 1)].GetComponent<Animator>();
+
+            TeleportCanvas.SetActive(false);
+
+            gamemanager.instance.ResumeGame();
+        }
+    }
+
+    public void TeleportToThree()
+    {
+        if (teleporters[(3 * (pageNumber - 1) + 2)] != null)
+        {
+            Debug.Log(teleporters[(3 * (pageNumber - 1) + 2)]);
+
+            Player.transform.position = teleporters[(3 * (pageNumber - 1) + 2)].transform.position + new Vector3(0, 0.5f, 0);
+            Player.GetComponent<Rigidbody2D>().velocity = new Vector2(0, 0);
+
+            animator = activatedAt.GetComponent<Animator>();
+            animatorTo = teleporters[3 * (pageNumber - 1)].GetComponent<Animator>();
+
+            TeleportCanvas.SetActive(false);
+
+            gamemanager.instance.ResumeGame();
+        }
+    }
 }
