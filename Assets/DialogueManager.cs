@@ -15,6 +15,7 @@ public class DialogueManager : MonoBehaviour
     //public GameObject dialogueCharacter;           //Sprite / Animation of character doing the talking
     Animator dialogueCharAnim;                     //Animator component of the dialogue character
     public TextMeshProUGUI dialogueText;           //Dialogue that is actually shown on screen at any given point
+    public TextMeshProUGUI continueText;            //Text that says press [Interactor] to continue
     public int lettersPerSecond;
     private Vector2 NPCPos;
     public Vector2 AboveHeadDialogueOffset;
@@ -41,6 +42,7 @@ public class DialogueManager : MonoBehaviour
     void Start()
     {
         dialogueBox.SetActive(false);
+        continueText.enabled = false;
 
         aboveheaddialogueBox.SetActive(false);
         aboveheaddialogue.enabled = false;
@@ -54,7 +56,14 @@ public class DialogueManager : MonoBehaviour
 
     public void Update()
     {
-
+        if (isTyping)
+        {
+            continueText.enabled = false;
+        }
+        else
+        {
+            continueText.enabled = true;
+        }
     }
 
     public void LateUpdate()

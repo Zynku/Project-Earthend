@@ -35,6 +35,7 @@ public class teleporternetwork : MonoBehaviour
 
     public void showNetworkUI()
     {
+        //Shows teleport menu, makes sure the event system can select the menu objects, and pauses game.
         TeleportCanvas.SetActive(true);
         EventSystem.current.SetSelectedGameObject(null);
         EventSystem.current.SetSelectedGameObject(firstSelected);
@@ -64,22 +65,25 @@ public class teleporternetwork : MonoBehaviour
     }
     public void AssignTeleporters(int tp)
     {
+        //This functions assigns the first, second, and third teleporter names in the teleporter array to the teleporter menu.
         int q = 0;
-        for (int i = tp; i < tp + 3; i++, q++)
+        for (int i = tp; i < tp + 3; i++, q++)  //Loops through the first 3 names and assigns to the 3 name slots
         {
             if (i < teleporters.Length)
             {
-                teleporterNames[q].text = teleporters[i].name.ToString();
+                teleporterNames[q].text = teleporters[i].name.ToString();   //If there is a teleporter in the "i"th slot, it assigns the name
             }
             else
             {
-                teleporterNames[q].text = "[No Teleporter Found]";
+                teleporterNames[q].text = "[No Teleporter Found]";          //If there are no teleporters in the "i" th slot, it says no teleporter found
             }
         }
     }
 
     public void NextPage()
     {
+        //Increments page number, stops page numbers from overflowing or underflowing, reassigns teleporters based on the number teleporter we should
+        //be starting at. This is done using some algebra and the page number to calculate the teleporter.
         pageNumber++;
         if (pageNumber < 1) { pageNumber = 1; }
         if (pageNumber > (teleporters.Length/3 + 1)) { pageNumber = teleporters.Length / 3 + 1; }
@@ -89,6 +93,7 @@ public class teleporternetwork : MonoBehaviour
 
     public void PreviousPage()
     {
+        //Does the same as above but decrements page number instead.
         pageNumber--;
         if (pageNumber < 1) { pageNumber = 1; }
         if (pageNumber > (teleporters.Length / 3 + 1)) { pageNumber = teleporters.Length / 3 + 1; }
@@ -98,10 +103,14 @@ public class teleporternetwork : MonoBehaviour
 
     public void TeleportToOne()
     {
+        //Grabs player transform and sets it to the teleporter transform with some offset so player does not clip into ground.
+        //Grabs both teleporters' animators, audiosources, and audioclips and activates them all
+        //Deactivates the teleporter menu, resumes game.
         Debug.Log(teleporters[3 * (pageNumber - 1)]);
         if (teleporters[3 * (pageNumber - 1)] != null)
         {
-            Player.transform.position = teleporters[3 * (pageNumber - 1)].transform.position + new Vector3(0, 0.5f, 0);
+            Vector3 teleportoffset = new Vector3 (0, 0.5f, 0);
+            Player.transform.position = teleporters[3 * (pageNumber - 1)].transform.position + teleportoffset;
             Player.GetComponent<Rigidbody2D>().velocity = new Vector2(0, 0);
 
             animator = activatedAt.GetComponent<Animator>();
@@ -110,13 +119,13 @@ public class teleporternetwork : MonoBehaviour
             audiosource = activatedAt.GetComponent<AudioSource>();
             audiosourceTo = teleporters[3 * (pageNumber - 1)].GetComponent<AudioSource>();
 
-            animator.SetTrigger("Teleport");
+            /*animator.SetTrigger("Teleport");
             animatorTo.SetTrigger("Teleport");
 
             audiosource.volume = GetComponent<teleporterscript>().teleportingVolume;
             audiosource.PlayOneShot(GetComponent<teleporterscript>().teleporting);
             audiosourceTo.volume = GetComponent<teleporterscript>().teleportingVolume;
-            audiosourceTo.PlayOneShot(GetComponent<teleporterscript>().teleporting);
+            audiosourceTo.PlayOneShot(GetComponent<teleporterscript>().teleporting);*/
 
             TeleportCanvas.SetActive(false);
 

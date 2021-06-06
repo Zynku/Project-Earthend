@@ -5,10 +5,22 @@ using UnityEngine;
 public class Effecttesttube : MonoBehaviour
 {
     public tubeType tubetype;
+    public Vector3 gasCloudOffset;
     SpriteRenderer sprite;
+
+    AudioSource audiosource;
+
+    [SerializeField] private AudioClip tubeBreak;
+    [Range(0f, 1f)]
+    public float tubeBreakVol = 1;
+
+    [SerializeField] private AudioClip gasExpel;
+    [Range(0f, 1f)]
+    public float gasExpelVol = 1;
 
     public enum tubeType
     {
+        None,
         Poison,
         Freeze,
         Fire,
@@ -20,6 +32,7 @@ public class Effecttesttube : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        audiosource = GetComponent<AudioSource>();
         sprite = GetComponent<SpriteRenderer>();
     }
 
@@ -28,6 +41,11 @@ public class Effecttesttube : MonoBehaviour
     {
         switch (tubetype)
         {
+            case tubeType.None:
+                //Sets sprite renderer color to default
+                sprite.color = new Color(1f, 1f, 1f);
+                break;
+
             case tubeType.Poison:
                 //Sets sprite renderer color to green
                 sprite.color = new Color(0.66f, 1f, 0.41f);
@@ -57,16 +75,18 @@ public class Effecttesttube : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.CompareTag("Player") || (collision.CompareTag("Ground")))
+        if (/*collision.CompareTag("Player") ||*/ (collision.CompareTag("Ground")))
         {
+            PlayBreakSound();
             Explode();
         }
     }
     
     void Explode()
     {
+        //Instantiates the correct gas cloud with the correct color from Gascloudscript
         GameObject go;
-        go = Instantiate(Resources.Load("Sprites/Status effects/Gas Cloud") as GameObject, transform.position, Quaternion.identity);
+        go = Instantiate(Resources.Load("Sprites/Status effects/Gas Cloud") as GameObject, transform.position + gasCloudOffset, Quaternion.identity);
 
         switch (tubetype)
         {
@@ -89,8 +109,23 @@ public class Effecttesttube : MonoBehaviour
                 go.GetComponent<Gascloudscript>().CloudType = Gascloudscript.cloudType.Slow;
                 break;
         }
-                
-        
-        Destroy(this.gameObject);
+
+        Destroy(gameObject);
+    }
+
+    void PlayBreakSound()
+    {
+        if (tubeBreak != null)
+        {
+            audiosource.volume = tubeBreakVol;
+            audiosource.pitch = 1;
+            audiosource.clip = tubeBreak;
+            AudioSource.PlayClipAtPoint(tubeBreak, transform.position, tubeBreakVol);
+        }
+
+        if (gasExpel != null)
+        {
+            AudioSource.PlayClipAtPoint(gasExpel, transform.position, tubeBreakVol);
+        }
     }
 }
