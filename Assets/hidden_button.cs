@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class hidden_button : MonoBehaviour
 {
+    public bool keepInactive;
     public float timesClicked;
     public float[] timesClickedForEvent;
     public GameObject[] EasterEggObject;
@@ -54,11 +55,17 @@ public class hidden_button : MonoBehaviour
 
     private void OnDisable()
     {
-        for (int i = 0; i < EasterEggObject.Length; i++)
+        if (keepInactive)
         {
-            EasterEggObject[i].SetActive(false);
+            for (int i = 0; i < EasterEggObject.Length; i++)
+            {
+                EasterEggObject[i].SetActive(false);
+            }
         }
-        timesClicked = 0;
+        else
+        {
+            timesClicked = 0;
+        }
     }
 
     public void IncrementCount()

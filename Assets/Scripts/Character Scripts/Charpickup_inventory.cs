@@ -10,6 +10,7 @@ public class Charpickup_inventory : MonoBehaviour
     public float money;
     public static Charpickup_inventory instance;
     private Char_control char_control;
+    private InventoryUI inventoryui;
     private bool hasInteracted;
 
     #region Singleton
@@ -34,6 +35,7 @@ public class Charpickup_inventory : MonoBehaviour
     void Start()
     {
         char_control = GetComponent<Char_control>();
+        inventoryui = GameObject.Find("Inventory Screen Canvas").GetComponent<InventoryUI>();
     }
 
     // Update is called once per frame
@@ -59,6 +61,7 @@ public class Charpickup_inventory : MonoBehaviour
             {
                 //Has item
                 items[i].amountHas += items[i].amount;
+                inventoryui.ShowPickedUpText(item);
                 if (onItemChangedCallback != null) { onItemChangedCallback.Invoke(); }
                 return true;
             }
@@ -67,6 +70,7 @@ public class Charpickup_inventory : MonoBehaviour
         items.Add(item);
         item.amountHas = 0;
         item.amountHas += item.amount;
+        inventoryui.ShowPickedUpText(item);
         if (onItemChangedCallback != null) { onItemChangedCallback.Invoke(); }
         return true;
     }

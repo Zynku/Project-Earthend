@@ -1343,7 +1343,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: -26.399967, y: 53.600006}
+  m_AnchoredPosition: {x: -26.400024, y: 53.599976}
   m_SizeDelta: {x: -699.99994, y: -349.99997}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &437729705
@@ -1585,6 +1585,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7706b490fb51c364f9934fc400fefd5b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  keepInactive: 0
   timesClicked: 0
   timesClickedForEvent:
   - 12
@@ -2079,7 +2080,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: -276.79996, y: 31.4506}
+  m_AnchoredPosition: {x: -276.79993, y: 31.450623}
   m_SizeDelta: {x: -637.5873, y: -422.9012}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &606515058
@@ -3552,6 +3553,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7706b490fb51c364f9934fc400fefd5b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  keepInactive: 0
   timesClicked: 0
   timesClickedForEvent:
   - 30
