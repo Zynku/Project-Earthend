@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   name: Debug Item
   amount: 1
-  amountHas: 23
+  amountHas: 0
   amountInStorage: 0
   Icon: {fileID: -4160721621487282005, guid: cfc569eb223714a438b49110fca313f7, type: 3}
   description: Debug Item used for testing purposes. You really shouldn't have this...

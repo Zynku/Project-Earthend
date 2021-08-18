@@ -53,6 +53,7 @@ public class Charpickup_inventory : MonoBehaviour
             return false;
         }
 
+        inventoryui.ShowPickedUpText(item);
 
         //Loop through all items, if new item has the same name of an item you already have, dont add item, but still increase amountHas
         for (int i = 0; i < items.Count; i++)
@@ -61,7 +62,7 @@ public class Charpickup_inventory : MonoBehaviour
             {
                 //Has item
                 items[i].amountHas += items[i].amount;
-                inventoryui.ShowPickedUpText(item);
+
                 if (onItemChangedCallback != null) { onItemChangedCallback.Invoke(); }
                 return true;
             }
@@ -70,7 +71,7 @@ public class Charpickup_inventory : MonoBehaviour
         items.Add(item);
         item.amountHas = 0;
         item.amountHas += item.amount;
-        inventoryui.ShowPickedUpText(item);
+        //inventoryui.ShowPickedUpText(item);
         if (onItemChangedCallback != null) { onItemChangedCallback.Invoke(); }
         return true;
     }
@@ -114,18 +115,35 @@ public class Charpickup_inventory : MonoBehaviour
                 var heartValue = collision.gameObject.GetComponent<Heartscript>().heartValue;
                 GetComponentInParent<Charhealth>().AddHealth(Mathf.FloorToInt(heartValue));
             }
+
+            //If you come across a weapon and you interact, add weapon to weapons list, destroy weapon
+            if (collision.CompareTag("dropped_weapon"))
+            {
+                if (Input.GetAxisRaw("Interact") > 0)
+                {
+                    //weapons.Add(collision.transform.parent.gameObject);
+                    char_control.attackdamageMax = collision.GetComponentInParent<dropped_weapon>().damageMax;
+                    char_control.attackdamageMin = collision.GetComponentInParent<dropped_weapon>().damageMin;
+                    char_control.SetMeleeSprite(collision.GetComponentInParent<SpriteRenderer>().sprite);
+                    Destroy(collision.transform.parent.gameObject);
+                }
+            }
+
+            //If you come across a droptable item, do the whole interact thing bruv
             if (collision.CompareTag("item_collectable"))
             {
-                Interactable interactable = collision.gameObject.GetComponentInParent<Interactable>();
+                collision.GetComponentInParent<ItemInteractable>().Interact();
+                /*Interactable interactable = collision.gameObject.GetComponentInParent<Interactable>();
                 if (interactable != null)
                 {
                     hasInteracted = true;
-                    collision.gameObject.SetActive(false);
+                    //collision.gameObject.SetActive(false);
                     //Destroy(interactable.gameObject);
                     interactable.Interact();
-                }
-                //This is how an item is added to the inventory. Interact() is called here, from Interactable script, but is overidden in ItemPickup by Pickup()
-                //Pickup destroys the gameObject and calls the AddItem() function from this script, which, if there is enough room, invokes onItemChangedCallback 
+                }*/
+
+                //This is how an item is added to the inventory. Interact() is called here, from ItemInteractable script. If pickup time is reached,
+                //Pickup() destroys the gameObject and calls the AddItem() function from this script, which, if there is enough room, invokes onItemChangedCallback 
                 //to add the item to the inventory UI, to which UpdateUI is subscribed in InventoryUI. UpdateUI adds the item to the [i]th place via 
                 //AddItem from InventoryItemSlot script.
             }
@@ -138,18 +156,7 @@ public class Charpickup_inventory : MonoBehaviour
 
     private void OnTriggerStay2D(Collider2D collision)
     {
-        //If you come across a weapon and you interact, add weapon to weapons list, destroy weapon
-        if (collision.CompareTag("dropped_weapon"))
-        {
-            if (Input.GetAxisRaw("Interact") > 0)
-            {
-                //weapons.Add(collision.transform.parent.gameObject);
-                char_control.attackdamageMax = collision.GetComponentInParent<dropped_weapon>().damageMax;
-                char_control.attackdamageMin = collision.GetComponentInParent<dropped_weapon>().damageMin;
-                char_control.SetMeleeSprite(collision.GetComponentInParent<SpriteRenderer>().sprite);
-                Destroy(collision.transform.parent.gameObject);
-            }
-        }
+
     }
 
     private void OnTriggerExit2D(Collider2D collision)

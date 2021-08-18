@@ -4,7 +4,6 @@ using UnityEngine;
 
 public class Interactable : MonoBehaviour
 {
-    public float radius = 3f;
     public Transform interactionTransform;
 
     public virtual void Interact()
@@ -19,7 +18,7 @@ public class Interactable : MonoBehaviour
             interactionTransform = transform;
         }
 
-        Gizmos.color = Color.yellow;
-        Gizmos.DrawWireSphere(interactionTransform.position, radius);
+        //Gizmos.color = Color.yellow;
+        //Gizmos.DrawWireSphere(interactionTransform.position, radius);
     }
 }

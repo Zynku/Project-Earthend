@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   name: Void Sprite
   amount: 1
-  amountHas: 0
+  amountHas: 2
   amountInStorage: 0
   Icon: {fileID: -5991182048604236753, guid: cfc569eb223714a438b49110fca313f7, type: 3}
   description: Description for Void Sprite

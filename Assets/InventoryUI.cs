@@ -8,8 +8,13 @@ public class InventoryUI : MonoBehaviour
     public GameObject InventoryUIObject;
     public Transform itemsParent;
 
-    public TextMeshProUGUI itemPickedUpText;
-    private Animator itemPickedUpAnim;
+    public GameObject pickedUpPrefab;
+    public List<GameObject> pickedUpTexts;
+
+    private Animator itemPickedUpOneAnim;
+    public bool isTextLoActive;
+    public bool isTextMidActive;
+    public bool isTextHiActive;
 
     private float itemCoalesceTime;
     public float itemCoalesceTargetTime = 3f;
@@ -41,7 +46,6 @@ public class InventoryUI : MonoBehaviour
         inventory.onItemChangedCallback += UpdateUI;
         inventory.onClearInventoryCallback += ClearInventory;
 
-        itemPickedUpAnim = itemPickedUpText.GetComponent<Animator>();
         slots = itemsParent.GetComponentsInChildren<InventoryItemSlot>();
 
         InventoryUIObject.SetActive(false);
@@ -52,6 +56,14 @@ public class InventoryUI : MonoBehaviour
         if (Input.GetButtonDown("Inventory"))
         {
             InventoryUIObject.SetActive(!InventoryUIObject.activeSelf);
+        }
+        //ManagePickedUpTexts();
+
+        if (pickedUpTexts.Count == 0)
+        {
+            isTextLoActive = false;
+            isTextMidActive = false;
+            isTextHiActive = false;
         }
 
         itemCoalesceTime -= Time.deltaTime;
@@ -97,23 +109,111 @@ public class InventoryUI : MonoBehaviour
 
     public void ShowPickedUpText(ItemScriptable item)
     {
+        //FIX THIS
+
+        GameObject newText = Instantiate(pickedUpPrefab, gameObject.transform);
+        newText.GetComponent<RectTransform>().anchoredPosition = new Vector3(0, -20, 0);
+        newText.GetComponent<PickedUpTextScript>().AssignNameandAmount(item);
+        pickedUpTexts.Add(newText);
+
+
+        //foreach loop that checks all itempickeduptexts for the same name as the one you're trying to add
+        //If found, add the item amount to the that item, if not, create new itempickeduptext
+
+
+        /*for (int i = 0; i < itemPickedUpText.Count; i++)
+        {
+            //If an itempickeduptext is found containing the same name as an item that was just picked up...
+            if (itemPickedUpText[i].text.Contains(item.name.ToString()))
+            {
+                //Add the amount that was picked up to the amount already being displayed.
+                itemPickedUpText[i].text = (itemamount + " x " + itemname);
+            }
+        }
+        */
+
+
+        if (!isTextLoActive)
+        {
+            newText.GetComponent<Animator>().Play("Appear at Lo");
+            isTextLoActive = true;
+        }
+        else if (!isTextMidActive)
+        {
+            newText.GetComponent<Animator>().Play("Appear at Mid");
+            isTextMidActive = true;
+        }
+        else if (!isTextHiActive)
+        {
+            newText.GetComponent<Animator>().Play("Appear at Hi");
+            isTextHiActive = true;
+        }
+        else
+        {
+            Destroy(newText);
+        }
+    }
+
+    
+
+    /*
+    public IEnumerator ManagePickedUpTexts()
+    {
+        //This function was meant to move texts into a lower position when it became empty, but i couldnt get it working, so
+        //texts just stay in their position and despawn at the correct time.
+
+        //If any of them have in text...
+        if (isTextHiActive || isTextMidActive || isTextLoActive)
+        {
+            //If the top and lo position have text and the mid position doesn't
+            if (isTextHiActive && !isTextMidActive && isTextLoActive)
+            {
+                itemPickedUpText[0].GetComponent<Animator>().Play("Move from Hi to Mid");
+                yield return new WaitForSeconds(0.1f);
+                isTextMidActive = true;
+            }
+            //If the top position has text, and the mid and lo positions don't
+            if (isTextHiActive && !isTextMidActive && !isTextLoActive)
+            {
+                itemPickedUpText[0].GetComponent<Animator>().Play("Move from Hi to Lo");
+                yield return new WaitForSeconds(0.1f);
+                isTextLoActive = true;
+            }
+            //If the mid position has text, and the lo position doesn't
+            if (isTextMidActive && !isTextLoActive)
+            {
+                itemPickedUpText[0].GetComponent<Animator>().Play("Move from Mid to Lo");
+                yield return new WaitForSeconds(0.1f);
+                isTextLoActive = true;
+            }
+        }
+    }
+
+    
+
+
+
+
+        
+        //Have 3 separate text elements that appear at different locations on the screen
+        //If one type of item is picked up, assign the type and amount to the first text element, the second type and amount to the second element etc.
         float itemamount = item.amount;
         string itemname = item.name.ToString();
 
         //Pickedup text is on screen for PickedUpOnScreenTargetTime
 
 
-        /*if (itemCoalesceTime <= 0) //If it has been recent enough after picking up the same item
+        if (itemCoalesceTime <= 0) //If it has been recent enough after picking up the same item
         {
             //Just add the item number to what's already on screen
-            itemPickedUpText.text = (itemamount + " x " + itemname);
+            itemPickedUpTextLo.text = (itemamount + " x " + itemname);
             itemCoalesceTime = itemCoalesceTargetTime;
         }
         else
         {
             //Otherwise create a new name + number
-            itemPickedUpText.text = (itemamount + " x " + itemname);
+            itemPickedUpTextLo.text = (itemamount + " x " + itemname);
         }
         */
-    }
+    
 }
