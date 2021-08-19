@@ -169,4 +169,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   aliveTimer: 0
-  despawnTargetTime: 7
+  myItemAmount: 0
+  myItemName: 
+  myText: {fileID: 5271411167706028114}

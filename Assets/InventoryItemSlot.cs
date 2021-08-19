@@ -29,7 +29,7 @@ public class InventoryItemSlot : MonoBehaviour
         nameText.text = newItem.name.ToString();
         amountText.enabled = true;
         nameText.enabled = true;
-        Debug.Log("Item added");
+        //Debug.Log("Item added");
     }
 
     public void ClearSlot()

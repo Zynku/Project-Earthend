@@ -30,7 +30,7 @@ RectTransform:
   m_LocalScale: {x: 2, y: 2, z: 2}
   m_Children: []
   m_Father: {fileID: 6013478474883109237}
-  m_RootOrder: 0
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
@@ -181,6 +181,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5770793142621711765}
   - component: {fileID: 5616175104870619286}
+  - component: {fileID: 52828654421279861}
   m_Layer: 14
   m_Name: Collision Handler
   m_TagString: item_collectable
@@ -200,7 +201,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 6013478474883109237}
-  m_RootOrder: 1
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!58 &5616175104870619286
 CircleCollider2D:
@@ -218,6 +219,24 @@ CircleCollider2D:
   m_Offset: {x: 0, y: 0}
   serializedVersion: 2
   m_Radius: 0.2
+--- !u!114 &52828654421279861
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5280963703622050707}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d6e556075d24ecd41b019380a6591717, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  item: {fileID: 11400000, guid: 594f0c2dc1366804b843c56bf6071218, type: 2}
+  beenAliveTime: 0
+  canPickupTargetTime: 1
+  despawnTargetTime: 15
+  canBePickedUp: 0
+  radius: 3
 --- !u!1 &6013478474883109233
 GameObject:
   m_ObjectHideFlags: 0
@@ -228,14 +247,13 @@ GameObject:
   m_Component:
   - component: {fileID: 6013478474883109237}
   - component: {fileID: 6013478474883109236}
-  - component: {fileID: 6013478474883109234}
-  - component: {fileID: 4289245259389364099}
   - component: {fileID: 1380246497371360354}
   - component: {fileID: -2389340051769382507}
   - component: {fileID: 6341796035502390927}
   - component: {fileID: 2385440674147876551}
   - component: {fileID: -5085597643621105629}
-  m_Layer: 0
+  - component: {fileID: 5937744139358139554}
+  m_Layer: 16
   m_Name: '[Debug Item]'
   m_TagString: item_collectable
   m_Icon: {fileID: 0}
@@ -253,8 +271,8 @@ Transform:
   m_LocalPosition: {x: -12.458, y: -3.005, z: 0}
   m_LocalScale: {x: 0.5, y: 0.5, z: 0.5}
   m_Children:
-  - {fileID: 2683646830202894480}
   - {fileID: 5770793142621711765}
+  - {fileID: 2683646830202894480}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -311,36 +329,6 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!114 &6013478474883109234
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6013478474883109233}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6b40ac7b4695bf441b53f2734d6bf69f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  item: {fileID: 11400000, guid: 594f0c2dc1366804b843c56bf6071218, type: 2}
---- !u!114 &4289245259389364099
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6013478474883109233}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d6e556075d24ecd41b019380a6591717, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  beenAliveTime: 0
-  canPickupTargetTime: 1
-  despawnTargetTime: 15
-  canBePickedUp: 0
-  radius: 3
 --- !u!50 &1380246497371360354
 Rigidbody2D:
   serializedVersion: 4
@@ -521,3 +509,15 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
+--- !u!114 &5937744139358139554
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6013478474883109233}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cefe3f646f4dc3946bb10a0f1b3db796, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

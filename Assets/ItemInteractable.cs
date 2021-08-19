@@ -10,7 +10,7 @@ public class ItemInteractable : MonoBehaviour
     public void Interact()
     {
 
-        if (GetComponent<ItemPickupable>().canBePickedUp == true)
+        if (GetComponentInChildren<ItemPickupable>().canBePickedUp == true)
         {
             Pickup();
         }

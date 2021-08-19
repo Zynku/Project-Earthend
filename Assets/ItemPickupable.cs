@@ -5,6 +5,8 @@ using TMPro;
 
 public class ItemPickupable : MonoBehaviour
 {
+    public ItemScriptable item;
+
     public float beenAliveTime = 0f;
     public float canPickupTargetTime = 5f;
     public float despawnTargetTime = 15f;
@@ -17,7 +19,7 @@ public class ItemPickupable : MonoBehaviour
     private void Start()
     {
         aliveTimer = GetComponentInChildren<TextMeshPro>();
-        anim = GetComponent<Animator>();
+        anim = GetComponentInParent<Animator>();
 
         UpdateAnimClipTimes();
     }
@@ -53,8 +55,27 @@ public class ItemPickupable : MonoBehaviour
         }
     }
 
-        public void DestroyGameObject()
+    public void Interact()
     {
-        Destroy(gameObject);
+        if (GetComponentInChildren<ItemPickupable>().canBePickedUp == true)
+        {
+            Pickup();
+        }
     }
+
+    public void DestroyGameObject()
+    {
+        Destroy(gameObject.transform.parent.gameObject);
+    }
+
+    public void Pickup()
+    {
+        bool wasPickedUp = Charpickup_inventory.instance.AddItem(item);
+
+        if (wasPickedUp)
+        {
+            Destroy(gameObject.transform.parent.gameObject);
+        }
+    }
+
 }

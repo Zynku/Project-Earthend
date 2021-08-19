@@ -109,50 +109,65 @@ public class InventoryUI : MonoBehaviour
 
     public void ShowPickedUpText(ItemScriptable item)
     {
-        //FIX THIS
-
-        GameObject newText = Instantiate(pickedUpPrefab, gameObject.transform);
-        newText.GetComponent<RectTransform>().anchoredPosition = new Vector3(0, -20, 0);
-        newText.GetComponent<PickedUpTextScript>().AssignNameandAmount(item);
-        pickedUpTexts.Add(newText);
-
-
-        //foreach loop that checks all itempickeduptexts for the same name as the one you're trying to add
-        //If found, add the item amount to the that item, if not, create new itempickeduptext
-
-
-        /*for (int i = 0; i < itemPickedUpText.Count; i++)
+        //If there are texts onscreen
+        if (pickedUpTexts.Count > 0)
         {
-            //If an itempickeduptext is found containing the same name as an item that was just picked up...
-            if (itemPickedUpText[i].text.Contains(item.name.ToString()))
+            //Loop through all item texts on screen
+            for (int i = 0; i < pickedUpTexts.Count; i++)
             {
-                //Add the amount that was picked up to the amount already being displayed.
-                itemPickedUpText[i].text = (itemamount + " x " + itemname);
+                //If an itempickeduptext is found containing the same name as an item that was just picked up...
+                //if (pickedUpTexts[i].GetComponent<TextMeshProUGUI>().text.Contains(item.name.ToString()))
+                if (pickedUpTexts[i].GetComponent<PickedUpTextScript>().myItem == item)
+                {
+                    //Add the amount that was picked up to the amount already being displayed.
+                    pickedUpTexts[i].GetComponent<PickedUpTextScript>().myItemAmount += item.amount;
+                    pickedUpTexts[i].GetComponent<PickedUpTextScript>().AssignNewNameandAmount();
+                }
+                //Otherwise, create a new item text
+                else
+                {
+                    CreateNewText(item);
+                }
             }
-        }
-        */
-
-
-        if (!isTextLoActive)
-        {
-            newText.GetComponent<Animator>().Play("Appear at Lo");
-            isTextLoActive = true;
-        }
-        else if (!isTextMidActive)
-        {
-            newText.GetComponent<Animator>().Play("Appear at Mid");
-            isTextMidActive = true;
-        }
-        else if (!isTextHiActive)
-        {
-            newText.GetComponent<Animator>().Play("Appear at Hi");
-            isTextHiActive = true;
         }
         else
         {
-            Destroy(newText);
+            CreateNewText(item);
         }
     }
+
+    public void CreateNewText(ItemScriptable item)
+    {
+        //If there is no text on screen with the same name as the item you picked up
+        {
+            GameObject newText = Instantiate(pickedUpPrefab, gameObject.transform);
+            newText.GetComponent<RectTransform>().anchoredPosition = new Vector3(0, -20, 0);
+            newText.GetComponent<PickedUpTextScript>().AssignNameandAmount(item);
+            pickedUpTexts.Add(newText);
+
+            if (!isTextLoActive)
+            {
+                newText.GetComponent<Animator>().Play("Appear at Lo");
+                isTextLoActive = true;
+            }
+            else if (!isTextMidActive)
+            {
+                newText.GetComponent<Animator>().Play("Appear at Mid");
+                isTextMidActive = true;
+            }
+            else if (!isTextHiActive)
+            {
+                newText.GetComponent<Animator>().Play("Appear at Hi");
+                isTextHiActive = true;
+            }
+            else
+            {
+                pickedUpTexts.Remove(newText);
+                Destroy(newText);
+            }
+        }
+    }
+
 
     
 
@@ -215,5 +230,5 @@ public class InventoryUI : MonoBehaviour
             itemPickedUpTextLo.text = (itemamount + " x " + itemname);
         }
         */
-    
+
 }

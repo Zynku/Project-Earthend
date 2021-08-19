@@ -132,7 +132,7 @@ public class Charpickup_inventory : MonoBehaviour
             //If you come across a droptable item, do the whole interact thing bruv
             if (collision.CompareTag("item_collectable"))
             {
-                collision.GetComponentInParent<ItemInteractable>().Interact();
+                collision.GetComponentInChildren<ItemPickupable>().Interact();
                 /*Interactable interactable = collision.gameObject.GetComponentInParent<Interactable>();
                 if (interactable != null)
                 {

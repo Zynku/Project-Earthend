@@ -18,5 +18,4 @@ public class ItemScriptable : ScriptableObject
         //Should be overwritten by each different type of item
         Debug.Log("Using " + name);
     }
-
 }
