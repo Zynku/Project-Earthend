@@ -54,7 +54,7 @@ public class PickedUpTextScript : MonoBehaviour
     public IEnumerator Despawn()
     {
         GetComponentInParent<InventoryUI>().pickedUpTexts.Remove(gameObject);
-        yield return new WaitForSeconds(0.5f);
+        yield return new WaitForSeconds(0.1f);
         Destroy(gameObject);
     }
 }

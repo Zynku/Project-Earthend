@@ -10,6 +10,7 @@ public class InventoryUI : MonoBehaviour
 
     public GameObject pickedUpPrefab;
     public List<GameObject> pickedUpTexts;
+    public List<GameObject> offScreenTexts;
 
     private Animator itemPickedUpOneAnim;
     public bool isTextLoActive;
@@ -117,22 +118,28 @@ public class InventoryUI : MonoBehaviour
             {
                 //If an itempickeduptext is found containing the same name as an item that was just picked up...
                 //if (pickedUpTexts[i].GetComponent<TextMeshProUGUI>().text.Contains(item.name.ToString()))
+                
                 if (pickedUpTexts[i].GetComponent<PickedUpTextScript>().myItem == item)
                 {
+                    Debug.Log("Text found containing " + item.name);
                     //Add the amount that was picked up to the amount already being displayed.
                     pickedUpTexts[i].GetComponent<PickedUpTextScript>().myItemAmount += item.amount;
                     pickedUpTexts[i].GetComponent<PickedUpTextScript>().AssignNewNameandAmount();
+                    break;
                 }
-                //Otherwise, create a new item text
+                //Creates a new text if there are no texts showing the same item that was just picked up
                 else
                 {
                     CreateNewText(item);
+                    Debug.Log("Creating new text out of for loop for " + item.name);
                 }
             }
         }
+        //Creates a new text if no texts are on screen
         else
         {
             CreateNewText(item);
+            Debug.Log("Creating new text out of if statement for " + item.name);
         }
     }
 
@@ -145,30 +152,48 @@ public class InventoryUI : MonoBehaviour
             newText.GetComponent<PickedUpTextScript>().AssignNameandAmount(item);
             pickedUpTexts.Add(newText);
 
-            if (!isTextLoActive)
-            {
-                newText.GetComponent<Animator>().Play("Appear at Lo");
-                isTextLoActive = true;
-            }
-            else if (!isTextMidActive)
-            {
-                newText.GetComponent<Animator>().Play("Appear at Mid");
-                isTextMidActive = true;
-            }
-            else if (!isTextHiActive)
-            {
-                newText.GetComponent<Animator>().Play("Appear at Hi");
-                isTextHiActive = true;
-            }
-            else
-            {
-                pickedUpTexts.Remove(newText);
-                Destroy(newText);
-            }
+            AssignTextToPosition(newText);
+        }
+    }
+
+    public void AssignTextToPosition(GameObject newText)
+    {
+        if (!isTextLoActive)
+        {
+            newText.GetComponent<Animator>().Play("Appear at Lo");
+            isTextLoActive = true;
+        }
+        else if (!isTextMidActive)
+        {
+            newText.GetComponent<Animator>().Play("Appear at Mid");
+            isTextMidActive = true;
+        }
+        else if (!isTextHiActive)
+        {
+            newText.GetComponent<Animator>().Play("Appear at Hi");
+            isTextHiActive = true;
+        }
+        else
+        {
+            pickedUpTexts.Remove(newText);
+            ManageOffScreenTexts(newText);
         }
     }
 
 
+    //TODO: This function is only called once when a text is placed off screen. Make it constantly check.
+    public void ManageOffScreenTexts(GameObject newText)
+    {
+        offScreenTexts.Add(newText);
+        newText.GetComponent<Animator>().Play("Hold Off Screen");
+
+        if (!isTextLoActive || !isTextMidActive || !isTextHiActive)
+        {
+            offScreenTexts.Remove(newText);
+            pickedUpTexts.Add(newText);
+            AssignTextToPosition(newText);
+        }
+    }
     
 
     /*
