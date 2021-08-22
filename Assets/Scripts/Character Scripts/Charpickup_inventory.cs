@@ -9,7 +9,7 @@ public class Charpickup_inventory : MonoBehaviour
     public int inventorySpace = 40;
     public float money;
     public static Charpickup_inventory instance;
-    private Char_control char_control;
+    private Charcontrol Charcontrol;
     private InventoryUI inventoryui;
     private bool hasInteracted;
 
@@ -34,7 +34,7 @@ public class Charpickup_inventory : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        char_control = GetComponent<Char_control>();
+        Charcontrol = GetComponent<Charcontrol>();
         inventoryui = GameObject.Find("Inventory Screen Canvas").GetComponent<InventoryUI>();
     }
 
@@ -53,8 +53,6 @@ public class Charpickup_inventory : MonoBehaviour
             return false;
         }
 
-        inventoryui.ShowPickedUpText(item);
-
         //Loop through all items, if new item has the same name of an item you already have, dont add item, but still increase amountHas
         for (int i = 0; i < items.Count; i++)
         {
@@ -63,6 +61,7 @@ public class Charpickup_inventory : MonoBehaviour
                 //Has item
                 items[i].amountHas += items[i].amount;
 
+                inventoryui.ShowPickedUpText(item);
                 if (onItemChangedCallback != null) { onItemChangedCallback.Invoke(); }
                 return true;
             }
@@ -71,7 +70,7 @@ public class Charpickup_inventory : MonoBehaviour
         items.Add(item);
         item.amountHas = 0;
         item.amountHas += item.amount;
-        //inventoryui.ShowPickedUpText(item);
+        inventoryui.ShowPickedUpText(item);
         if (onItemChangedCallback != null) { onItemChangedCallback.Invoke(); }
         return true;
     }
@@ -122,9 +121,9 @@ public class Charpickup_inventory : MonoBehaviour
                 if (Input.GetAxisRaw("Interact") > 0)
                 {
                     //weapons.Add(collision.transform.parent.gameObject);
-                    char_control.attackdamageMax = collision.GetComponentInParent<dropped_weapon>().damageMax;
-                    char_control.attackdamageMin = collision.GetComponentInParent<dropped_weapon>().damageMin;
-                    char_control.SetMeleeSprite(collision.GetComponentInParent<SpriteRenderer>().sprite);
+                    Charcontrol.attackdamageMax = collision.GetComponentInParent<dropped_weapon>().damageMax;
+                    Charcontrol.attackdamageMin = collision.GetComponentInParent<dropped_weapon>().damageMin;
+                    Charcontrol.SetMeleeSprite(collision.GetComponentInParent<SpriteRenderer>().sprite);
                     Destroy(collision.transform.parent.gameObject);
                 }
             }

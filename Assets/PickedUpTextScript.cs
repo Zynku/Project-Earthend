@@ -36,6 +36,11 @@ public class PickedUpTextScript : MonoBehaviour
         anim.SetTrigger("Renew Anim");
     }
 
+    public void AssignNewNameandAmountOffScreen()
+    {
+        myText.text = (myItemAmount.ToString() + " x " + myItemName.ToString());
+    }
+
     public void SetHiAsInactive()
     {
         GetComponentInParent<InventoryUI>().isTextHiActive = false;

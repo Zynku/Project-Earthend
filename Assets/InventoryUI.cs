@@ -74,6 +74,8 @@ public class InventoryUI : MonoBehaviour
         if (pickedUpOnScreenTime < 0) { pickedUpOnScreenTime = 0; }
 
         allitems = inventory.items;
+
+        ManageOffScreenTexts();
     }
 
     void ClearInventory()
@@ -110,39 +112,58 @@ public class InventoryUI : MonoBehaviour
 
     public void ShowPickedUpText(ItemScriptable item)
     {
-        //If there are texts onscreen
+        Debug.Log("Starting ShowPickedUpText loop for " + item.name);
+        bool textfound = false;
+
+        //If there are texts onscreen, but no texts offscreen
         if (pickedUpTexts.Count > 0)
         {
-            //Loop through all item texts on screen
-            for (int i = 0; i < pickedUpTexts.Count; i++)
+            foreach (GameObject text in pickedUpTexts)
             {
-                //If an itempickeduptext is found containing the same name as an item that was just picked up...
-                //if (pickedUpTexts[i].GetComponent<TextMeshProUGUI>().text.Contains(item.name.ToString()))
-                
-                if (pickedUpTexts[i].GetComponent<PickedUpTextScript>().myItem == item)
+                Debug.Log("Checking " + pickedUpTexts.Count + " texts in pickedUpTexts array containing " + item.name);
+                if (text.GetComponent<TextMeshProUGUI>().text.Contains(item.name.ToString()))
                 {
-                    Debug.Log("Text found containing " + item.name);
+                    Debug.Log("Text found containing " + item.name + " . Adding " + item.amount + " to it");
                     //Add the amount that was picked up to the amount already being displayed.
-                    pickedUpTexts[i].GetComponent<PickedUpTextScript>().myItemAmount += item.amount;
-                    pickedUpTexts[i].GetComponent<PickedUpTextScript>().AssignNewNameandAmount();
+                    text.GetComponent<PickedUpTextScript>().myItemAmount += item.amount;
+                    text.GetComponent<PickedUpTextScript>().AssignNewNameandAmount();
+                    textfound = true;
                     break;
                 }
-                //Creates a new text if there are no texts showing the same item that was just picked up
-                else
+            }
+            //You need to check offscreentexts here FIRST, before creating a new one
+            //If there are texts onscreen AND texts offscreen
+            if (offScreenTexts.Count > 0)
+            {
+                //Check each text object in offscreentexts to see if it contains the same name as the one you just picked up
+                foreach (GameObject text in offScreenTexts)
                 {
+                    //If you find a text with the name...
+                    if (text.GetComponent<TextMeshProUGUI>().text.Contains(item.name))
+                    {
+                        Debug.Log("Text found containing " + item.name + " that says " + text.GetComponent<TextMeshProUGUI>().text);
+                        //...add the amount that was picked up to the amount already being displayed.
+                        text.GetComponent<PickedUpTextScript>().myItemAmount += item.amount;
+                        text.GetComponent<PickedUpTextScript>().AssignNewNameandAmount();
+                        textfound = true;
+                        break;
+                    }
+                }
+                //If you don't find one in offscreenTexts
+                if (!textfound)
+                {
+                    Debug.Log("No text in pickedUpTexts found containing the same name. Creating new text out of for loop for " + item.name);
                     CreateNewText(item);
-                    Debug.Log("Creating new text out of for loop for " + item.name);
                 }
             }
         }
         //Creates a new text if no texts are on screen
         else
         {
+            Debug.Log("No texts exist! Therefore creating new text out of if statement for " + item.name);
             CreateNewText(item);
-            Debug.Log("Creating new text out of if statement for " + item.name);
         }
     }
-
     public void CreateNewText(ItemScriptable item)
     {
         //If there is no text on screen with the same name as the item you picked up
@@ -176,25 +197,81 @@ public class InventoryUI : MonoBehaviour
         else
         {
             pickedUpTexts.Remove(newText);
-            ManageOffScreenTexts(newText);
+            newText.GetComponent<Animator>().Play("Hold Off Screen");
+            Debug.Log("Assigning text containing " + newText.GetComponent<PickedUpTextScript>().myItemAmount + " " + newText.GetComponent<PickedUpTextScript>().myItemName + " to offscreen");
+            CheckforDuplicatesOffscreen(newText);
         }
     }
 
 
-    //TODO: This function is only called once when a text is placed off screen. Make it constantly check.
-    public void ManageOffScreenTexts(GameObject newText)
+    public void ManageOffScreenTexts()
     {
-        offScreenTexts.Add(newText);
-        newText.GetComponent<Animator>().Play("Hold Off Screen");
-
-        if (!isTextLoActive || !isTextMidActive || !isTextHiActive)
+        if (offScreenTexts.Count > 0)
         {
-            offScreenTexts.Remove(newText);
-            pickedUpTexts.Add(newText);
-            AssignTextToPosition(newText);
+            if (!isTextLoActive || !isTextMidActive || !isTextHiActive)
+            {
+                GameObject currentText = offScreenTexts[0];
+                offScreenTexts.Remove(currentText);
+                pickedUpTexts.Add(currentText);
+                AssignTextToPosition(currentText);
+            }
         }
     }
-    
+
+    public void CheckforDuplicatesOffscreen(GameObject newtext)
+    {
+        bool textfound = false;
+
+        //If there are texts onscreen
+        if (offScreenTexts.Count > 0)
+        {
+            foreach (GameObject text in offScreenTexts)
+            {
+                if (text.GetComponent<TextMeshProUGUI>().text.Contains(newtext.GetComponent<PickedUpTextScript>().myItemName.ToString()))
+                {
+                    Debug.Log("Text found containing " + newtext.GetComponent<PickedUpTextScript>().myItemName.ToString() + " that says " + text.GetComponent<TextMeshProUGUI>().text);
+                    //Add the amount that was picked up to the amount already being displayed.
+                    text.GetComponent<PickedUpTextScript>().myItemAmount += newtext.GetComponent<PickedUpTextScript>().myItemAmount;
+                    text.GetComponent<PickedUpTextScript>().AssignNewNameandAmount();
+                    Destroy(newtext);
+                    textfound = true;
+                    break;
+                }
+            }
+            if (!textfound)
+            {
+                Debug.Log("There were no texts found containing " + newtext.GetComponent<PickedUpTextScript>().myItemName.ToString());
+                offScreenTexts.Add(newtext);
+            }
+        }
+
+
+
+
+
+
+
+        /*bool textnotfound = true;
+        //Checks every element in offscreenTexts to make sure we don't have an element with the same name already
+        foreach (GameObject text in offScreenTexts)
+        {
+            if (text.GetComponent<TextMeshProUGUI>().text.Contains(newtext.GetComponent<PickedUpTextScript>().myItemName))
+            {
+                Debug.Log("Text found offscreen containing " + newtext.GetComponent<PickedUpTextScript>().myItemName);
+                //Add the amount that was picked up to the amount already being displayed.
+                text.GetComponent<PickedUpTextScript>().myItemAmount += newtext.GetComponent<PickedUpTextScript>().myItemAmount;
+                text.GetComponent<PickedUpTextScript>().AssignNewNameandAmountOffScreen();
+                textnotfound = false;
+                break;
+            }
+        }
+        if (textnotfound == true)
+        {
+            offScreenTexts.Add(newtext);
+        }*/
+
+    }
+}
 
     /*
     public IEnumerator ManagePickedUpTexts()
@@ -256,4 +333,4 @@ public class InventoryUI : MonoBehaviour
         }
         */
 
-}
+
