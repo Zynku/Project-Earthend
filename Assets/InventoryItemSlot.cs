@@ -24,11 +24,11 @@ public class InventoryItemSlot : MonoBehaviour
         item = newItem;
 
         icon.enabled = true;
-        icon.sprite = item.Icon;
-        amountText.text = newItem.amountHas.ToString("n0");
-        nameText.text = newItem.name.ToString();
         amountText.enabled = true;
         nameText.enabled = true;
+        icon.sprite = item.Icon;
+        amountText.text = newItem.amountHas.ToString();
+        nameText.text = newItem.name.ToString();
         //Debug.Log("Item added");
     }
 

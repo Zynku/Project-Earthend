@@ -12,7 +12,6 @@ public class InventoryUI : MonoBehaviour
     public List<GameObject> pickedUpTexts;
     public List<GameObject> offScreenTexts;
 
-    private Animator itemPickedUpOneAnim;
     public bool isTextLoActive;
     public bool isTextMidActive;
     public bool isTextHiActive;
@@ -104,7 +103,7 @@ public class InventoryUI : MonoBehaviour
             }
             /*else
             {
-                Debug.Log("Clear slot");
+                //Debug.Log("Clear slot");
                 slots[i].ClearSlot();
             }*/
         }
@@ -112,55 +111,58 @@ public class InventoryUI : MonoBehaviour
 
     public void ShowPickedUpText(ItemScriptable item)
     {
-        Debug.Log("Starting ShowPickedUpText loop for " + item.name);
+        //Debug.Log("Starting ShowPickedUpText loop for " + item.name);
         bool textfound = false;
+
+        //Creates a new text if no texts are on screen
+        if (pickedUpTexts.Count == 0)
+        {
+            //Debug.Log("No texts exist! Therefore creating new text out of if statement for " + item.name);
+            CreateNewText(item);
+        }
 
         //If there are texts onscreen, but no texts offscreen
         if (pickedUpTexts.Count > 0)
         {
             foreach (GameObject text in pickedUpTexts)
             {
-                Debug.Log("Checking " + pickedUpTexts.Count + " texts in pickedUpTexts array containing " + item.name);
+                //Debug.Log("Checking " + pickedUpTexts.Count + " texts in pickedUpTexts array containing " + item.name);
                 if (text.GetComponent<TextMeshProUGUI>().text.Contains(item.name.ToString()))
                 {
-                    Debug.Log("Text found containing " + item.name + " . Adding " + item.amount + " to it");
+                    //Debug.Log("Text found containing " + item.name + " . Adding " + item.amount + " to it");
                     //Add the amount that was picked up to the amount already being displayed.
                     text.GetComponent<PickedUpTextScript>().myItemAmount += item.amount;
                     text.GetComponent<PickedUpTextScript>().AssignNewNameandAmount();
+                    //Debug.Log("New text says contains " + text.GetComponent<PickedUpTextScript>().myItemAmount + " " + item.name);
                     textfound = true;
                     break;
                 }
             }
-            //You need to check offscreentexts here FIRST, before creating a new one
-            //If there are texts onscreen AND texts offscreen
-            if (offScreenTexts.Count > 0)
+        }
+        //If there are texts onscreen AND texts offscreen
+        if (offScreenTexts.Count > 0)
+        {
+            //Check each text object in offscreentexts to see if it contains the same name as the one you just picked up
+            foreach (GameObject text in offScreenTexts)
             {
-                //Check each text object in offscreentexts to see if it contains the same name as the one you just picked up
-                foreach (GameObject text in offScreenTexts)
+                //If you find a text with the name...
+                //Debug.Log("Checking " + offScreenTexts.Count + " texts in offScreenTexts array containing " + item.name);
+                if (text.GetComponent<TextMeshProUGUI>().text.Contains(item.name))
                 {
-                    //If you find a text with the name...
-                    if (text.GetComponent<TextMeshProUGUI>().text.Contains(item.name))
-                    {
-                        Debug.Log("Text found containing " + item.name + " that says " + text.GetComponent<TextMeshProUGUI>().text);
-                        //...add the amount that was picked up to the amount already being displayed.
-                        text.GetComponent<PickedUpTextScript>().myItemAmount += item.amount;
-                        text.GetComponent<PickedUpTextScript>().AssignNewNameandAmount();
-                        textfound = true;
-                        break;
-                    }
-                }
-                //If you don't find one in offscreenTexts
-                if (!textfound)
-                {
-                    Debug.Log("No text in pickedUpTexts found containing the same name. Creating new text out of for loop for " + item.name);
-                    CreateNewText(item);
+                    //Debug.Log("Text found containing " + item.name + " that says " + text.GetComponent<TextMeshProUGUI>().text + " . Adding " + item.amount + " to it") ;
+                    //...add the amount that was picked up to the amount already being displayed.
+                    text.GetComponent<PickedUpTextScript>().myItemAmount += item.amount;
+                    text.GetComponent<PickedUpTextScript>().AssignNewNameandAmount();
+                    //Debug.Log("New text says contains " + text.GetComponent<PickedUpTextScript>().myItemAmount + " " + item.name);
+                    textfound = true;
+                    break;
                 }
             }
         }
-        //Creates a new text if no texts are on screen
-        else
+        //If you don't find one in pickedUpTexts or offscreenTexts
+        if (!textfound)
         {
-            Debug.Log("No texts exist! Therefore creating new text out of if statement for " + item.name);
+            //Debug.Log("No text in pickedUpTexts or offScreenTexts found containing the same name. Creating new text out of for loop for " + item.name);
             CreateNewText(item);
         }
     }
@@ -198,8 +200,9 @@ public class InventoryUI : MonoBehaviour
         {
             pickedUpTexts.Remove(newText);
             newText.GetComponent<Animator>().Play("Hold Off Screen");
-            Debug.Log("Assigning text containing " + newText.GetComponent<PickedUpTextScript>().myItemAmount + " " + newText.GetComponent<PickedUpTextScript>().myItemName + " to offscreen");
-            CheckforDuplicatesOffscreen(newText);
+            //Debug.Log("Assigning text containing " + newText.GetComponent<PickedUpTextScript>().myItemAmount + " " + newText.GetComponent<PickedUpTextScript>().myItemName + " to offscreen");
+            offScreenTexts.Add(newText);
+            //CheckforDuplicatesOffscreen(newText);
         }
     }
 
@@ -217,120 +220,4 @@ public class InventoryUI : MonoBehaviour
             }
         }
     }
-
-    public void CheckforDuplicatesOffscreen(GameObject newtext)
-    {
-        bool textfound = false;
-
-        //If there are texts onscreen
-        if (offScreenTexts.Count > 0)
-        {
-            foreach (GameObject text in offScreenTexts)
-            {
-                if (text.GetComponent<TextMeshProUGUI>().text.Contains(newtext.GetComponent<PickedUpTextScript>().myItemName.ToString()))
-                {
-                    Debug.Log("Text found containing " + newtext.GetComponent<PickedUpTextScript>().myItemName.ToString() + " that says " + text.GetComponent<TextMeshProUGUI>().text);
-                    //Add the amount that was picked up to the amount already being displayed.
-                    text.GetComponent<PickedUpTextScript>().myItemAmount += newtext.GetComponent<PickedUpTextScript>().myItemAmount;
-                    text.GetComponent<PickedUpTextScript>().AssignNewNameandAmount();
-                    Destroy(newtext);
-                    textfound = true;
-                    break;
-                }
-            }
-            if (!textfound)
-            {
-                Debug.Log("There were no texts found containing " + newtext.GetComponent<PickedUpTextScript>().myItemName.ToString());
-                offScreenTexts.Add(newtext);
-            }
-        }
-
-
-
-
-
-
-
-        /*bool textnotfound = true;
-        //Checks every element in offscreenTexts to make sure we don't have an element with the same name already
-        foreach (GameObject text in offScreenTexts)
-        {
-            if (text.GetComponent<TextMeshProUGUI>().text.Contains(newtext.GetComponent<PickedUpTextScript>().myItemName))
-            {
-                Debug.Log("Text found offscreen containing " + newtext.GetComponent<PickedUpTextScript>().myItemName);
-                //Add the amount that was picked up to the amount already being displayed.
-                text.GetComponent<PickedUpTextScript>().myItemAmount += newtext.GetComponent<PickedUpTextScript>().myItemAmount;
-                text.GetComponent<PickedUpTextScript>().AssignNewNameandAmountOffScreen();
-                textnotfound = false;
-                break;
-            }
-        }
-        if (textnotfound == true)
-        {
-            offScreenTexts.Add(newtext);
-        }*/
-
-    }
 }
-
-    /*
-    public IEnumerator ManagePickedUpTexts()
-    {
-        //This function was meant to move texts into a lower position when it became empty, but i couldnt get it working, so
-        //texts just stay in their position and despawn at the correct time.
-
-        //If any of them have in text...
-        if (isTextHiActive || isTextMidActive || isTextLoActive)
-        {
-            //If the top and lo position have text and the mid position doesn't
-            if (isTextHiActive && !isTextMidActive && isTextLoActive)
-            {
-                itemPickedUpText[0].GetComponent<Animator>().Play("Move from Hi to Mid");
-                yield return new WaitForSeconds(0.1f);
-                isTextMidActive = true;
-            }
-            //If the top position has text, and the mid and lo positions don't
-            if (isTextHiActive && !isTextMidActive && !isTextLoActive)
-            {
-                itemPickedUpText[0].GetComponent<Animator>().Play("Move from Hi to Lo");
-                yield return new WaitForSeconds(0.1f);
-                isTextLoActive = true;
-            }
-            //If the mid position has text, and the lo position doesn't
-            if (isTextMidActive && !isTextLoActive)
-            {
-                itemPickedUpText[0].GetComponent<Animator>().Play("Move from Mid to Lo");
-                yield return new WaitForSeconds(0.1f);
-                isTextLoActive = true;
-            }
-        }
-    }
-
-    
-
-
-
-
-        
-        //Have 3 separate text elements that appear at different locations on the screen
-        //If one type of item is picked up, assign the type and amount to the first text element, the second type and amount to the second element etc.
-        float itemamount = item.amount;
-        string itemname = item.name.ToString();
-
-        //Pickedup text is on screen for PickedUpOnScreenTargetTime
-
-
-        if (itemCoalesceTime <= 0) //If it has been recent enough after picking up the same item
-        {
-            //Just add the item number to what's already on screen
-            itemPickedUpTextLo.text = (itemamount + " x " + itemname);
-            itemCoalesceTime = itemCoalesceTargetTime;
-        }
-        else
-        {
-            //Otherwise create a new name + number
-            itemPickedUpTextLo.text = (itemamount + " x " + itemname);
-        }
-        */
-
-
