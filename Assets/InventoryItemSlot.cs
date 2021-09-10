@@ -10,6 +10,7 @@ public class InventoryItemSlot : MonoBehaviour
     public ItemScriptable item;
     public TextMeshProUGUI amountText;
     public TextMeshProUGUI nameText;
+    public Charpickup_inventory inventory;
 
     private void Start()
     {
@@ -17,6 +18,7 @@ public class InventoryItemSlot : MonoBehaviour
         nameText.enabled = false;
         amountText.text = "You shouldn't be able to see this";
         nameText.text = "You shouldn't be able to see this";
+        inventory = Charpickup_inventory.instance;
     }
 
     public void AddItem(ItemScriptable newItem)
@@ -34,13 +36,27 @@ public class InventoryItemSlot : MonoBehaviour
 
     public void ClearSlot()
     {
-        item = null;
+        if (item != null)
+        {
+            item.amountHas = 0;
+            inventory.items.Remove(item);
 
-        icon.sprite = null;
-        icon.enabled = false;
-        amountText.enabled = false;
-        nameText.enabled = false;
-        Debug.Log("Item cleared");
+            item = null;
+            icon.sprite = null;
+            icon.enabled = false;
+            amountText.enabled = false;
+            nameText.enabled = false;
+            Debug.Log("Item cleared");
+        }
+    }
+
+    public void SplitSlot()
+    {
+        if (item != null)
+        {
+            //Make two more items, set the amount of each to half of what you have, delete current item
+            inventory.AddItem(item);
+        }
     }
 
     public void UseItem()
