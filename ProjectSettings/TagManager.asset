@@ -21,6 +21,7 @@ TagManager:
   - gas_cloud
   - Ground_slopes
   - item_collectable
+  - QuestManager
   layers:
   - Default
   - TransparentFX

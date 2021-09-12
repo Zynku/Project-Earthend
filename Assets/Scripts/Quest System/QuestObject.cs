@@ -28,7 +28,6 @@ public class QuestObject : MonoBehaviour
         if (type == eventType.location)
         {
             qEvent.UpdateQuestEvent(QuestEvent.EventStatus.DONE);
-            //qScript.UpdateElement(QuestEvent.EventStatus.DONE);
             qManager.UpdateQuestsOnCompletion(qEvent);
         }
     }

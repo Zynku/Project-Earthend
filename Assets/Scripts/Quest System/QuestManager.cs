@@ -7,27 +7,32 @@ public class QuestManager : MonoBehaviour
 {
     public GameObject player;
     public TextMeshProUGUI currentQuestText;
-    public GameObject questEvent;
+    public GameObject questEventPrefab;
     public GameObject questHolder;
 
-    public Quest currentQuest = new Quest(); //New quest is temporarily created here. Later it will be created in its own script and will populate this field.
-    public GameObject A;
-    public GameObject B;
+    public Quest currentQuest; //The current quest that is being completed.
 
     private void Awake()
     {
         player = GameObject.FindGameObjectWithTag("Player");
+        player.GetComponent<Charquests>().questmanager = this;
     }
 
     public void Start()
     {
-        currentQuest.name = "Default Quest Name";
-        currentQuest.desc = "Go forth! Test this quest and be the best!";
+        
+    }
+
+    public void SetupNewQuest(Quest quest)
+    {
+        currentQuest = quest;
+        currentQuest.name = quest.name;
+        currentQuest.desc = quest.desc;
         currentQuest.isActive = true;
-        player.GetComponent<Charquests>().currentQuests.Add(currentQuest);
+        //player.GetComponent<Charquests>().currentQuests.Add(currentQuest);
 
         //Create each event
-        QuestEvent a = currentQuest.AddQuestEvent("test1", "description 1. This is where the first description will appear. I'm making this extra long to check for errors in my placements but I think it's working properly");
+        /*QuestEvent a = currentQuest.AddQuestEvent("test1", "description 1. This is where the first description will appear. I'm making this extra long to check for errors in my placements but I think it's working properly");
         QuestEvent b = currentQuest.AddQuestEvent("test2", "description 2");
         QuestEvent c = currentQuest.AddQuestEvent("test3", "description 3");
         QuestEvent d = currentQuest.AddQuestEvent("test4", "description 4");
@@ -39,23 +44,38 @@ public class QuestManager : MonoBehaviour
         currentQuest.AddPath(b.GetId(), d.GetId());
         currentQuest.AddPath(c.GetId(), e.GetId());
         currentQuest.AddPath(d.GetId(), e.GetId());
-
+        
         currentQuest.BFS(a.GetId());
+        */
 
-        //Make loop creating each quest event script for each quest event.
+        //Make loop creating each quest event script and assigning an ID for each quest event.
         foreach (QuestEvent qe in currentQuest.questEvents)
         {
             //CreateQuestEventText(qe);
             currentQuest.questEventScripts.Add(CreateQuestEventText(qe).GetComponent<QuestEventScript>());
+            //quest.BFS(qe.GetId()); // No longer necessary since order is assigned in inspector now
         }
 
         int n = 0;
+        //Loop setting up each quest object
+        foreach (QuestEvent qe in currentQuest.questEvents)
+        {
+            foreach (GameObject qo in qe.questObjects)
+            {
+                qo.GetComponent<QuestObject>().Setup(this, currentQuest.questEvents[n], currentQuest.questEventScripts[n]);
+                n++;
+            }
+        }
+
+        //int n = 0;
         //Loop sets up each quest object in questObject list
-        foreach (QuestObject q in currentQuest.questObjects)
+        /*
+        foreach (GameObject q in currentQuest.questEven)
         {
             q.GetComponent<QuestObject>().Setup(this, currentQuest.questEvents[n], currentQuest.questEventScripts[n]);
             n++;
         }
+        */
 
         //TODO: Move all quest creation code to its own script instead of keeping it here.
 
@@ -68,9 +88,10 @@ public class QuestManager : MonoBehaviour
         //currentQuest.PrintPath();
     }
 
+
     GameObject CreateQuestEventText(QuestEvent e) //Creates a new text for each currentQuest event requested
     {
-        GameObject b = Instantiate(questEvent, questHolder.transform);
+        GameObject b = Instantiate(questEventPrefab, questHolder.transform);
         b.GetComponent<QuestEventScript>().Setup(e, questHolder);
         if (e.order == 1)
         {
@@ -90,6 +111,8 @@ public class QuestManager : MonoBehaviour
     {
         foreach (QuestEvent n in currentQuest.questEvents)
         {
+            Debug.Log("Quest event in order " + e.order + " is done! Checking to see if quest event " + n.order + " is equal to " + e.order + 1);
+            Debug.Log(e.order + 1);
             //If this event is the next in order
             if (n.order == (e.order + 1))
             {
