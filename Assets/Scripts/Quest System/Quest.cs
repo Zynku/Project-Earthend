@@ -2,11 +2,26 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+[System.Serializable]
 public class Quest
 {
-    public List<QuestEvent> questEvents = new List<QuestEvent>();
+    public string name;
+    public string desc;
+    public bool isActive;
 
-    public Quest() { }
+    public List<QuestEvent> questEvents = new List<QuestEvent>();
+    [SerializeField] 
+    public List<QuestPath> questPaths = new List<QuestPath>();
+    public List<QuestEventScript> questEventScripts = new List<QuestEventScript>();
+    public List<QuestObject> questObjects = new List<QuestObject>();
+
+    public Quest() 
+    {
+        //Default values
+        name = "Default Quest Name";
+        desc = "Go forth! Test this quest and be the best!";
+        isActive = true;
+    }
 
     public QuestEvent AddQuestEvent(string n, string d) //Events are goals that need to be completed to progress the quest
     {
@@ -24,8 +39,10 @@ public class Quest
         {
             QuestPath p = new QuestPath(from, to);
             from.pathlist.Add(p);
+            questPaths.Add(p);
         }
     }
+
 
     QuestEvent FindQuestEvent(string id)
     {

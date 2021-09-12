@@ -4,9 +4,10 @@ using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 
-public class QuestEventScript : MonoBehaviour
+public class QuestEventScript : MonoBehaviour //Really should be called QuestEventText
 {
     public TextMeshProUGUI currentEventText;
+    public int order;
     public Image Square;
     public Image Tick;
     public Image X;
@@ -15,20 +16,45 @@ public class QuestEventScript : MonoBehaviour
     public QuestEvent thisEvent;
     public GameObject questHolder;
 
-    QuestEvent.EventStatus status;
+    public QuestEvent.EventStatus status;
 
     public void Setup(QuestEvent e, GameObject questHolder)
     {
         thisEvent = e;
         status = thisEvent.status;
         currentEventText.text = thisEvent.description;
+        order = thisEvent.order;
         //gameObject.transform.SetParent
         //Come back to this if, when the text is instantiated, it isnt set as child of questHolder object
     }
 
-    public void UpdateElement(QuestEvent.EventStatus s)
+    private void Update()
     {
-        status = s;
+        status = thisEvent.status;
+        if (status == QuestEvent.EventStatus.DONE)
+        {
+            Tick.gameObject.SetActive(true);
+            X.enabled = false;
+            Question.enabled = false;
+            Exclamation.enabled = false;
+
+            currentEventText.color = new Color32(255, 255, 255, 105);
+        }
+
+        if (status == QuestEvent.EventStatus.FAILED)
+        {
+            Tick.enabled = false;
+            X.gameObject.SetActive(true);
+            Question.enabled = false;
+            Exclamation.enabled = false;
+
+            currentEventText.color = new Color32(255, 255, 255, 105);
+        }
+    }
+
+    /*public void UpdateElement(QuestEvent.EventStatus s)
+    {
+        //status = s;
         if (status == QuestEvent.EventStatus.DONE)
         {
             Tick.enabled = true;
@@ -46,7 +72,8 @@ public class QuestEventScript : MonoBehaviour
             Question.enabled = false;
             Exclamation.enabled = false;
 
-            currentEventText.color = new Color32(255, 255, 255, 255);
+            currentEventText.color = new Color32(255, 255, 255, 105);
         }
     }
+    */
 }

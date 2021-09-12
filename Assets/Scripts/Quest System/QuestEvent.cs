@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+[System.Serializable]
 public class QuestEvent
 {
     public enum EventStatus { WAITING, CURRENT, DONE, FAILED };
@@ -10,13 +11,13 @@ public class QuestEvent
     //CURRENT - the one the player should be trying to achieve
     //DONE - has been achieved
 
-    public string name;
+    public string name; //NOT USED;
     public string description; //The actual text used to display onscreen indicating what needs to be done
     public string id;
     public int order = -1;
     public EventStatus status;
 
-    public List<QuestPath> pathlist = new List<QuestPath>();
+    [NonSerialized]public List<QuestPath> pathlist = new List<QuestPath>();
 
     public QuestEvent(string n, string d)
     {

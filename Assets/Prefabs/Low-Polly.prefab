@@ -4936,7 +4936,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 0
+  m_SortingOrder: 9
   m_Sprite: {fileID: 21300000, guid: f672430a4d3a8d84abce1aebd1c34001, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -9736,6 +9736,7 @@ GameObject:
   - component: {fileID: 7522717077318348682}
   - component: {fileID: 254652567}
   - component: {fileID: 7522717077318348680}
+  - component: {fileID: 5993963326303833542}
   - component: {fileID: 7522717077318348683}
   - component: {fileID: 254652579}
   - component: {fileID: 7522717077318348684}
@@ -9851,6 +9852,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   currentState: 0
+  tree: 0
   xVel: 2.5485854e-18
   yVel: 0
   inputX: 0
@@ -9902,6 +9904,18 @@ MonoBehaviour:
   items: []
   inventorySpace: 40
   money: 0
+--- !u!114 &5993963326303833542
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7522717077318348675}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d6cdab46f2589c14f8500b616ae23cae, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &7522717077318348683
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -9950,8 +9964,10 @@ MonoBehaviour:
   swingVolume: 1
   Jump: {fileID: 0}
   jumpVolume: 1
-  Coin_Pickup: {fileID: 0}
+  coin_Pickup: {fileID: 0}
   coinPickupVolume: 1
+  hit_Something: {fileID: 8300000, guid: 9b6d2f1102ac9d241a69536975fa75d4, type: 3}
+  hitSomethingVolume: 1
   voice_jump:
   - {fileID: 8300000, guid: b537414e86433054abf3690484d2964e, type: 3}
   - {fileID: 8300000, guid: 2e19324f2910e33489047127bf54c30f, type: 3}
@@ -10347,7 +10363,7 @@ Animator:
   m_GameObject: {fileID: 7522717077318348675}
   m_Enabled: 1
   m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 61c50f57145f0a843807bf764a4b31f9, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
   m_ApplyRootMotion: 0

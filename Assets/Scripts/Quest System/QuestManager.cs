@@ -5,43 +5,97 @@ using TMPro;
 
 public class QuestManager : MonoBehaviour
 {
-    public Quest quest = new Quest();
+    public GameObject player;
     public TextMeshProUGUI currentQuestText;
     public GameObject questEvent;
     public GameObject questHolder;
 
-    public void Start()
+    public Quest currentQuest = new Quest(); //New quest is temporarily created here. Later it will be created in its own script and will populate this field.
+    public GameObject A;
+    public GameObject B;
+
+    private void Awake()
     {
-        //Create each event
-        QuestEvent a = quest.AddQuestEvent("test1", "description 1");
-        QuestEvent b = quest.AddQuestEvent("test2", "description 2");
-        QuestEvent c = quest.AddQuestEvent("test3", "description 3");
-        QuestEvent d = quest.AddQuestEvent("test4", "description 4");
-        QuestEvent e = quest.AddQuestEvent("test5", "description 5");
-
-        //define the paths between the events - e.g. the order they must be completed
-        quest.AddPath(a.GetId(), b.GetId());
-        quest.AddPath(b.GetId(), c.GetId());
-        quest.AddPath(b.GetId(), d.GetId());
-        quest.AddPath(c.GetId(), e.GetId());
-        quest.AddPath(d.GetId(), e.GetId());
-
-        quest.BFS(a.GetId());
-
-        QuestEventScript eventScript = CreateQuestEventText(a).GetComponent<QuestEventScript>();
-
-        quest.PrintPath();
+        player = GameObject.FindGameObjectWithTag("Player");
     }
 
-    GameObject CreateQuestEventText(QuestEvent e)
+    public void Start()
     {
-        GameObject b = Instantiate(questEvent, transform.position, transform.rotation, gameObject.transform);
+        currentQuest.name = "Default Quest Name";
+        currentQuest.desc = "Go forth! Test this quest and be the best!";
+        currentQuest.isActive = true;
+        player.GetComponent<Charquests>().currentQuests.Add(currentQuest);
+
+        //Create each event
+        QuestEvent a = currentQuest.AddQuestEvent("test1", "description 1. This is where the first description will appear. I'm making this extra long to check for errors in my placements but I think it's working properly");
+        QuestEvent b = currentQuest.AddQuestEvent("test2", "description 2");
+        QuestEvent c = currentQuest.AddQuestEvent("test3", "description 3");
+        QuestEvent d = currentQuest.AddQuestEvent("test4", "description 4");
+        QuestEvent e = currentQuest.AddQuestEvent("test5", "description 5");
+
+        //define the paths between the events - e.g. the order they must be completed
+        currentQuest.AddPath(a.GetId(), b.GetId());
+        currentQuest.AddPath(b.GetId(), c.GetId());
+        currentQuest.AddPath(b.GetId(), d.GetId());
+        currentQuest.AddPath(c.GetId(), e.GetId());
+        currentQuest.AddPath(d.GetId(), e.GetId());
+
+        currentQuest.BFS(a.GetId());
+
+        //Make loop creating each quest event script for each quest event.
+        foreach (QuestEvent qe in currentQuest.questEvents)
+        {
+            //CreateQuestEventText(qe);
+            currentQuest.questEventScripts.Add(CreateQuestEventText(qe).GetComponent<QuestEventScript>());
+        }
+
+        int n = 0;
+        //Loop sets up each quest object in questObject list
+        foreach (QuestObject q in currentQuest.questObjects)
+        {
+            q.GetComponent<QuestObject>().Setup(this, currentQuest.questEvents[n], currentQuest.questEventScripts[n]);
+            n++;
+        }
+
+        //TODO: Move all quest creation code to its own script instead of keeping it here.
+
+        //QuestEventScript eventScript = CreateQuestEventText(a).GetComponent<QuestEventScript>();
+        //A.GetComponent<QuestObject>().Setup(this, a, eventScript); //Assigns definitions for the questmanager, the currentQuest event and the event script to the currentQuest object
+
+        //CreateQuestEventText(b).GetComponent<QuestEventScript>();
+        //B.GetComponent<QuestObject>().Setup(this, b, eventScript);
+
+        //currentQuest.PrintPath();
+    }
+
+    GameObject CreateQuestEventText(QuestEvent e) //Creates a new text for each currentQuest event requested
+    {
+        GameObject b = Instantiate(questEvent, questHolder.transform);
         b.GetComponent<QuestEventScript>().Setup(e, questHolder);
         if (e.order == 1)
         {
-            b.GetComponent<QuestEventScript>().UpdateElement(QuestEvent.EventStatus.CURRENT);
+            //Assigns the first currentQuest event as current
+            //b.GetComponent<QuestEventScript>().UpdateElement(QuestEvent.EventStatus.CURRENT);
             e.status = QuestEvent.EventStatus.CURRENT;
         }
         return b;
+    }
+
+    private void Update()
+    {
+        currentQuestText.text = currentQuest.name;
+    }
+
+    public void UpdateQuestsOnCompletion(QuestEvent e)
+    {
+        foreach (QuestEvent n in currentQuest.questEvents)
+        {
+            //If this event is the next in order
+            if (n.order == (e.order + 1))
+            {
+                //Make the next in line available for completion
+                n.UpdateQuestEvent(QuestEvent.EventStatus.CURRENT);
+            }
+        }
     }
 }
