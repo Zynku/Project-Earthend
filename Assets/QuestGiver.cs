@@ -6,8 +6,8 @@ using UnityEngine;
 public class QuestGiver : MonoBehaviour
 {
     public Quest myQuest;
-    public GameObject player;
-    public GameObject questManager;
+    GameObject player;
+    GameObject questManager;
 
     private void Awake()
     {

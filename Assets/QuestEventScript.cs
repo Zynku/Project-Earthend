@@ -7,6 +7,8 @@ using TMPro;
 public class QuestEventScript : MonoBehaviour //Really should be called QuestEventText
 {
     public TextMeshProUGUI currentEventText;
+    public Vector3 eventTextTransform;
+    public Vector3 squareOffset;
     public int order;
     public Image Square;
     public Image Tick;
@@ -17,6 +19,11 @@ public class QuestEventScript : MonoBehaviour //Really should be called QuestEve
     public GameObject questHolder;
 
     public QuestEvent.EventStatus status;
+
+    private void Start()
+    {
+        eventTextTransform = gameObject.GetComponent<RectTransform>().position;
+    }
 
     public void Setup(QuestEvent e, GameObject questHolder)
     {
@@ -30,6 +37,9 @@ public class QuestEventScript : MonoBehaviour //Really should be called QuestEve
 
     private void Update()
     {
+        Square.GetComponent<RectTransform>().localPosition = squareOffset;
+        Debug.Log(eventTextTransform);
+
         status = thisEvent.status;
         if (status == QuestEvent.EventStatus.DONE)
         {
@@ -51,29 +61,4 @@ public class QuestEventScript : MonoBehaviour //Really should be called QuestEve
             currentEventText.color = new Color32(255, 255, 255, 105);
         }
     }
-
-    /*public void UpdateElement(QuestEvent.EventStatus s)
-    {
-        //status = s;
-        if (status == QuestEvent.EventStatus.DONE)
-        {
-            Tick.enabled = true;
-            X.enabled = false;
-            Question.enabled = false;
-            Exclamation.enabled = false;
-
-            currentEventText.color = new Color32(255, 255, 255, 105);
-        }
-
-        if (status == QuestEvent.EventStatus.FAILED)
-        {
-            Tick.enabled = false;
-            X.enabled = true;
-            Question.enabled = false;
-            Exclamation.enabled = false;
-
-            currentEventText.color = new Color32(255, 255, 255, 105);
-        }
-    }
-    */
 }

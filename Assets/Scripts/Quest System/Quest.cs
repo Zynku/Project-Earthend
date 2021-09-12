@@ -13,10 +13,9 @@ public class Quest
     public bool isActive;
 
     public List<QuestEvent> questEvents = new List<QuestEvent>();
-    [SerializeField] 
-    public List<QuestPath> questPaths = new List<QuestPath>();
-    public List<QuestEventScript> questEventScripts = new List<QuestEventScript>();
-    public List<GameObject> questObjects = new List<GameObject>();
+    [SerializeField]  public List<QuestPath> questPaths = new List<QuestPath>();
+    [HideInInspector] public List<QuestEventScript> questEventScripts = new List<QuestEventScript>();
+    [HideInInspector] public List<GameObject> questObjects = new List<GameObject>();
 
 
     public Quest() 
@@ -46,7 +45,6 @@ public class Quest
             questPaths.Add(p);
         }
     }
-
 
     QuestEvent FindQuestEvent(string id)
     {

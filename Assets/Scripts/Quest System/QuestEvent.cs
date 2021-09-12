@@ -18,7 +18,8 @@ public class QuestEvent
     public EventStatus status;
 
     [NonSerialized]public List<QuestPath> pathlist = new List<QuestPath>();
-    public GameObject[] questObjects;
+    //public GameObject[] questObjects;
+    public List<GameObject> questObjects;
 
     public QuestEvent(string n, string d)
     {

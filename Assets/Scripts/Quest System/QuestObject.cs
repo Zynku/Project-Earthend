@@ -4,9 +4,9 @@ using UnityEngine;
 
 public class QuestObject : MonoBehaviour
 {
-    public QuestManager qManager;
-    public QuestEvent qEvent;
-    public QuestEventScript qScript;
+    [HideInInspector] public QuestManager qManager;
+    [HideInInspector] public QuestEvent qEvent;
+    [HideInInspector] public QuestEventScript qScript;
 
     [Header("Collect Item Quest Type Variables")]
     public int interactRadius;
