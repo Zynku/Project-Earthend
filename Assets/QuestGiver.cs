@@ -8,6 +8,7 @@ public class QuestGiver : MonoBehaviour
     public Quest myQuest;
     GameObject player;
     GameObject questManager;
+    bool playerInRange;
 
     private void Awake()
     {
@@ -18,13 +19,28 @@ public class QuestGiver : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.B))
+        if (playerInRange && Input.GetButtonDown("Interact"))
         {
             player.GetComponent<Charquests>().currentQuests.Add(myQuest);
             questManager.GetComponent<QuestManager>().SetupNewQuest(myQuest);
         }
     }
 
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        if (collision.CompareTag("Player"))
+        {
+            playerInRange = true;
+        }
+    }
+
+    private void OnTriggerExit2D(Collider2D collision)
+    {
+        if (collision.CompareTag("Player"))
+        {
+            playerInRange = false;
+        }
+    }
 
     public void GenerateQuestEventID()
     {

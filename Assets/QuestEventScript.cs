@@ -38,7 +38,6 @@ public class QuestEventScript : MonoBehaviour //Really should be called QuestEve
     private void Update()
     {
         Square.GetComponent<RectTransform>().localPosition = squareOffset;
-        Debug.Log(eventTextTransform);
 
         status = thisEvent.status;
         if (status == QuestEvent.EventStatus.DONE)

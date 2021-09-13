@@ -11,15 +11,15 @@ public class QuestEvent
     //CURRENT - the one the player should be trying to achieve
     //DONE - has been achieved
 
-    public string name; //NOT USED;
+    public string name;
     public string description; //The actual text used to display onscreen indicating what needs to be done
     public string id;
     public int order = -1;
     public EventStatus status;
 
     [NonSerialized]public List<QuestPath> pathlist = new List<QuestPath>();
-    //public GameObject[] questObjects;
     public List<GameObject> questObjects;
+    //public List<QuestEventScript> questEventScripts;
 
     public QuestEvent(string n, string d)
     {

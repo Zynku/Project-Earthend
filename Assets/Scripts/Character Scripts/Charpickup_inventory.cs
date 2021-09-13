@@ -7,7 +7,7 @@ public class Charpickup_inventory : MonoBehaviour
 {
     public List<ItemScriptable> items = new List<ItemScriptable>();
     public int inventorySpace = 40;
-    public float money;
+    public int money;
     public static Charpickup_inventory instance;
     private Charcontrol Charcontrol;
     private InventoryUI inventoryui;

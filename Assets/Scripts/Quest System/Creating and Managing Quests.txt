@@ -1,0 +1,26 @@
+In Project Earthend, quests are formatted using Quest Events and Paths. A quest event is any singular step that needs to be completed to advance to the next step.
+Quest Paths are the metaphorical links between each quest event, and serve as a guideline for the project to know what quest event is next.
+
+Each quest has multiple parts;
+The quest script itself
+Quest Paths			- Explained before
+Quest Events			- Explained before
+Quest Event Scripts		- These are scripts attached to gameobjects in the scene that show what the current, and next quest events are
+Quest Objects			- These objects provide functionality for what needs to happen for a quest event to be completed (for example "go to this location")
+
+Additionally, it order for quests to function, they have to interact with;
+The Quest Manager		- Handles all quest related data as it comes in, and sets up some parts of the quest to work in game
+The Character's quest script	- Keeps track of the active quest so player code can interact with it
+The Quest Giver			- Is responsible for adding the new quest to the quest array once the player interacts with it
+
+
+This is how to create a quest
+
+1. Make an NPC or object and give it a quest giver script
+2. Inside the quest giver script, assign a name, description, and how many quest events the quest has. This should all be drawn out beforehand so developers have a visual representation of quest flow
+3. For each quest event, assign an order number. Order numbers dictate in which order a quest event can be done. Quest Events can have the same order number, meaning that either quest can be done to advance to the next quest event.
+   Quest Event Order numbers start at 1 and must be integer whole numbers that follow each other consecutively.
+4. For each quest event, assign a quest object. This object is responsible for telling the quest event when it is completed. The object can be a physical checkpoint, or an empty that holds data of items or elements that need to be kept track of
+5. At the bottom of the quest giver script, click Build Event IDs. This creates a new, unique ID for each quest event allowing the script to know which quest event we are referring to.
+6. Add Quest Paths as necessary. Each Quest Event should have a Quest Path leading to, or from it.
+7. Copy the quest ID for the start quest event, and the end quest event into the appropriate slots under the quest path. This lets the script know what quest event leads to another

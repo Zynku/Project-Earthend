@@ -11,11 +11,14 @@ public class Quest
     [TextArea(5, 10)]
     public string desc;
     public bool isActive;
+    public enum QuestState { WAITING, CURRENT, COMPLETED, FAILED};
+    public QuestState questState;
+    //Enum that defines quest state
 
     public List<QuestEvent> questEvents = new List<QuestEvent>();
     [SerializeField]  public List<QuestPath> questPaths = new List<QuestPath>();
     [HideInInspector] public List<QuestEventScript> questEventScripts = new List<QuestEventScript>();
-    [HideInInspector] public List<GameObject> questObjects = new List<GameObject>();
+    //[HideInInspector] public List<GameObject> questObjects = new List<GameObject>();
 
 
     public Quest() 

@@ -31,7 +31,7 @@ public class SavegameManager : MonoBehaviour
         //Whenever you add a new variable to be saved, make sure it is added to PlayerData as well
         PlayerData data = SaveSystem.LoadPlayer();
 
-        Charpickup_inventory.instance.money = data.money;
+        //Charpickup_inventory.instance.money = data.money;
 
         Charhealthscript.level = data.level;
 

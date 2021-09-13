@@ -10,7 +10,7 @@ public class coinscript : MonoBehaviour
     [SerializeField] AudioClip Jingle;
 
     public float despawnTimer;
-    public float coinValue = 1;
+    public int coinValue = 1;
     public float attractRadius = 1;
 
     // Start is called before the first frame update

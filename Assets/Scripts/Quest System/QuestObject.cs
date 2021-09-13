@@ -4,21 +4,34 @@ using UnityEngine;
 
 public class QuestObject : MonoBehaviour
 {
-    [HideInInspector] public QuestManager qManager;
-    [HideInInspector] public QuestEvent qEvent;
-    [HideInInspector] public QuestEventScript qScript;
+    public eventType type;
+    public collectItemMonitorType itemToMonitor;
 
-    [Header("Collect Item Quest Type Variables")]
+    [HideInInspector] public QuestManager qManager;
+    public QuestEvent qEvent;
+    [HideInInspector] public QuestEventScript qScript;
+    private GameObject player;
+
+    [Header("Collect Physical Item Quest Type Variables")]
     public int interactRadius;
 
-    [Header("Kill Enemies Quest Type Variables")]
+    [Header("Collect Item Monitor Quest Type Variables")]
+    public int moneyCounter;
     public int amountRequired;
     public int amountHas;
 
-    public QuestEvent.EventStatus status;
-    public eventType type;
+    [Header("Kill Enemies Quest Type Variables")]
+    
 
-    public enum eventType { location, collectItem, killEnemies}
+    public QuestEvent.EventStatus status;
+    
+    public enum eventType { location, collectPhysicalItem, collectItemMonitor, killEnemies}
+    public enum collectItemMonitorType { money}
+
+    private void Start()
+    {
+        player = GameObject.FindGameObjectWithTag("Player");
+    }
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
@@ -35,6 +48,20 @@ public class QuestObject : MonoBehaviour
     private void Update()
     {
         status = qEvent.status;
+
+        //TODO: Turn this into a switch please
+        if (type == eventType.collectItemMonitor)
+        {
+            if (itemToMonitor == collectItemMonitorType.money)
+            {
+                moneyCounter = player.GetComponent<Charpickup_inventory>().money;
+                if (moneyCounter >= amountRequired)
+                {
+                    qEvent.UpdateQuestEvent(QuestEvent.EventStatus.DONE);
+                    qManager.UpdateQuestsOnCompletion(qEvent);
+                }
+            }
+        }
     }
 
     public void Setup(QuestManager qm, QuestEvent qe, QuestEventScript qs)
