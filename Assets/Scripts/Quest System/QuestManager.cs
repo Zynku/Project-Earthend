@@ -18,6 +18,8 @@ public class QuestManager : MonoBehaviour
     public List<GameObject> questCompletedTexts, questCompletedTextsOffscreen;
     public GameObject questAcceptedTextPrefab;
     public List<GameObject> questAcceptedTexts, questAcceptedTextsOffscreen;
+    public GameObject questFailedTextPrefab;
+    public List<GameObject> questFailedTexts, questFailedTextsOffscreen;
 
     public Quest currentQuest; //The current quest that is being completed.
     public GameObject questName;
@@ -40,12 +42,13 @@ public class QuestManager : MonoBehaviour
     {
         ManageOffScreenQATPs(); //This is called before ManageOffScreenQCTPs so that it prioritizes showing qatps over qctps
         ManageOffScreenQCTPs();
+        ManageOffScreenQFTPs();
     }
 
     void ManageOffScreenQCTPs()  //QCTP = Quest Completed Text Prefabs generated when a quest is completed and stored in questCompletedTextsOffscreen
     {
         //If there is nothing onscreen, remove oldest item from the offscreen list and add it to the onscreen list, and enable it so it shows
-        if (questCompletedTexts.Count == 0 && questAcceptedTexts.Count == 0 && questCompletedTextsOffscreen.Count > 0)    
+        if (questFailedTexts.Count == 0 && questCompletedTexts.Count == 0 && questAcceptedTexts.Count == 0 && questCompletedTextsOffscreen.Count > 0)    
         {
             GameObject oldestqctp = questCompletedTextsOffscreen[0];
             questCompletedTextsOffscreen.Remove(oldestqctp);
@@ -56,13 +59,25 @@ public class QuestManager : MonoBehaviour
 
     void ManageOffScreenQATPs()  //QATP = Quest Accepted Text Prefabs generated when a quest is accepted and stored in questAcceptedTextsOffScreen
     {
-        if (questCompletedTexts.Count == 0 && questAcceptedTexts.Count == 0 && questAcceptedTextsOffscreen.Count > 0)
+        if (questFailedTexts.Count == 0 && questCompletedTexts.Count == 0 && questAcceptedTexts.Count == 0 && questAcceptedTextsOffscreen.Count > 0)
         {
             //If there is nothing onscreen, remove oldest item from the offscreen list and add it to the onscreen list, and enable it so it shows
             GameObject oldestqatp = questAcceptedTextsOffscreen[0];
             questAcceptedTextsOffscreen.Remove(oldestqatp);
             questAcceptedTexts.Add(oldestqatp);
             oldestqatp.SetActive(true);
+        }
+    }
+
+    void ManageOffScreenQFTPs()  //QFTP = Quest Failed Text Prefabs generated when a quest is failed and stored in questFailedTextsOffScreen
+    {
+        if (questFailedTexts.Count == 0 && questCompletedTexts.Count == 0 && questAcceptedTexts.Count == 0 && questFailedTextsOffscreen.Count > 0)
+        {
+            //If there is nothing onscreen, remove oldest item from the offscreen list and add it to the onscreen list, and enable it so it shows
+            GameObject oldestqftp = questFailedTextsOffscreen[0];
+            questAcceptedTextsOffscreen.Remove(oldestqftp);
+            questAcceptedTexts.Add(oldestqftp);
+            oldestqftp.SetActive(true);
         }
     }
 
@@ -97,6 +112,11 @@ public class QuestManager : MonoBehaviour
                 qatp.SetActive(false);
             }
             else if (questCompletedTexts.Count > 0) //If there are completed quests on screen, yeet it to the offscreen bin. This is to avoid a quest accepted and quest completed text overlapping
+            {
+                questAcceptedTextsOffscreen.Add(qatp);
+                qatp.SetActive(false);
+            }
+            else if (questFailedTexts.Count > 0)     //If there are failed quests on screen, yeet it to the offscreen bin
             {
                 questAcceptedTextsOffscreen.Add(qatp);
                 qatp.SetActive(false);
@@ -184,30 +204,35 @@ public class QuestManager : MonoBehaviour
 
     public void UpdateQuestsOnCompletion(QuestEvent e)
     {
-        foreach (QuestEvent n in currentQuest.questEvents)
+        if (currentQuest.questEvents.Count > 0)     //If there are quest events...
         {
-            //If this event is the next in order
-            if (n.order == (e.order + 1))
+            foreach (QuestEvent n in currentQuest.questEvents)
             {
-                //Make the next in line available for completion
-                n.UpdateQuestEvent(QuestEvent.EventStatus.CURRENT);
-            }
-            else
-            {
-                Debug.Log("No more quest events chief");
+                //If this event is the next in order
+                if (n.order == (e.order + 1))
+                {
+                    //Make the next in line available for completion
+                    n.UpdateQuestEvent(QuestEvent.EventStatus.CURRENT);
+                }
             }
         }
         
         //If the last quest event gets completed, that means the quest is done! Call that function!
         if (currentQuest.questEvents.Last().status == QuestEvent.EventStatus.DONE)
         {
-            StartCoroutine(CompleteCurrentQuest(currentQuest));
+            StartCoroutine(CompleteCurrentQuest());
+            questDivider.SetActive(false);
+            currentQuestText.gameObject.SetActive(false);
+        }
+        else if (currentQuest.questEvents.Last().status == QuestEvent.EventStatus.FAILED)    //Right now it fails if only the LAST quest event is failed. Add functionality for flexibility
+        {
+            StartCoroutine(FailCurrentQuest());
             questDivider.SetActive(false);
             currentQuestText.gameObject.SetActive(false);
         }
     }
 
-    public IEnumerator CompleteCurrentQuest(Quest quest)
+    public IEnumerator CompleteCurrentQuest()
     {
         questDivider.SetActive(false);
         currentQuestText.gameObject.SetActive(false);
@@ -220,6 +245,11 @@ public class QuestManager : MonoBehaviour
             qctp.SetActive(false);
         }
         else if (questAcceptedTexts.Count > 0)     //If there are accepted quests on screen, yeet it to the offscreen bin
+        {
+            questCompletedTextsOffscreen.Add(qctp);
+            qctp.SetActive(false);
+        }
+        else if (questFailedTexts.Count > 0)     //If there are failed quests on screen, yeet it to the offscreen bin
         {
             questCompletedTextsOffscreen.Add(qctp);
             qctp.SetActive(false);
@@ -243,11 +273,60 @@ public class QuestManager : MonoBehaviour
         player.GetComponent<Charquests>().currentQuests.Remove(currentQuest);
         currentQuest.questState = Quest.QuestState.COMPLETED;
 
-        currentQuest = null;
-        
-        if (player.GetComponent<Charquests>().currentQuests.Count != 0)
+        currentQuest = null;    //Sets the current quest to nothing
+
+        if (player.GetComponent<Charquests>().currentQuests.Count != 0)     //If there are more quests yet to be completed, add the next one back
         {
             ReAddQuest(player.GetComponent<Charquests>().currentQuests[0]);
         }
-    } 
+    }
+
+    public IEnumerator FailCurrentQuest()       //TODO: Expand this, make sure quest is added to appropriate list in Charquests both in this function and the one above.
+    {
+        questDivider.SetActive(false);
+        currentQuestText.gameObject.SetActive(false);
+        GameObject qftp = Instantiate(questFailedTextPrefab, questCanvas.transform);     //Creates a Quest Failed Text Prefab, or qftp
+        bool questAssigned = false;
+        if (!questAssigned) { qftp.GetComponent<QuestFailedText>().myQuestName.GetComponent<TextMeshProUGUI>().text = currentQuest.name; }   //Assigns the quest name ONCE.
+        if (questCompletedTexts.Count > 0)  //If there are completed quests on screen, yeet it to the offscreen bin
+        {
+            questFailedTextsOffscreen.Add(qftp);
+            qftp.SetActive(false);
+        }
+        else if (questAcceptedTexts.Count > 0)     //If there are accepted quests on screen, yeet it to the offscreen bin
+        {
+            questFailedTextsOffscreen.Add(qftp);
+            qftp.SetActive(false);
+        }
+        else if (questFailedTexts.Count > 0)
+        {
+            questFailedTextsOffscreen.Add(qftp);
+            qftp.SetActive(false);
+        }
+        else
+        {
+            questFailedTexts.Add(qftp);     //If there is nothing onscreen, just put it onscreen
+        }
+
+        //Gets rid of all quest event prefabs on screen and clears the list
+        foreach (GameObject qep in questEventPrefabs)
+        {
+            Destroy(qep);
+        }
+        questEventPrefabs.Clear();
+
+        yield return new WaitForSeconds(0.1f);
+        questName.GetComponent<TextMeshProUGUI>().text = null;
+        questDesc.GetComponent<TextMeshProUGUI>().text = null;
+        currentQuest.isActive = false;
+        player.GetComponent<Charquests>().currentQuests.Remove(currentQuest);
+        currentQuest.questState = Quest.QuestState.FAILED;
+
+        currentQuest = null;    //Sets the current quest to nothing
+
+        if (player.GetComponent<Charquests>().currentQuests.Count != 0)     //If there are more quests yet to be completed, add the next one back
+        {
+            ReAddQuest(player.GetComponent<Charquests>().currentQuests[0]);
+        }
+    }
 }

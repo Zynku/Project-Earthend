@@ -14,8 +14,8 @@ public class InventoryItemSlot : MonoBehaviour
 
     private void Start()
     {
-        amountText.enabled = false;
-        nameText.enabled = false;
+        amountText.gameObject.SetActive(false);
+        nameText.gameObject.SetActive(false);
         amountText.text = "You shouldn't be able to see this";
         nameText.text = "You shouldn't be able to see this";
         inventory = Charpickup_inventory.instance;
@@ -25,13 +25,20 @@ public class InventoryItemSlot : MonoBehaviour
     {
         item = newItem;
 
-        icon.enabled = true;
-        amountText.enabled = true;
-        nameText.enabled = true;
-        icon.sprite = item.Icon;
+        Debug.Log("Activating and setting everything else");
+        ActivateAmountandName();
         amountText.text = newItem.amountHas.ToString();
         nameText.text = newItem.name.ToString();
+        icon.enabled = true;
+        icon.sprite = item.Icon;
         //Debug.Log("Item added");
+    }
+
+    void ActivateAmountandName()
+    {
+        Debug.Log("Activating name and amount");
+        amountText.gameObject.SetActive(true);
+        nameText.gameObject.SetActive(true);
     }
 
     public void ClearSlot()
@@ -44,8 +51,8 @@ public class InventoryItemSlot : MonoBehaviour
             item = null;
             icon.sprite = null;
             icon.enabled = false;
-            amountText.enabled = false;
-            nameText.enabled = false;
+            amountText.gameObject.SetActive(false);
+            nameText.gameObject.SetActive(false);
             Debug.Log("Item cleared");
         }
     }

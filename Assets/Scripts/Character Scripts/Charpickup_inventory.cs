@@ -11,7 +11,7 @@ public class Charpickup_inventory : MonoBehaviour
     public static Charpickup_inventory instance;
     private Charcontrol Charcontrol;
     private InventoryUI inventoryui;
-    private bool hasInteracted;
+    //private bool canInteract;
 
     #region Singleton
     private void Awake()
@@ -70,7 +70,7 @@ public class Charpickup_inventory : MonoBehaviour
         items.Add(item);
         item.amountHas = 0;
         item.amountHas += item.amount;
-        inventoryui.ShowPickedUpText(item);
+        //inventoryui.ShowPickedUpText(item);
         if (onItemChangedCallback != null) { onItemChangedCallback.Invoke(); }
         return true;
     }
@@ -97,7 +97,7 @@ public class Charpickup_inventory : MonoBehaviour
 
     public void OnTriggerEnter2D(Collider2D collision)
     {        
-        if (!hasInteracted)
+        //if (!canInteract)
         {
             //If you come across a coin, pick it up, destroy the coin, add coinvalue to player inv
             if (collision.CompareTag("coin_collectable"))
@@ -135,7 +135,7 @@ public class Charpickup_inventory : MonoBehaviour
                 /*Interactable interactable = collision.gameObject.GetComponentInParent<Interactable>();
                 if (interactable != null)
                 {
-                    hasInteracted = true;
+                    canInteract = true;
                     //collision.gameObject.SetActive(false);
                     //Destroy(interactable.gameObject);
                     interactable.Interact();
@@ -160,7 +160,7 @@ public class Charpickup_inventory : MonoBehaviour
 
     private void OnTriggerExit2D(Collider2D collision)
     {
-        hasInteracted = false;
+        //canInteract = false;
     }
 
 }

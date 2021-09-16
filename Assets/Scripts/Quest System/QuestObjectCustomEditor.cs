@@ -3,14 +3,15 @@ using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
 
-[CustomEditor(typeof(QuestObject))]
+//[CustomEditor(typeof(QuestObject))]
 [CanEditMultipleObjects]
 public class QuestObjectCustomEditor : Editor
 {
+    /*
     //TODO: FIX THIS TO APPLY TO QUESTOBJECT SCRIPT
     public override void OnInspectorGUI()
     {
-
+        
         serializedObject.Update();
 
         EditorGUILayout.PropertyField(serializedObject.FindProperty("optionSource"));
@@ -48,5 +49,6 @@ public class QuestObjectCustomEditor : Editor
         }
 
         serializedObject.ApplyModifiedProperties();
-    }
+        
+    }*/
 }

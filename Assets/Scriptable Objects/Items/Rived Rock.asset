@@ -14,7 +14,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   name: Rived Rock
   amount: 20
-  amountHas: 60
+  amountHas: 20
   amountInStorage: 0
   Icon: {fileID: -2010063288163404929, guid: cfc569eb223714a438b49110fca313f7, type: 3}
-  description: Description for Rived Rock
+  description: Ancient earth subjected to massive amounts of destructive energy,
+    prompting color, and property changes. Naturally coalesces into durable clumps

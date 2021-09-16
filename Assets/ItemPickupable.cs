@@ -57,9 +57,9 @@ public class ItemPickupable : MonoBehaviour
 
     public void Interact()
     {
-        if (GetComponentInChildren<ItemPickupable>().canBePickedUp == true)
+        if (canBePickedUp == true)
         {
-            Pickup();
+           Pickup();
         }
     }
 

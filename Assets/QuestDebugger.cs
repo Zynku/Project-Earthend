@@ -4,6 +4,7 @@ using System.Linq;
 using UnityEngine;
 using TMPro;
 
+[ExecuteInEditMode]
 public class QuestDebugger : MonoBehaviour
 {
     GameObject player;
@@ -13,7 +14,7 @@ public class QuestDebugger : MonoBehaviour
     public GameObject shownDebugType;
     public DebugType DebuggingType;
 
-    public enum DebugType { completeAllQuests, completeCurrentQuest, completeCurrentQuestEvent, clearAllQuestEventPrefabs}
+    public enum DebugType { completeAllQuests, completeCurrentQuest, completeCurrentQuestEvent, failCurrentQuestEvent, failCurrentQuest, clearAllQuestEventPrefabs}
     bool playerInRange;
 
     private void Awake()
@@ -40,6 +41,12 @@ public class QuestDebugger : MonoBehaviour
                     break;
                 case DebugType.clearAllQuestEventPrefabs:
                     ClearAllQuestEventPrefabs();
+                    break;
+                case DebugType.failCurrentQuestEvent:
+                    FailCurrentQuestEvent();
+                    break;
+                case DebugType.failCurrentQuest:
+                    FailCurrentQuest();
                     break;
                 default:
                     break;
@@ -70,7 +77,7 @@ public class QuestDebugger : MonoBehaviour
     {
         if (player.GetComponent<Charquests>().currentQuests.Count > 0)
         {
-            StartCoroutine(questManager.CompleteCurrentQuest(currentQuest));
+            StartCoroutine(questManager.CompleteCurrentQuest());
         }
         else
         {
@@ -80,17 +87,20 @@ public class QuestDebugger : MonoBehaviour
 
     IEnumerator CompleteAllQuests()
     {
-        StartCoroutine(questManager.CompleteCurrentQuest(currentQuest));
-        //Complete a quest, wait 0.1 seconds, check if there's another quest. If there is complete it
-        yield return new WaitForSeconds(0.1f);
-        foreach (GameObject qep in questManager.questEventPrefabs)
+        if (questManager.currentQuest.name != "No Quest")
         {
-            Destroy(qep);
-        }
-        questManager.questEventPrefabs.Clear();
-        if (player.GetComponent<Charquests>().currentQuests.Count > 0)
-        {
-            StartCoroutine(CompleteAllQuests());
+            StartCoroutine(questManager.CompleteCurrentQuest());
+            //Complete a quest, wait 0.1 seconds, check if there's another quest. If there is complete it
+            yield return new WaitForSeconds(0.1f);
+            foreach (GameObject qep in questManager.questEventPrefabs)
+            {
+                Destroy(qep);
+            }
+            questManager.questEventPrefabs.Clear();
+            if (player.GetComponent<Charquests>().currentQuests.Count > 0)
+            {
+                StartCoroutine(CompleteAllQuests());
+            }
         }
     }
 
@@ -100,6 +110,37 @@ public class QuestDebugger : MonoBehaviour
         foreach (QuestEventScript qes in prefabsToBeDestroyed)
         {
             Destroy(qes.gameObject);
+        }
+    }
+
+    void FailCurrentQuestEvent()
+    {
+        //Looks in the current quest from quest manager for its quest events and returns the first one that is marked as current
+        if (questManager.currentQuest.questEvents.Count != 0)
+        {
+            currentEvent = questManager.currentQuest.questEvents.Where(currentEvent => currentEvent.status == QuestEvent.EventStatus.CURRENT).FirstOrDefault();
+        }
+        else
+        {
+            Debug.Log("No quest events chief...");
+        }
+
+        if (currentEvent != null)
+        {
+            currentEvent.UpdateQuestEvent(QuestEvent.EventStatus.FAILED);
+            questManager.UpdateQuestsOnCompletion(currentEvent);
+        }
+    }
+
+    void FailCurrentQuest()
+    {
+        if (player.GetComponent<Charquests>().currentQuests.Count > 0)
+        {
+            StartCoroutine(questManager.FailCurrentQuest());
+        }
+        else
+        {
+            Debug.Log("No quests chief...");
         }
     }
 

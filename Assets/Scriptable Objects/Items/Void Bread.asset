@@ -14,7 +14,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   name: Void Bread
   amount: 1
-  amountHas: 0
+  amountHas: 54
   amountInStorage: 0
   Icon: {fileID: 6881908641164123887, guid: cfc569eb223714a438b49110fca313f7, type: 3}
-  description: Description for Void Bread
+  description: An edible piece of matter thought to originate from deep space. A
+    good source of carbs and cosmic vitamins.

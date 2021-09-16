@@ -27,6 +27,26 @@ public class UsefulCodeBits : MonoBehaviour
 
     */
 
+    /*
+public void BFS(string id, int orderNumber = 1) //Breadth first search, gives all paths an order so that we can follow them. Order dictates the order in which they can be done. Two quests with the same order means either can be done
+{
+    // No longer necessary since order is assigned in inspector now
+    QuestEvent thisEvent = FindQuestEvent(id);
+    thisEvent.order = orderNumber;
+
+    foreach (QuestPath e in questPaths)
+    {
+        if (e.endEvent.order == -1)
+        {
+            BFS(e.endEvent.GetId(), orderNumber + 1);
+        }
+    }
+}
+*/
+
+
+
+
 
     //Creates a new number every n seconds for variable i. Don't forget to call StartCoroutine(NewNumber())
     /*

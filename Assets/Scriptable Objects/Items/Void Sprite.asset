@@ -14,7 +14,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   name: Void Sprite
   amount: 1
-  amountHas: 2
+  amountHas: 28
   amountInStorage: 0
   Icon: {fileID: -5991182048604236753, guid: cfc569eb223714a438b49110fca313f7, type: 3}
-  description: Description for Void Sprite
+  description: Raw, untapped energy spilled from machines from another world. This
+    energy is over 100x more potent than anythin the Earth has created in the past
+    century, and infinitely more destructive.

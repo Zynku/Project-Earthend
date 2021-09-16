@@ -12,11 +12,6 @@ public class PickedUpTextScript : MonoBehaviour
     public TextMeshProUGUI myText; //Assigned in Inspector
     Animator anim;
 
-    private void Start()
-    {
-        anim = GetComponent<Animator>();   
-    }
-
     private void Update()
     {
         aliveTimer += Time.deltaTime;
@@ -32,8 +27,13 @@ public class PickedUpTextScript : MonoBehaviour
 
     public void AssignNewNameandAmount()
     {
+        anim = GetComponent<Animator>();
         myText.text = (myItemAmount.ToString() + " x " + myItemName.ToString());
-        anim.SetTrigger("Renew Anim");
+        anim.SetTrigger("Extend Anim");
+        if (anim = null)
+        {
+            Debug.Log("No animator!");
+        }
     }
 
     public void AssignNewNameandAmountOffScreen()
@@ -59,7 +59,7 @@ public class PickedUpTextScript : MonoBehaviour
     public IEnumerator Despawn()
     {
         GetComponentInParent<InventoryUI>().pickedUpTexts.Remove(gameObject);
-        yield return new WaitForSeconds(0.1f);
+        yield return new WaitForSeconds(0.01f);
         Destroy(gameObject);
     }
 }

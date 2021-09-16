@@ -17,7 +17,6 @@ public class QuestEvent
     public int order = -1;
     public EventStatus status;
 
-    [NonSerialized]public List<QuestPath> pathlist = new List<QuestPath>();
     public List<GameObject> questObjects;
     //public List<QuestEventScript> questEventScripts;
 

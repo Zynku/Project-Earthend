@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
 
+[ExecuteInEditMode]
 public class QuestGiver : MonoBehaviour
 {
     public Quest myQuest;
@@ -11,6 +12,8 @@ public class QuestGiver : MonoBehaviour
     GameObject questManager;
     bool playerInRange;
     public GameObject shownQuestNameText;
+   
+    //QuestGiver script is not responsible for dictating the type of quest this is, only the questObject that is referenced in this Quest.
 
     private void Awake()
     {
