@@ -23,4 +23,4 @@ This is how to create a quest
 4. For each quest event, assign a quest object. This object is responsible for telling the quest event when it is completed. The object can be a physical checkpoint, or an empty that holds data of items or elements that need to be kept track of
 5. At the bottom of the quest giver script, click Build Event IDs. This creates a new, unique ID for each quest event allowing the script to know which quest event we are referring to.
 6. Add Quest Paths as necessary. Each Quest Event should have a Quest Path leading to, or from it.
-7. Copy the quest ID for the start quest event, and the end quest event into the appropriate slots under the quest path. This lets the script know what quest event leads to another
+7. Copy the quest ID for the start quest event, and the end quest event into the appropriate slots under the quest path. This lets the script know what quest event leads to another.

@@ -28,6 +28,18 @@ public class UsefulCodeBits : MonoBehaviour
     */
 
 
+    //Creates a new number every n seconds for variable i. Don't forget to call StartCoroutine(NewNumber())
+    /*
+    IEnumerator NewNumber()
+    {
+        randomint = UnityEngine.Random.Range(1, 9999);
+        i = randomint.ToString();
+        yield return new WaitForSeconds(n);
+        StartCoroutine(NewNumber());
+    }
+    */
+
+
 
     /*#region Singleton
     private void Awake()

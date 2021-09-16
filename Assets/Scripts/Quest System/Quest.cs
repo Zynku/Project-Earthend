@@ -24,8 +24,8 @@ public class Quest
     public Quest() 
     {
         //Default values
-        name = "Default Quest Name";
-        desc = "Go forth! Test this quest and be the best!";
+        name = "No Quest";
+        desc = "No Quest";
         isActive = false;
     }
 

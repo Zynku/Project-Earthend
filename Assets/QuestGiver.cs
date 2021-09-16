@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using TMPro;
 
 public class QuestGiver : MonoBehaviour
 {
@@ -9,21 +10,45 @@ public class QuestGiver : MonoBehaviour
     GameObject player;
     GameObject questManager;
     bool playerInRange;
+    public GameObject shownQuestNameText;
 
     private void Awake()
     {
         player = GameObject.FindGameObjectWithTag("Player");
         questManager = GameObject.FindGameObjectWithTag("QuestManager");
+        shownQuestNameText.GetComponent<TextMeshPro>().text = myQuest.name;
     }
+
 
     // Update is called once per frame
     void Update()
     {
         if (playerInRange && Input.GetButtonDown("Interact"))
         {
-            player.GetComponent<Charquests>().currentQuests.Add(myQuest);
-            questManager.GetComponent<QuestManager>().SetupNewQuest(myQuest);
+            //If the quest you're trying to add is not the same as the quest that is already active, or if there are no quests
+            //if(questManager.GetComponent<QuestManager>().currentQuest.name == myQuest.name)
+            if (CheckforSameQuest(myQuest))
+            {
+                Debug.Log("Quest already accepted!");
+            }
+            else
+            {
+                player.GetComponent<Charquests>().currentQuests.Add(myQuest);
+                questManager.GetComponent<QuestManager>().SetupNewQuest(myQuest);
+            }
         }
+    }
+
+    bool CheckforSameQuest(Quest myQuest)
+    {
+        foreach (Quest quest in player.GetComponent<Charquests>().currentQuests)
+        {
+            if (quest.name == myQuest.name)
+            {
+                return true;
+            }
+        }
+        return false;
     }
 
     private void OnTriggerEnter2D(Collider2D collision)

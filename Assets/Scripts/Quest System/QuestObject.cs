@@ -1,27 +1,26 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEditor;
 
 public class QuestObject : MonoBehaviour
 {
     public eventType type;
     public collectItemMonitorType itemToMonitor;
 
+    public bool eventCompleted = false;
+
     [HideInInspector] public QuestManager qManager;
     public QuestEvent qEvent;
     [HideInInspector] public QuestEventScript qScript;
+    public Quest myQuest;
     private GameObject player;
 
     [Header("Collect Physical Item Quest Type Variables")]
     public int interactRadius;
 
     [Header("Collect Item Monitor Quest Type Variables")]
-    public int moneyCounter;
-    public int amountRequired;
-    public int amountHas;
-
-    [Header("Kill Enemies Quest Type Variables")]
-    
+    public int amountRequired, moneyCounter;
 
     public QuestEvent.EventStatus status;
     
@@ -50,13 +49,14 @@ public class QuestObject : MonoBehaviour
         status = qEvent.status;
 
         //TODO: Turn this into a switch please
-        if (type == eventType.collectItemMonitor)
+        if (type == eventType.collectItemMonitor && status == QuestEvent.EventStatus.CURRENT)
         {
             if (itemToMonitor == collectItemMonitorType.money)
             {
                 moneyCounter = player.GetComponent<Charpickup_inventory>().money;
-                if (moneyCounter >= amountRequired)
+                if (moneyCounter >= amountRequired && !eventCompleted)
                 {
+                    eventCompleted = true;
                     qEvent.UpdateQuestEvent(QuestEvent.EventStatus.DONE);
                     qManager.UpdateQuestsOnCompletion(qEvent);
                 }
@@ -69,6 +69,7 @@ public class QuestObject : MonoBehaviour
         qManager = qm;
         qEvent = qe;
         qScript = qs;
+        eventCompleted = false;
     }
 }
  
