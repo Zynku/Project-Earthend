@@ -10,6 +10,9 @@ public class QuestManager : MonoBehaviour
     [HideInInspector] public GameObject player;
     [HideInInspector] public TextMeshProUGUI currentQuestText;
     public GameObject questDivider;
+    public QuestCountdownTimer countDownTimer;
+    public float timerTime;             //Actual timer time, changes with time.deltatime and counts down to 0
+    private bool liveTimer;
     public GameObject questEventPrefab;
     public List<GameObject> questEventPrefabs;
     public GameObject questHolder;
@@ -36,6 +39,7 @@ public class QuestManager : MonoBehaviour
     {
         questDivider.SetActive(false);
         currentQuestText.gameObject.SetActive(false);
+        countDownTimer.gameObject.SetActive(false);
     }
 
     private void Update()
@@ -43,6 +47,7 @@ public class QuestManager : MonoBehaviour
         ManageOffScreenQATPs(); //This is called before ManageOffScreenQCTPs so that it prioritizes showing qatps over qctps
         ManageOffScreenQCTPs();
         ManageOffScreenQFTPs();
+        if (liveTimer) { ManageTimer(); }
     }
 
     void ManageOffScreenQCTPs()  //QCTP = Quest Completed Text Prefabs generated when a quest is completed and stored in questCompletedTextsOffscreen
@@ -89,6 +94,7 @@ public class QuestManager : MonoBehaviour
             currentQuestText.gameObject.SetActive(true);
             currentQuest = quest;
             currentQuest.questState = Quest.QuestState.CURRENT;
+            StartCoroutine(CheckforQuestTimer());
             foreach (QuestEvent qe in currentQuest.questEvents)
             {
                 qe.status = QuestEvent.EventStatus.WAITING;
@@ -139,11 +145,27 @@ public class QuestManager : MonoBehaviour
             {
                 foreach (GameObject qo in qe.questObjects)
                 {
-                    qo.GetComponent<QuestObject>().Setup(this, currentQuest.questEvents[n], currentQuest.questEventScripts[n]);
+                    qo.GetComponent<QuestObject>().Setup(this, currentQuest.questEvents[n], currentQuest.questEventScripts[n], currentQuest);
                     n++;
                 }
             }
         }
+    }
+
+    IEnumerator CheckforQuestTimer()
+    {
+        yield return new WaitForSeconds(0.04f);
+        if (currentQuest.hasTimer) 
+        {
+            countDownTimer.rawTimer = timerTime;
+            countDownTimer.gameObject.SetActive(true);
+            liveTimer = true;
+        }
+    }
+
+    void ManageTimer()
+    {
+        countDownTimer.rawTimer = timerTime;
     }
 
     GameObject CreateQuestEventText(QuestEvent e) //Creates a new text for each currentQuest event requested
@@ -174,6 +196,7 @@ public class QuestManager : MonoBehaviour
         currentQuestText.gameObject.SetActive(true);
         currentQuest = quest;
         currentQuest.questState = Quest.QuestState.CURRENT;
+        if (currentQuest.hasTimer) { countDownTimer.gameObject.SetActive(true); }
         foreach (QuestEvent qe in currentQuest.questEvents)
         {
             qe.status = QuestEvent.EventStatus.WAITING;
@@ -196,7 +219,7 @@ public class QuestManager : MonoBehaviour
         {
             foreach (GameObject qo in qe.questObjects)
             {
-                qo.GetComponent<QuestObject>().Setup(this, currentQuest.questEvents[n], currentQuest.questEventScripts[n]);
+                qo.GetComponent<QuestObject>().Setup(this, currentQuest.questEvents[n], currentQuest.questEventScripts[n], currentQuest);
                 n++;
             }
         }
@@ -216,19 +239,25 @@ public class QuestManager : MonoBehaviour
                 }
             }
         }
-        
+
+        bool qctpShown = false;
+        bool qftpShown = false;
         //If the last quest event gets completed, that means the quest is done! Call that function!
-        if (currentQuest.questEvents.Last().status == QuestEvent.EventStatus.DONE)
+        if (currentQuest.questEvents.Last().status == QuestEvent.EventStatus.DONE && !qctpShown)
         {
             StartCoroutine(CompleteCurrentQuest());
             questDivider.SetActive(false);
             currentQuestText.gameObject.SetActive(false);
+            countDownTimer.gameObject.SetActive(true);
+            qctpShown = true;
         }
-        else if (currentQuest.questEvents.Last().status == QuestEvent.EventStatus.FAILED)    //Right now it fails if only the LAST quest event is failed. Add functionality for flexibility
+        else if (currentQuest.questEvents.Last().status == QuestEvent.EventStatus.FAILED && !qftpShown)    //Right now it fails if only the LAST quest event is failed. Add functionality for flexibility
         {
             StartCoroutine(FailCurrentQuest());
             questDivider.SetActive(false);
+            countDownTimer.gameObject.SetActive(false);
             currentQuestText.gameObject.SetActive(false);
+            qftpShown = true;
         }
     }
 
@@ -236,6 +265,7 @@ public class QuestManager : MonoBehaviour
     {
         questDivider.SetActive(false);
         currentQuestText.gameObject.SetActive(false);
+        countDownTimer.gameObject.SetActive(false);
         GameObject qctp = Instantiate(questCompletedTextPrefab, questCanvas.transform);     //Creates a Quest Completed Text Prefab, or qctp
         bool questAssigned = false;
         if (!questAssigned) { qctp.GetComponent<QuestCompletedText>().myQuestName.GetComponent<TextMeshProUGUI>().text = currentQuest.name; }   //Assigns the quest name ONCE.
@@ -285,6 +315,7 @@ public class QuestManager : MonoBehaviour
     {
         questDivider.SetActive(false);
         currentQuestText.gameObject.SetActive(false);
+        countDownTimer.gameObject.SetActive(false);
         GameObject qftp = Instantiate(questFailedTextPrefab, questCanvas.transform);     //Creates a Quest Failed Text Prefab, or qftp
         bool questAssigned = false;
         if (!questAssigned) { qftp.GetComponent<QuestFailedText>().myQuestName.GetComponent<TextMeshProUGUI>().text = currentQuest.name; }   //Assigns the quest name ONCE.

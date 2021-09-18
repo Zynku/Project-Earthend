@@ -11,6 +11,7 @@ public class Quest
     [TextArea(5, 10)]
     public string desc;
     public bool isActive;
+    public bool hasTimer;
     public enum QuestState { WAITING, CURRENT, COMPLETED, FAILED};
     public QuestState questState;
     //Enum that defines quest state

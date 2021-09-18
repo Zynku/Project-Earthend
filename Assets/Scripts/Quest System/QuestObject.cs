@@ -13,10 +13,12 @@ public class QuestObject : MonoBehaviour
     [HideInInspector] public QuestManager qManager;
     [HideInInspector] public QuestEvent qEvent;
     [HideInInspector] public QuestEventScript qScript;
-    public bool hasTimeLimit = false;
-    public float timerTime;
-    public float timerTargetTime;
     [HideInInspector] public Quest myQuest;
+    public bool hasTimeLimitforEvent = false;
+    public bool hasTimeLimitforQuest = false;
+    public float timerTime;             //Actual timer time, changes with time.deltatime and counts down to 0
+    public float timerTargetTime;       //Time that timer starts at before counting down
+    private bool timerSet;
 
     private GameObject player;
     private Charpickup_inventory inventory;
@@ -25,11 +27,19 @@ public class QuestObject : MonoBehaviour
     public int interactRadius;
 
     [Header("Collect Item Monitor Quest Type Variables")]
-    public int moneyRequired, moneyCounter;
+    [Tooltip("How much is required to complete quest event.")]
+    public int moneyTarget;
+    [Tooltip("How much player needs to collect based on how much they currently have. Is equal to the money counter + the money target.")]
+    private int moneyRequired;
+    [Tooltip("How much player actually has.")]
+    public int moneyCounter;
 
     [Header("Collect Inventory Items Quest Type Variables")]
+    [Tooltip("How much is required to complete quest event.")]
     public int itemAmountTarget;         //itemAmountTarget is set in Inspector. Is how much is required to complete quest event. 
-    public int itemAmountRequired;       //itemAmountRequired is how much you need to collect based on how many you have now. Is itemcounter(item.amountHas) + itemAmountTarget
+    [Tooltip("How much player needs to collect based on how much they currently have. Is equal to the item counter + the amount target.")]
+    private int itemAmountRequired;       //itemAmountRequired is how much you need to collect based on how many you have now. Is itemcounter(item.amountHas) + itemAmountTarget
+    [Tooltip("How much player actually has.")]
     public int itemCounter;              //How much you actually have. This is item.amountHas
     private bool amountsSet;
     public ItemScriptable itemToCollect;
@@ -43,7 +53,8 @@ public class QuestObject : MonoBehaviour
     {
         player = GameObject.FindGameObjectWithTag("Player");
         inventory = player.GetComponent<Charpickup_inventory>();
-        timerTime = timerTargetTime;
+        QuestGiver parentquestgiver = transform.parent.GetComponent<QuestGiver>();
+        if (parentquestgiver) gameObject.name = parentquestgiver.myQuest.name;
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
@@ -60,9 +71,16 @@ public class QuestObject : MonoBehaviour
 
     private void Update()
     {
-        if (hasTimeLimit)
+        if (hasTimeLimitforEvent && status == QuestEvent.EventStatus.CURRENT)
         {
             createTimeLimitForEvent();
+        }
+
+        if (hasTimeLimitforQuest && myQuest.questState == Quest.QuestState.CURRENT)
+        {
+            myQuest.hasTimer = true;
+            createTimeLimitForQuest();
+            qManager.timerTime = timerTime;
         }
 
         status = qEvent.status;
@@ -73,16 +91,7 @@ public class QuestObject : MonoBehaviour
                 case eventType.location:
                     break;
                 case eventType.collectPhysicalItem:
-                    if (itemToMonitor == collectItemMonitorType.money)
-                    {
-                        moneyCounter = player.GetComponent<Charpickup_inventory>().money;
-                        if (moneyCounter >= moneyRequired && !eventCompleted)
-                        {
-                            eventCompleted = true;
-                            qEvent.UpdateQuestEvent(QuestEvent.EventStatus.DONE);
-                            qManager.UpdateQuestsOnCompletion(qEvent);
-                        }
-                    }
+                    CollectPhysicalItem();
                     break;
                 case eventType.collectItemMonitor:
                     break;
@@ -94,6 +103,25 @@ public class QuestObject : MonoBehaviour
                 default:
                     Debug.Log("Assign a quest object type in the Inspector please");
                     break;
+            }
+        }
+    }
+
+    void CollectPhysicalItem()
+    {
+        if (itemToMonitor == collectItemMonitorType.money)
+        {
+            moneyCounter = moneyCounter = player.GetComponent<Charpickup_inventory>().money;
+            if (!amountsSet)
+            {
+                moneyRequired = moneyCounter + moneyTarget;
+                amountsSet = true;
+            }
+            if (moneyCounter >= moneyRequired && !eventCompleted)
+            {
+                eventCompleted = true;
+                qEvent.UpdateQuestEvent(QuestEvent.EventStatus.DONE);
+                qManager.UpdateQuestsOnCompletion(qEvent);
             }
         }
     }
@@ -115,7 +143,7 @@ public class QuestObject : MonoBehaviour
                 itemAmountRequired = itemCounter + itemAmountTarget;
                 amountsSet = true;
             }
-            if (itemCounter > itemAmountRequired)
+            if (itemCounter >= itemAmountRequired && !eventCompleted)
             {
                 eventCompleted = true;
                 qEvent.UpdateQuestEvent(QuestEvent.EventStatus.DONE);
@@ -139,10 +167,16 @@ public class QuestObject : MonoBehaviour
 
     void createTimeLimitForEvent()
     {
-        timerTime -= Time.deltaTime;
-        if (timerTime <= 0)
+        if (!timerSet)
         {
-            timerTime = 0;
+            timerTime = timerTargetTime;
+            timerSet = true;
+        }
+
+        timerTime -= Time.deltaTime;
+        if (timerTime <= 1)
+        {
+            timerTime = 1;
             qEvent.UpdateQuestEvent(QuestEvent.EventStatus.FAILED);
             qManager.UpdateQuestsOnCompletion(qEvent);
             timerTime = timerTargetTime;
@@ -152,16 +186,31 @@ public class QuestObject : MonoBehaviour
 
     void createTimeLimitForQuest()
     {
+        if (!timerSet)
+        {
+            timerTime = timerTargetTime;
+            timerSet = true;
+        }
 
+        timerTime -= Time.deltaTime;
+        if (timerTime <= 1)
+        {
+            timerTime = 1;
+            qEvent.UpdateQuestEvent(QuestEvent.EventStatus.FAILED);
+            qManager.UpdateQuestsOnCompletion(qEvent);
+            StartCoroutine(qManager.FailCurrentQuest());
+            timerTime = timerTargetTime;
+        }
     }
 
-    public void Setup(QuestManager qm, QuestEvent qe, QuestEventScript qs)
+    public void Setup(QuestManager qm, QuestEvent qe, QuestEventScript qs, Quest qq)
     {
         qManager = qm;
         qEvent = qe;
         qScript = qs;
         eventCompleted = false;
         amountsSet = false;
+        myQuest = qq;
     }
 }
  

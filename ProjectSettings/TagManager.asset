@@ -22,6 +22,7 @@ TagManager:
   - Ground_slopes
   - item_collectable
   - QuestManager
+  - QuestObject
   layers:
   - Default
   - TransparentFX
