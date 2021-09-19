@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-[ExecuteAlways]
+[ExecuteAlways, ExecuteInEditMode]
 public class QuestSystemCleanerUpper : MonoBehaviour
 {
     GameObject[] questObjects;
@@ -14,6 +14,7 @@ public class QuestSystemCleanerUpper : MonoBehaviour
         if (!spritesEnabled)
         {
             EnableQuestObjectSprites();
+            spritesEnabled = true;
         }
         else
         {

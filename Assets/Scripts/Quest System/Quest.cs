@@ -11,7 +11,10 @@ public class Quest
     [TextArea(5, 10)]
     public string desc;
     public bool isActive;
-    public bool hasTimer;
+    public bool hasTimerForQuest;
+    public bool hasTimerForEvent;
+    public int whichEventOrderNumber;
+    public float timerTargetTime;       //Time that timer starts at before counting down
     public enum QuestState { WAITING, CURRENT, COMPLETED, FAILED};
     public QuestState questState;
     //Enum that defines quest state

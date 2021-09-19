@@ -14,11 +14,8 @@ public class QuestObject : MonoBehaviour
     [HideInInspector] public QuestEvent qEvent;
     [HideInInspector] public QuestEventScript qScript;
     [HideInInspector] public Quest myQuest;
-    public bool hasTimeLimitforEvent = false;
-    public bool hasTimeLimitforQuest = false;
-    public float timerTime;             //Actual timer time, changes with time.deltatime and counts down to 0
-    public float timerTargetTime;       //Time that timer starts at before counting down
-    private bool timerSet;
+    //public bool hasTimeLimitforEvent = false;
+    //public bool hasTimeLimitforQuest = false;
 
     private GameObject player;
     private Charpickup_inventory inventory;
@@ -71,17 +68,17 @@ public class QuestObject : MonoBehaviour
 
     private void Update()
     {
-        if (hasTimeLimitforEvent && status == QuestEvent.EventStatus.CURRENT)
+        /*if (hasTimeLimitforEvent && status == QuestEvent.EventStatus.CURRENT)
         {
-            createTimeLimitForEvent();
+            //CreateTimeLimitForEvent();
         }
 
         if (hasTimeLimitforQuest && myQuest.questState == Quest.QuestState.CURRENT)
         {
             myQuest.hasTimer = true;
-            createTimeLimitForQuest();
-            qManager.timerTime = timerTime;
-        }
+            qManager.CreateTimeLimitForQuest();
+            //qManager.timerTime = timerTime;
+        }*/
 
         status = qEvent.status;
         if (status == QuestEvent.EventStatus.CURRENT)
@@ -165,7 +162,7 @@ public class QuestObject : MonoBehaviour
         }
     }
 
-    void createTimeLimitForEvent()
+    /*void CreateTimeLimitForEvent()
     {
         if (!timerSet)
         {
@@ -181,27 +178,7 @@ public class QuestObject : MonoBehaviour
             qManager.UpdateQuestsOnCompletion(qEvent);
             timerTime = timerTargetTime;
         }
-        //TODO: Create UI Element to show this, and for Quest as well
-    }
-
-    void createTimeLimitForQuest()
-    {
-        if (!timerSet)
-        {
-            timerTime = timerTargetTime;
-            timerSet = true;
-        }
-
-        timerTime -= Time.deltaTime;
-        if (timerTime <= 1)
-        {
-            timerTime = 1;
-            qEvent.UpdateQuestEvent(QuestEvent.EventStatus.FAILED);
-            qManager.UpdateQuestsOnCompletion(qEvent);
-            StartCoroutine(qManager.FailCurrentQuest());
-            timerTime = timerTargetTime;
-        }
-    }
+    }*/
 
     public void Setup(QuestManager qm, QuestEvent qe, QuestEventScript qs, Quest qq)
     {

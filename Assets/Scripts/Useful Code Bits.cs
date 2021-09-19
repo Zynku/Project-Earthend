@@ -79,4 +79,21 @@ public void BFS(string id, int orderNumber = 1) //Breadth first search, gives al
     timerTime -= Time.deltaTime;
     if (timerTime < 0) { timerTime = 0; }
     */
+
+
+
+/*  Takes raw timer in seconds and converts it to 00d 00h 00s format and spits it out as shownTimer. Uses TextMeshPro (using TmPro;)
+    private void FormatTimer()
+    {
+        int days = (int)(rawTimer / 86400) % 365;
+        int hours = (int)(rawTimer / 3600) % 24;
+        int minutes = (int)(rawTimer / 60) % 60;
+        int seconds = (int)(rawTimer % 60);
+
+        shownTimer.text = "";
+        if (days > 0) { shownTimer.text += days + "d "; }
+        if (hours > 0) { shownTimer.text += hours + "h "; }
+        if (minutes > 0) { shownTimer.text += minutes + "m "; }
+        if (seconds > 0) { shownTimer.text += seconds + "s "; }
+    }*/
 }
