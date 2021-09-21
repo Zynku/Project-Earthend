@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class QuestTimer : MonoBehaviour
 {
-    public float rawTimer;             //Actual timer time, changes with time.deltatime and counts down to 0
+    private float rawTimer = 99999999f; //Actual timer time, changes with time.deltatime and counts down to 0. Is automatically set in Start(), dont manually set
     public float timerTargetTime;       //Time that timer starts at before counting down
     public string formattedTime;
     public bool timerDone = false;
