@@ -39,10 +39,10 @@ public class Charcontrol : MonoBehaviour
     public Vector2 boxColCrouchSize;
     public Vector2 boxColCrouchOffset;
 
-    [Header("Slide Variables")]
-    [HideInInspector] public bool slid = false;
-    public float slideForce;
-    public float slideDrag;
+    [Header("Roll Variables")]
+    public float rollForce;
+    public float rollDrag;
+    [HideInInspector] public bool rolled = false;
 
     [Header("Jump Variables")]
     public static bool isGrounded;
@@ -81,7 +81,7 @@ public class Charcontrol : MonoBehaviour
         CrouchWalking,
         Attacking,
         Air_Attacking,
-        Sliding,
+        Rolling,
         Ledgegrabbing,
         Ledgejumping,
         Stunned,
@@ -139,14 +139,14 @@ public class Charcontrol : MonoBehaviour
                 transform.localScale = new Vector3(-0.9f, 0.9f, 0.9f);
             }
         }
-        if (currentState != State.Sliding)
+        if (currentState != State.Rolling)
         {
             if (isGrounded) { ApplyGroundLinearDrag(); }
             else { ApplyAirLinearDrag(); }
         }
         else
         {
-            ApplySlideDrag();
+            ApplyRollDrag();
         }
 
 
@@ -202,6 +202,10 @@ public class Charcontrol : MonoBehaviour
                 {
                     currentState = State.Jumping;
                 }
+                if (Input.GetAxisRaw("Vertical") < 0)
+                {
+                    currentState = State.Rolling;
+                }
                 break;
 
             case State.Running:
@@ -216,7 +220,7 @@ public class Charcontrol : MonoBehaviour
                 //Transition to Sliding
                 if (Input.GetAxisRaw("Vertical") < 0)
                 {
-                    currentState = State.Sliding;
+                    currentState = State.Rolling;
                 }
                 //Transition to Attacking
                 /*if (Input.GetAxisRaw("Light Attack") != 0 || Input.GetAxisRaw("Heavy Attack") != 0 || Input.GetAxisRaw("Ranged Attack") != 0)
@@ -292,8 +296,8 @@ public class Charcontrol : MonoBehaviour
             case State.Air_Attacking:
                 break; 
 
-            case State.Sliding:
-                Sliding();
+            case State.Rolling:
+                Rolling();
                 //Transition back to Running
                 if (!Input.GetButton("Vertical"))
                 {
@@ -372,7 +376,7 @@ public class Charcontrol : MonoBehaviour
     {
         currentState = State.Idle;
         airJumpsHas = airJumps;
-        slid = false;
+        rolled = false;
 
         attackTimer = attackTimerTargetTime;
         attackComboTimer = attackComboTargetTime;
@@ -398,7 +402,7 @@ public class Charcontrol : MonoBehaviour
         {
             rb2d.velocity = new Vector2(maxRunSpeed * Input.GetAxisRaw("Horizontal"), rb2d.velocity.y);
         }
-        slid = false;
+        rolled = false;
     }
 
     public void Attacking()
@@ -418,13 +422,23 @@ public class Charcontrol : MonoBehaviour
         }
     }
 
-    public void Sliding()
+    /*public void Sliding()
     {
         if (slid == false)
         {
             slid = true;
             rb2d.drag = slideDrag;
             rb2d.AddForce(new Vector2(Input.GetAxisRaw("Horizontal") * slideForce, 0f));
+        }
+    }*/
+
+    public void Rolling()
+    {
+        if (!rolled)
+        {
+            rolled = true;
+            rb2d.drag = rollDrag;
+            rb2d.AddForce(new Vector2(Input.GetAxisRaw("Horizontal") * rollForce, 0f));
         }
     }
 
@@ -481,9 +495,9 @@ public class Charcontrol : MonoBehaviour
         rb2d.drag = groundLinearDrag;
     }
 
-    private void ApplySlideDrag()
+    private void ApplyRollDrag()
     {
-        rb2d.drag = slideDrag;
+        rb2d.drag = rollDrag;
     }
 
     public void Falling()

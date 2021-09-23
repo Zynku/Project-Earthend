@@ -78,10 +78,10 @@ public class Charanimation : MonoBehaviour
             case Charcontrol.State.Air_Attacking:
                 break;
 
-            case Charcontrol.State.Sliding:
-                if (!Charcontrol.Instance.slid)
+            case Charcontrol.State.Rolling:
+                if (!Charcontrol.Instance.rolled)
                 {
-                    animator.SetBool("Sliding", true);
+                    animator.SetTrigger("Rolling");
                     animator.SetBool("Crouch", false);
                     animator.SetBool("Run", false);
                 }
