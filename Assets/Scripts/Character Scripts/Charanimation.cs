@@ -79,7 +79,7 @@ public class Charanimation : MonoBehaviour
                 break;
 
             case Charcontrol.State.Rolling:
-                if (!Charcontrol.Instance.rolled)
+                //if (!Charcontrol.Instance.rolled)
                 {
                     animator.SetTrigger("Rolling");
                     animator.SetBool("Crouch", false);

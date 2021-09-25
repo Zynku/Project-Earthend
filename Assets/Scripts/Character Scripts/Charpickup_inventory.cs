@@ -123,7 +123,7 @@ public class Charpickup_inventory : MonoBehaviour
                     //weapons.Add(collision.transform.parent.gameObject);
                     Charcontrol.attackdamageMax = collision.GetComponentInParent<dropped_weapon>().damageMax;
                     Charcontrol.attackdamageMin = collision.GetComponentInParent<dropped_weapon>().damageMin;
-                    Charcontrol.SetMeleeSprite(collision.GetComponentInParent<SpriteRenderer>().sprite);
+                    //Charcontrol.SetMeleeSprite(collision.GetComponentInParent<SpriteRenderer>().sprite);
                     Destroy(collision.transform.parent.gameObject);
                 }
             }

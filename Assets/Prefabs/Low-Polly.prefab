@@ -9870,9 +9870,9 @@ MonoBehaviour:
   boxColOffset: {x: -0.003764823, y: -0.020777225}
   boxColCrouchSize: {x: 0.1509994, y: 0.3}
   boxColCrouchOffset: {x: 0, y: -0.123}
-  slid: 0
-  slideForce: 150
-  slideDrag: 0
+  rollForce: 20
+  rollDrag: 0
+  rolled: 0
   jumped: 1
   fallThreshold: 0
   jumpForce: 3
@@ -9916,6 +9916,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d6cdab46f2589c14f8500b616ae23cae, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  currentQuests: []
+  completedQuests: []
+  failedQuests: []
+  questmanager: {fileID: 0}
 --- !u!114 &7522717077318348683
 MonoBehaviour:
   m_ObjectHideFlags: 0
