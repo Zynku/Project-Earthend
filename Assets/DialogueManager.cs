@@ -71,7 +71,13 @@ public class DialogueManager : MonoBehaviour
         endOfConversation = false;
 
         //Finds closest NPC position from Charcontrol.
-        NPCPos = new Vector2(Charcontrol.closestNPC.transform.position.x, Charcontrol.closestNPC.transform.position.y);
+        if (Charcontrol.closestNPC.gameObject != null)
+        {
+            GameObject closestNPC = Charcontrol.closestNPC.gameObject;
+            NPCPos = new Vector2(closestNPC.transform.position.x, closestNPC.transform.position.y);
+        }
+        
+        
     }
 
     public void ShowAboveHeadDialogue(Dialogue dialogue)

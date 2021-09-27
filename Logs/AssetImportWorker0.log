@@ -15,11 +15,11 @@ C:/Users/send2/Documents/Unity/Project-Earthend
 -logFile
 Logs/AssetImportWorker0.log
 -srvPort
-59607
+52070
 Successfully changed project path to: C:/Users/send2/Documents/Unity/Project-Earthend
 C:/Users/send2/Documents/Unity/Project-Earthend
 Using Asset Import Pipeline V2.
-Refreshing native plugins compatible for Editor in 247.32 ms, found 1 plugins.
+Refreshing native plugins compatible for Editor in 76.28 ms, found 1 plugins.
 Preloading 0 native plugins for Editor in 0.00 ms.
 Initialize engine version: 2021.1.7f1 (d91830b65d9b)
 [Subsystems] Discovering subsystems at path C:/Users/send2/Documents/Unity/2021.1.7f1/Editor/Data/Resources/UnitySubsystems
@@ -35,1389 +35,849 @@ Initialize mono
 Mono path[0] = 'C:/Users/send2/Documents/Unity/2021.1.7f1/Editor/Data/Managed'
 Mono path[1] = 'C:/Users/send2/Documents/Unity/2021.1.7f1/Editor/Data/MonoBleedingEdge/lib/mono/unityjit'
 Mono config path = 'C:/Users/send2/Documents/Unity/2021.1.7f1/Editor/Data/MonoBleedingEdge/etc'
-Using monoOptions --debugger-agent=transport=dt_socket,embedding=1,server=y,suspend=n,address=127.0.0.1:56556
+Using monoOptions --debugger-agent=transport=dt_socket,embedding=1,server=y,suspend=n,address=127.0.0.1:56292
 Begin MonoManager ReloadAssembly
 Registering precompiled unity dll's ...
 Register platform support module: C:/Users/send2/Documents/Unity/2021.1.7f1/Editor/Data/PlaybackEngines/WindowsStandaloneSupport/UnityEditor.WindowsStandalone.Extensions.dll
-Registered in 0.006989 seconds.
+Registered in 0.005084 seconds.
 Native extension for WindowsStandalone target not found
-Refreshing native plugins compatible for Editor in 207.84 ms, found 1 plugins.
+Refreshing native plugins compatible for Editor in 230.24 ms, found 1 plugins.
 Preloading 0 native plugins for Editor in 0.00 ms.
 Mono: successfully reloaded assembly
-- Completed reload, in 10.222 seconds
+- Completed reload, in 13.647 seconds
 Platform modules already initialized, skipping
 Registering precompiled user dll's ...
-Registered in 0.005714 seconds.
+Registered in 0.004256 seconds.
 Begin MonoManager ReloadAssembly
 Native extension for WindowsStandalone target not found
-Refreshing native plugins compatible for Editor in 196.69 ms, found 1 plugins.
+Refreshing native plugins compatible for Editor in 225.06 ms, found 1 plugins.
 Preloading 0 native plugins for Editor in 0.00 ms.
 Mono: successfully reloaded assembly
-- Completed reload, in  2.626 seconds
+- Completed reload, in  2.961 seconds
 Platform modules already initialized, skipping
 ========================================================================
 Worker process is ready to serve import requests
-Launched and connected shader compiler UnityShaderCompiler.exe after 0.14 seconds
-Refreshing native plugins compatible for Editor in 1.26 ms, found 1 plugins.
+Launched and connected shader compiler UnityShaderCompiler.exe after 0.16 seconds
+Refreshing native plugins compatible for Editor in 0.83 ms, found 1 plugins.
 Preloading 0 native plugins for Editor in 0.00 ms.
-Unloading 1968 Unused Serialized files (Serialized files now loaded: 0)
-System memory in use before: 96.6 MB.
-System memory in use after: 96.6 MB.
+Unloading 1970 Unused Serialized files (Serialized files now loaded: 0)
+System memory in use before: 96.7 MB.
+System memory in use after: 96.8 MB.
 
-Unloading 20 unused Assets to reduce memory usage. Loaded Objects now: 2435.
-Total: 4.209100 ms (FindLiveObjects: 0.286500 ms CreateObjectMapping: 0.104800 ms MarkObjects: 3.699400 ms  DeleteObjects: 0.116000 ms)
+Unloading 20 unused Assets to reduce memory usage. Loaded Objects now: 2437.
+Total: 2.627700 ms (FindLiveObjects: 0.285700 ms CreateObjectMapping: 0.186600 ms MarkObjects: 2.074400 ms  DeleteObjects: 0.078200 ms)
 
 ========================================================================
 Received Import Request.
-  path: Assets/Charcontrol_wastebin.cs
-  artifactKey: Guid(caf2f97f33c2c364ea88352d6e8ca2f2) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
-Start importing Assets/Charcontrol_wastebin.cs using Guid(caf2f97f33c2c364ea88352d6e8ca2f2) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '8a37e6ca4f6db19075ec612fb6004902') in 0.059880 seconds 
+  path: Assets/Low Poly Girl/Anims/Idle/0044.png
+  artifactKey: Guid(87a729b3a56cc8b4c8e2c0359cd04936) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Low Poly Girl/Anims/Idle/0044.png using Guid(87a729b3a56cc8b4c8e2c0359cd04936) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '4ea8046c1f5c0c2605e1599db6904e67') in 0.227237 seconds 
+========================================================================
+Received Import Request.
+  Time since last request: 0.000808 seconds.
+  path: Assets/Low Poly Girl/Anims/Idle/Low Poly Anim Controller 2.controller
+  artifactKey: Guid(322de74bd9be5a9448259d13e4534271) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Low Poly Girl/Anims/Idle/Low Poly Anim Controller 2.controller using Guid(322de74bd9be5a9448259d13e4534271) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '455706eb5ef2d7cfebcd4d2f31478af7') in 0.081241 seconds 
+========================================================================
+Received Import Request.
+  Time since last request: 0.000664 seconds.
+  path: Assets/Low Poly Girl/Anims/Idle/Low Poly Anim Controller.controller
+  artifactKey: Guid(61c50f57145f0a843807bf764a4b31f9) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Low Poly Girl/Anims/Idle/Low Poly Anim Controller.controller using Guid(61c50f57145f0a843807bf764a4b31f9) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: 'a06203b8e1ff5d2173109c85d542da14') in 0.154209 seconds 
+========================================================================
+Received Import Request.
+  Time since last request: 3.503315 seconds.
+  path: Assets/Low Poly Girl/Anims/Idle/Low Poly Anim Controller 1.controller
+  artifactKey: Guid(1b9f393375db93a4d9ceca1c26feb261) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Low Poly Girl/Anims/Idle/Low Poly Anim Controller 1.controller using Guid(1b9f393375db93a4d9ceca1c26feb261) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '35c8be580897cf5a256954efdab7186a') in 0.108480 seconds 
+========================================================================
+Received Import Request.
+  Time since last request: 61.814505 seconds.
+  path: Assets/Prefabs/Low-Polly.prefab
+  artifactKey: Guid(f6bd0073c888d3c45aba306ff030b349) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Prefabs/Low-Polly.prefab using Guid(f6bd0073c888d3c45aba306ff030b349) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '7ada72c71c73838fca0790ccdff9d379') in 0.363250 seconds 
 ========================================================================
 Received Prepare
 Registering precompiled user dll's ...
-Registered in 0.001758 seconds.
+Registered in 0.010686 seconds.
 Begin MonoManager ReloadAssembly
 Native extension for WindowsStandalone target not found
-Refreshing native plugins compatible for Editor in 0.92 ms, found 1 plugins.
+Refreshing native plugins compatible for Editor in 2.38 ms, found 1 plugins.
 Preloading 0 native plugins for Editor in 0.00 ms.
 Mono: successfully reloaded assembly
-- Completed reload, in  1.435 seconds
+- Completed reload, in  2.461 seconds
 Platform modules already initialized, skipping
-Refreshing native plugins compatible for Editor in 1.58 ms, found 1 plugins.
+Refreshing native plugins compatible for Editor in 3.08 ms, found 1 plugins.
 Preloading 0 native plugins for Editor in 0.00 ms.
-Unloading 1946 Unused Serialized files (Serialized files now loaded: 0)
-System memory in use before: 94.9 MB.
-System memory in use after: 95.0 MB.
+Unloading 1949 Unused Serialized files (Serialized files now loaded: 0)
+System memory in use before: 100.9 MB.
+System memory in use after: 101.1 MB.
 
-Unloading 8 unused Assets to reduce memory usage. Loaded Objects now: 2439.
-Total: 2.200300 ms (FindLiveObjects: 0.192400 ms CreateObjectMapping: 0.046700 ms MarkObjects: 1.940900 ms  DeleteObjects: 0.018900 ms)
+Unloading 8 unused Assets to reduce memory usage. Loaded Objects now: 2466.
+Total: 5.627000 ms (FindLiveObjects: 0.520200 ms CreateObjectMapping: 0.200400 ms MarkObjects: 4.869400 ms  DeleteObjects: 0.034500 ms)
 
 ========================================================================
 Received Prepare
 Registering precompiled user dll's ...
-Registered in 0.004009 seconds.
-Begin MonoManager ReloadAssembly
-Native extension for WindowsStandalone target not found
-Refreshing native plugins compatible for Editor in 1.50 ms, found 1 plugins.
-Preloading 0 native plugins for Editor in 0.00 ms.
-Mono: successfully reloaded assembly
-- Completed reload, in  2.264 seconds
-Platform modules already initialized, skipping
-Refreshing native plugins compatible for Editor in 3.59 ms, found 1 plugins.
-Preloading 0 native plugins for Editor in 0.00 ms.
-Unloading 1946 Unused Serialized files (Serialized files now loaded: 0)
-System memory in use before: 94.9 MB.
-System memory in use after: 95.0 MB.
-
-Unloading 8 unused Assets to reduce memory usage. Loaded Objects now: 2443.
-Total: 5.469100 ms (FindLiveObjects: 0.365200 ms CreateObjectMapping: 0.121800 ms MarkObjects: 4.950200 ms  DeleteObjects: 0.029200 ms)
-
-========================================================================
-Received Prepare
-Registering precompiled user dll's ...
-Registered in 0.002816 seconds.
-Begin MonoManager ReloadAssembly
-Native extension for WindowsStandalone target not found
-Refreshing native plugins compatible for Editor in 1.65 ms, found 1 plugins.
-Preloading 0 native plugins for Editor in 0.00 ms.
-Mono: successfully reloaded assembly
-- Completed reload, in  1.265 seconds
-Platform modules already initialized, skipping
-Refreshing native plugins compatible for Editor in 1.41 ms, found 1 plugins.
-Preloading 0 native plugins for Editor in 0.00 ms.
-Unloading 1946 Unused Serialized files (Serialized files now loaded: 0)
-System memory in use before: 95.0 MB.
-System memory in use after: 95.1 MB.
-
-Unloading 8 unused Assets to reduce memory usage. Loaded Objects now: 2447.
-Total: 6.111200 ms (FindLiveObjects: 0.427400 ms CreateObjectMapping: 0.138200 ms MarkObjects: 5.510900 ms  DeleteObjects: 0.030800 ms)
-
-========================================================================
-Received Prepare
-Registering precompiled user dll's ...
-Registered in 0.002335 seconds.
-Begin MonoManager ReloadAssembly
-Native extension for WindowsStandalone target not found
-Refreshing native plugins compatible for Editor in 1.13 ms, found 1 plugins.
-Preloading 0 native plugins for Editor in 0.00 ms.
-Mono: successfully reloaded assembly
-- Completed reload, in  1.225 seconds
-Platform modules already initialized, skipping
-Refreshing native plugins compatible for Editor in 1.59 ms, found 1 plugins.
-Preloading 0 native plugins for Editor in 0.00 ms.
-Unloading 1946 Unused Serialized files (Serialized files now loaded: 0)
-System memory in use before: 95.0 MB.
-System memory in use after: 95.1 MB.
-
-Unloading 8 unused Assets to reduce memory usage. Loaded Objects now: 2451.
-Total: 8.019500 ms (FindLiveObjects: 0.342400 ms CreateObjectMapping: 0.149600 ms MarkObjects: 6.366800 ms  DeleteObjects: 1.157100 ms)
-
-========================================================================
-Received Prepare
-Registering precompiled user dll's ...
-Registered in 0.005338 seconds.
-Begin MonoManager ReloadAssembly
-Native extension for WindowsStandalone target not found
-Refreshing native plugins compatible for Editor in 2.98 ms, found 1 plugins.
-Preloading 0 native plugins for Editor in 0.00 ms.
-Mono: successfully reloaded assembly
-- Completed reload, in  2.535 seconds
-Platform modules already initialized, skipping
-Refreshing native plugins compatible for Editor in 1.45 ms, found 1 plugins.
-Preloading 0 native plugins for Editor in 0.00 ms.
-Unloading 1946 Unused Serialized files (Serialized files now loaded: 0)
-System memory in use before: 95.0 MB.
-System memory in use after: 95.1 MB.
-
-Unloading 8 unused Assets to reduce memory usage. Loaded Objects now: 2455.
-Total: 4.739600 ms (FindLiveObjects: 0.308800 ms CreateObjectMapping: 0.160700 ms MarkObjects: 4.236300 ms  DeleteObjects: 0.031200 ms)
-
-========================================================================
-Received Prepare
-Registering precompiled user dll's ...
-Registered in 0.002072 seconds.
-Begin MonoManager ReloadAssembly
-Native extension for WindowsStandalone target not found
-Refreshing native plugins compatible for Editor in 3.07 ms, found 1 plugins.
-Preloading 0 native plugins for Editor in 0.00 ms.
-Mono: successfully reloaded assembly
-- Completed reload, in  1.393 seconds
-Platform modules already initialized, skipping
-Refreshing native plugins compatible for Editor in 1.15 ms, found 1 plugins.
-Preloading 0 native plugins for Editor in 0.00 ms.
-Unloading 1946 Unused Serialized files (Serialized files now loaded: 0)
-System memory in use before: 95.0 MB.
-System memory in use after: 95.1 MB.
-
-Unloading 8 unused Assets to reduce memory usage. Loaded Objects now: 2459.
-Total: 3.765900 ms (FindLiveObjects: 0.220500 ms CreateObjectMapping: 0.049700 ms MarkObjects: 3.477500 ms  DeleteObjects: 0.016800 ms)
-
-========================================================================
-Received Prepare
-Registering precompiled user dll's ...
-Registered in 0.003998 seconds.
-Begin MonoManager ReloadAssembly
-Native extension for WindowsStandalone target not found
-Refreshing native plugins compatible for Editor in 1.43 ms, found 1 plugins.
-Preloading 0 native plugins for Editor in 0.00 ms.
-Mono: successfully reloaded assembly
-- Completed reload, in  2.173 seconds
-Platform modules already initialized, skipping
-Refreshing native plugins compatible for Editor in 1.41 ms, found 1 plugins.
-Preloading 0 native plugins for Editor in 0.00 ms.
-Unloading 1946 Unused Serialized files (Serialized files now loaded: 0)
-System memory in use before: 95.0 MB.
-System memory in use after: 95.1 MB.
-
-Unloading 8 unused Assets to reduce memory usage. Loaded Objects now: 2463.
-Total: 5.373300 ms (FindLiveObjects: 0.306000 ms CreateObjectMapping: 0.122600 ms MarkObjects: 4.909400 ms  DeleteObjects: 0.032300 ms)
-
-========================================================================
-Received Prepare
-Registering precompiled user dll's ...
-Registered in 0.005239 seconds.
-Begin MonoManager ReloadAssembly
-Native extension for WindowsStandalone target not found
-Refreshing native plugins compatible for Editor in 1.46 ms, found 1 plugins.
-Preloading 0 native plugins for Editor in 0.00 ms.
-Mono: successfully reloaded assembly
-- Completed reload, in  2.666 seconds
-Platform modules already initialized, skipping
-Refreshing native plugins compatible for Editor in 1.98 ms, found 1 plugins.
-Preloading 0 native plugins for Editor in 0.00 ms.
-Unloading 1946 Unused Serialized files (Serialized files now loaded: 0)
-System memory in use before: 95.0 MB.
-System memory in use after: 95.1 MB.
-
-Unloading 8 unused Assets to reduce memory usage. Loaded Objects now: 2467.
-Total: 6.731300 ms (FindLiveObjects: 0.330500 ms CreateObjectMapping: 0.128400 ms MarkObjects: 6.235700 ms  DeleteObjects: 0.033700 ms)
-
-========================================================================
-Received Prepare
-Registering precompiled user dll's ...
-Registered in 0.004636 seconds.
-Begin MonoManager ReloadAssembly
-Native extension for WindowsStandalone target not found
-Refreshing native plugins compatible for Editor in 1.46 ms, found 1 plugins.
-Preloading 0 native plugins for Editor in 0.00 ms.
-Mono: successfully reloaded assembly
-- Completed reload, in  2.179 seconds
-Platform modules already initialized, skipping
-Refreshing native plugins compatible for Editor in 1.48 ms, found 1 plugins.
-Preloading 0 native plugins for Editor in 0.00 ms.
-Unloading 1946 Unused Serialized files (Serialized files now loaded: 0)
-System memory in use before: 95.0 MB.
-System memory in use after: 95.1 MB.
-
-Unloading 8 unused Assets to reduce memory usage. Loaded Objects now: 2471.
-Total: 4.960500 ms (FindLiveObjects: 0.415400 ms CreateObjectMapping: 0.157700 ms MarkObjects: 4.349300 ms  DeleteObjects: 0.035100 ms)
-
-========================================================================
-Received Prepare
-Registering precompiled user dll's ...
-Registered in 0.003698 seconds.
-Begin MonoManager ReloadAssembly
-Native extension for WindowsStandalone target not found
-Refreshing native plugins compatible for Editor in 1.53 ms, found 1 plugins.
-Preloading 0 native plugins for Editor in 0.00 ms.
-Mono: successfully reloaded assembly
-- Completed reload, in  2.179 seconds
-Platform modules already initialized, skipping
-Refreshing native plugins compatible for Editor in 1.50 ms, found 1 plugins.
-Preloading 0 native plugins for Editor in 0.00 ms.
-Unloading 1946 Unused Serialized files (Serialized files now loaded: 0)
-System memory in use before: 95.0 MB.
-System memory in use after: 95.1 MB.
-
-Unloading 8 unused Assets to reduce memory usage. Loaded Objects now: 2475.
-Total: 5.216400 ms (FindLiveObjects: 0.447800 ms CreateObjectMapping: 0.264100 ms MarkObjects: 4.468500 ms  DeleteObjects: 0.032500 ms)
-
-========================================================================
-Received Prepare
-Registering precompiled user dll's ...
-Registered in 0.004636 seconds.
-Begin MonoManager ReloadAssembly
-Native extension for WindowsStandalone target not found
-Refreshing native plugins compatible for Editor in 1.41 ms, found 1 plugins.
-Preloading 0 native plugins for Editor in 0.00 ms.
-Mono: successfully reloaded assembly
-- Completed reload, in  2.356 seconds
-Platform modules already initialized, skipping
-Refreshing native plugins compatible for Editor in 1.38 ms, found 1 plugins.
-Preloading 0 native plugins for Editor in 0.00 ms.
-Unloading 1946 Unused Serialized files (Serialized files now loaded: 0)
-System memory in use before: 95.0 MB.
-System memory in use after: 95.1 MB.
-
-Unloading 8 unused Assets to reduce memory usage. Loaded Objects now: 2479.
-Total: 5.497400 ms (FindLiveObjects: 0.459400 ms CreateObjectMapping: 0.264900 ms MarkObjects: 4.734500 ms  DeleteObjects: 0.036300 ms)
-
-========================================================================
-Received Prepare
-Registering precompiled user dll's ...
-Registered in 0.005696 seconds.
-Begin MonoManager ReloadAssembly
-Native extension for WindowsStandalone target not found
-Refreshing native plugins compatible for Editor in 1.42 ms, found 1 plugins.
-Preloading 0 native plugins for Editor in 0.00 ms.
-Mono: successfully reloaded assembly
-- Completed reload, in  2.175 seconds
-Platform modules already initialized, skipping
-Refreshing native plugins compatible for Editor in 1.42 ms, found 1 plugins.
-Preloading 0 native plugins for Editor in 0.00 ms.
-Unloading 1946 Unused Serialized files (Serialized files now loaded: 0)
-System memory in use before: 95.0 MB.
-System memory in use after: 95.2 MB.
-
-Unloading 8 unused Assets to reduce memory usage. Loaded Objects now: 2483.
-Total: 5.506000 ms (FindLiveObjects: 0.373600 ms CreateObjectMapping: 0.136100 ms MarkObjects: 4.958100 ms  DeleteObjects: 0.033200 ms)
-
-========================================================================
-Received Prepare
-Registering precompiled user dll's ...
-Registered in 0.004601 seconds.
-Begin MonoManager ReloadAssembly
-Native extension for WindowsStandalone target not found
-Refreshing native plugins compatible for Editor in 1.63 ms, found 1 plugins.
-Preloading 0 native plugins for Editor in 0.00 ms.
-Mono: successfully reloaded assembly
-- Completed reload, in  2.197 seconds
-Platform modules already initialized, skipping
-Refreshing native plugins compatible for Editor in 1.43 ms, found 1 plugins.
-Preloading 0 native plugins for Editor in 0.00 ms.
-Unloading 1946 Unused Serialized files (Serialized files now loaded: 0)
-System memory in use before: 95.0 MB.
-System memory in use after: 95.2 MB.
-
-Unloading 8 unused Assets to reduce memory usage. Loaded Objects now: 2487.
-Total: 5.216600 ms (FindLiveObjects: 0.387800 ms CreateObjectMapping: 0.130500 ms MarkObjects: 4.656100 ms  DeleteObjects: 0.039100 ms)
-
-========================================================================
-Received Prepare
-Registering precompiled user dll's ...
-Registered in 0.004765 seconds.
-Begin MonoManager ReloadAssembly
-Native extension for WindowsStandalone target not found
-Refreshing native plugins compatible for Editor in 1.50 ms, found 1 plugins.
-Preloading 0 native plugins for Editor in 0.00 ms.
-Mono: successfully reloaded assembly
-- Completed reload, in  2.188 seconds
-Platform modules already initialized, skipping
-Refreshing native plugins compatible for Editor in 1.98 ms, found 1 plugins.
-Preloading 0 native plugins for Editor in 0.00 ms.
-Unloading 1946 Unused Serialized files (Serialized files now loaded: 0)
-System memory in use before: 95.1 MB.
-System memory in use after: 95.2 MB.
-
-Unloading 8 unused Assets to reduce memory usage. Loaded Objects now: 2491.
-Total: 5.111500 ms (FindLiveObjects: 0.346400 ms CreateObjectMapping: 0.144100 ms MarkObjects: 4.581700 ms  DeleteObjects: 0.035900 ms)
-
-========================================================================
-Received Prepare
-Registering precompiled user dll's ...
-Registered in 0.003996 seconds.
-Begin MonoManager ReloadAssembly
-Native extension for WindowsStandalone target not found
-Refreshing native plugins compatible for Editor in 1.44 ms, found 1 plugins.
-Preloading 0 native plugins for Editor in 0.00 ms.
-Mono: successfully reloaded assembly
-- Completed reload, in  2.043 seconds
-Platform modules already initialized, skipping
-Refreshing native plugins compatible for Editor in 1.55 ms, found 1 plugins.
-Preloading 0 native plugins for Editor in 0.00 ms.
-Unloading 1946 Unused Serialized files (Serialized files now loaded: 0)
-System memory in use before: 95.1 MB.
-System memory in use after: 95.2 MB.
-
-Unloading 8 unused Assets to reduce memory usage. Loaded Objects now: 2495.
-Total: 5.059400 ms (FindLiveObjects: 0.492400 ms CreateObjectMapping: 0.213900 ms MarkObjects: 4.314100 ms  DeleteObjects: 0.036100 ms)
-
-========================================================================
-Received Prepare
-Registering precompiled user dll's ...
-Registered in 0.003984 seconds.
-Begin MonoManager ReloadAssembly
-Native extension for WindowsStandalone target not found
-Refreshing native plugins compatible for Editor in 1.50 ms, found 1 plugins.
-Preloading 0 native plugins for Editor in 0.00 ms.
-Mono: successfully reloaded assembly
-- Completed reload, in  2.182 seconds
-Platform modules already initialized, skipping
-Refreshing native plugins compatible for Editor in 1.44 ms, found 1 plugins.
-Preloading 0 native plugins for Editor in 0.00 ms.
-Unloading 1946 Unused Serialized files (Serialized files now loaded: 0)
-System memory in use before: 95.1 MB.
-System memory in use after: 95.2 MB.
-
-Unloading 8 unused Assets to reduce memory usage. Loaded Objects now: 2499.
-Total: 5.036100 ms (FindLiveObjects: 0.312300 ms CreateObjectMapping: 0.122000 ms MarkObjects: 4.563500 ms  DeleteObjects: 0.034800 ms)
-
-========================================================================
-Received Prepare
-Registering precompiled user dll's ...
-Registered in 0.004436 seconds.
-Begin MonoManager ReloadAssembly
-Native extension for WindowsStandalone target not found
-Refreshing native plugins compatible for Editor in 1.43 ms, found 1 plugins.
-Preloading 0 native plugins for Editor in 0.00 ms.
-Mono: successfully reloaded assembly
-- Completed reload, in  2.306 seconds
-Platform modules already initialized, skipping
-Refreshing native plugins compatible for Editor in 3.38 ms, found 1 plugins.
-Preloading 0 native plugins for Editor in 0.00 ms.
-Unloading 1946 Unused Serialized files (Serialized files now loaded: 0)
-System memory in use before: 95.1 MB.
-System memory in use after: 95.2 MB.
-
-Unloading 8 unused Assets to reduce memory usage. Loaded Objects now: 2503.
-Total: 6.080200 ms (FindLiveObjects: 0.455600 ms CreateObjectMapping: 0.197700 ms MarkObjects: 5.388300 ms  DeleteObjects: 0.035000 ms)
-
-========================================================================
-Received Prepare
-Registering precompiled user dll's ...
-Registered in 0.005497 seconds.
-Begin MonoManager ReloadAssembly
-Native extension for WindowsStandalone target not found
-Refreshing native plugins compatible for Editor in 2.14 ms, found 1 plugins.
-Preloading 0 native plugins for Editor in 0.00 ms.
-Mono: successfully reloaded assembly
-- Completed reload, in  2.861 seconds
-Platform modules already initialized, skipping
-Refreshing native plugins compatible for Editor in 1.42 ms, found 1 plugins.
-Preloading 0 native plugins for Editor in 0.00 ms.
-Unloading 1946 Unused Serialized files (Serialized files now loaded: 0)
-System memory in use before: 95.1 MB.
-System memory in use after: 95.2 MB.
-
-Unloading 8 unused Assets to reduce memory usage. Loaded Objects now: 2507.
-Total: 10.137000 ms (FindLiveObjects: 0.375000 ms CreateObjectMapping: 0.125000 ms MarkObjects: 9.516100 ms  DeleteObjects: 0.116600 ms)
-
-========================================================================
-Received Prepare
-Registering precompiled user dll's ...
-Registered in 0.004332 seconds.
-Begin MonoManager ReloadAssembly
-Native extension for WindowsStandalone target not found
-Refreshing native plugins compatible for Editor in 1.48 ms, found 1 plugins.
-Preloading 0 native plugins for Editor in 0.00 ms.
-Mono: successfully reloaded assembly
-- Completed reload, in  2.281 seconds
-Platform modules already initialized, skipping
-Refreshing native plugins compatible for Editor in 1.40 ms, found 1 plugins.
-Preloading 0 native plugins for Editor in 0.00 ms.
-Unloading 1946 Unused Serialized files (Serialized files now loaded: 0)
-System memory in use before: 95.1 MB.
-System memory in use after: 95.2 MB.
-
-Unloading 8 unused Assets to reduce memory usage. Loaded Objects now: 2511.
-Total: 5.144400 ms (FindLiveObjects: 0.343700 ms CreateObjectMapping: 0.124900 ms MarkObjects: 4.637800 ms  DeleteObjects: 0.035000 ms)
-
-========================================================================
-Received Prepare
-Registering precompiled user dll's ...
-Registered in 0.004034 seconds.
-Begin MonoManager ReloadAssembly
-Native extension for WindowsStandalone target not found
-Refreshing native plugins compatible for Editor in 1.41 ms, found 1 plugins.
-Preloading 0 native plugins for Editor in 0.00 ms.
-Mono: successfully reloaded assembly
-- Completed reload, in  2.243 seconds
-Platform modules already initialized, skipping
-Refreshing native plugins compatible for Editor in 1.42 ms, found 1 plugins.
-Preloading 0 native plugins for Editor in 0.00 ms.
-Unloading 1946 Unused Serialized files (Serialized files now loaded: 0)
-System memory in use before: 95.1 MB.
-System memory in use after: 95.2 MB.
-
-Unloading 8 unused Assets to reduce memory usage. Loaded Objects now: 2515.
-Total: 5.420100 ms (FindLiveObjects: 0.470200 ms CreateObjectMapping: 0.433300 ms MarkObjects: 4.444600 ms  DeleteObjects: 0.069500 ms)
-
-========================================================================
-Received Prepare
-Registering precompiled user dll's ...
-Registered in 0.004633 seconds.
-Begin MonoManager ReloadAssembly
-Native extension for WindowsStandalone target not found
-Refreshing native plugins compatible for Editor in 1.57 ms, found 1 plugins.
-Preloading 0 native plugins for Editor in 0.00 ms.
-Mono: successfully reloaded assembly
-- Completed reload, in  2.293 seconds
-Platform modules already initialized, skipping
-Refreshing native plugins compatible for Editor in 1.42 ms, found 1 plugins.
-Preloading 0 native plugins for Editor in 0.00 ms.
-Unloading 1946 Unused Serialized files (Serialized files now loaded: 0)
-System memory in use before: 95.1 MB.
-System memory in use after: 95.2 MB.
-
-Unloading 8 unused Assets to reduce memory usage. Loaded Objects now: 2519.
-Total: 5.778000 ms (FindLiveObjects: 0.310900 ms CreateObjectMapping: 0.130200 ms MarkObjects: 5.302400 ms  DeleteObjects: 0.031300 ms)
-
-========================================================================
-Received Prepare
-Registering precompiled user dll's ...
-Registered in 0.004883 seconds.
-Begin MonoManager ReloadAssembly
-Native extension for WindowsStandalone target not found
-Refreshing native plugins compatible for Editor in 1.43 ms, found 1 plugins.
-Preloading 0 native plugins for Editor in 0.00 ms.
-Mono: successfully reloaded assembly
-- Completed reload, in  2.357 seconds
-Platform modules already initialized, skipping
-Refreshing native plugins compatible for Editor in 1.58 ms, found 1 plugins.
-Preloading 0 native plugins for Editor in 0.00 ms.
-Unloading 1946 Unused Serialized files (Serialized files now loaded: 0)
-System memory in use before: 95.1 MB.
-System memory in use after: 95.2 MB.
-
-Unloading 8 unused Assets to reduce memory usage. Loaded Objects now: 2523.
-Total: 6.055100 ms (FindLiveObjects: 0.410400 ms CreateObjectMapping: 0.459900 ms MarkObjects: 5.149300 ms  DeleteObjects: 0.032900 ms)
-
-========================================================================
-Received Prepare
-Registering precompiled user dll's ...
-Registered in 0.004499 seconds.
-Begin MonoManager ReloadAssembly
-Native extension for WindowsStandalone target not found
-Refreshing native plugins compatible for Editor in 1.43 ms, found 1 plugins.
-Preloading 0 native plugins for Editor in 0.00 ms.
-Mono: successfully reloaded assembly
-- Completed reload, in  2.251 seconds
-Platform modules already initialized, skipping
-Refreshing native plugins compatible for Editor in 1.88 ms, found 1 plugins.
-Preloading 0 native plugins for Editor in 0.00 ms.
-Unloading 1946 Unused Serialized files (Serialized files now loaded: 0)
-System memory in use before: 95.1 MB.
-System memory in use after: 95.3 MB.
-
-Unloading 8 unused Assets to reduce memory usage. Loaded Objects now: 2527.
-Total: 5.027300 ms (FindLiveObjects: 0.329200 ms CreateObjectMapping: 0.125000 ms MarkObjects: 4.535100 ms  DeleteObjects: 0.035100 ms)
-
-========================================================================
-Received Prepare
-Registering precompiled user dll's ...
-Registered in 0.004455 seconds.
-Begin MonoManager ReloadAssembly
-Native extension for WindowsStandalone target not found
-Refreshing native plugins compatible for Editor in 1.53 ms, found 1 plugins.
-Preloading 0 native plugins for Editor in 0.00 ms.
-Mono: successfully reloaded assembly
-- Completed reload, in  2.248 seconds
-Platform modules already initialized, skipping
-Refreshing native plugins compatible for Editor in 1.44 ms, found 1 plugins.
-Preloading 0 native plugins for Editor in 0.00 ms.
-Unloading 1946 Unused Serialized files (Serialized files now loaded: 0)
-System memory in use before: 95.1 MB.
-System memory in use after: 95.3 MB.
-
-Unloading 8 unused Assets to reduce memory usage. Loaded Objects now: 2531.
-Total: 5.259800 ms (FindLiveObjects: 0.330700 ms CreateObjectMapping: 0.126600 ms MarkObjects: 4.765700 ms  DeleteObjects: 0.034100 ms)
-
-========================================================================
-Received Prepare
-Registering precompiled user dll's ...
-Registered in 0.003802 seconds.
-Begin MonoManager ReloadAssembly
-Native extension for WindowsStandalone target not found
-Refreshing native plugins compatible for Editor in 1.45 ms, found 1 plugins.
-Preloading 0 native plugins for Editor in 0.00 ms.
-Mono: successfully reloaded assembly
-- Completed reload, in  2.204 seconds
-Platform modules already initialized, skipping
-Refreshing native plugins compatible for Editor in 1.44 ms, found 1 plugins.
-Preloading 0 native plugins for Editor in 0.00 ms.
-Unloading 1946 Unused Serialized files (Serialized files now loaded: 0)
-System memory in use before: 95.2 MB.
-System memory in use after: 95.3 MB.
-
-Unloading 8 unused Assets to reduce memory usage. Loaded Objects now: 2535.
-Total: 5.501000 ms (FindLiveObjects: 0.401300 ms CreateObjectMapping: 0.375100 ms MarkObjects: 4.686300 ms  DeleteObjects: 0.035700 ms)
-
-========================================================================
-Received Prepare
-Registering precompiled user dll's ...
-Registered in 0.004365 seconds.
+Registered in 0.005328 seconds.
 Begin MonoManager ReloadAssembly
 Native extension for WindowsStandalone target not found
 Refreshing native plugins compatible for Editor in 1.47 ms, found 1 plugins.
 Preloading 0 native plugins for Editor in 0.00 ms.
 Mono: successfully reloaded assembly
-- Completed reload, in  2.222 seconds
-Platform modules already initialized, skipping
-Refreshing native plugins compatible for Editor in 1.61 ms, found 1 plugins.
-Preloading 0 native plugins for Editor in 0.00 ms.
-Unloading 1946 Unused Serialized files (Serialized files now loaded: 0)
-System memory in use before: 95.2 MB.
-System memory in use after: 95.3 MB.
-
-Unloading 8 unused Assets to reduce memory usage. Loaded Objects now: 2539.
-Total: 5.948900 ms (FindLiveObjects: 0.974600 ms CreateObjectMapping: 0.209400 ms MarkObjects: 4.727400 ms  DeleteObjects: 0.034500 ms)
-
-========================================================================
-Received Prepare
-Registering precompiled user dll's ...
-Registered in 0.016150 seconds.
-Begin MonoManager ReloadAssembly
-Native extension for WindowsStandalone target not found
-Refreshing native plugins compatible for Editor in 1.52 ms, found 1 plugins.
-Preloading 0 native plugins for Editor in 0.00 ms.
-Mono: successfully reloaded assembly
-- Completed reload, in  2.333 seconds
-Platform modules already initialized, skipping
-Refreshing native plugins compatible for Editor in 1.41 ms, found 1 plugins.
-Preloading 0 native plugins for Editor in 0.00 ms.
-Unloading 1946 Unused Serialized files (Serialized files now loaded: 0)
-System memory in use before: 95.2 MB.
-System memory in use after: 95.3 MB.
-
-Unloading 8 unused Assets to reduce memory usage. Loaded Objects now: 2543.
-Total: 5.793700 ms (FindLiveObjects: 0.831700 ms CreateObjectMapping: 0.253900 ms MarkObjects: 4.668900 ms  DeleteObjects: 0.036400 ms)
-
-========================================================================
-Received Import Request.
-  Time since last request: 18166.315768 seconds.
-  path: Assets/New Animator Override Controller.overrideController
-  artifactKey: Guid(475d0c8315125294d83444ad3629717e) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
-Start importing Assets/New Animator Override Controller.overrideController using Guid(475d0c8315125294d83444ad3629717e) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: 'c19a1c64fd1553273a4853f50936e8de') in 0.056852 seconds 
-========================================================================
-Received Import Request.
-  Time since last request: 10.003425 seconds.
-  path: Assets/Simple Timer
-  artifactKey: Guid(a31f156c3620bcd43bd742dec11215f3) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
-Start importing Assets/Simple Timer using Guid(a31f156c3620bcd43bd742dec11215f3) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '1f2c3826d847d2570588ddbabba6e2a1') in 0.006253 seconds 
-========================================================================
-Received Import Request.
-  Time since last request: 9.227527 seconds.
-  path: Assets/Simple Timer/Circle.png
-  artifactKey: Guid(f293a11aebf6d034db6769659ee3f211) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
-Start importing Assets/Simple Timer/Circle.png using Guid(f293a11aebf6d034db6769659ee3f211) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '250cc9b7a3dcfdcf7c5968ebefd1e962') in 0.285009 seconds 
-========================================================================
-Received Import Request.
-  Time since last request: 1217.500107 seconds.
-  path: Assets/Simple Timer/SimpleTimerScript.cs
-  artifactKey: Guid(2b8fefd281f2b9d46b365f8f3bbd73af) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
-Start importing Assets/Simple Timer/SimpleTimerScript.cs using Guid(2b8fefd281f2b9d46b365f8f3bbd73af) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '307e18fff4db16cd93cd8f9d037369dc') in 0.020751 seconds 
-========================================================================
-Received Prepare
-Registering precompiled user dll's ...
-Registered in 0.004163 seconds.
-Begin MonoManager ReloadAssembly
-Native extension for WindowsStandalone target not found
-Refreshing native plugins compatible for Editor in 0.84 ms, found 1 plugins.
-Preloading 0 native plugins for Editor in 0.00 ms.
-Mono: successfully reloaded assembly
-- Completed reload, in  1.615 seconds
-Platform modules already initialized, skipping
-Refreshing native plugins compatible for Editor in 0.85 ms, found 1 plugins.
-Preloading 0 native plugins for Editor in 0.00 ms.
-Unloading 1948 Unused Serialized files (Serialized files now loaded: 0)
-System memory in use before: 99.7 MB.
-System memory in use after: 99.8 MB.
-
-Unloading 8 unused Assets to reduce memory usage. Loaded Objects now: 2569.
-Total: 2.536900 ms (FindLiveObjects: 0.282100 ms CreateObjectMapping: 0.093900 ms MarkObjects: 2.132400 ms  DeleteObjects: 0.026200 ms)
-
-========================================================================
-Received Prepare
-Registering precompiled user dll's ...
-Registered in 0.007838 seconds.
-Begin MonoManager ReloadAssembly
-Native extension for WindowsStandalone target not found
-Refreshing native plugins compatible for Editor in 3.29 ms, found 1 plugins.
-Preloading 0 native plugins for Editor in 0.00 ms.
-Mono: successfully reloaded assembly
-- Completed reload, in  3.123 seconds
-Platform modules already initialized, skipping
-Refreshing native plugins compatible for Editor in 1.41 ms, found 1 plugins.
-Preloading 0 native plugins for Editor in 0.00 ms.
-Unloading 1947 Unused Serialized files (Serialized files now loaded: 0)
-System memory in use before: 99.6 MB.
-System memory in use after: 99.7 MB.
-
-Unloading 8 unused Assets to reduce memory usage. Loaded Objects now: 2573.
-Total: 5.393500 ms (FindLiveObjects: 0.330800 ms CreateObjectMapping: 0.125500 ms MarkObjects: 4.887500 ms  DeleteObjects: 0.046800 ms)
-
-========================================================================
-Received Prepare
-Registering precompiled user dll's ...
-Registered in 0.006148 seconds.
-Begin MonoManager ReloadAssembly
-Native extension for WindowsStandalone target not found
-Refreshing native plugins compatible for Editor in 1.48 ms, found 1 plugins.
-Preloading 0 native plugins for Editor in 0.00 ms.
-Mono: successfully reloaded assembly
-- Completed reload, in  2.613 seconds
-Platform modules already initialized, skipping
-Refreshing native plugins compatible for Editor in 1.31 ms, found 1 plugins.
-Preloading 0 native plugins for Editor in 0.00 ms.
-Unloading 1947 Unused Serialized files (Serialized files now loaded: 0)
-System memory in use before: 99.6 MB.
-System memory in use after: 99.8 MB.
-
-Unloading 8 unused Assets to reduce memory usage. Loaded Objects now: 2577.
-Total: 4.911500 ms (FindLiveObjects: 0.309400 ms CreateObjectMapping: 0.104500 ms MarkObjects: 4.457200 ms  DeleteObjects: 0.038300 ms)
-
-========================================================================
-Received Prepare
-Registering precompiled user dll's ...
-Registered in 0.003737 seconds.
-Begin MonoManager ReloadAssembly
-Native extension for WindowsStandalone target not found
-Refreshing native plugins compatible for Editor in 3.23 ms, found 1 plugins.
-Preloading 0 native plugins for Editor in 0.00 ms.
-Mono: successfully reloaded assembly
-- Completed reload, in  1.900 seconds
-Platform modules already initialized, skipping
-Refreshing native plugins compatible for Editor in 1.23 ms, found 1 plugins.
-Preloading 0 native plugins for Editor in 0.00 ms.
-Unloading 1947 Unused Serialized files (Serialized files now loaded: 0)
-System memory in use before: 99.6 MB.
-System memory in use after: 99.8 MB.
-
-Unloading 8 unused Assets to reduce memory usage. Loaded Objects now: 2581.
-Total: 5.582300 ms (FindLiveObjects: 0.337700 ms CreateObjectMapping: 0.110600 ms MarkObjects: 5.091300 ms  DeleteObjects: 0.040100 ms)
-
-========================================================================
-Received Prepare
-Registering precompiled user dll's ...
-Registered in 0.005126 seconds.
-Begin MonoManager ReloadAssembly
-Native extension for WindowsStandalone target not found
-Refreshing native plugins compatible for Editor in 1.61 ms, found 1 plugins.
-Preloading 0 native plugins for Editor in 0.00 ms.
-Mono: successfully reloaded assembly
-- Completed reload, in  2.596 seconds
-Platform modules already initialized, skipping
-Refreshing native plugins compatible for Editor in 1.48 ms, found 1 plugins.
-Preloading 0 native plugins for Editor in 0.00 ms.
-Unloading 1947 Unused Serialized files (Serialized files now loaded: 0)
-System memory in use before: 99.7 MB.
-System memory in use after: 99.8 MB.
-
-Unloading 8 unused Assets to reduce memory usage. Loaded Objects now: 2585.
-Total: 4.993900 ms (FindLiveObjects: 0.320400 ms CreateObjectMapping: 0.140200 ms MarkObjects: 4.495600 ms  DeleteObjects: 0.034200 ms)
-
-========================================================================
-Received Prepare
-Registering precompiled user dll's ...
-Registered in 0.005572 seconds.
-Begin MonoManager ReloadAssembly
-Native extension for WindowsStandalone target not found
-Refreshing native plugins compatible for Editor in 6.01 ms, found 1 plugins.
-Preloading 0 native plugins for Editor in 0.00 ms.
-Mono: successfully reloaded assembly
-- Completed reload, in  2.129 seconds
-Platform modules already initialized, skipping
-Refreshing native plugins compatible for Editor in 1.46 ms, found 1 plugins.
-Preloading 0 native plugins for Editor in 0.00 ms.
-Unloading 1947 Unused Serialized files (Serialized files now loaded: 0)
-System memory in use before: 99.7 MB.
-System memory in use after: 99.8 MB.
-
-Unloading 8 unused Assets to reduce memory usage. Loaded Objects now: 2589.
-Total: 10.834000 ms (FindLiveObjects: 1.926400 ms CreateObjectMapping: 0.212900 ms MarkObjects: 8.578400 ms  DeleteObjects: 0.112600 ms)
-
-========================================================================
-Received Import Request.
-  Time since last request: 1547.813253 seconds.
-  path: Assets/Simple Timer/Simple Timer.prefab
-  artifactKey: Guid(e2b9a5ae3dcbd4f4e84c71a41e53d20f) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
-Start importing Assets/Simple Timer/Simple Timer.prefab using Guid(e2b9a5ae3dcbd4f4e84c71a41e53d20f) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '9f5265365aa49df33aca55893d4684ba') in 0.363073 seconds 
-========================================================================
-Received Prepare
-Registering precompiled user dll's ...
-Registered in 0.003939 seconds.
-Begin MonoManager ReloadAssembly
-Native extension for WindowsStandalone target not found
-Refreshing native plugins compatible for Editor in 1.29 ms, found 1 plugins.
-Preloading 0 native plugins for Editor in 0.00 ms.
-Mono: successfully reloaded assembly
-- Completed reload, in  1.874 seconds
+- Completed reload, in  2.795 seconds
 Platform modules already initialized, skipping
 Refreshing native plugins compatible for Editor in 1.37 ms, found 1 plugins.
 Preloading 0 native plugins for Editor in 0.00 ms.
 Unloading 1948 Unused Serialized files (Serialized files now loaded: 0)
-System memory in use before: 99.7 MB.
-System memory in use after: 99.8 MB.
+System memory in use before: 100.9 MB.
+System memory in use after: 101.1 MB.
 
-Unloading 8 unused Assets to reduce memory usage. Loaded Objects now: 2594.
-Total: 5.572900 ms (FindLiveObjects: 0.342500 ms CreateObjectMapping: 0.140200 ms MarkObjects: 4.989800 ms  DeleteObjects: 0.096700 ms)
+Unloading 8 unused Assets to reduce memory usage. Loaded Objects now: 2470.
+Total: 5.222300 ms (FindLiveObjects: 0.304600 ms CreateObjectMapping: 0.139000 ms MarkObjects: 4.748100 ms  DeleteObjects: 0.028300 ms)
 
 ========================================================================
 Received Prepare
 Registering precompiled user dll's ...
-Registered in 0.003158 seconds.
+Registered in 0.004650 seconds.
 Begin MonoManager ReloadAssembly
 Native extension for WindowsStandalone target not found
-Refreshing native plugins compatible for Editor in 1.72 ms, found 1 plugins.
+Refreshing native plugins compatible for Editor in 1.50 ms, found 1 plugins.
 Preloading 0 native plugins for Editor in 0.00 ms.
 Mono: successfully reloaded assembly
-- Completed reload, in  2.137 seconds
+- Completed reload, in  2.475 seconds
+Platform modules already initialized, skipping
+Refreshing native plugins compatible for Editor in 1.60 ms, found 1 plugins.
+Preloading 0 native plugins for Editor in 0.00 ms.
+Unloading 1948 Unused Serialized files (Serialized files now loaded: 0)
+System memory in use before: 101.0 MB.
+System memory in use after: 101.1 MB.
+
+Unloading 8 unused Assets to reduce memory usage. Loaded Objects now: 2474.
+Total: 5.107000 ms (FindLiveObjects: 0.306400 ms CreateObjectMapping: 0.123100 ms MarkObjects: 4.636500 ms  DeleteObjects: 0.038400 ms)
+
+========================================================================
+Received Prepare
+Registering precompiled user dll's ...
+Registered in 0.004024 seconds.
+Begin MonoManager ReloadAssembly
+Native extension for WindowsStandalone target not found
+Refreshing native plugins compatible for Editor in 1.32 ms, found 1 plugins.
+Preloading 0 native plugins for Editor in 0.00 ms.
+Mono: successfully reloaded assembly
+- Completed reload, in  2.581 seconds
+Platform modules already initialized, skipping
+Refreshing native plugins compatible for Editor in 1.46 ms, found 1 plugins.
+Preloading 0 native plugins for Editor in 0.00 ms.
+Unloading 1948 Unused Serialized files (Serialized files now loaded: 0)
+System memory in use before: 101.0 MB.
+System memory in use after: 101.1 MB.
+
+Unloading 8 unused Assets to reduce memory usage. Loaded Objects now: 2478.
+Total: 5.326600 ms (FindLiveObjects: 0.327500 ms CreateObjectMapping: 0.127100 ms MarkObjects: 4.829300 ms  DeleteObjects: 0.039300 ms)
+
+========================================================================
+Received Prepare
+Registering precompiled user dll's ...
+Registered in 0.004095 seconds.
+Begin MonoManager ReloadAssembly
+Native extension for WindowsStandalone target not found
+Refreshing native plugins compatible for Editor in 1.89 ms, found 1 plugins.
+Preloading 0 native plugins for Editor in 0.00 ms.
+Mono: successfully reloaded assembly
+- Completed reload, in  1.265 seconds
+Platform modules already initialized, skipping
+Refreshing native plugins compatible for Editor in 1.42 ms, found 1 plugins.
+Preloading 0 native plugins for Editor in 0.00 ms.
+Unloading 1948 Unused Serialized files (Serialized files now loaded: 0)
+System memory in use before: 101.0 MB.
+System memory in use after: 101.1 MB.
+
+Unloading 8 unused Assets to reduce memory usage. Loaded Objects now: 2482.
+Total: 3.479000 ms (FindLiveObjects: 0.295900 ms CreateObjectMapping: 0.176000 ms MarkObjects: 2.984500 ms  DeleteObjects: 0.021200 ms)
+
+========================================================================
+Received Prepare
+Registering precompiled user dll's ...
+Registered in 0.006957 seconds.
+Begin MonoManager ReloadAssembly
+Native extension for WindowsStandalone target not found
+Refreshing native plugins compatible for Editor in 1.35 ms, found 1 plugins.
+Preloading 0 native plugins for Editor in 0.00 ms.
+Mono: successfully reloaded assembly
+- Completed reload, in  1.525 seconds
+Platform modules already initialized, skipping
+Refreshing native plugins compatible for Editor in 3.01 ms, found 1 plugins.
+Preloading 0 native plugins for Editor in 0.00 ms.
+Unloading 1948 Unused Serialized files (Serialized files now loaded: 0)
+System memory in use before: 101.0 MB.
+System memory in use after: 101.1 MB.
+
+Unloading 8 unused Assets to reduce memory usage. Loaded Objects now: 2486.
+Total: 5.127000 ms (FindLiveObjects: 0.497400 ms CreateObjectMapping: 1.394900 ms MarkObjects: 3.211600 ms  DeleteObjects: 0.020800 ms)
+
+========================================================================
+Received Import Request.
+  Time since last request: 24566.676438 seconds.
+  path: Assets/Low Poly Girl/Anims/Idle into Slow Walk/HD3v2
+  artifactKey: Guid(1212fad596fb6d3479a0a6fc701f206a) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Low Poly Girl/Anims/Idle into Slow Walk/HD3v2 using Guid(1212fad596fb6d3479a0a6fc701f206a) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '91180cad7f79bf943d90884f6172c384') in 0.609716 seconds 
+========================================================================
+Received Import Request.
+  Time since last request: 0.150614 seconds.
+  path: Assets/Low Poly Girl/Anims/Idle into Slow Walk/HD3v2/0000.png
+  artifactKey: Guid(9e94c44828b12b243ba9a220c009c4c9) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Low Poly Girl/Anims/Idle into Slow Walk/HD3v2/0000.png using Guid(9e94c44828b12b243ba9a220c009c4c9) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: 'a476e2939c07f11990087ece953b2e6a') in 1.576690 seconds 
+========================================================================
+Received Import Request.
+  Time since last request: 2.069546 seconds.
+  path: Assets/Low Poly Girl/Anims/Idle into Slow Walk/HD3v2/0040.png
+  artifactKey: Guid(a1a3153f884e28845b4faff2b1b5413d) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Low Poly Girl/Anims/Idle into Slow Walk/HD3v2/0040.png using Guid(a1a3153f884e28845b4faff2b1b5413d) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '9c104ee67ac93ae8e06b75aa7d55a17a') in 0.071327 seconds 
+========================================================================
+Received Import Request.
+  Time since last request: 4.840087 seconds.
+  path: Assets/Low Poly Girl/Anims/Get up off back to Combat Idle/HD3v2/0071.png
+  artifactKey: Guid(7771580a73401894491467490e35ccbb) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Low Poly Girl/Anims/Get up off back to Combat Idle/HD3v2/0071.png using Guid(7771580a73401894491467490e35ccbb) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: 'ed1bc48ae9b7d6d78366ba4fba770544') in 0.038285 seconds 
+========================================================================
+Received Import Request.
+  Time since last request: 130.899201 seconds.
+  path: Assets/Low Poly Girl/Anims/Idle into Slow Walk/HD3v2/0040.png
+  artifactKey: Guid(a1a3153f884e28845b4faff2b1b5413d) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Low Poly Girl/Anims/Idle into Slow Walk/HD3v2/0040.png using Guid(a1a3153f884e28845b4faff2b1b5413d) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: 'afa4f788c6344dd84f0e1e5f3f5605a7') in 0.093847 seconds 
+========================================================================
+Received Import Request.
+  Time since last request: 123.748353 seconds.
+  path: Assets/Low Poly Girl/Anims/Slow Walk into Idle/HD3v2/0002.png
+  artifactKey: Guid(1b9ca383196b464478573f88b2fb5a68) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Low Poly Girl/Anims/Slow Walk into Idle/HD3v2/0002.png using Guid(1b9ca383196b464478573f88b2fb5a68) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '814d287de6fc4a6fe0805f5440487396') in 0.064948 seconds 
+========================================================================
+Received Import Request.
+  Time since last request: 1.108339 seconds.
+  path: Assets/Low Poly Girl/Anims/Slow Walk into Idle/HD3v2/0004.png
+  artifactKey: Guid(12f7285224803d0428b78f621c0fef1e) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Low Poly Girl/Anims/Slow Walk into Idle/HD3v2/0004.png using Guid(12f7285224803d0428b78f621c0fef1e) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '6ad9303c99cd4da4d370be877e68d4ee') in 0.034600 seconds 
+========================================================================
+Received Import Request.
+  Time since last request: 20.648050 seconds.
+  path: Assets/Low Poly Girl/Anims/Slow Walk into Idle/HD3v2/0004.png
+  artifactKey: Guid(12f7285224803d0428b78f621c0fef1e) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Low Poly Girl/Anims/Slow Walk into Idle/HD3v2/0004.png using Guid(12f7285224803d0428b78f621c0fef1e) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '70c99c46fc0c00fd7276dfe422cdca53') in 0.019307 seconds 
+========================================================================
+Received Import Request.
+  Time since last request: 24.471257 seconds.
+  path: Assets/Low Poly Girl/Anims/Idle into Slow Walk/HD3v2/Idle into Slow Walk.anim
+  artifactKey: Guid(ff4ba6598bb685141adf1c836f1fad23) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Low Poly Girl/Anims/Idle into Slow Walk/HD3v2/Idle into Slow Walk.anim using Guid(ff4ba6598bb685141adf1c836f1fad23) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '969568c735056c9d5415c861b7aa4600') in 0.108077 seconds 
+========================================================================
+Received Import Request.
+  Time since last request: 6.665127 seconds.
+  path: Assets/Low Poly Girl/Anims/Idle into Slow Walk/HD3v2/L_P Idle into Slow Walk.anim
+  artifactKey: Guid(ff4ba6598bb685141adf1c836f1fad23) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Low Poly Girl/Anims/Idle into Slow Walk/HD3v2/L_P Idle into Slow Walk.anim using Guid(ff4ba6598bb685141adf1c836f1fad23) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: 'd239008d81ac04584ba01bc2020130d5') in 0.026020 seconds 
+========================================================================
+Received Import Request.
+  Time since last request: 3.527518 seconds.
+  path: Assets/Low Poly Girl/Anims/Slow Walk Loop/HD3v2/0033.png
+  artifactKey: Guid(d1d7f685a6a095f46a876635496cf634) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Low Poly Girl/Anims/Slow Walk Loop/HD3v2/0033.png using Guid(d1d7f685a6a095f46a876635496cf634) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '26f5e2498cc9ea59b2ec59ff05f7cfd4') in 0.033235 seconds 
+========================================================================
+Received Import Request.
+  Time since last request: 1.243822 seconds.
+  path: Assets/Low Poly Girl/Anims/Slow Walk Loop/HD3v2/0006.png
+  artifactKey: Guid(dc5ce14ced650044c927d277e53bec38) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Low Poly Girl/Anims/Slow Walk Loop/HD3v2/0006.png using Guid(dc5ce14ced650044c927d277e53bec38) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: 'c1433eac508dc24407f1902a6d646007') in 0.043535 seconds 
+========================================================================
+Received Import Request.
+  Time since last request: 15.201359 seconds.
+  path: Assets/Low Poly Girl/Anims/Slow Walk Loop/HD3v2/0006.png
+  artifactKey: Guid(dc5ce14ced650044c927d277e53bec38) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Low Poly Girl/Anims/Slow Walk Loop/HD3v2/0006.png using Guid(dc5ce14ced650044c927d277e53bec38) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: 'c0be793785f497eb6d542cdf27bb88bd') in 0.033968 seconds 
+========================================================================
+Received Import Request.
+  Time since last request: 63.504378 seconds.
+  path: Assets/Low Poly Girl/Anims/Slow Walk into Idle/HD3v2/L_P Slow Walk into Idle.anim
+  artifactKey: Guid(8c9e22f1e9efc9f40af30c6d04796752) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Low Poly Girl/Anims/Slow Walk into Idle/HD3v2/L_P Slow Walk into Idle.anim using Guid(8c9e22f1e9efc9f40af30c6d04796752) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '08f20818c6477adbed0352304f23212e') in 0.018261 seconds 
+========================================================================
+Received Import Request.
+  Time since last request: 29.697029 seconds.
+  path: Assets/Low Poly Girl/Anims/Idle/Low Poly Anim Controller 1.controller
+  artifactKey: Guid(1b9f393375db93a4d9ceca1c26feb261) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Low Poly Girl/Anims/Idle/Low Poly Anim Controller 1.controller using Guid(1b9f393375db93a4d9ceca1c26feb261) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '2c6f7d56b833c16237f37fb40d197d35') in 0.168315 seconds 
+========================================================================
+Received Prepare
+Registering precompiled user dll's ...
+Registered in 0.007543 seconds.
+Begin MonoManager ReloadAssembly
+Native extension for WindowsStandalone target not found
+Refreshing native plugins compatible for Editor in 1.69 ms, found 1 plugins.
+Preloading 0 native plugins for Editor in 0.00 ms.
+Mono: successfully reloaded assembly
+- Completed reload, in  3.668 seconds
 Platform modules already initialized, skipping
 Refreshing native plugins compatible for Editor in 1.38 ms, found 1 plugins.
 Preloading 0 native plugins for Editor in 0.00 ms.
-Unloading 1948 Unused Serialized files (Serialized files now loaded: 0)
-System memory in use before: 99.7 MB.
-System memory in use after: 99.8 MB.
+Unloading 1955 Unused Serialized files (Serialized files now loaded: 0)
+System memory in use before: 108.1 MB.
+System memory in use after: 108.2 MB.
 
-Unloading 8 unused Assets to reduce memory usage. Loaded Objects now: 2598.
-Total: 6.814600 ms (FindLiveObjects: 0.332100 ms CreateObjectMapping: 0.129500 ms MarkObjects: 6.311900 ms  DeleteObjects: 0.038200 ms)
-
-========================================================================
-Received Import Request.
-  Time since last request: 939.827292 seconds.
-  path: Assets/Simple Timer/Simple Timer.prefab
-  artifactKey: Guid(e2b9a5ae3dcbd4f4e84c71a41e53d20f) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
-Start importing Assets/Simple Timer/Simple Timer.prefab using Guid(e2b9a5ae3dcbd4f4e84c71a41e53d20f) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: 'f6a32375c04e3dba80e02842ddf74e58') in 0.264377 seconds 
-========================================================================
-Received Prepare
-Registering precompiled user dll's ...
-Registered in 0.005531 seconds.
-Begin MonoManager ReloadAssembly
-Native extension for WindowsStandalone target not found
-Refreshing native plugins compatible for Editor in 1.73 ms, found 1 plugins.
-Preloading 0 native plugins for Editor in 0.00 ms.
-Mono: successfully reloaded assembly
-- Completed reload, in  2.931 seconds
-Platform modules already initialized, skipping
-Refreshing native plugins compatible for Editor in 2.59 ms, found 1 plugins.
-Preloading 0 native plugins for Editor in 0.00 ms.
-Unloading 1948 Unused Serialized files (Serialized files now loaded: 0)
-System memory in use before: 99.7 MB.
-System memory in use after: 99.8 MB.
-
-Unloading 8 unused Assets to reduce memory usage. Loaded Objects now: 2602.
-Total: 4.291700 ms (FindLiveObjects: 0.315500 ms CreateObjectMapping: 0.104900 ms MarkObjects: 3.836900 ms  DeleteObjects: 0.031300 ms)
-
-========================================================================
-Received Prepare
-Registering precompiled user dll's ...
-Registered in 0.003258 seconds.
-Begin MonoManager ReloadAssembly
-Native extension for WindowsStandalone target not found
-Refreshing native plugins compatible for Editor in 1.43 ms, found 1 plugins.
-Preloading 0 native plugins for Editor in 0.00 ms.
-Mono: successfully reloaded assembly
-- Completed reload, in  2.689 seconds
-Platform modules already initialized, skipping
-Refreshing native plugins compatible for Editor in 4.11 ms, found 1 plugins.
-Preloading 0 native plugins for Editor in 0.00 ms.
-Unloading 1948 Unused Serialized files (Serialized files now loaded: 0)
-System memory in use before: 99.7 MB.
-System memory in use after: 99.8 MB.
-
-Unloading 8 unused Assets to reduce memory usage. Loaded Objects now: 2606.
-Total: 14.371500 ms (FindLiveObjects: 0.449500 ms CreateObjectMapping: 0.192400 ms MarkObjects: 13.694100 ms  DeleteObjects: 0.032900 ms)
-
-========================================================================
-Received Prepare
-Registering precompiled user dll's ...
-Registered in 0.003521 seconds.
-Begin MonoManager ReloadAssembly
-Native extension for WindowsStandalone target not found
-Refreshing native plugins compatible for Editor in 0.85 ms, found 1 plugins.
-Preloading 0 native plugins for Editor in 0.00 ms.
-Mono: successfully reloaded assembly
-- Completed reload, in  1.590 seconds
-Platform modules already initialized, skipping
-Refreshing native plugins compatible for Editor in 2.17 ms, found 1 plugins.
-Preloading 0 native plugins for Editor in 0.00 ms.
-Unloading 1948 Unused Serialized files (Serialized files now loaded: 0)
-System memory in use before: 99.7 MB.
-System memory in use after: 99.8 MB.
-
-Unloading 8 unused Assets to reduce memory usage. Loaded Objects now: 2610.
-Total: 6.835500 ms (FindLiveObjects: 0.726500 ms CreateObjectMapping: 0.088900 ms MarkObjects: 5.991000 ms  DeleteObjects: 0.026300 ms)
+Unloading 8 unused Assets to reduce memory usage. Loaded Objects now: 2639.
+Total: 5.154400 ms (FindLiveObjects: 0.325000 ms CreateObjectMapping: 0.110300 ms MarkObjects: 4.679200 ms  DeleteObjects: 0.035300 ms)
 
 ========================================================================
 Received Import Request.
-  Time since last request: 378.447700 seconds.
-  path: Assets/Simple Timer/Simple Timer.prefab
-  artifactKey: Guid(e2b9a5ae3dcbd4f4e84c71a41e53d20f) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
-Start importing Assets/Simple Timer/Simple Timer.prefab using Guid(e2b9a5ae3dcbd4f4e84c71a41e53d20f) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '575efef7b5ee530bd286e65b41d9f7ef') in 0.316419 seconds 
-========================================================================
-Received Prepare
-Registering precompiled user dll's ...
-Registered in 0.004665 seconds.
-Begin MonoManager ReloadAssembly
-Native extension for WindowsStandalone target not found
-Refreshing native plugins compatible for Editor in 1.03 ms, found 1 plugins.
-Preloading 0 native plugins for Editor in 0.00 ms.
-Mono: successfully reloaded assembly
-- Completed reload, in  1.657 seconds
-Platform modules already initialized, skipping
-Refreshing native plugins compatible for Editor in 1.27 ms, found 1 plugins.
-Preloading 0 native plugins for Editor in 0.00 ms.
-Unloading 1948 Unused Serialized files (Serialized files now loaded: 0)
-System memory in use before: 99.7 MB.
-System memory in use after: 99.9 MB.
-
-Unloading 8 unused Assets to reduce memory usage. Loaded Objects now: 2614.
-Total: 6.727700 ms (FindLiveObjects: 0.452600 ms CreateObjectMapping: 0.153500 ms MarkObjects: 6.089700 ms  DeleteObjects: 0.030000 ms)
-
-========================================================================
-Received Prepare
-Registering precompiled user dll's ...
-Registered in 0.003247 seconds.
-Begin MonoManager ReloadAssembly
-Native extension for WindowsStandalone target not found
-Refreshing native plugins compatible for Editor in 1.44 ms, found 1 plugins.
-Preloading 0 native plugins for Editor in 0.00 ms.
-Mono: successfully reloaded assembly
-- Completed reload, in  1.309 seconds
-Platform modules already initialized, skipping
-Refreshing native plugins compatible for Editor in 1.51 ms, found 1 plugins.
-Preloading 0 native plugins for Editor in 0.00 ms.
-Unloading 1948 Unused Serialized files (Serialized files now loaded: 0)
-System memory in use before: 99.7 MB.
-System memory in use after: 99.9 MB.
-
-Unloading 8 unused Assets to reduce memory usage. Loaded Objects now: 2618.
-Total: 3.162200 ms (FindLiveObjects: 0.405400 ms CreateObjectMapping: 0.128300 ms MarkObjects: 2.453100 ms  DeleteObjects: 0.172200 ms)
-
-========================================================================
-Received Prepare
-Registering precompiled user dll's ...
-Registered in 0.004570 seconds.
-Begin MonoManager ReloadAssembly
-Native extension for WindowsStandalone target not found
-Refreshing native plugins compatible for Editor in 1.42 ms, found 1 plugins.
-Preloading 0 native plugins for Editor in 0.00 ms.
-Mono: successfully reloaded assembly
-- Completed reload, in  1.906 seconds
-Platform modules already initialized, skipping
-Refreshing native plugins compatible for Editor in 1.96 ms, found 1 plugins.
-Preloading 0 native plugins for Editor in 0.00 ms.
-Unloading 1948 Unused Serialized files (Serialized files now loaded: 0)
-System memory in use before: 99.8 MB.
-System memory in use after: 99.9 MB.
-
-Unloading 8 unused Assets to reduce memory usage. Loaded Objects now: 2622.
-Total: 4.998000 ms (FindLiveObjects: 0.533700 ms CreateObjectMapping: 0.147000 ms MarkObjects: 4.276700 ms  DeleteObjects: 0.036400 ms)
-
-========================================================================
-Received Prepare
-Registering precompiled user dll's ...
-Registered in 0.006089 seconds.
-Begin MonoManager ReloadAssembly
-Native extension for WindowsStandalone target not found
-Refreshing native plugins compatible for Editor in 1.68 ms, found 1 plugins.
-Preloading 0 native plugins for Editor in 0.00 ms.
-Mono: successfully reloaded assembly
-- Completed reload, in  2.688 seconds
-Platform modules already initialized, skipping
-Refreshing native plugins compatible for Editor in 1.56 ms, found 1 plugins.
-Preloading 0 native plugins for Editor in 0.00 ms.
-Unloading 1948 Unused Serialized files (Serialized files now loaded: 0)
-System memory in use before: 99.8 MB.
-System memory in use after: 99.9 MB.
-
-Unloading 8 unused Assets to reduce memory usage. Loaded Objects now: 2626.
-Total: 5.385500 ms (FindLiveObjects: 0.555400 ms CreateObjectMapping: 0.161000 ms MarkObjects: 4.635200 ms  DeleteObjects: 0.030100 ms)
-
+  Time since last request: 421.185496 seconds.
+  path: Assets/Low Poly Girl/Anims/Idle into Slow Walk/HD3v2/0068.png
+  artifactKey: Guid(d9a31c88d6a2781478c7335d06403358) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Low Poly Girl/Anims/Idle into Slow Walk/HD3v2/0068.png using Guid(d9a31c88d6a2781478c7335d06403358) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '4af73147c00164fc28b2e7dae253177d') in 0.171115 seconds 
 ========================================================================
 Received Import Request.
-  Time since last request: 299.247509 seconds.
-  path: Assets/Simple Timer/SimpleTimerScript.cs
-  artifactKey: Guid(2b8fefd281f2b9d46b365f8f3bbd73af) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
-Start importing Assets/Simple Timer/SimpleTimerScript.cs using Guid(2b8fefd281f2b9d46b365f8f3bbd73af) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '9acc469003e63d229f2d5358ad8280a3') in 0.016466 seconds 
+  Time since last request: 45.840118 seconds.
+  path: Assets/Low Poly Girl/Anims/Idle into Slow Walk/HD3v2/0000.png
+  artifactKey: Guid(9e94c44828b12b243ba9a220c009c4c9) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Low Poly Girl/Anims/Idle into Slow Walk/HD3v2/0000.png using Guid(9e94c44828b12b243ba9a220c009c4c9) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '5e464191264b15d9786649494468e587') in 0.064952 seconds 
 ========================================================================
 Received Prepare
 Registering precompiled user dll's ...
-Registered in 0.005253 seconds.
-Begin MonoManager ReloadAssembly
-Native extension for WindowsStandalone target not found
-Refreshing native plugins compatible for Editor in 2.11 ms, found 1 plugins.
-Preloading 0 native plugins for Editor in 0.00 ms.
-Mono: successfully reloaded assembly
-- Completed reload, in  2.246 seconds
-Platform modules already initialized, skipping
-Refreshing native plugins compatible for Editor in 0.83 ms, found 1 plugins.
-Preloading 0 native plugins for Editor in 0.00 ms.
-Unloading 1948 Unused Serialized files (Serialized files now loaded: 0)
-System memory in use before: 99.8 MB.
-System memory in use after: 99.9 MB.
-
-Unloading 8 unused Assets to reduce memory usage. Loaded Objects now: 2630.
-Total: 3.359700 ms (FindLiveObjects: 0.279400 ms CreateObjectMapping: 0.094800 ms MarkObjects: 2.963900 ms  DeleteObjects: 0.019600 ms)
-
-========================================================================
-Received Prepare
-Registering precompiled user dll's ...
-Registered in 0.004142 seconds.
-Begin MonoManager ReloadAssembly
-Native extension for WindowsStandalone target not found
-Refreshing native plugins compatible for Editor in 1.56 ms, found 1 plugins.
-Preloading 0 native plugins for Editor in 0.00 ms.
-Mono: successfully reloaded assembly
-- Completed reload, in  2.859 seconds
-Platform modules already initialized, skipping
-Refreshing native plugins compatible for Editor in 1.51 ms, found 1 plugins.
-Preloading 0 native plugins for Editor in 0.00 ms.
-Unloading 1948 Unused Serialized files (Serialized files now loaded: 0)
-System memory in use before: 99.8 MB.
-System memory in use after: 99.9 MB.
-
-Unloading 8 unused Assets to reduce memory usage. Loaded Objects now: 2634.
-Total: 5.679500 ms (FindLiveObjects: 0.354600 ms CreateObjectMapping: 0.127300 ms MarkObjects: 5.160300 ms  DeleteObjects: 0.034800 ms)
-
-========================================================================
-Received Prepare
-Registering precompiled user dll's ...
-Registered in 0.006176 seconds.
-Begin MonoManager ReloadAssembly
-Native extension for WindowsStandalone target not found
-Refreshing native plugins compatible for Editor in 1.45 ms, found 1 plugins.
-Preloading 0 native plugins for Editor in 0.00 ms.
-Mono: successfully reloaded assembly
-- Completed reload, in  1.918 seconds
-Platform modules already initialized, skipping
-Refreshing native plugins compatible for Editor in 1.41 ms, found 1 plugins.
-Preloading 0 native plugins for Editor in 0.00 ms.
-Unloading 1948 Unused Serialized files (Serialized files now loaded: 0)
-System memory in use before: 99.8 MB.
-System memory in use after: 99.9 MB.
-
-Unloading 8 unused Assets to reduce memory usage. Loaded Objects now: 2638.
-Total: 5.981700 ms (FindLiveObjects: 0.395700 ms CreateObjectMapping: 0.127700 ms MarkObjects: 5.422800 ms  DeleteObjects: 0.032900 ms)
-
-========================================================================
-Received Prepare
-Registering precompiled user dll's ...
-Registered in 0.004476 seconds.
-Begin MonoManager ReloadAssembly
-Native extension for WindowsStandalone target not found
-Refreshing native plugins compatible for Editor in 1.56 ms, found 1 plugins.
-Preloading 0 native plugins for Editor in 0.00 ms.
-Mono: successfully reloaded assembly
-- Completed reload, in  2.242 seconds
-Platform modules already initialized, skipping
-Refreshing native plugins compatible for Editor in 1.62 ms, found 1 plugins.
-Preloading 0 native plugins for Editor in 0.00 ms.
-Unloading 1948 Unused Serialized files (Serialized files now loaded: 0)
-System memory in use before: 99.9 MB.
-System memory in use after: 100.0 MB.
-
-Unloading 8 unused Assets to reduce memory usage. Loaded Objects now: 2642.
-Total: 5.006200 ms (FindLiveObjects: 0.358000 ms CreateObjectMapping: 0.157300 ms MarkObjects: 4.455200 ms  DeleteObjects: 0.033000 ms)
-
-========================================================================
-Received Prepare
-Registering precompiled user dll's ...
-Registered in 0.004041 seconds.
-Begin MonoManager ReloadAssembly
-Native extension for WindowsStandalone target not found
-Refreshing native plugins compatible for Editor in 1.43 ms, found 1 plugins.
-Preloading 0 native plugins for Editor in 0.00 ms.
-Mono: successfully reloaded assembly
-- Completed reload, in  2.233 seconds
-Platform modules already initialized, skipping
-Refreshing native plugins compatible for Editor in 1.47 ms, found 1 plugins.
-Preloading 0 native plugins for Editor in 0.00 ms.
-Unloading 1948 Unused Serialized files (Serialized files now loaded: 0)
-System memory in use before: 99.8 MB.
-System memory in use after: 99.9 MB.
-
-Unloading 8 unused Assets to reduce memory usage. Loaded Objects now: 2646.
-Total: 5.044100 ms (FindLiveObjects: 0.340400 ms CreateObjectMapping: 0.150700 ms MarkObjects: 4.517600 ms  DeleteObjects: 0.032700 ms)
-
-========================================================================
-Received Prepare
-Registering precompiled user dll's ...
-Registered in 0.003791 seconds.
-Begin MonoManager ReloadAssembly
-Native extension for WindowsStandalone target not found
-Refreshing native plugins compatible for Editor in 1.41 ms, found 1 plugins.
-Preloading 0 native plugins for Editor in 0.00 ms.
-Mono: successfully reloaded assembly
-- Completed reload, in  2.417 seconds
-Platform modules already initialized, skipping
-Refreshing native plugins compatible for Editor in 1.28 ms, found 1 plugins.
-Preloading 0 native plugins for Editor in 0.00 ms.
-Unloading 1948 Unused Serialized files (Serialized files now loaded: 0)
-System memory in use before: 99.8 MB.
-System memory in use after: 99.9 MB.
-
-Unloading 8 unused Assets to reduce memory usage. Loaded Objects now: 2650.
-Total: 4.798800 ms (FindLiveObjects: 0.336600 ms CreateObjectMapping: 0.126400 ms MarkObjects: 4.300300 ms  DeleteObjects: 0.032300 ms)
-
-========================================================================
-Received Prepare
-Registering precompiled user dll's ...
-Registered in 0.002707 seconds.
-Begin MonoManager ReloadAssembly
-Native extension for WindowsStandalone target not found
-Refreshing native plugins compatible for Editor in 1.45 ms, found 1 plugins.
-Preloading 0 native plugins for Editor in 0.00 ms.
-Mono: successfully reloaded assembly
-- Completed reload, in  1.761 seconds
-Platform modules already initialized, skipping
-Refreshing native plugins compatible for Editor in 1.49 ms, found 1 plugins.
-Preloading 0 native plugins for Editor in 0.00 ms.
-Unloading 1948 Unused Serialized files (Serialized files now loaded: 0)
-System memory in use before: 99.8 MB.
-System memory in use after: 99.9 MB.
-
-Unloading 8 unused Assets to reduce memory usage. Loaded Objects now: 2654.
-Total: 4.901400 ms (FindLiveObjects: 0.329400 ms CreateObjectMapping: 0.125200 ms MarkObjects: 4.407300 ms  DeleteObjects: 0.037100 ms)
-
-========================================================================
-Received Prepare
-Registering precompiled user dll's ...
-Registered in 0.003805 seconds.
-Begin MonoManager ReloadAssembly
-Native extension for WindowsStandalone target not found
-Refreshing native plugins compatible for Editor in 1.81 ms, found 1 plugins.
-Preloading 0 native plugins for Editor in 0.00 ms.
-Mono: successfully reloaded assembly
-- Completed reload, in  2.280 seconds
-Platform modules already initialized, skipping
-Refreshing native plugins compatible for Editor in 1.45 ms, found 1 plugins.
-Preloading 0 native plugins for Editor in 0.00 ms.
-Unloading 1948 Unused Serialized files (Serialized files now loaded: 0)
-System memory in use before: 99.9 MB.
-System memory in use after: 100.0 MB.
-
-Unloading 8 unused Assets to reduce memory usage. Loaded Objects now: 2658.
-Total: 5.306700 ms (FindLiveObjects: 0.358700 ms CreateObjectMapping: 0.128000 ms MarkObjects: 4.783400 ms  DeleteObjects: 0.033800 ms)
-
-========================================================================
-Received Prepare
-Registering precompiled user dll's ...
-Registered in 0.003832 seconds.
-Begin MonoManager ReloadAssembly
-Native extension for WindowsStandalone target not found
-Refreshing native plugins compatible for Editor in 1.53 ms, found 1 plugins.
-Preloading 0 native plugins for Editor in 0.00 ms.
-Mono: successfully reloaded assembly
-- Completed reload, in  2.203 seconds
-Platform modules already initialized, skipping
-Refreshing native plugins compatible for Editor in 1.41 ms, found 1 plugins.
-Preloading 0 native plugins for Editor in 0.00 ms.
-Unloading 1948 Unused Serialized files (Serialized files now loaded: 0)
-System memory in use before: 99.8 MB.
-System memory in use after: 100.0 MB.
-
-Unloading 8 unused Assets to reduce memory usage. Loaded Objects now: 2662.
-Total: 5.328400 ms (FindLiveObjects: 0.339800 ms CreateObjectMapping: 0.129800 ms MarkObjects: 4.809100 ms  DeleteObjects: 0.046000 ms)
-
-========================================================================
-Received Prepare
-Registering precompiled user dll's ...
-Registered in 0.003974 seconds.
-Begin MonoManager ReloadAssembly
-Native extension for WindowsStandalone target not found
-Refreshing native plugins compatible for Editor in 1.44 ms, found 1 plugins.
-Preloading 0 native plugins for Editor in 0.00 ms.
-Mono: successfully reloaded assembly
-- Completed reload, in  2.236 seconds
-Platform modules already initialized, skipping
-Refreshing native plugins compatible for Editor in 1.43 ms, found 1 plugins.
-Preloading 0 native plugins for Editor in 0.00 ms.
-Unloading 1948 Unused Serialized files (Serialized files now loaded: 0)
-System memory in use before: 99.8 MB.
-System memory in use after: 100.0 MB.
-
-Unloading 8 unused Assets to reduce memory usage. Loaded Objects now: 2666.
-Total: 5.817000 ms (FindLiveObjects: 0.391000 ms CreateObjectMapping: 0.537500 ms MarkObjects: 4.849700 ms  DeleteObjects: 0.036000 ms)
-
-========================================================================
-Received Prepare
-Registering precompiled user dll's ...
-Registered in 0.003697 seconds.
-Begin MonoManager ReloadAssembly
-Native extension for WindowsStandalone target not found
-Refreshing native plugins compatible for Editor in 1.42 ms, found 1 plugins.
-Preloading 0 native plugins for Editor in 0.00 ms.
-Mono: successfully reloaded assembly
-- Completed reload, in  2.230 seconds
-Platform modules already initialized, skipping
-Refreshing native plugins compatible for Editor in 1.43 ms, found 1 plugins.
-Preloading 0 native plugins for Editor in 0.00 ms.
-Unloading 1948 Unused Serialized files (Serialized files now loaded: 0)
-System memory in use before: 99.9 MB.
-System memory in use after: 100.0 MB.
-
-Unloading 8 unused Assets to reduce memory usage. Loaded Objects now: 2670.
-Total: 5.156700 ms (FindLiveObjects: 0.351200 ms CreateObjectMapping: 0.128100 ms MarkObjects: 4.635400 ms  DeleteObjects: 0.039000 ms)
-
-========================================================================
-Received Prepare
-Registering precompiled user dll's ...
-Registered in 0.012035 seconds.
-Begin MonoManager ReloadAssembly
-Native extension for WindowsStandalone target not found
-Refreshing native plugins compatible for Editor in 0.99 ms, found 1 plugins.
-Preloading 0 native plugins for Editor in 0.00 ms.
-Mono: successfully reloaded assembly
-- Completed reload, in  1.274 seconds
-Platform modules already initialized, skipping
-Refreshing native plugins compatible for Editor in 1.09 ms, found 1 plugins.
-Preloading 0 native plugins for Editor in 0.00 ms.
-Unloading 1948 Unused Serialized files (Serialized files now loaded: 0)
-System memory in use before: 100.0 MB.
-System memory in use after: 100.1 MB.
-
-Unloading 8 unused Assets to reduce memory usage. Loaded Objects now: 2674.
-Total: 3.736200 ms (FindLiveObjects: 0.377500 ms CreateObjectMapping: 0.078000 ms MarkObjects: 3.261500 ms  DeleteObjects: 0.017300 ms)
-
-========================================================================
-Received Prepare
-Registering precompiled user dll's ...
-Registered in 0.004011 seconds.
-Begin MonoManager ReloadAssembly
-Native extension for WindowsStandalone target not found
-Refreshing native plugins compatible for Editor in 1.71 ms, found 1 plugins.
-Preloading 0 native plugins for Editor in 0.00 ms.
-Mono: successfully reloaded assembly
-- Completed reload, in  2.261 seconds
-Platform modules already initialized, skipping
-Refreshing native plugins compatible for Editor in 1.52 ms, found 1 plugins.
-Preloading 0 native plugins for Editor in 0.00 ms.
-Unloading 1948 Unused Serialized files (Serialized files now loaded: 0)
-System memory in use before: 99.9 MB.
-System memory in use after: 100.0 MB.
-
-Unloading 8 unused Assets to reduce memory usage. Loaded Objects now: 2678.
-Total: 4.894300 ms (FindLiveObjects: 0.361800 ms CreateObjectMapping: 0.131200 ms MarkObjects: 4.366100 ms  DeleteObjects: 0.032600 ms)
-
-========================================================================
-Received Prepare
-Registering precompiled user dll's ...
-Registered in 0.004524 seconds.
-Begin MonoManager ReloadAssembly
-Native extension for WindowsStandalone target not found
-Refreshing native plugins compatible for Editor in 1.46 ms, found 1 plugins.
-Preloading 0 native plugins for Editor in 0.00 ms.
-Mono: successfully reloaded assembly
-- Completed reload, in  2.234 seconds
-Platform modules already initialized, skipping
-Refreshing native plugins compatible for Editor in 1.43 ms, found 1 plugins.
-Preloading 0 native plugins for Editor in 0.00 ms.
-Unloading 1948 Unused Serialized files (Serialized files now loaded: 0)
-System memory in use before: 99.9 MB.
-System memory in use after: 100.0 MB.
-
-Unloading 8 unused Assets to reduce memory usage. Loaded Objects now: 2682.
-Total: 5.214300 ms (FindLiveObjects: 0.344300 ms CreateObjectMapping: 0.127200 ms MarkObjects: 4.709500 ms  DeleteObjects: 0.030600 ms)
-
-========================================================================
-Received Prepare
-Registering precompiled user dll's ...
-Registered in 0.004375 seconds.
-Begin MonoManager ReloadAssembly
-Native extension for WindowsStandalone target not found
-Refreshing native plugins compatible for Editor in 1.53 ms, found 1 plugins.
-Preloading 0 native plugins for Editor in 0.00 ms.
-Mono: successfully reloaded assembly
-- Completed reload, in  2.227 seconds
-Platform modules already initialized, skipping
-Refreshing native plugins compatible for Editor in 1.42 ms, found 1 plugins.
-Preloading 0 native plugins for Editor in 0.00 ms.
-Unloading 1948 Unused Serialized files (Serialized files now loaded: 0)
-System memory in use before: 100.0 MB.
-System memory in use after: 100.1 MB.
-
-Unloading 8 unused Assets to reduce memory usage. Loaded Objects now: 2686.
-Total: 5.158200 ms (FindLiveObjects: 0.384100 ms CreateObjectMapping: 0.128100 ms MarkObjects: 4.608600 ms  DeleteObjects: 0.035300 ms)
-
-========================================================================
-Received Prepare
-Registering precompiled user dll's ...
-Registered in 0.003814 seconds.
-Begin MonoManager ReloadAssembly
-Native extension for WindowsStandalone target not found
-Refreshing native plugins compatible for Editor in 1.39 ms, found 1 plugins.
-Preloading 0 native plugins for Editor in 0.00 ms.
-Mono: successfully reloaded assembly
-- Completed reload, in  2.285 seconds
-Platform modules already initialized, skipping
-Refreshing native plugins compatible for Editor in 1.58 ms, found 1 plugins.
-Preloading 0 native plugins for Editor in 0.00 ms.
-Unloading 1948 Unused Serialized files (Serialized files now loaded: 0)
-System memory in use before: 99.9 MB.
-System memory in use after: 100.0 MB.
-
-Unloading 8 unused Assets to reduce memory usage. Loaded Objects now: 2690.
-Total: 5.280500 ms (FindLiveObjects: 0.530100 ms CreateObjectMapping: 0.210600 ms MarkObjects: 4.502800 ms  DeleteObjects: 0.034000 ms)
-
-========================================================================
-Received Prepare
-Registering precompiled user dll's ...
-Registered in 0.003783 seconds.
-Begin MonoManager ReloadAssembly
-Native extension for WindowsStandalone target not found
-Refreshing native plugins compatible for Editor in 1.47 ms, found 1 plugins.
-Preloading 0 native plugins for Editor in 0.00 ms.
-Mono: successfully reloaded assembly
-- Completed reload, in  2.230 seconds
-Platform modules already initialized, skipping
-Refreshing native plugins compatible for Editor in 1.47 ms, found 1 plugins.
-Preloading 0 native plugins for Editor in 0.00 ms.
-Unloading 1948 Unused Serialized files (Serialized files now loaded: 0)
-System memory in use before: 100.0 MB.
-System memory in use after: 100.1 MB.
-
-Unloading 8 unused Assets to reduce memory usage. Loaded Objects now: 2694.
-Total: 4.781800 ms (FindLiveObjects: 0.379700 ms CreateObjectMapping: 0.131000 ms MarkObjects: 4.236500 ms  DeleteObjects: 0.032100 ms)
-
-========================================================================
-Received Prepare
-Registering precompiled user dll's ...
-Registered in 0.003602 seconds.
-Begin MonoManager ReloadAssembly
-Native extension for WindowsStandalone target not found
-Refreshing native plugins compatible for Editor in 2.22 ms, found 1 plugins.
-Preloading 0 native plugins for Editor in 0.00 ms.
-Mono: successfully reloaded assembly
-- Completed reload, in  2.145 seconds
-Platform modules already initialized, skipping
-Refreshing native plugins compatible for Editor in 1.40 ms, found 1 plugins.
-Preloading 0 native plugins for Editor in 0.00 ms.
-Unloading 1948 Unused Serialized files (Serialized files now loaded: 0)
-System memory in use before: 99.9 MB.
-System memory in use after: 100.1 MB.
-
-Unloading 8 unused Assets to reduce memory usage. Loaded Objects now: 2698.
-Total: 5.856600 ms (FindLiveObjects: 0.364700 ms CreateObjectMapping: 0.133600 ms MarkObjects: 5.320300 ms  DeleteObjects: 0.035200 ms)
-
-========================================================================
-Received Prepare
-Registering precompiled user dll's ...
-Registered in 0.003910 seconds.
-Begin MonoManager ReloadAssembly
-Native extension for WindowsStandalone target not found
-Refreshing native plugins compatible for Editor in 1.42 ms, found 1 plugins.
-Preloading 0 native plugins for Editor in 0.00 ms.
-Mono: successfully reloaded assembly
-- Completed reload, in  2.237 seconds
-Platform modules already initialized, skipping
-Refreshing native plugins compatible for Editor in 1.42 ms, found 1 plugins.
-Preloading 0 native plugins for Editor in 0.00 ms.
-Unloading 1948 Unused Serialized files (Serialized files now loaded: 0)
-System memory in use before: 100.0 MB.
-System memory in use after: 100.2 MB.
-
-Unloading 8 unused Assets to reduce memory usage. Loaded Objects now: 2702.
-Total: 5.602500 ms (FindLiveObjects: 0.449400 ms CreateObjectMapping: 0.134700 ms MarkObjects: 4.974500 ms  DeleteObjects: 0.040200 ms)
-
-========================================================================
-Received Prepare
-Registering precompiled user dll's ...
-Registered in 0.010364 seconds.
+Registered in 0.012822 seconds.
 Begin MonoManager ReloadAssembly
 Native extension for WindowsStandalone target not found
 Refreshing native plugins compatible for Editor in 1.55 ms, found 1 plugins.
 Preloading 0 native plugins for Editor in 0.00 ms.
 Mono: successfully reloaded assembly
-- Completed reload, in  2.759 seconds
-Platform modules already initialized, skipping
-Refreshing native plugins compatible for Editor in 1.71 ms, found 1 plugins.
-Preloading 0 native plugins for Editor in 0.00 ms.
-Unloading 1948 Unused Serialized files (Serialized files now loaded: 0)
-System memory in use before: 100.1 MB.
-System memory in use after: 100.2 MB.
-
-Unloading 8 unused Assets to reduce memory usage. Loaded Objects now: 2706.
-Total: 9.150900 ms (FindLiveObjects: 0.465100 ms CreateObjectMapping: 0.160900 ms MarkObjects: 8.486000 ms  DeleteObjects: 0.036000 ms)
-
-========================================================================
-Received Prepare
-Registering precompiled user dll's ...
-Registered in 0.004316 seconds.
-Begin MonoManager ReloadAssembly
-Native extension for WindowsStandalone target not found
-Refreshing native plugins compatible for Editor in 1.72 ms, found 1 plugins.
-Preloading 0 native plugins for Editor in 0.00 ms.
-Mono: successfully reloaded assembly
-- Completed reload, in  2.357 seconds
-Platform modules already initialized, skipping
-Refreshing native plugins compatible for Editor in 1.94 ms, found 1 plugins.
-Preloading 0 native plugins for Editor in 0.00 ms.
-Unloading 1948 Unused Serialized files (Serialized files now loaded: 0)
-System memory in use before: 100.1 MB.
-System memory in use after: 100.2 MB.
-
-Unloading 8 unused Assets to reduce memory usage. Loaded Objects now: 2710.
-Total: 5.092800 ms (FindLiveObjects: 0.473800 ms CreateObjectMapping: 0.157200 ms MarkObjects: 4.425500 ms  DeleteObjects: 0.033800 ms)
-
-========================================================================
-Received Prepare
-Registering precompiled user dll's ...
-Registered in 0.003822 seconds.
-Begin MonoManager ReloadAssembly
-Native extension for WindowsStandalone target not found
-Refreshing native plugins compatible for Editor in 1.63 ms, found 1 plugins.
-Preloading 0 native plugins for Editor in 0.00 ms.
-Mono: successfully reloaded assembly
-- Completed reload, in  2.301 seconds
+- Completed reload, in  2.885 seconds
 Platform modules already initialized, skipping
 Refreshing native plugins compatible for Editor in 1.68 ms, found 1 plugins.
 Preloading 0 native plugins for Editor in 0.00 ms.
-Unloading 1948 Unused Serialized files (Serialized files now loaded: 0)
-System memory in use before: 100.1 MB.
-System memory in use after: 100.2 MB.
+Unloading 1949 Unused Serialized files (Serialized files now loaded: 0)
+System memory in use before: 109.3 MB.
+System memory in use after: 109.4 MB.
 
-Unloading 8 unused Assets to reduce memory usage. Loaded Objects now: 2714.
-Total: 5.176800 ms (FindLiveObjects: 0.388900 ms CreateObjectMapping: 0.137600 ms MarkObjects: 4.612800 ms  DeleteObjects: 0.035400 ms)
+Unloading 8 unused Assets to reduce memory usage. Loaded Objects now: 2673.
+Total: 5.312200 ms (FindLiveObjects: 0.473700 ms CreateObjectMapping: 0.222200 ms MarkObjects: 4.560100 ms  DeleteObjects: 0.054100 ms)
 
 ========================================================================
-Received Prepare
-Registering precompiled user dll's ...
-Registered in 0.004505 seconds.
-Begin MonoManager ReloadAssembly
-Native extension for WindowsStandalone target not found
-Refreshing native plugins compatible for Editor in 1.57 ms, found 1 plugins.
-Preloading 0 native plugins for Editor in 0.00 ms.
-Mono: successfully reloaded assembly
-- Completed reload, in  2.354 seconds
-Platform modules already initialized, skipping
-Refreshing native plugins compatible for Editor in 1.83 ms, found 1 plugins.
-Preloading 0 native plugins for Editor in 0.00 ms.
-Unloading 1948 Unused Serialized files (Serialized files now loaded: 0)
-System memory in use before: 100.1 MB.
-System memory in use after: 100.2 MB.
-
-Unloading 8 unused Assets to reduce memory usage. Loaded Objects now: 2718.
-Total: 5.107900 ms (FindLiveObjects: 0.389100 ms CreateObjectMapping: 0.128500 ms MarkObjects: 4.552600 ms  DeleteObjects: 0.034600 ms)
-
+Received Import Request.
+  Time since last request: 108.974828 seconds.
+  path: Assets/Low Poly Girl/Anims/Idle into Slow Walk/HD3v2/0072.png
+  artifactKey: Guid(4b3d66c551b1933468d6204b5ac6fdc7) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Low Poly Girl/Anims/Idle into Slow Walk/HD3v2/0072.png using Guid(4b3d66c551b1933468d6204b5ac6fdc7) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '3aef7613dc9dd8428d9b2974c4390413') in 0.115617 seconds 
+========================================================================
+Received Import Request.
+  Time since last request: 4.983485 seconds.
+  path: Assets/Low Poly Girl/Anims/Idle into Slow Walk/HD3v2/0071.png
+  artifactKey: Guid(f7cbd70ad266e7945af79335303613b1) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Low Poly Girl/Anims/Idle into Slow Walk/HD3v2/0071.png using Guid(f7cbd70ad266e7945af79335303613b1) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '36c8bb98087468aa7ca96f5b5a52b5d1') in 0.034305 seconds 
+========================================================================
+Received Import Request.
+  Time since last request: 0.793592 seconds.
+  path: Assets/Low Poly Girl/Anims/Idle into Slow Walk/HD3v2/0070.png
+  artifactKey: Guid(c9ed8538a3c43364c99ea570f5c88329) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Low Poly Girl/Anims/Idle into Slow Walk/HD3v2/0070.png using Guid(c9ed8538a3c43364c99ea570f5c88329) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '661da6c3a34ae7f72abca804cbe47dd2') in 0.068431 seconds 
+========================================================================
+Received Import Request.
+  Time since last request: 0.537902 seconds.
+  path: Assets/Low Poly Girl/Anims/Idle into Slow Walk/HD3v2/0069.png
+  artifactKey: Guid(8dccef0282fdade4e85227ed30537227) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Low Poly Girl/Anims/Idle into Slow Walk/HD3v2/0069.png using Guid(8dccef0282fdade4e85227ed30537227) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '4e99411b41503d2285a6e9e08d70090f') in 0.048377 seconds 
+========================================================================
+Received Import Request.
+  Time since last request: 0.873238 seconds.
+  path: Assets/Low Poly Girl/Anims/Idle into Slow Walk/HD3v2/0035.png
+  artifactKey: Guid(7147f730e8772374da4534aa24a1f22d) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Low Poly Girl/Anims/Idle into Slow Walk/HD3v2/0035.png using Guid(7147f730e8772374da4534aa24a1f22d) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '3d23fba52f8d082da6e224ae88a94da1') in 0.036468 seconds 
+========================================================================
+Received Import Request.
+  Time since last request: 0.591059 seconds.
+  path: Assets/Low Poly Girl/Anims/Idle into Slow Walk/HD3v2/0038.png
+  artifactKey: Guid(8224bbb8cf22945439265d9b3796f7d5) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Low Poly Girl/Anims/Idle into Slow Walk/HD3v2/0038.png using Guid(8224bbb8cf22945439265d9b3796f7d5) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: 'be66af564785261efc1aecaac3c59f92') in 0.068897 seconds 
+========================================================================
+Received Import Request.
+  Time since last request: 0.624482 seconds.
+  path: Assets/Low Poly Girl/Anims/Idle into Slow Walk/HD3v2/0019.png
+  artifactKey: Guid(e07df24eb995c6e48a3fa348fb197c63) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Low Poly Girl/Anims/Idle into Slow Walk/HD3v2/0019.png using Guid(e07df24eb995c6e48a3fa348fb197c63) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: 'bbe500cb034635f2d55f75ab7d1c3120') in 0.128929 seconds 
+========================================================================
+Received Import Request.
+  Time since last request: 0.338991 seconds.
+  path: Assets/Low Poly Girl/Anims/Idle into Slow Walk/HD3v2/0017.png
+  artifactKey: Guid(fcb1e7f5a651dd94094d44480334836e) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Low Poly Girl/Anims/Idle into Slow Walk/HD3v2/0017.png using Guid(fcb1e7f5a651dd94094d44480334836e) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '3facc1d6b9e5c1f1928d889705fb4c85') in 0.057785 seconds 
+========================================================================
+Received Import Request.
+  Time since last request: 0.923913 seconds.
+  path: Assets/Low Poly Girl/Anims/Idle into Slow Walk/HD3v2/0006.png
+  artifactKey: Guid(e547e01ad3894c541b3d137338de7b52) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Low Poly Girl/Anims/Idle into Slow Walk/HD3v2/0006.png using Guid(e547e01ad3894c541b3d137338de7b52) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '45f144df65d7b8fdb158e24cce7b0afb') in 0.045517 seconds 
+========================================================================
+Received Import Request.
+  Time since last request: 0.882861 seconds.
+  path: Assets/Low Poly Girl/Anims/Idle into Slow Walk/HD3v2/0002.png
+  artifactKey: Guid(278274a7ddd8d2744a29455335417870) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Low Poly Girl/Anims/Idle into Slow Walk/HD3v2/0002.png using Guid(278274a7ddd8d2744a29455335417870) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '88c431555b074e38a9437f7590d607f9') in 0.050635 seconds 
+========================================================================
+Received Import Request.
+  Time since last request: 1.830313 seconds.
+  path: Assets/Low Poly Girl/Anims/Idle into Slow Walk/HD3v2/0001.png
+  artifactKey: Guid(2487af4bb0730304fb5272ffa50a3b1c) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Low Poly Girl/Anims/Idle into Slow Walk/HD3v2/0001.png using Guid(2487af4bb0730304fb5272ffa50a3b1c) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '10f09852071cf5e5ad1d6940a7ee9bb1') in 0.036535 seconds 
+========================================================================
+Received Import Request.
+  Time since last request: 0.294291 seconds.
+  path: Assets/Low Poly Girl/Anims/Idle into Slow Walk/HD3v2/0003.png
+  artifactKey: Guid(37316cf587e3d0842b042df750a7c949) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Low Poly Girl/Anims/Idle into Slow Walk/HD3v2/0003.png using Guid(37316cf587e3d0842b042df750a7c949) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: 'f237e610e1964561f2806891ecb99d71') in 0.048637 seconds 
+========================================================================
+Received Import Request.
+  Time since last request: 0.146870 seconds.
+  path: Assets/Low Poly Girl/Anims/Idle into Slow Walk/HD3v2/0004.png
+  artifactKey: Guid(501f2d959b5a00747aa18d9a6dc970e3) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Low Poly Girl/Anims/Idle into Slow Walk/HD3v2/0004.png using Guid(501f2d959b5a00747aa18d9a6dc970e3) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: 'b889a7f7c558f67be415c290e79fb55c') in 0.063671 seconds 
+========================================================================
+Received Import Request.
+  Time since last request: 0.040752 seconds.
+  path: Assets/Low Poly Girl/Anims/Idle into Slow Walk/HD3v2/0005.png
+  artifactKey: Guid(61a8ac851ba22af409640e57098286c5) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Low Poly Girl/Anims/Idle into Slow Walk/HD3v2/0005.png using Guid(61a8ac851ba22af409640e57098286c5) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: 'c7f37e2dd7472ececffa0f0f039771b2') in 0.034016 seconds 
+========================================================================
+Received Import Request.
+  Time since last request: 0.585283 seconds.
+  path: Assets/Low Poly Girl/Anims/Idle into Slow Walk/HD3v2/0007.png
+  artifactKey: Guid(cf0b6585aa835be448f297346a678471) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Low Poly Girl/Anims/Idle into Slow Walk/HD3v2/0007.png using Guid(cf0b6585aa835be448f297346a678471) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: 'b95f7268de6d1070872d534c839b3d14') in 0.034614 seconds 
+========================================================================
+Received Import Request.
+  Time since last request: 0.039043 seconds.
+  path: Assets/Low Poly Girl/Anims/Idle into Slow Walk/HD3v2/0008.png
+  artifactKey: Guid(b39c864a43f0c1540aec67ff2ec8aabe) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Low Poly Girl/Anims/Idle into Slow Walk/HD3v2/0008.png using Guid(b39c864a43f0c1540aec67ff2ec8aabe) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '18980e38d53cc316fda88a91c43b8f00') in 0.042506 seconds 
+========================================================================
+Received Import Request.
+  Time since last request: 0.071365 seconds.
+  path: Assets/Low Poly Girl/Anims/Idle into Slow Walk/HD3v2/0010.png
+  artifactKey: Guid(78f910c4b4043ea4fbfd959be623dc15) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Low Poly Girl/Anims/Idle into Slow Walk/HD3v2/0010.png using Guid(78f910c4b4043ea4fbfd959be623dc15) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: 'dc6cbb6f39f0393300dc26aa7e6a95ed') in 0.033263 seconds 
+========================================================================
+Received Import Request.
+  Time since last request: 0.077077 seconds.
+  path: Assets/Low Poly Girl/Anims/Idle into Slow Walk/HD3v2/0011.png
+  artifactKey: Guid(e29a98b43fd40c14cb0370e5ba2320ab) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Low Poly Girl/Anims/Idle into Slow Walk/HD3v2/0011.png using Guid(e29a98b43fd40c14cb0370e5ba2320ab) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '426c17960183e302dd1a9e64e1d114f9') in 0.044313 seconds 
+========================================================================
+Received Import Request.
+  Time since last request: 0.064944 seconds.
+  path: Assets/Low Poly Girl/Anims/Idle into Slow Walk/HD3v2/0013.png
+  artifactKey: Guid(907f60d128bea0f429f13c9931035016) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Low Poly Girl/Anims/Idle into Slow Walk/HD3v2/0013.png using Guid(907f60d128bea0f429f13c9931035016) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '66483b2cbe98c40f4334a39d8fb43460') in 0.039290 seconds 
+========================================================================
+Received Import Request.
+  Time since last request: 0.061850 seconds.
+  path: Assets/Low Poly Girl/Anims/Idle into Slow Walk/HD3v2/0014.png
+  artifactKey: Guid(138044fa99c8bc440afbb0796cfd5dfb) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Low Poly Girl/Anims/Idle into Slow Walk/HD3v2/0014.png using Guid(138044fa99c8bc440afbb0796cfd5dfb) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '7bbe1f1ee31dfaf95ce0683d9044f86b') in 0.036295 seconds 
+========================================================================
+Received Import Request.
+  Time since last request: 0.066892 seconds.
+  path: Assets/Low Poly Girl/Anims/Idle into Slow Walk/HD3v2/0015.png
+  artifactKey: Guid(135690c65e4937946893563206b3206a) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Low Poly Girl/Anims/Idle into Slow Walk/HD3v2/0015.png using Guid(135690c65e4937946893563206b3206a) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '15734b88dae085794eb5760e507251d0') in 0.070018 seconds 
+========================================================================
+Received Import Request.
+  Time since last request: 0.013085 seconds.
+  path: Assets/Low Poly Girl/Anims/Idle into Slow Walk/HD3v2/0016.png
+  artifactKey: Guid(867674125fa29ee4c9aec860e76e1c7a) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Low Poly Girl/Anims/Idle into Slow Walk/HD3v2/0016.png using Guid(867674125fa29ee4c9aec860e76e1c7a) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: 'de3b6dce3a03b9a18b0ff43e77e8148b') in 0.065807 seconds 
+========================================================================
+Received Import Request.
+  Time since last request: 0.112591 seconds.
+  path: Assets/Low Poly Girl/Anims/Idle into Slow Walk/HD3v2/0018.png
+  artifactKey: Guid(12e80ce881c627a439143e9b9e335e12) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Low Poly Girl/Anims/Idle into Slow Walk/HD3v2/0018.png using Guid(12e80ce881c627a439143e9b9e335e12) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '90a1e10fca300fe7d59f6d4abb9d6bc9') in 0.030188 seconds 
+========================================================================
+Received Import Request.
+  Time since last request: 0.125905 seconds.
+  path: Assets/Low Poly Girl/Anims/Idle into Slow Walk/HD3v2/0020.png
+  artifactKey: Guid(cdaa592382b967e49a977c7bb0256b29) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Low Poly Girl/Anims/Idle into Slow Walk/HD3v2/0020.png using Guid(cdaa592382b967e49a977c7bb0256b29) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: 'a9d3f5a0eb1b8506722107e8a7ee0a82') in 0.027623 seconds 
+========================================================================
+Received Import Request.
+  Time since last request: 0.039088 seconds.
+  path: Assets/Low Poly Girl/Anims/Idle into Slow Walk/HD3v2/0021.png
+  artifactKey: Guid(b7f2668e49a6e9e4e8d9f1a7bfdf8b0d) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Low Poly Girl/Anims/Idle into Slow Walk/HD3v2/0021.png using Guid(b7f2668e49a6e9e4e8d9f1a7bfdf8b0d) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '885dd5de12671ed7a98884e015b43442') in 0.021603 seconds 
+========================================================================
+Received Import Request.
+  Time since last request: 0.061417 seconds.
+  path: Assets/Low Poly Girl/Anims/Idle into Slow Walk/HD3v2/0022.png
+  artifactKey: Guid(f5415b405801da0439585d8bcdd82d56) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Low Poly Girl/Anims/Idle into Slow Walk/HD3v2/0022.png using Guid(f5415b405801da0439585d8bcdd82d56) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: 'e9eff621e746a8c07f879f08aee0edac') in 0.022306 seconds 
+========================================================================
+Received Import Request.
+  Time since last request: 0.064512 seconds.
+  path: Assets/Low Poly Girl/Anims/Idle into Slow Walk/HD3v2/0023.png
+  artifactKey: Guid(762ef7022e764d447b64773691c27157) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Low Poly Girl/Anims/Idle into Slow Walk/HD3v2/0023.png using Guid(762ef7022e764d447b64773691c27157) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '66079d944962c15617e258dbcb6c5d94') in 0.024277 seconds 
+========================================================================
+Received Import Request.
+  Time since last request: 0.061706 seconds.
+  path: Assets/Low Poly Girl/Anims/Idle into Slow Walk/HD3v2/0024.png
+  artifactKey: Guid(bd1b6da87313b8241a8fb8469380daa4) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Low Poly Girl/Anims/Idle into Slow Walk/HD3v2/0024.png using Guid(bd1b6da87313b8241a8fb8469380daa4) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: 'e62c1a8ba21b74479fe11f79c8def25d') in 0.026205 seconds 
+========================================================================
+Received Import Request.
+  Time since last request: 0.065820 seconds.
+  path: Assets/Low Poly Girl/Anims/Idle into Slow Walk/HD3v2/0026.png
+  artifactKey: Guid(5f9278feb5dbb5244b054a750e97eb83) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Low Poly Girl/Anims/Idle into Slow Walk/HD3v2/0026.png using Guid(5f9278feb5dbb5244b054a750e97eb83) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '0736f548211f91fcfdba51726c5b8fc3') in 0.020538 seconds 
+========================================================================
+Received Import Request.
+  Time since last request: 0.067803 seconds.
+  path: Assets/Low Poly Girl/Anims/Idle into Slow Walk/HD3v2/0027.png
+  artifactKey: Guid(3501495ae7757dc438e752c87107f6ae) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Low Poly Girl/Anims/Idle into Slow Walk/HD3v2/0027.png using Guid(3501495ae7757dc438e752c87107f6ae) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '7de5f790af78adeea7e69992ceedc2c8') in 0.025416 seconds 
+========================================================================
+Received Import Request.
+  Time since last request: 0.063679 seconds.
+  path: Assets/Low Poly Girl/Anims/Idle into Slow Walk/HD3v2/0028.png
+  artifactKey: Guid(9be4d4959adbfad4787c5987257ae074) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Low Poly Girl/Anims/Idle into Slow Walk/HD3v2/0028.png using Guid(9be4d4959adbfad4787c5987257ae074) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '994f9e45da0d491ddfb57de2e8f2fd6f') in 0.023546 seconds 
+========================================================================
+Received Import Request.
+  Time since last request: 0.065109 seconds.
+  path: Assets/Low Poly Girl/Anims/Idle into Slow Walk/HD3v2/0029.png
+  artifactKey: Guid(084473dc478e0a448ae429e074aaeb10) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Low Poly Girl/Anims/Idle into Slow Walk/HD3v2/0029.png using Guid(084473dc478e0a448ae429e074aaeb10) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '5a1c2c1ce588af9abcba5871981c81fb') in 0.026297 seconds 
+========================================================================
+Received Import Request.
+  Time since last request: 0.063353 seconds.
+  path: Assets/Low Poly Girl/Anims/Idle into Slow Walk/HD3v2/0030.png
+  artifactKey: Guid(1cdfddc2d7465d74f96cf9c4e2c36c75) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Low Poly Girl/Anims/Idle into Slow Walk/HD3v2/0030.png using Guid(1cdfddc2d7465d74f96cf9c4e2c36c75) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: 'dd9defd2730d1f6ef1d0aa3ae9c32746') in 0.023574 seconds 
+========================================================================
+Received Import Request.
+  Time since last request: 0.068597 seconds.
+  path: Assets/Low Poly Girl/Anims/Idle into Slow Walk/HD3v2/0031.png
+  artifactKey: Guid(a11493c5fab6de14199d9ad792013a14) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Low Poly Girl/Anims/Idle into Slow Walk/HD3v2/0031.png using Guid(a11493c5fab6de14199d9ad792013a14) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '3eb8daa9a69be48cfb6197b0f24b81e6') in 0.053896 seconds 
+========================================================================
+Received Import Request.
+  Time since last request: 0.029718 seconds.
+  path: Assets/Low Poly Girl/Anims/Idle into Slow Walk/HD3v2/0032.png
+  artifactKey: Guid(f429ae9df9f435c43af805cda094dcd3) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Low Poly Girl/Anims/Idle into Slow Walk/HD3v2/0032.png using Guid(f429ae9df9f435c43af805cda094dcd3) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: 'c62ec5fdfebea16261eac269e0cb081e') in 0.030430 seconds 
+========================================================================
+Received Import Request.
+  Time since last request: 0.058408 seconds.
+  path: Assets/Low Poly Girl/Anims/Idle into Slow Walk/HD3v2/0033.png
+  artifactKey: Guid(87cf1db39da7f8146bf7cf73ec8c427c) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Low Poly Girl/Anims/Idle into Slow Walk/HD3v2/0033.png using Guid(87cf1db39da7f8146bf7cf73ec8c427c) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: 'edd0c171dac5bc2e83e260cfb3085f8d') in 0.035396 seconds 
+========================================================================
+Received Import Request.
+  Time since last request: 0.055600 seconds.
+  path: Assets/Low Poly Girl/Anims/Idle into Slow Walk/HD3v2/0034.png
+  artifactKey: Guid(d335040ce7c8f364bbe193061ea394f4) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Low Poly Girl/Anims/Idle into Slow Walk/HD3v2/0034.png using Guid(d335040ce7c8f364bbe193061ea394f4) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: 'e670e7c7e369e2fb17cfb730b5a8268b') in 0.039988 seconds 
+========================================================================
+Received Import Request.
+  Time since last request: 0.145994 seconds.
+  path: Assets/Low Poly Girl/Anims/Idle into Slow Walk/HD3v2/0036.png
+  artifactKey: Guid(5e965aa1a4c6f0b4dbf966acbf8f4d63) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Low Poly Girl/Anims/Idle into Slow Walk/HD3v2/0036.png using Guid(5e965aa1a4c6f0b4dbf966acbf8f4d63) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: 'c4eb12caceb709349b1cac410cf6e623') in 0.026839 seconds 
+========================================================================
+Received Import Request.
+  Time since last request: 0.042023 seconds.
+  path: Assets/Low Poly Girl/Anims/Idle into Slow Walk/HD3v2/0037.png
+  artifactKey: Guid(1baf402a1e43de94284e977c256a09b6) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Low Poly Girl/Anims/Idle into Slow Walk/HD3v2/0037.png using Guid(1baf402a1e43de94284e977c256a09b6) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '296e9379efed0cf6ca735beaebd21449') in 0.022381 seconds 
+========================================================================
+Received Import Request.
+  Time since last request: 0.161636 seconds.
+  path: Assets/Low Poly Girl/Anims/Idle into Slow Walk/HD3v2/0039.png
+  artifactKey: Guid(ecb80bcc7c9bda24e88fa2527155c49a) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Low Poly Girl/Anims/Idle into Slow Walk/HD3v2/0039.png using Guid(ecb80bcc7c9bda24e88fa2527155c49a) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '26042bd7e32c13e4311b0ff9aef5e19e') in 0.047137 seconds 
+========================================================================
+Received Import Request.
+  Time since last request: 0.121181 seconds.
+  path: Assets/Low Poly Girl/Anims/Idle into Slow Walk/HD3v2/0041.png
+  artifactKey: Guid(ce8d610f98bcea342a0b0eab45b7f6b3) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Low Poly Girl/Anims/Idle into Slow Walk/HD3v2/0041.png using Guid(ce8d610f98bcea342a0b0eab45b7f6b3) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '2061a88453be6fec4189545d622d733f') in 0.025510 seconds 
+========================================================================
+Received Import Request.
+  Time since last request: 0.042102 seconds.
+  path: Assets/Low Poly Girl/Anims/Idle into Slow Walk/HD3v2/0042.png
+  artifactKey: Guid(b0c29216108f585428e7c00b53a5ed79) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Low Poly Girl/Anims/Idle into Slow Walk/HD3v2/0042.png using Guid(b0c29216108f585428e7c00b53a5ed79) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '681f3bb7c2f44ac90c02fc702f60ff5d') in 0.029074 seconds 
+========================================================================
+Received Import Request.
+  Time since last request: 0.064859 seconds.
+  path: Assets/Low Poly Girl/Anims/Idle into Slow Walk/HD3v2/0044.png
+  artifactKey: Guid(79b14fabbedf6e044aa76d8022d1c0f5) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Low Poly Girl/Anims/Idle into Slow Walk/HD3v2/0044.png using Guid(79b14fabbedf6e044aa76d8022d1c0f5) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: 'f3ac6a0d7ef14276de8aa8ff48085e36') in 0.020853 seconds 
+========================================================================
+Received Import Request.
+  Time since last request: 0.069154 seconds.
+  path: Assets/Low Poly Girl/Anims/Idle into Slow Walk/HD3v2/0045.png
+  artifactKey: Guid(49475364fff78e848afded6d30ab3973) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Low Poly Girl/Anims/Idle into Slow Walk/HD3v2/0045.png using Guid(49475364fff78e848afded6d30ab3973) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '961b50d0c6f9a8903aecf208a2db75c2') in 0.022104 seconds 
+========================================================================
+Received Import Request.
+  Time since last request: 0.064866 seconds.
+  path: Assets/Low Poly Girl/Anims/Idle into Slow Walk/HD3v2/0046.png
+  artifactKey: Guid(84ccda18621351244aae816f19218ef3) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Low Poly Girl/Anims/Idle into Slow Walk/HD3v2/0046.png using Guid(84ccda18621351244aae816f19218ef3) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '988786cba34b62497fa97611377d0b14') in 0.022355 seconds 
+========================================================================
+Received Import Request.
+  Time since last request: 0.063111 seconds.
+  path: Assets/Low Poly Girl/Anims/Idle into Slow Walk/HD3v2/0047.png
+  artifactKey: Guid(964f130e024bac3408d7d92000600ca9) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Low Poly Girl/Anims/Idle into Slow Walk/HD3v2/0047.png using Guid(964f130e024bac3408d7d92000600ca9) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '5cf6a201748f2e6c123ddd98a009974c') in 0.033656 seconds 
+========================================================================
+Received Import Request.
+  Time since last request: 0.115017 seconds.
+  path: Assets/Low Poly Girl/Anims/Idle into Slow Walk/HD3v2/0048.png
+  artifactKey: Guid(1fb4985e9ae666249af912a0112dc94b) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Low Poly Girl/Anims/Idle into Slow Walk/HD3v2/0048.png using Guid(1fb4985e9ae666249af912a0112dc94b) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '90c6beb30513c608779a23cc7e4416cf') in 0.022539 seconds 
+========================================================================
+Received Import Request.
+  Time since last request: 0.067557 seconds.
+  path: Assets/Low Poly Girl/Anims/Idle into Slow Walk/HD3v2/0049.png
+  artifactKey: Guid(f75d3904e495af845951f65a77fc0508) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Low Poly Girl/Anims/Idle into Slow Walk/HD3v2/0049.png using Guid(f75d3904e495af845951f65a77fc0508) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '016051de498b5b090111407fe43b7153') in 0.025464 seconds 
+========================================================================
+Received Import Request.
+  Time since last request: 0.059332 seconds.
+  path: Assets/Low Poly Girl/Anims/Idle into Slow Walk/HD3v2/0050.png
+  artifactKey: Guid(f7d041160fb283d439bb1fdf591d6ceb) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Low Poly Girl/Anims/Idle into Slow Walk/HD3v2/0050.png using Guid(f7d041160fb283d439bb1fdf591d6ceb) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '8d36e70a3055c5901b66c5e1e6b4ef23') in 0.036283 seconds 
+========================================================================
+Received Import Request.
+  Time since last request: 0.056297 seconds.
+  path: Assets/Low Poly Girl/Anims/Idle into Slow Walk/HD3v2/0051.png
+  artifactKey: Guid(23d613c34afdaeb4d98e5c651dd31684) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Low Poly Girl/Anims/Idle into Slow Walk/HD3v2/0051.png using Guid(23d613c34afdaeb4d98e5c651dd31684) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '621001988603a7e771d421af3d5c52ca') in 0.084275 seconds 
+========================================================================
+Received Import Request.
+  Time since last request: 0.012894 seconds.
+  path: Assets/Low Poly Girl/Anims/Idle into Slow Walk/HD3v2/0052.png
+  artifactKey: Guid(3fa1b98e48b294345ad75ba98e40e75e) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Low Poly Girl/Anims/Idle into Slow Walk/HD3v2/0052.png using Guid(3fa1b98e48b294345ad75ba98e40e75e) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: 'bc24022e717373b18ccc13bb452d49f9') in 0.022804 seconds 
+========================================================================
+Received Import Request.
+  Time since last request: 0.032529 seconds.
+  path: Assets/Low Poly Girl/Anims/Idle into Slow Walk/HD3v2/0053.png
+  artifactKey: Guid(275163be88cbca544b8dceae86c65ae6) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Low Poly Girl/Anims/Idle into Slow Walk/HD3v2/0053.png using Guid(275163be88cbca544b8dceae86c65ae6) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '12544cc6d63be011d4462623c91aab61') in 0.014647 seconds 
+========================================================================
+Received Import Request.
+  Time since last request: 0.032741 seconds.
+  path: Assets/Low Poly Girl/Anims/Idle into Slow Walk/HD3v2/0054.png
+  artifactKey: Guid(71eaf4855e2f69b4dbad87bab4800b45) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Low Poly Girl/Anims/Idle into Slow Walk/HD3v2/0054.png using Guid(71eaf4855e2f69b4dbad87bab4800b45) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '41ab0c7b9ad045d7efe127ee6c25057c') in 0.013531 seconds 
+========================================================================
+Received Import Request.
+  Time since last request: 0.033495 seconds.
+  path: Assets/Low Poly Girl/Anims/Idle into Slow Walk/HD3v2/0055.png
+  artifactKey: Guid(7a7d21822b8f761469ead0fe0cd12fff) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Low Poly Girl/Anims/Idle into Slow Walk/HD3v2/0055.png using Guid(7a7d21822b8f761469ead0fe0cd12fff) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '42923f22ceea944f5b2297de7ef753a1') in 0.013799 seconds 
+========================================================================
+Received Import Request.
+  Time since last request: 0.037530 seconds.
+  path: Assets/Low Poly Girl/Anims/Idle into Slow Walk/HD3v2/0056.png
+  artifactKey: Guid(aa887d19d4ea6164ba977c0bd84575dd) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Low Poly Girl/Anims/Idle into Slow Walk/HD3v2/0056.png using Guid(aa887d19d4ea6164ba977c0bd84575dd) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '0f7891d13c45fabf1a0166ea483fc48f') in 0.019928 seconds 
+========================================================================
+Received Import Request.
+  Time since last request: 0.068024 seconds.
+  path: Assets/Low Poly Girl/Anims/Idle into Slow Walk/HD3v2/0057.png
+  artifactKey: Guid(f95948f0bc73b544e8985001c591a611) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Low Poly Girl/Anims/Idle into Slow Walk/HD3v2/0057.png using Guid(f95948f0bc73b544e8985001c591a611) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: 'a6f963021fa70ae18f0d0a0cdb08fcfb') in 0.023677 seconds 
+========================================================================
+Received Import Request.
+  Time since last request: 0.071682 seconds.
+  path: Assets/Low Poly Girl/Anims/Idle into Slow Walk/HD3v2/0058.png
+  artifactKey: Guid(2b5cc96c5a6b5844587c39d429981501) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Low Poly Girl/Anims/Idle into Slow Walk/HD3v2/0058.png using Guid(2b5cc96c5a6b5844587c39d429981501) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: 'a87cea5bdc7ae1920f94caf5cd65bef7') in 0.026254 seconds 
+========================================================================
+Received Import Request.
+  Time since last request: 0.062535 seconds.
+  path: Assets/Low Poly Girl/Anims/Idle into Slow Walk/HD3v2/0059.png
+  artifactKey: Guid(33bc31fa59aca4849abffa33eea4c4bd) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Low Poly Girl/Anims/Idle into Slow Walk/HD3v2/0059.png using Guid(33bc31fa59aca4849abffa33eea4c4bd) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '7695ace8d900bfc1ff483fbcc5b924b8') in 0.025941 seconds 
+========================================================================
+Received Import Request.
+  Time since last request: 0.051861 seconds.
+  path: Assets/Low Poly Girl/Anims/Idle into Slow Walk/HD3v2/0060.png
+  artifactKey: Guid(f5b72496e4c9b764f8173d4dea4f5a51) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Low Poly Girl/Anims/Idle into Slow Walk/HD3v2/0060.png using Guid(f5b72496e4c9b764f8173d4dea4f5a51) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '80c3863837498fed1481e324d77bfdf6') in 0.031837 seconds 
+========================================================================
+Received Import Request.
+  Time since last request: 0.042770 seconds.
+  path: Assets/Low Poly Girl/Anims/Idle into Slow Walk/HD3v2/0061.png
+  artifactKey: Guid(b80630f4298f99745878cac27899474e) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Low Poly Girl/Anims/Idle into Slow Walk/HD3v2/0061.png using Guid(b80630f4298f99745878cac27899474e) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: 'ca7070c1cad136ff7111c0e33f503db6') in 0.052478 seconds 
+========================================================================
+Received Import Request.
+  Time since last request: 0.003000 seconds.
+  path: Assets/Low Poly Girl/Anims/Idle into Slow Walk/HD3v2/0062.png
+  artifactKey: Guid(908bb23cf63c09e42aa490f0318f2bba) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Low Poly Girl/Anims/Idle into Slow Walk/HD3v2/0062.png using Guid(908bb23cf63c09e42aa490f0318f2bba) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '914d52970630e1845bc9a17f17796aff') in 0.063047 seconds 
+========================================================================
+Received Import Request.
+  Time since last request: 0.003322 seconds.
+  path: Assets/Low Poly Girl/Anims/Idle into Slow Walk/HD3v2/0063.png
+  artifactKey: Guid(3146384e16c01c145b85351d6cff68ce) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Low Poly Girl/Anims/Idle into Slow Walk/HD3v2/0063.png using Guid(3146384e16c01c145b85351d6cff68ce) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '8011e6328f68ab0fd9747890f93aacb3') in 0.025541 seconds 
+========================================================================
+Received Import Request.
+  Time since last request: 0.049983 seconds.
+  path: Assets/Low Poly Girl/Anims/Idle into Slow Walk/HD3v2/0064.png
+  artifactKey: Guid(4e2c515d4d1b9544c8ba132e3ee41a1a) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Low Poly Girl/Anims/Idle into Slow Walk/HD3v2/0064.png using Guid(4e2c515d4d1b9544c8ba132e3ee41a1a) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '70f9ed3b63ccbe5f7e5ebf968461d8d8') in 0.023289 seconds 
+========================================================================
+Received Import Request.
+  Time since last request: 0.056912 seconds.
+  path: Assets/Low Poly Girl/Anims/Idle into Slow Walk/HD3v2/0065.png
+  artifactKey: Guid(73789d6956b767643961807781b93ca8) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Low Poly Girl/Anims/Idle into Slow Walk/HD3v2/0065.png using Guid(73789d6956b767643961807781b93ca8) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '1a25621c86aaafd6b08d9e47f5cd8180') in 0.045574 seconds 
+========================================================================
+Received Import Request.
+  Time since last request: 0.026024 seconds.
+  path: Assets/Low Poly Girl/Anims/Idle into Slow Walk/HD3v2/0066.png
+  artifactKey: Guid(7695aceb4780a2846b4199d908adb53c) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Low Poly Girl/Anims/Idle into Slow Walk/HD3v2/0066.png using Guid(7695aceb4780a2846b4199d908adb53c) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: 'e67608944f0698ce922ed27e3c66f551') in 0.030833 seconds 
+========================================================================
+Received Import Request.
+  Time since last request: 0.040504 seconds.
+  path: Assets/Low Poly Girl/Anims/Idle into Slow Walk/HD3v2/0067.png
+  artifactKey: Guid(2dc07d4d18903ba48962c1a0b2c97535) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Low Poly Girl/Anims/Idle into Slow Walk/HD3v2/0067.png using Guid(2dc07d4d18903ba48962c1a0b2c97535) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: 'c2fbda16602cda12969743a3b508136a') in 0.029939 seconds 
+========================================================================
+Received Import Request.
+  Time since last request: 0.342832 seconds.
+  path: Assets/Low Poly Girl/Anims/Idle into Slow Walk/HD3v2/0073.png
+  artifactKey: Guid(412900ed5c508ff4ea99129450003dbf) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Low Poly Girl/Anims/Idle into Slow Walk/HD3v2/0073.png using Guid(412900ed5c508ff4ea99129450003dbf) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '15317bd40a2c12ac94b8180cc26b910a') in 0.016321 seconds 
+========================================================================
+Received Import Request.
+  Time since last request: 0.027944 seconds.
+  path: Assets/Low Poly Girl/Anims/Idle into Slow Walk/HD3v2/0074.png
+  artifactKey: Guid(f665650af4623db4dbde13b6bdd1328e) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Low Poly Girl/Anims/Idle into Slow Walk/HD3v2/0074.png using Guid(f665650af4623db4dbde13b6bdd1328e) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: 'b6567b8896e6a85cb86e2bcebbf7bc7c') in 0.015962 seconds 
+========================================================================
+Received Import Request.
+  Time since last request: 0.032378 seconds.
+  path: Assets/Low Poly Girl/Anims/Idle into Slow Walk/HD3v2/0075.png
+  artifactKey: Guid(77787df82bd036d4a8508b263a4b5bbe) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Low Poly Girl/Anims/Idle into Slow Walk/HD3v2/0075.png using Guid(77787df82bd036d4a8508b263a4b5bbe) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '3b02b1132ffa7936db7b6c9cef31d30a') in 0.017532 seconds 
+========================================================================
+Received Import Request.
+  Time since last request: 0.035002 seconds.
+  path: Assets/Low Poly Girl/Anims/Idle into Slow Walk/HD3v2/0077.png
+  artifactKey: Guid(88fa73035aeb5c64a8d2eaa42a7fd4ee) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Low Poly Girl/Anims/Idle into Slow Walk/HD3v2/0077.png using Guid(88fa73035aeb5c64a8d2eaa42a7fd4ee) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: 'f1c51772448643652d22f343adf70e94') in 0.016281 seconds 
+========================================================================
+Received Import Request.
+  Time since last request: 1.365908 seconds.
+  path: Assets/Low Poly Girl/Anims/Idle into Slow Walk/HD3v2/0076.png
+  artifactKey: Guid(60cfb8ab429ab0345ad19e7904096380) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Low Poly Girl/Anims/Idle into Slow Walk/HD3v2/0076.png using Guid(60cfb8ab429ab0345ad19e7904096380) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: 'ed7fa0d724b30fff7e9420243ff469bf') in 0.051698 seconds 
+========================================================================
+Received Import Request.
+  Time since last request: 5.996794 seconds.
+  path: Assets/Low Poly Girl/Anims/Idle into Slow Walk/HD3v2/0043.png
+  artifactKey: Guid(f06f08b3d0d22414d9a0c0ff01b676b0) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Low Poly Girl/Anims/Idle into Slow Walk/HD3v2/0043.png using Guid(f06f08b3d0d22414d9a0c0ff01b676b0) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: 'f1b504b1e1048cc82dabb600fcacdccf') in 0.017037 seconds 
+========================================================================
+Received Import Request.
+  Time since last request: 1.336483 seconds.
+  path: Assets/Low Poly Girl/Anims/Idle into Slow Walk/HD3v2/0025.png
+  artifactKey: Guid(c6871af9f35e7944d883a013544e8a2c) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Low Poly Girl/Anims/Idle into Slow Walk/HD3v2/0025.png using Guid(c6871af9f35e7944d883a013544e8a2c) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '6ac1e8ac351036aaa572d6c3b410645f') in 0.028953 seconds 
+========================================================================
+Received Import Request.
+  Time since last request: 0.929381 seconds.
+  path: Assets/Low Poly Girl/Anims/Idle into Slow Walk/HD3v2/0012.png
+  artifactKey: Guid(598a76e43fc7e96479f166ed250439bc) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Low Poly Girl/Anims/Idle into Slow Walk/HD3v2/0012.png using Guid(598a76e43fc7e96479f166ed250439bc) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '3f22c473fe1a6c94d1525661727326c6') in 0.029938 seconds 
+========================================================================
+Received Import Request.
+  Time since last request: 0.231967 seconds.
+  path: Assets/Low Poly Girl/Anims/Idle into Slow Walk/HD3v2/0009.png
+  artifactKey: Guid(e9f30e610dff4b948a0172dff1d7a485) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Low Poly Girl/Anims/Idle into Slow Walk/HD3v2/0009.png using Guid(e9f30e610dff4b948a0172dff1d7a485) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: 'd02d0bbe30f854e1d071d22acbda4ef4') in 0.065240 seconds 
+========================================================================
+Received Import Request.
+  Time since last request: 0.707311 seconds.
+  path: Assets/Low Poly Girl/Anims/Idle into Slow Walk/HD3v2/0000.controller
+  artifactKey: Guid(ee7c11fbe508a774598dfe77f3d0905a) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Low Poly Girl/Anims/Idle into Slow Walk/HD3v2/0000.controller using Guid(ee7c11fbe508a774598dfe77f3d0905a) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: 'a831620726f924d967a53b84b6ea8f15') in 0.022860 seconds 
+========================================================================
+Received Import Request.
+  Time since last request: 237.041240 seconds.
+  path: Assets/Low Poly Girl/Anims/Idle into Slow Walk/HD3v2/0040.png
+  artifactKey: Guid(a1a3153f884e28845b4faff2b1b5413d) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Low Poly Girl/Anims/Idle into Slow Walk/HD3v2/0040.png using Guid(a1a3153f884e28845b4faff2b1b5413d) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '213851e280e5d184775e494f8bf6c12d') in 0.020320 seconds 
+========================================================================
+Received Import Request.
+  Time since last request: 118.312331 seconds.
+  path: Assets/Low Poly Girl/Anims/Idle into Slow Walk/HD3v2/0074.png
+  artifactKey: Guid(f665650af4623db4dbde13b6bdd1328e) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Low Poly Girl/Anims/Idle into Slow Walk/HD3v2/0074.png using Guid(f665650af4623db4dbde13b6bdd1328e) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: 'a6e01b08835a5e718c0d5f7ba742b114') in 0.047895 seconds 
+========================================================================
+Received Import Request.
+  Time since last request: 0.796592 seconds.
+  path: Assets/Low Poly Girl/Anims/Idle into Slow Walk/HD3v2/0077.png
+  artifactKey: Guid(88fa73035aeb5c64a8d2eaa42a7fd4ee) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Low Poly Girl/Anims/Idle into Slow Walk/HD3v2/0077.png using Guid(88fa73035aeb5c64a8d2eaa42a7fd4ee) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: 'e3777f9c5941dcbb96b29a7d4439f953') in 0.070957 seconds 
+========================================================================
+Received Import Request.
+  Time since last request: 21.931599 seconds.
+  path: Assets/Low Poly Girl/Anims/Idle into Slow Walk/HD3v2/0040.png
+  artifactKey: Guid(a1a3153f884e28845b4faff2b1b5413d) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Low Poly Girl/Anims/Idle into Slow Walk/HD3v2/0040.png using Guid(a1a3153f884e28845b4faff2b1b5413d) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '60f31463afc9c9b66cea60851e42e381') in 0.025510 seconds 
+========================================================================
+Received Import Request.
+  Time since last request: 610.753083 seconds.
+  path: Assets/Low Poly Girl/Anims/Slow Walk Loop/HD3v2/0000.png
+  artifactKey: Guid(6fe9cd24bbf10b048901ff2ecd0c6107) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Low Poly Girl/Anims/Slow Walk Loop/HD3v2/0000.png using Guid(6fe9cd24bbf10b048901ff2ecd0c6107) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '534fbd3f58d9fa4340dcb10692cb9689') in 0.057871 seconds 
+========================================================================
+Received Import Request.
+  Time since last request: 11.375096 seconds.
+  path: Assets/Low Poly Girl/Anims/Slow Walk into Idle/HD3v2/0059.png
+  artifactKey: Guid(f871711d081bfba44aed3f285678749d) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Low Poly Girl/Anims/Slow Walk into Idle/HD3v2/0059.png using Guid(f871711d081bfba44aed3f285678749d) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: 'c1db6602c43700272802c8486280495f') in 0.088332 seconds 
+========================================================================
+Received Import Request.
+  Time since last request: 7.133807 seconds.
+  path: Assets/Low Poly Girl/Anims/Slow Walk Loop/HD3v2/0066.png
+  artifactKey: Guid(33fcf21247b922843a306fe4399732af) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Low Poly Girl/Anims/Slow Walk Loop/HD3v2/0066.png using Guid(33fcf21247b922843a306fe4399732af) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: 'ddf049a1f534d093a73e4eccea766f34') in 0.043419 seconds 
+========================================================================
+Received Import Request.
+  Time since last request: 18.926587 seconds.
+  path: Assets/Low Poly Girl/Anims/Slow Walk Loop/HD3v2/0006.png
+  artifactKey: Guid(dc5ce14ced650044c927d277e53bec38) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Low Poly Girl/Anims/Slow Walk Loop/HD3v2/0006.png using Guid(dc5ce14ced650044c927d277e53bec38) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '8dc93bf244d08364ec4f0d1bcc4c1c5e') in 0.033304 seconds 
+========================================================================
+Received Import Request.
+  Time since last request: 305.464379 seconds.
+  path: Assets/Low Poly Girl/Anims/Slow Walk Loop/HD3v2/0007.png
+  artifactKey: Guid(01963dba182716c4da6731d74ba4d91b) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Low Poly Girl/Anims/Slow Walk Loop/HD3v2/0007.png using Guid(01963dba182716c4da6731d74ba4d91b) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '0ecdb7749396fc303d5bde8d124086ba') in 0.071205 seconds 
+========================================================================
+Received Import Request.
+  Time since last request: 3.982918 seconds.
+  path: Assets/Low Poly Girl/Anims/Slow Walk Loop/HD3v2/0005.png
+  artifactKey: Guid(5825c615230418f4291e8cccefe7517b) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Low Poly Girl/Anims/Slow Walk Loop/HD3v2/0005.png using Guid(5825c615230418f4291e8cccefe7517b) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: 'de0c736dbcee6064a265f041f4b9639d') in 0.032115 seconds 
+========================================================================
+Received Import Request.
+  Time since last request: 0.463539 seconds.
+  path: Assets/Low Poly Girl/Anims/Slow Walk Loop/HD3v2/0001.png
+  artifactKey: Guid(870716673e0f2b84096ca36c6587f1a2) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Low Poly Girl/Anims/Slow Walk Loop/HD3v2/0001.png using Guid(870716673e0f2b84096ca36c6587f1a2) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '628ea8a8621bdc1848c0fb161b3a6579') in 0.032425 seconds 
 AssetImportWorkerClient::OnTransportError - code=2 error=End of file

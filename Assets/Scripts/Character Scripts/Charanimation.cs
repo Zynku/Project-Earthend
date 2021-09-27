@@ -12,35 +12,36 @@ public class Charanimation : MonoBehaviour
 
     Animator animator;
     Rigidbody2D rb2d;
-
+    Charcontrol charcontrol;
 
     // Start is called before the first frame update
     void Start()
     {
         animator = GetComponent<Animator>();
         rb2d = GetComponent<Rigidbody2D>();
+        charcontrol = GetComponent<Charcontrol>();
     }
 
 
     private void FixedUpdate()
     {
-        switch (Charcontrol.Instance.currentState)
+        switch (charcontrol.currentState)
         {
             case Charcontrol.State.Idle:
                 animator.SetBool("Run", false);
                 animator.SetBool("Crouch", false);
-                animator.SetBool("Sliding", false);
                 animator.SetBool("Jumping", false);
                 break;
 
             case Charcontrol.State.Walking:
                 animator.SetBool("Run", false);
+                animator.SetBool("Walking", true);
                 break;
 
             case Charcontrol.State.Running:
                 animator.SetBool("Run", true);
+                animator.SetBool("Walking", false);
                 animator.SetBool("Crouch", false);
-                animator.SetBool("Sliding", false);
                 break;
 
             case Charcontrol.State.Jumping:
@@ -66,7 +67,6 @@ public class Charanimation : MonoBehaviour
             case Charcontrol.State.Crouching:
                 animator.SetBool("Crouch", true);
                 animator.SetBool("Run", false);
-                animator.SetBool("Sliding", false);
                 break;
 
             case Charcontrol.State.CrouchWalking:
@@ -78,11 +78,10 @@ public class Charanimation : MonoBehaviour
             case Charcontrol.State.Air_Attacking:
                 break;
 
-            case Charcontrol.State.Rolling:
+            case Charcontrol.State.Dodging:
                 //if (!Charcontrol.Instance.rolled)
                 {
-                    animator.SetTrigger("Rolling");
-                    animator.SetBool("Crouch", false);
+                    animator.SetTrigger("Dodging");
                     animator.SetBool("Run", false);
                 }
                 break;
@@ -98,8 +97,8 @@ public class Charanimation : MonoBehaviour
 
         }
         onAnimate();
-        isGrounded = Charcontrol.isGrounded;
-        currentState = Charcontrol.Instance.currentState.ToString();
+        isGrounded = charcontrol.isGrounded;
+        currentState = charcontrol.currentState.ToString();
     }
 
     public void onAnimate()
