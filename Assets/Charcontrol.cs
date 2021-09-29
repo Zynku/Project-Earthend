@@ -20,8 +20,6 @@ public class Charcontrol : MonoBehaviour
     [HideInInspector] public static GameObject closestNPC;
     [HideInInspector] public bool playerDead;
     [HideInInspector] public bool checkForSlopes;
-    private float elapsedTime;
-    private float desiredTime = 3f;
 
     [Header("Movement Variables")]
     public float currentDrag;
@@ -35,6 +33,9 @@ public class Charcontrol : MonoBehaviour
     [Header("Running Variables")]
     public float runSpeed = 9.5f;
     //[SerializeField] private float maxRunSpeed = 1.6f;
+
+    [Header("Dodging Variables")]
+    public bool rolled = false;
 
     [Header("Jump Variables")]
     [SerializeField] private float jumpForce = 4f;
@@ -58,10 +59,9 @@ public class Charcontrol : MonoBehaviour
     [HideInInspector] public float attackComboTimer;
     [HideInInspector] public int attackdamageMax;
     [HideInInspector] public int attackdamageMin;
-    private SpriteRenderer meleeSpriteR;
-    private ParticleSystem particles;
+    //private SpriteRenderer meleeSpriteR;
+    //private ParticleSystem particles;
 
-    private bool timerMade = false;
     public float switchingDirTime;
     public float switchingDirTargetTime = 20f;
 
@@ -115,8 +115,8 @@ public class Charcontrol : MonoBehaviour
         //boxColSize = boxCol.size;
         //boxColOffset = boxCol.offset;
 
-        meleeSpriteR = MeleeObject.GetComponent<SpriteRenderer>();
-        particles = GetComponentInChildren<ParticleSystem>();
+        //meleeSpriteR = MeleeObject.GetComponent<SpriteRenderer>();
+        //particles = GetComponentInChildren<ParticleSystem>();
     }
 
     private void Update()
@@ -126,19 +126,7 @@ public class Charcontrol : MonoBehaviour
         inputX = Input.GetAxisRaw("Horizontal");
         inputY = Input.GetAxisRaw("Vertical");
 
-        //FLIP THOSE ANIMS BABY UNLESS DED
-        if (!playerDead)
-        {
-            if (Input.GetAxisRaw("Horizontal") > 0)
-            {
-                transform.localScale = new Vector3(1f, 1f, 1f);
-            }
-
-            if (Input.GetAxisRaw("Horizontal") < 0)
-            {
-                transform.localScale = new Vector3(-1f, 1f, 1f);
-            }
-        }
+       
         if (currentState != State.Dodging)
         {
             if (isGrounded) { ApplyGroundLinearDrag(); }
@@ -225,7 +213,7 @@ public class Charcontrol : MonoBehaviour
                 {
                     currentState = State.Jumping;
                 }
-                if (Input.GetAxisRaw("Vertical") < 0)
+                if (Input.GetButtonDown("Dodge"))
                 {
                     currentState = State.Dodging;
                 }
@@ -256,7 +244,7 @@ public class Charcontrol : MonoBehaviour
                 //Transition back to Walk
                 //Nothing haha fuck you
                 //Transition to Sliding
-                if (Input.GetAxisRaw("Vertical") < 0)
+                if (Input.GetButtonDown("Dodge"))
                 {
                     currentState = State.Dodging;
                 }
@@ -336,7 +324,8 @@ public class Charcontrol : MonoBehaviour
                 break;
             case State.Air_Attacking:
                 break;
-            case State.Dodging:
+            case State.Dodging:     //Is the same as rolling
+                //Animation is called in Charanimation
                 break;
             case State.Stunned:
                 break;
@@ -373,10 +362,11 @@ public class Charcontrol : MonoBehaviour
     {
         currentState = State.Idle;
         airJumpsHas = airJumps;
-        //rolled = false;
+        rolled = false;
 
         //attackTimer = attackTimerTargetTime;
         //attackComboTimer = attackComboTargetTime;
+        canFlipXDir();
     }
 
     public void Walking()
@@ -387,17 +377,18 @@ public class Charcontrol : MonoBehaviour
         rb2d.velocity = new Vector2(walkSpeed * Input.GetAxis("Horizontal"), rb2d.velocity.y);
         //If velocity is more than maxmovespeed, set speed to maxmovespeed
 
-/*        if (rb2d.velocity.x != 0)
-        {
-            if (rb2d.velocity.x > -0.1 && Input.GetAxisRaw("Horizontal") == -1)  //Moving right and press left
-            {
-                Debug.Log("Switching direction left");
-            }
-            if (rb2d.velocity.x < 0.1 && Input.GetAxisRaw("Horizontal") == 1)  //Moving left and press right
-            {
-                Debug.Log("Switching direction right");
-            }
-        }*/
+        /*        if (rb2d.velocity.x != 0)
+                {
+                    if (rb2d.velocity.x > -0.1 && Input.GetAxisRaw("Horizontal") == -1)  //Moving right and press left
+                    {
+                        Debug.Log("Switching direction left");
+                    }
+                    if (rb2d.velocity.x < 0.1 && Input.GetAxisRaw("Horizontal") == 1)  //Moving left and press right
+                    {
+                        Debug.Log("Switching direction right");
+                    }
+                }*/
+        canFlipXDir();
     }
 
     public void Running()
@@ -407,7 +398,8 @@ public class Charcontrol : MonoBehaviour
         //rb2d.velocity = new Vector2(Mathf.Lerp(0f, runAcceleration*facingDir, 3f), 0f);
         rb2d.velocity = new Vector2(runSpeed * Input.GetAxis("Horizontal"), rb2d.velocity.y);
         //If velocity is more than maxmovespeed, set speed to maxmovespeed
-        //rolled = false;
+        rolled = false;
+        canFlipXDir();
     }
 
     public void Jumping()
@@ -425,6 +417,7 @@ public class Charcontrol : MonoBehaviour
         {
             jumped = false;
         }
+        canFlipXDir();
     }
 
     public void AirJump()
@@ -438,11 +431,14 @@ public class Charcontrol : MonoBehaviour
             --airJumpsHas;
             currentState = State.Jumping;
         }
+        canFlipXDir();
     }
 
     public void Falling()
     {
-        rb2d.AddForce(new Vector2(Input.GetAxisRaw("Horizontal") * airHorizontalAcc, 0f));
+        //rb2d.AddForce(new Vector2(Input.GetAxisRaw("Horizontal") * airHorizontalAcc, 0f));
+        rb2d.velocity = new Vector2((Input.GetAxisRaw("Horizontal") * airHorizontalAcc), rb2d.velocity.y);
+        canFlipXDir();
     }
 
     public void FindClosestNPC()
@@ -485,6 +481,31 @@ public class Charcontrol : MonoBehaviour
     private void ApplyRollDrag()
     {
         //rb2d.drag = rollDrag;
+    }
+
+    void canFlipXDir()
+    {
+        //FLIP THOSE ANIMS BABY
+        if (Input.GetAxisRaw("Horizontal") > 0)
+        {
+            transform.localScale = new Vector3(1f, 1f, 1f);
+        }
+
+        if (Input.GetAxisRaw("Horizontal") < 0)
+        {
+            transform.localScale = new Vector3(-1f, 1f, 1f);
+        }
+    }
+
+    public void onDodge(int force)
+    {
+        rb2d.AddForce(new Vector2 (rb2d.velocity.x + (force * facingDir), rb2d.velocity.y));
+        rolled = true;
+    }
+
+    public void onDodgeTransition()
+    {
+        currentState = State.Idle;
     }
 
     private void OnDrawGizmos()

@@ -85,18 +85,21 @@ public class Pause_menu_manager : MonoBehaviour
 
     public void Resume()
     {
-        PlayerAnim.enabled = true;
+        //PlayerAnim.enabled = true;
         PauseMenuUi.SetActive(false);
-        Time.timeScale = 1;
+        //Time.timeScale = 1;
         isGamePaused = false;
+        gamemanager.instance.ResumeGame();
+
     }
 
     public void Pause()
     {
-        PlayerAnim.enabled = false;
+        //PlayerAnim.enabled = false;
         PauseMenuUi.SetActive(true);
-        Time.timeScale = 0;
+        //Time.timeScale = 0;
         isGamePaused = true;
+        gamemanager.instance.PauseGame();
     }
 
 

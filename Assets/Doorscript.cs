@@ -48,12 +48,12 @@ public class Doorscript : MonoBehaviour
         openDirection direction = Direction;
         if (direction == openDirection.Left)
         {
-            transform.localScale = new Vector3(-0.7142f, 0.7142f, 0.7142f);
+            transform.localScale = new Vector3(-1, 1, 1);
         }
 
         if (direction == openDirection.Right)
         {
-            transform.localScale = new Vector3(0.7142f, 0.7142f, 0.7142f);
+            transform.localScale = new Vector3(1, 1, 1);
         }
 
         doorcooldown -= Time.deltaTime;

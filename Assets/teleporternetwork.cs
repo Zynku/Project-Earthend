@@ -5,16 +5,18 @@ using TMPro;
 using UnityEngine.EventSystems;
 public class teleporternetwork : MonoBehaviour
 {
-    public GameObject Player;
-    public GameObject[] teleporters;
+    private GameObject Player;
+    private GameObject[] teleporters;
+    private List<GameObject> teleporterUiElements = new List<GameObject>();
     public GameObject activatedAt;
-    public GameObject teleportedTo;
+    public GameObject uiElements;
+    public GameObject exitButton;
+    //public GameObject teleportedTo;
+    public GameObject teleporterUIPrefab;
+    public GameObject tpMenuBG;
 
-    public TextMeshProUGUI[] teleporterNames;
-    public TextMeshProUGUI pageNumberText;
-
-    public GameObject TeleportCanvas;
-    public GameObject firstSelected;
+    //public TextMeshProUGUI[] teleporterNames;
+    //public TextMeshProUGUI pageNumberText;
 
     Animator animator;
     Animator animatorTo;
@@ -22,50 +24,84 @@ public class teleporternetwork : MonoBehaviour
     AudioSource audiosource;
     AudioSource audiosourceTo;
 
-    public int pageNumber = 0;
-    public int startTeleporterNumber;
+    //public int pageNumber = 0;
+    //public int startTeleporterNumber;
+
+    private void Awake()
+    {
+        Player = GameObject.FindWithTag("Player");                      //Finds player automatically
+        teleporters = GameObject.FindGameObjectsWithTag("teleporter");  //Finds all teleporters in scene and assigns them to the array
+
+        
+    }
 
     private void Start()
     {
-        Player = GameObject.FindWithTag("Player");
-        teleporters = GameObject.FindGameObjectsWithTag("teleporter");
-        AssignTeleporters(0);
-        TeleportCanvas.gameObject.SetActive(false);
+        foreach (GameObject teleporter in teleporters)
+        {
+            GameObject tp = Instantiate(teleporterUIPrefab, tpMenuBG.transform);
+            tp.GetComponent<TeleporterUIScript>().myTeleporter = teleporter;
+            tp.GetComponent<TeleporterUIScript>().teleporterNameText.text = teleporter.name;
+            teleporterUiElements.Add(tp);
+        }
+        uiElements.SetActive(false);
     }
 
     public void showNetworkUI()
     {
         //Shows teleport menu, makes sure the event system can select the menu objects, and pauses game.
-        TeleportCanvas.SetActive(true);
+        uiElements.SetActive(true);
         EventSystem.current.SetSelectedGameObject(null);
-        EventSystem.current.SetSelectedGameObject(firstSelected);
+        EventSystem.current.SetSelectedGameObject(teleporterUiElements[0]);
         gamemanager.instance.PauseGame();
     }
 
     public void hideNetworkUI()
     {
-        TeleportCanvas.SetActive(false);
+        uiElements.SetActive(false);
         gamemanager.instance.ResumeGame();
     }
 
     // Update is called once per frame
     void Update()
     {
-        pageNumberText.text = pageNumber.ToString();
-
-        if (Input.GetKeyDown(KeyCode.P))
-        {
-            NextPage();
-        }
-
-        if (Input.GetKeyDown(KeyCode.O))
-        {
-            PreviousPage();
-        }
+        //pageNumberText.text = pageNumber.ToString();
+        
     }
+
+    public void Teleport(GameObject teleporter)
+    {
+        //Grabs player transform and sets it to the teleporter transform with some offset so player does not clip into ground.
+        //Grabs both teleporters' animators, audiosources, and audioclips and activates them all
+        //Deactivates the teleporter menu, resumes game.
+        Debug.Log("Teleporting to " + teleporter.name);
+
+        Vector3 teleportoffset = new Vector3(0, 0.5f, 0);
+        Player.transform.position = teleporter.transform.position + teleportoffset;
+        Player.GetComponent<Rigidbody2D>().velocity = new Vector2(0, 0);
+
+        //animator = activatedAt.GetComponent<Animator>();
+        //animatorTo = teleporters[3 * (pageNumber - 1)].GetComponent<Animator>();
+
+        //audiosource = activatedAt.GetComponent<AudioSource>();
+        //audiosourceTo = teleporters[3 * (pageNumber - 1)].GetComponent<AudioSource>();
+
+        //animator.SetTrigger("Teleport");
+        //animatorTo.SetTrigger("Teleport");
+
+        //audiosource.volume = GetComponent<teleporterscript>().teleportingVolume;
+        //audiosource.PlayOneShot(GetComponent<teleporterscript>().teleporting);
+        //audiosourceTo.volume = GetComponent<teleporterscript>().teleportingVolume;
+        //audiosourceTo.PlayOneShot(GetComponent<teleporterscript>().teleporting);
+
+        uiElements.SetActive(false);
+
+        gamemanager.instance.ResumeGame();
+    }
+
     public void AssignTeleporters(int tp)
     {
-        //This functions assigns the first, second, and third teleporter names in the teleporter array to the teleporter menu.
+/*        //This functions assigns the first, second, and third teleporter names in the teleporter array to the teleporter menu.
         int q = 0;
         for (int i = tp; i < tp + 3; i++, q++)  //Loops through the first 3 names and assigns to the 3 name slots
         {
@@ -77,9 +113,9 @@ public class teleporternetwork : MonoBehaviour
             {
                 teleporterNames[q].text = "[No Teleporter Found]";          //If there are no teleporters in the "i" th slot, it says no teleporter found
             }
-        }
+        }*/
     }
-
+/*
     public void NextPage()
     {
         //Increments page number, stops page numbers from overflowing or underflowing, reassigns teleporters based on the number teleporter we should
@@ -119,13 +155,13 @@ public class teleporternetwork : MonoBehaviour
             audiosource = activatedAt.GetComponent<AudioSource>();
             audiosourceTo = teleporters[3 * (pageNumber - 1)].GetComponent<AudioSource>();
 
-            /*animator.SetTrigger("Teleport");
+            *//*animator.SetTrigger("Teleport");
             animatorTo.SetTrigger("Teleport");
 
             audiosource.volume = GetComponent<teleporterscript>().teleportingVolume;
             audiosource.PlayOneShot(GetComponent<teleporterscript>().teleporting);
             audiosourceTo.volume = GetComponent<teleporterscript>().teleportingVolume;
-            audiosourceTo.PlayOneShot(GetComponent<teleporterscript>().teleporting);*/
+            audiosourceTo.PlayOneShot(GetComponent<teleporterscript>().teleporting);*//*
 
             TeleportCanvas.SetActive(false);
 
@@ -167,5 +203,5 @@ public class teleporternetwork : MonoBehaviour
 
             gamemanager.instance.ResumeGame();
         }
-    }
+    }*/
 }

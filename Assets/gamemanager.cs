@@ -75,6 +75,7 @@ public class gamemanager : MonoBehaviour
     public void PauseGame()
     {
         Debug.Log("Pausing game...");
+        Player.SetActive(false);
         PlayerAnim.enabled = false;
         Time.timeScale = 0;
     }
@@ -82,6 +83,7 @@ public class gamemanager : MonoBehaviour
     public void ResumeGame()
     {
         Debug.Log("Resuming game...");
+        Player.SetActive(true);
         PlayerAnim.enabled = true;
         Time.timeScale = 1;
     }

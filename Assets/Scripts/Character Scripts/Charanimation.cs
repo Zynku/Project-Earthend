@@ -31,6 +31,7 @@ public class Charanimation : MonoBehaviour
                 animator.SetBool("Run", false);
                 animator.SetBool("Crouch", false);
                 animator.SetBool("Jumping", false);
+                animator.SetBool("Walking", false);
                 break;
 
             case Charcontrol.State.Walking:
@@ -64,11 +65,6 @@ public class Charanimation : MonoBehaviour
             case Charcontrol.State.Landing:
                 break;
 
-            case Charcontrol.State.Crouching:
-                animator.SetBool("Crouch", true);
-                animator.SetBool("Run", false);
-                break;
-
             case Charcontrol.State.CrouchWalking:
                 break;
 
@@ -79,11 +75,10 @@ public class Charanimation : MonoBehaviour
                 break;
 
             case Charcontrol.State.Dodging:
-                //if (!Charcontrol.Instance.rolled)
-                {
-                    animator.SetTrigger("Dodging");
+                    animator.Play("L_P Combat Roll into Idle");
+                    //animator.SetTrigger("Dodging");
+                    //animator.SetTrigger("Rolling");
                     animator.SetBool("Run", false);
-                }
                 break;
 
             case Charcontrol.State.Ledgegrabbing:
