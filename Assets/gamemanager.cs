@@ -69,7 +69,7 @@ public class gamemanager : MonoBehaviour
         }
         Application.targetFrameRate = frameRate;
 
-        Charhealth.Hit += HurtFlash;
+        //Charhealth.Hit += HurtFlash;
     }
 
     public void PauseGame()

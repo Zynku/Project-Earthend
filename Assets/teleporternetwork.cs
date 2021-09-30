@@ -11,17 +11,14 @@ public class teleporternetwork : MonoBehaviour
     public GameObject activatedAt;
     public GameObject uiElements;
     public GameObject exitButton;
-    //public GameObject teleportedTo;
     public GameObject teleporterUIPrefab;
     public GameObject tpMenuBG;
 
-    //public TextMeshProUGUI[] teleporterNames;
-    //public TextMeshProUGUI pageNumberText;
 
-    Animator animator;
+    Animator animatorFrom;
     Animator animatorTo;
 
-    AudioSource audiosource;
+    AudioSource audiosourceFrom;
     AudioSource audiosourceTo;
 
     //public int pageNumber = 0;
@@ -31,8 +28,6 @@ public class teleporternetwork : MonoBehaviour
     {
         Player = GameObject.FindWithTag("Player");                      //Finds player automatically
         teleporters = GameObject.FindGameObjectsWithTag("teleporter");  //Finds all teleporters in scene and assigns them to the array
-
-        
     }
 
     private void Start()
@@ -80,6 +75,16 @@ public class teleporternetwork : MonoBehaviour
         Player.transform.position = teleporter.transform.position + teleportoffset;
         Player.GetComponent<Rigidbody2D>().velocity = new Vector2(0, 0);
 
+        teleporter.GetComponent<teleporterscript>().PlaySoundandAnimation();
+        activatedAt.GetComponent<teleporterscript>().PlaySoundandAnimation();
+
+
+
+        foreach (GameObject tp in teleporters)
+        {
+            tp.GetComponent<teleporterscript>().ResetTPTimer();
+        }
+        
         //animator = activatedAt.GetComponent<Animator>();
         //animatorTo = teleporters[3 * (pageNumber - 1)].GetComponent<Animator>();
 
