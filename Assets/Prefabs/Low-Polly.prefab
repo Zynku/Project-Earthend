@@ -9736,10 +9736,11 @@ GameObject:
   - component: {fileID: 6409414865891116127}
   - component: {fileID: 7522717077318348682}
   - component: {fileID: 254652567}
+  - component: {fileID: 576463940258249183}
   - component: {fileID: 7522717077318348680}
-  - component: {fileID: 5993963326303833542}
   - component: {fileID: 7522717077318348683}
   - component: {fileID: 254652579}
+  - component: {fileID: 5993963326303833542}
   - component: {fileID: 7522717077318348684}
   - component: {fileID: 7522717077318348727}
   - component: {fileID: 7522717077318348685}
@@ -9882,6 +9883,8 @@ MonoBehaviour:
   facingDir: -1
   walkSpeed: 2
   runSpeed: 2.2
+  rolled: 0
+  rollDrag: 0.5
   jumpForce: 3
   airLinearDrag: 1
   groundLinearDrag: -2
@@ -9901,22 +9904,7 @@ MonoBehaviour:
   attackdamageMin: 100
   switchingDirTime: 0
   switchingDirTargetTime: 20
---- !u!114 &7522717077318348680
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7522717077318348675}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6332b6a5058e71342a6da934bd11cf7e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  items: []
-  inventorySpace: 40
-  money: 0
---- !u!114 &5993963326303833542
+--- !u!114 &576463940258249183
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -9925,13 +9913,24 @@ MonoBehaviour:
   m_GameObject: {fileID: 7522717077318348675}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d6cdab46f2589c14f8500b616ae23cae, type: 3}
+  m_Script: {fileID: 11500000, guid: d47a8b60b5363fa48bdb91b29dcfc14b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  currentQuests: []
-  completedQuests: []
-  failedQuests: []
-  questmanager: {fileID: 0}
+--- !u!114 &7522717077318348680
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7522717077318348675}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6332b6a5058e71342a6da934bd11cf7e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  items: []
+  inventorySpace: 40
+  money: 0
 --- !u!114 &7522717077318348683
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -9969,7 +9968,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7522717077318348675}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: e3daf068d7f23e2449050964f8bf160c, type: 3}
   m_Name: 
@@ -9998,6 +9997,22 @@ MonoBehaviour:
   voice_get_hit: []
   voiceGetHitVolume: 1
   Jumped: 0
+--- !u!114 &5993963326303833542
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7522717077318348675}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d6cdab46f2589c14f8500b616ae23cae, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  currentQuests: []
+  completedQuests: []
+  failedQuests: []
+  questmanager: {fileID: 0}
 --- !u!50 &7522717077318348684
 Rigidbody2D:
   serializedVersion: 4

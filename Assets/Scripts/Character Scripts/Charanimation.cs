@@ -27,22 +27,32 @@ public class Charanimation : MonoBehaviour
     {
         switch (charcontrol.currentState)
         {
+            case Charcontrol.State.COMBAT_Idle:
+                animator.SetBool("In combat", true);
+                animator.SetBool("Running", false);
+                break;
+
+            case Charcontrol.State.COMBAT_Running:
+                animator.SetBool("In combat", true);
+                animator.SetBool("Walking", false);
+                animator.SetBool("Running", true);
+                break;
+
             case Charcontrol.State.Idle:
-                animator.SetBool("Run", false);
-                animator.SetBool("Crouch", false);
+                animator.SetBool("Running", false);
                 animator.SetBool("Jumping", false);
                 animator.SetBool("Walking", false);
+                animator.SetBool("In combat", false);
                 break;
 
             case Charcontrol.State.Walking:
-                animator.SetBool("Run", false);
+                animator.SetBool("Running", false);
                 animator.SetBool("Walking", true);
                 break;
 
             case Charcontrol.State.Running:
-                animator.SetBool("Run", true);
+                animator.SetBool("Running", true);
                 animator.SetBool("Walking", false);
-                animator.SetBool("Crouch", false);
                 break;
 
             case Charcontrol.State.Jumping:
@@ -78,7 +88,7 @@ public class Charanimation : MonoBehaviour
                     animator.Play("L_P Combat Roll into Idle");
                     //animator.SetTrigger("Dodging");
                     //animator.SetTrigger("Rolling");
-                    animator.SetBool("Run", false);
+                    animator.SetBool("Running", false);
                 break;
 
             case Charcontrol.State.Ledgegrabbing:

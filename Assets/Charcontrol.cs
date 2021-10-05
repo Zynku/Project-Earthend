@@ -6,8 +6,9 @@ using UnityEngine;
 public class Charcontrol : MonoBehaviour
 {
     public static Charcontrol Instance;
+    Charattacks charattacks;
     Animator animator;
-    Rigidbody2D rb2d;
+    public Rigidbody2D rb2d;
     BoxCollider2D boxCol;
 
     public State currentState;
@@ -36,6 +37,7 @@ public class Charcontrol : MonoBehaviour
 
     [Header("Dodging Variables")]
     public bool rolled = false;
+    [SerializeField] private float rollDrag = 0.5f;
 
     [Header("Jump Variables")]
     [SerializeField] private float jumpForce = 4f;
@@ -49,8 +51,13 @@ public class Charcontrol : MonoBehaviour
     [HideInInspector] public float checkdistances = 0.05f;
     [HideInInspector] public float ycheckOffset = -0.26f;
     [HideInInspector] public int airJumps = 2;
-    [HideInInspector] private int airJumpsHas;
-    
+    [HideInInspector] public int airJumpsHas;
+
+    [Header("Combat State Variables")]
+    public bool inCombat;   
+    public float combatStateTime;
+    public float combatStateTargetTime = 7f;
+
     [Header("Melee Variables")]
     public GameObject MeleeObject;
     public float attackTimerTargetTime;
@@ -103,7 +110,10 @@ public class Charcontrol : MonoBehaviour
 
     void Start()
     {
+        charattacks = GetComponent<Charattacks>();
+
         switchingDirTime = switchingDirTargetTime;
+        combatStateTime = combatStateTargetTime;
 
         //playerDead = false;
         animator = GetComponent<Animator>();
@@ -126,7 +136,11 @@ public class Charcontrol : MonoBehaviour
         inputX = Input.GetAxisRaw("Horizontal");
         inputY = Input.GetAxisRaw("Vertical");
 
-       
+        if (inCombat) { combatStateTime -= Time.deltaTime; }
+        else { combatStateTime = combatStateTargetTime; }
+
+        if(combatStateTime < 0) { combatStateTime = 0; }
+
         if (currentState != State.Dodging)
         {
             if (isGrounded) { ApplyGroundLinearDrag(); }
@@ -140,41 +154,95 @@ public class Charcontrol : MonoBehaviour
         switch (currentState)
         {
             case State.COMBAT_Idle:
+                charattacks.Combat_Idle();
+                inCombat = true;
+
+                if (combatStateTime == 0)
+                {
+                    currentState = State.Idle;
+                }
+
+                if (Input.GetAxisRaw("Horizontal") != 0)
+                {
+                    currentState = State.COMBAT_Running;
+                }
                 break;
             case State.COMBAT_Walking:
+                inCombat = true;
                 break;
             case State.COMBAT_Running:
+                inCombat = true;
+                charattacks.Combat_Running();
+                combatStateTime = combatStateTargetTime;
+
+                if (Mathf.Abs(Mathf.Ceil(rb2d.velocity.x)) == 0)
+                {
+                    currentState = State.COMBAT_Idle;
+                }
+                //Transition back to Walk
+                //Nothing haha fuck you
+                //Transition to Sliding
+/*                if (Input.GetButtonDown("Dodge"))
+                {
+                    currentState = State.Dodging;
+                }*/
+                //Transition to Attacking
+                /*if (Input.GetAxisRaw("Light Attack") != 0 || Input.GetAxisRaw("Heavy Attack") != 0 || Input.GetAxisRaw("Ranged Attack") != 0)
+                {
+                    currentState = State.Attacking;
+                }*/
+                //Transition to Jumping
+/*                if (Input.GetAxisRaw("Vertical") > 0)
+                {
+                    currentState = State.Jumping;
+                }*/
                 break;
             case State.COMBAT_Jumping:
+                inCombat = true;
                 break;
             case State.COMBAT_AirJumping:
+                inCombat = true;
                 break;
             case State.COMBAT_Falling:
+                inCombat = true;
                 break;
             case State.COMBAT_Landing:
+                inCombat = true;
                 break;
             case State.COMBAT_Attacking:
+                inCombat = true;
                 break;
             case State.COMBAT_Air_Attacking:
+                inCombat = true;
                 break;
             case State.COMBAT_Rolling:
+                inCombat = true;
                 break;
             case State.COMBAT_Stunned:
+                inCombat = true;
                 break;
             case State.COMBAT_Dead:
+                inCombat = true;
                 break;
             case State.Switching_to_COMBAT:
+                inCombat = true;
                 break;
             case State.Ledgegrabbing:
                 break;
             case State.Ledgejumping:
                 break;
             case State.Idle:
+                inCombat = false;
                 Idle();
                 //Transition to Walking
                 if (Input.GetAxisRaw("Horizontal") != 0)
                 {
                     currentState = State.Walking;
+                }
+
+                if (Input.GetButtonDown("Light Attack"))
+                {
+                    currentState = State.COMBAT_Idle;
                 }
                 //Transition to Jumping
                 if (Input.GetAxisRaw("Vertical") > 0)
@@ -182,16 +250,17 @@ public class Charcontrol : MonoBehaviour
                     currentState = State.Jumping;
                 }
                 //Transition to Attacking
-                if (Input.GetAxisRaw("Light Attack") != 0 || Input.GetAxisRaw("Heavy Attack") != 0 || Input.GetAxisRaw("Ranged Attack") != 0)
+/*                if (Input.GetAxisRaw("Light Attack") != 0 || Input.GetAxisRaw("Heavy Attack") != 0 || Input.GetAxisRaw("Ranged Attack") != 0)
                 {
                     currentState = State.Attacking;
-                }
+                }*/
                 if (Input.GetButtonDown("Dodge"))
                 {
                     currentState = State.Dodging;
                 }
                 break;
             case State.Walking:
+                inCombat = false;
                 Walking();
                 //Transition back to Idle
                 if (Input.GetAxisRaw("Horizontal") == 0 /*&& Mathf.Abs(Mathf.Floor(rb2d.velocity.x)) == 0*/)
@@ -228,12 +297,14 @@ public class Charcontrol : MonoBehaviour
                 }*/
                 break;
             case State.Switching_Dir:
+                inCombat = false;
                 if (xVel == 0)
                 {
                     currentState = State.Running;
                 }
                 break;
             case State.Running:
+                inCombat = false;
                 Running();
                 //Transition back to Idle
                 //if (Input.GetAxisRaw("Horizontal") == 0 /*&& Mathf.Abs(Mathf.Ceil(rb2d.velocity.x)) == 0*/)
@@ -277,6 +348,7 @@ public class Charcontrol : MonoBehaviour
                 
                 break;
             case State.Jumping:
+                inCombat = false;
                 Jumping();
                 //Transition to Falling
                 if (rb2d.velocity.y < fallThreshold)
@@ -290,6 +362,7 @@ public class Charcontrol : MonoBehaviour
                 }
                 break;
             case State.AirJumping:
+                inCombat = false;
                 AirJump();
                 //Transition to Falling
                 if (rb2d.velocity.y < fallThreshold)
@@ -298,6 +371,7 @@ public class Charcontrol : MonoBehaviour
                 }
                 break;
             case State.Falling:
+                inCombat = false;
                 Falling();
                 //Transition back to Idle
                 if (isGrounded)
@@ -312,26 +386,35 @@ public class Charcontrol : MonoBehaviour
                 }
                 break;
             case State.Landing:
+                inCombat = false;
                 break;
             case State.Crouching:
+                inCombat = false;
                 //boxCol.size = boxColSize;
                 //boxCol.offset = boxColOffset;
                 rb2d.velocity = rb2d.velocity;
                 break;
             case State.CrouchWalking:
+                inCombat = false;
                 break;
             case State.Attacking:
+                inCombat = false;
                 break;
             case State.Air_Attacking:
+                inCombat = false;
                 break;
             case State.Dodging:     //Is the same as rolling
+                inCombat = false;
                 //Animation is called in Charanimation
                 break;
             case State.Stunned:
+                inCombat = false;
                 break;
             case State.Dead:
+                inCombat = false;
                 break;
             default:
+                inCombat = false;
                 break;
         }
 
@@ -343,7 +426,6 @@ public class Charcontrol : MonoBehaviour
         checkforGrounded();
 
     }
-
 
     void checkforGrounded()
     {
@@ -480,10 +562,10 @@ public class Charcontrol : MonoBehaviour
 
     private void ApplyRollDrag()
     {
-        //rb2d.drag = rollDrag;
+        rb2d.drag = rollDrag;
     }
 
-    void canFlipXDir()
+    public void canFlipXDir()
     {
         //FLIP THOSE ANIMS BABY
         if (Input.GetAxisRaw("Horizontal") > 0)
