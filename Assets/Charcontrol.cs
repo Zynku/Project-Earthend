@@ -6,9 +6,10 @@ using UnityEngine;
 public class Charcontrol : MonoBehaviour
 {
     public static Charcontrol Instance;
+    Charanimation charanimation;
     Charattacks charattacks;
     Animator animator;
-    public Rigidbody2D rb2d;
+    [HideInInspector] public Rigidbody2D rb2d;
     BoxCollider2D boxCol;
 
     public State currentState;
@@ -57,6 +58,7 @@ public class Charcontrol : MonoBehaviour
     public bool inCombat;   
     public float combatStateTime;
     public float combatStateTargetTime = 7f;
+    private GameObject onscreenTimer;
 
     [Header("Melee Variables")]
     public GameObject MeleeObject;
@@ -111,9 +113,11 @@ public class Charcontrol : MonoBehaviour
     void Start()
     {
         charattacks = GetComponent<Charattacks>();
+        charanimation = GetComponent<Charanimation>();
 
         switchingDirTime = switchingDirTargetTime;
         combatStateTime = combatStateTargetTime;
+        onscreenTimer = TimerManager.instance.CreateTimer(combatStateTime, combatStateTargetTime, "Combo State Duration Time", false);
 
         //playerDead = false;
         animator = GetComponent<Animator>();
@@ -135,6 +139,7 @@ public class Charcontrol : MonoBehaviour
         yVel = rb2d.velocity.y;
         inputX = Input.GetAxisRaw("Horizontal");
         inputY = Input.GetAxisRaw("Vertical");
+        onscreenTimer.GetComponent<SimpleTimerScript>().timerTime = combatStateTime;
 
         if (inCombat) { combatStateTime -= Time.deltaTime; }
         else { combatStateTime = combatStateTargetTime; }
@@ -211,6 +216,11 @@ public class Charcontrol : MonoBehaviour
                 break;
             case State.COMBAT_Attacking:
                 inCombat = true;
+                combatStateTime = combatStateTargetTime;
+                if (!charanimation.currentlyComboing)
+                {
+                    currentState = State.COMBAT_Idle;
+                }
                 break;
             case State.COMBAT_Air_Attacking:
                 inCombat = true;
@@ -488,7 +498,7 @@ public class Charcontrol : MonoBehaviour
     {
         if (!jumped)
         {
-            Debug.Log("Jumping");
+            //Debug.Log("Jumping");
             //rb2d.AddForce(Vector2.up * jumpForce, ForceMode2D.Force); 
             rb2d.velocity = new Vector2((Input.GetAxisRaw("Horizontal") * airHorizontalAcc), jumpForce);
             //rb2d.AddForce(new Vector2(Input.GetAxisRaw("Horizontal") * runAcceleration * airHorizontalAcc, 0f));

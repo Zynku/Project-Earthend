@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class TimerManager : MonoBehaviour
 {
+    public bool showAllTimers = true;
     public GameObject timerPrefab;
     public List<GameObject> timers;
     public static TimerManager instance;
@@ -22,6 +23,29 @@ public class TimerManager : MonoBehaviour
 
     //In order to make an onscreen timer, call TimerManager.instance.CreateTimer(timerTime, timerTargetTime, "timerName", false) and assign the variables in brackets as arguments
     //You also must continually assign timerTime in the Update() function from wherever you called CreateTimer() as it needs a live reference to count down.
+
+    private void Update()
+    {
+        if (showAllTimers) { ShowTimers(); }
+        if (!showAllTimers) { HideTimers(); }
+
+    }
+
+    private void ShowTimers()
+    {
+        foreach (GameObject timer in timers)
+        {
+            timer.SetActive(true);
+        }
+    }
+
+    private void HideTimers()
+    {
+        foreach (GameObject timer in timers)
+        {
+            timer.SetActive(false);
+        }
+    }
 
     public GameObject CreateTimer(float timerTime, float timerTargetTime, string timerName, bool deleteOnEnd)    //TIMER IS NOT IN CHARGE OF CALCULATING ITS TIME. IF YOU WANT THAT USE THE METHOD BELOW
     {

@@ -42,6 +42,10 @@ public class Charattacks : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if (currentCombo == null)
+        {
+            Debug.Log("Current combo is null");
+        }
         currentState = charcontrol.currentState.ToString();
         switch (charcontrol.currentState)
         {
@@ -58,6 +62,15 @@ public class Charattacks : MonoBehaviour
 
         if (Input.GetButtonDown("Light Attack"))
         {
+            Debug.Log(currentCombo.comboName);
+            if (currentCombo.comboName != "null")
+            {
+                if (currentCombo.endOfComboChain)
+                {
+                    currentAttacks.Clear();
+                }
+            }
+            
             //Debug.Log("Pressing light attack");
             Attack newattack = new Attack();
             newattack.SetupAttack("Light", lightDamageMin, Attack.AttackType.LIGHT);
@@ -94,7 +107,7 @@ public class Charattacks : MonoBehaviour
             }
         }
 
-        if (currentCombo.comboName != null) //If we executed a combo start counting down to end the combo
+        if (currentCombo.comboName != "null") //If we executed a combo start counting down to end the combo
         {
             comboExecuteTime -= Time.deltaTime;
             if (comboExecuteTime < 0)
@@ -134,11 +147,13 @@ public class Charattacks : MonoBehaviour
                     //Debug.Log("Checking " + combo.comboName + " to see if " + combo.attackList[i].attackType + " is the same as " + currentAttacks[i].attackType);
                     if (combo.attackList[i].attackType == currentAttacks[i].attackType)
                     {
-                        if (i == combo.attackList.Count - 1 && combo.attackList[i].attackType == currentAttacks[i].attackType)     
+                        if (i == combo.attackList.Count - 1 && combo.attackList[i].attackType == currentAttacks[i].attackType)
                         {
                             //Debug.Log(combo.comboName + " matches perfectly");
+
                             comboExecuteTime = comboExecuteTargetTime;
                             currentCombo = combo;
+                            AnimateCombos(combo.animationName);
                             break;
                         }
                     }
@@ -149,6 +164,14 @@ public class Charattacks : MonoBehaviour
                 }
             }
         }
+    }
+
+    public void AnimateCombos(string animationname)
+    {
+        if (charanimation) { charanimation.AnimateCombos(animationname); }
+        else { Debug.LogWarning("Charattacks does not have a reference to Charanimation! No combo animations can be played!"); }
+
+        charcontrol.currentState = Charcontrol.State.COMBAT_Attacking;
     }
 
     public void AddCombo()  //Moves a combo from all combos to possible combos

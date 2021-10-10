@@ -9,6 +9,18 @@ public class Charanimation : MonoBehaviour
     public float yvel;
     public bool isGrounded;
     private bool jumped;
+    [Header("General Animation Variables")]
+    public AnimatorClipInfo[] animClipInfo;
+    public string currentAnimName;
+    public float currentAnimLength;
+    public float currentStateNormalizedTime;
+
+    [Header("Combo Animation Variables")]
+    public List<string> comboBuffer;        //Holds combos that are to be played if a combo is currently being played.
+    public bool currentlyComboing = false;
+    public bool inCombat = false;
+    public string currentComboAnimName;
+    public float currentComboAnimLength;
 
     Animator animator;
     Rigidbody2D rb2d;
@@ -20,6 +32,7 @@ public class Charanimation : MonoBehaviour
         animator = GetComponent<Animator>();
         rb2d = GetComponent<Rigidbody2D>();
         charcontrol = GetComponent<Charcontrol>();
+        
     }
 
 
@@ -36,6 +49,9 @@ public class Charanimation : MonoBehaviour
                 animator.SetBool("In combat", true);
                 animator.SetBool("Walking", false);
                 animator.SetBool("Running", true);
+                break;
+
+            case Charcontrol.State.COMBAT_Attacking:
                 break;
 
             case Charcontrol.State.Idle:
@@ -102,8 +118,58 @@ public class Charanimation : MonoBehaviour
 
         }
         onAnimate();
+        UpdateComboStates();
+        ManageComboBuffer();
         isGrounded = charcontrol.isGrounded;
         currentState = charcontrol.currentState.ToString();
+        inCombat = charcontrol.inCombat;
+    }
+
+    public void AnimateCombos(string comboname)
+    {
+        if (currentlyComboing && comboBuffer.Count < 1)
+        {
+            comboBuffer.Add(comboname);
+        }
+        else if (!currentlyComboing && comboBuffer.Count == 0)
+        {
+            animator.Play(comboname);
+            currentlyComboing = true;
+        }
+    }
+
+    public void ManageComboBuffer()
+    {
+        AnimatorStateInfo currentAnimSInfo = animator.GetCurrentAnimatorStateInfo(0);
+        if (currentAnimSInfo.normalizedTime >= 0.6f && comboBuffer.Count > 0)
+        {
+            string nextCombo = comboBuffer[0];
+            comboBuffer.Remove(nextCombo);
+            animator.Play(nextCombo);
+            currentlyComboing = true;
+            UpdateComboStates();
+        }
+    }
+
+    public void UpdateComboStates()
+    {
+        AnimatorStateInfo currentAnimSInfo = animator.GetCurrentAnimatorStateInfo(0);
+
+        if (currentlyComboing)
+        {
+            currentComboAnimName = animClipInfo[0].clip.name;
+            currentComboAnimLength = animClipInfo[0].clip.length;
+
+            if (currentAnimSInfo.normalizedTime >= 0.9f)   //Detects when the current animation is ended (Technically 95% ended). Ideally this would be 100% ended, but the timer never actually reaches 1
+            {
+                currentlyComboing = false;
+            }
+        }
+        else
+        {
+            currentComboAnimLength = 0f;
+            currentComboAnimName = null;
+        }
     }
 
     public void onAnimate()
@@ -118,6 +184,12 @@ public class Charanimation : MonoBehaviour
         {
             animator.SetBool("Grounded", false);
         }
+
+        animClipInfo = this.animator.GetCurrentAnimatorClipInfo(0);
+        currentAnimName = animClipInfo[0].clip.name;
+        currentAnimLength = animClipInfo[0].clip.length;
+        currentStateNormalizedTime = animator.GetCurrentAnimatorStateInfo(0).normalizedTime;
+
 
         animator.SetFloat("yVel", Mathf.Clamp(rb2d.velocity.y, -1, 1));
         animator.SetFloat("xVel", Mathf.Clamp(rb2d.velocity.x, -1, 1));
