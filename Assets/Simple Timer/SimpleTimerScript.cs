@@ -19,7 +19,7 @@ public class SimpleTimerScript : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        timerTargetTime = timerTime;
+        //timerTargetTime = timerTime;
         uiFill.color = Random.ColorHSV(0f,1f,1f,1f,0.5f,1f,1f,1f);
         timerManager = TimerManager.instance;
     }
@@ -28,7 +28,7 @@ public class SimpleTimerScript : MonoBehaviour
     // Update is called once per frame
     void Update()                   //TIMER SHOULD NOT BE IN CHARGE OF CALCULATING TIME. THAT SHOULD BE DONE FROM WHEREVER IT IS INSTANTIATED
     {
-        timerText.text = Mathf.Round(timerTime).ToString();
+        timerText.text = (Mathf.Round(timerTime * 10.0f) * 0.1f).ToString();
         if (startTimer && calculateOwnTime) { timerTime -= Time.deltaTime; }
         if(timerTime < 0)
         { 

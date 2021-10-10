@@ -20,41 +20,28 @@ public class TimerManager : MonoBehaviour
     }
     #endregion
 
-    private void Update()
-    {
-/*        if (Input.GetKeyDown(KeyCode.B))
-        {
-            CreateAutoTimer(69, "Testname", true, true);
-        }*/
-    }
+    //In order to make an onscreen timer, call TimerManager.instance.CreateTimer(timerTime, timerTargetTime, "timerName", false) and assign the variables in brackets as arguments
+    //You also must continually assign timerTime in the Update() function from wherever you called CreateTimer() as it needs a live reference to count down.
 
-    public GameObject CreateTimer(float timerTime, string timerName, bool deleteOnEnd)    //TIMER IS NOT IN CHARGE OF CALCULATING ITS TIME. IF YOU WANT THAT USE THE METHOD BELOW
+    public GameObject CreateTimer(float timerTime, float timerTargetTime, string timerName, bool deleteOnEnd)    //TIMER IS NOT IN CHARGE OF CALCULATING ITS TIME. IF YOU WANT THAT USE THE METHOD BELOW
     {
         GameObject timer = Instantiate(timerPrefab, gameObject.transform);
         SimpleTimerScript timerScript = timer.GetComponent<SimpleTimerScript>();
         timerScript.timerTime = timerTime;
+        timerScript.timerTargetTime = timerTargetTime;
         timerScript.timerName.text = timerName;
         timerScript.deleteOnEnd = deleteOnEnd;
         timers.Add(timer);
 
-/*        foreach (GameObject timtam in timers)
-        {
-            if (timerScript.timerName == timtam.GetComponent<SimpleTimerScript>().timerName)
-            {
-                Debug.Log("Timer already exists");
-                timers.Remove(timer);
-                Destroy(timer);
-            }
-        }*/
-
         return timer;
     }
 
-    public GameObject CreateAutoTimer(float timerTime, string timerName, bool deleteOnEnd, bool startTimer)    //This timer is in charge of its own time
+    public GameObject CreateAutoTimer(float timerTime, float timerTargetTime, string timerName, bool deleteOnEnd, bool startTimer)    //This timer is in charge of its own time
     { 
         GameObject timer = Instantiate(timerPrefab, gameObject.transform);
         SimpleTimerScript timerScript = timer.GetComponent<SimpleTimerScript>();
         timerScript.timerTime = timerTime;
+        timerScript.timerTargetTime = timerTargetTime;
         timerScript.timerName.text = timerName;
         timerScript.deleteOnEnd = deleteOnEnd;
         timerScript.calculateOwnTime = true;

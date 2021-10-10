@@ -240,10 +240,10 @@ public class Charcontrol : MonoBehaviour
                     currentState = State.Walking;
                 }
 
-                if (Input.GetButtonDown("Light Attack"))
+/*                if (Input.GetButtonDown("Light Attack"))
                 {
                     currentState = State.COMBAT_Idle;
-                }
+                }*/
                 //Transition to Jumping
                 if (Input.GetAxisRaw("Vertical") > 0)
                 {
