@@ -53,7 +53,7 @@ public class target_dummy_controller : MonoBehaviour
 
         if (healCooldown <= 0 && currentHealth < maxHealth)
         {
-            AddHealth(10);
+            AddHealth(30);
         }
 
         if (currentHealth == maxHealth)

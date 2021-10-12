@@ -52,6 +52,25 @@ public class Charanimation : MonoBehaviour
                 break;
 
             case Charcontrol.State.COMBAT_Attacking:
+                animator.SetBool("In combat", true);
+                break;
+            case Charcontrol.State.COMBAT_Jumping:
+                if (jumped == false)
+                {
+                    animator.SetBool("In combat", true);
+                    animator.Play("Combat Jump Transition");
+                    animator.SetBool("Jumping", true);
+                    jumped = true;
+                }
+                break;
+
+            case Charcontrol.State.COMBAT_AirJumping:
+                animator.SetBool("In combat", true);
+                animator.Play("Combat Jump Transition");
+                animator.SetBool("Jumping", true);
+                break;
+
+            case Charcontrol.State.COMBAT_Falling:
                 break;
 
             case Charcontrol.State.Idle:

@@ -10,6 +10,7 @@ public class teleporterscript : MonoBehaviour
     public float teleportRange;
     public bool DebugDistance;
     public GameObject rechargeBar;
+    private float yScale;           //This is needed because sometimes Unity gets the scale wrong based on the teleporter's parent object. Idk man I wrote this at 3:17am
     public float timerTime;
     public float timerTargetTime;
     public bool canActivateTPMenu = true;
@@ -25,10 +26,11 @@ public class teleporterscript : MonoBehaviour
     void Start()
     {
         Player = GameObject.FindWithTag("Player");
-        Network = GetComponentInParent<teleporternetwork>();
+        Network = GetComponentInChildren<teleporternetwork>();
         animator = GetComponent<Animator>();
         audiosource = GetComponent<AudioSource>();
         timerTime = timerTargetTime;
+        yScale = rechargeBar.transform.localScale.y;
     }
 
     // Update is called once per frame
@@ -38,6 +40,7 @@ public class teleporterscript : MonoBehaviour
         {
             if (Input.GetButtonDown("Interact") && canActivateTPMenu)
             {
+                Debug.Log("Activating teleport menu");
                 Network.showNetworkUI();
                 Network.activatedAt = gameObject;
             }
@@ -55,7 +58,7 @@ public class teleporterscript : MonoBehaviour
             canActivateTPMenu = false;
         }
         
-        rechargeBar.transform.localScale = new Vector2((timerTime / timerTargetTime) * 0.5f, transform.localScale.y);
+        rechargeBar.transform.localScale = new Vector2((timerTime / timerTargetTime) * 0.5f, yScale);
     }
 
     public void ResetTPTimer()

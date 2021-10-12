@@ -6,7 +6,8 @@ using UnityEngine.EventSystems;
 public class teleporternetwork : MonoBehaviour
 {
     private GameObject Player;
-    private GameObject[] teleporters;
+    public GameObject[] teleporters;
+    private teleporternetwork teleportNetwork;
     private List<GameObject> teleporterUiElements = new List<GameObject>();
     public GameObject activatedAt;
     public GameObject uiElements;
@@ -28,16 +29,19 @@ public class teleporternetwork : MonoBehaviour
     {
         Player = GameObject.FindWithTag("Player");                      //Finds player automatically
         teleporters = GameObject.FindGameObjectsWithTag("teleporter");  //Finds all teleporters in scene and assigns them to the array
+        teleportNetwork = GetComponentInChildren<teleporternetwork>();
     }
 
     private void Start()
     {
         foreach (GameObject teleporter in teleporters)
         {
+            teleporter.GetComponent<teleporterscript>().Network = teleportNetwork;
             GameObject tp = Instantiate(teleporterUIPrefab, tpMenuBG.transform);
             tp.GetComponent<TeleporterUIScript>().myTeleporter = teleporter;
             tp.GetComponent<TeleporterUIScript>().teleporterNameText.text = teleporter.name;
             teleporterUiElements.Add(tp);
+            //Debug.Log("Creating a TP UI Object for " + teleporter.name);
         }
         uiElements.SetActive(false);
     }

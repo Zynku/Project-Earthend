@@ -16,6 +16,7 @@ public class Charattacks : MonoBehaviour
     public List<Combo> currentPossibleCombos;
     public List<Attack> currentAttacks;
     public Combo currentCombo;
+    public bool currentlyComboing;
     public float comboSustainTargetTime = 0.5f; //How long you have to input another attack before the combo basically fizzles out
     public float comboSustainTime;
     public float comboExecuteTargetTime = 0.5f;  //How long before current combo returns to nothing
@@ -44,7 +45,7 @@ public class Charattacks : MonoBehaviour
     {
         if (currentCombo == null)
         {
-            Debug.Log("Current combo is null");
+            //Debug.Log("Current combo is null");
         }
         currentState = charcontrol.currentState.ToString();
         switch (charcontrol.currentState)
@@ -61,16 +62,7 @@ public class Charattacks : MonoBehaviour
         onScreenComboExecuteTimer.GetComponent<SimpleTimerScript>().timerTime = comboExecuteTime;
 
         if (Input.GetButtonDown("Light Attack"))
-        {
-            Debug.Log(currentCombo.comboName);
-            if (currentCombo.comboName != "null")
-            {
-                if (currentCombo.endOfComboChain)
-                {
-                    currentAttacks.Clear();
-                }
-            }
-            
+        {            
             //Debug.Log("Pressing light attack");
             Attack newattack = new Attack();
             newattack.SetupAttack("Light", lightDamageMin, Attack.AttackType.LIGHT);
@@ -107,13 +99,15 @@ public class Charattacks : MonoBehaviour
             }
         }
 
-        if (currentCombo.comboName != "null") //If we executed a combo start counting down to end the combo
+        if (currentlyComboing) //If we executed a combo start counting down to end the combo
         {
             comboExecuteTime -= Time.deltaTime;
             if (comboExecuteTime < 0)
             {
                 comboExecuteTime = comboExecuteTargetTime;
                 currentCombo = null;
+                currentAttacks.Clear();
+                currentlyComboing = false;
             }
         }
     }
@@ -153,7 +147,13 @@ public class Charattacks : MonoBehaviour
 
                             comboExecuteTime = comboExecuteTargetTime;
                             currentCombo = combo;
+                            currentlyComboing = true;
                             AnimateCombos(combo.animationName);
+
+                            if (combo.endOfComboChain)
+                            {
+                                Invoke("ClearAttackList", 0.1f);
+                            }
                             break;
                         }
                     }
@@ -164,6 +164,11 @@ public class Charattacks : MonoBehaviour
                 }
             }
         }
+    }
+
+    public void ClearAttackList()
+    {
+        currentAttacks.Clear();
     }
 
     public void AnimateCombos(string animationname)

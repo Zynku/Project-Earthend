@@ -18,7 +18,7 @@ public class Charhealth : MonoBehaviour
     public GameObject floatingDmgTextPrefab;
     public GameObject floatingHealthTextPrefab;
     public Vector3 dmgTextOffset;
-    public Healthbar healthbar;
+    public Healthbar healthbar;     //This is assigned from onScreenText script as the healthbar is a child object of that
     public int level = 1;
     public delegate void gotHit();
     public static event gotHit Hit;
@@ -37,12 +37,17 @@ public class Charhealth : MonoBehaviour
     void Start()
     {
         currentHealth = maxHealth;
-        healthbar.SetMaxHealth(maxHealth);
+        Invoke("SetHealthIntially", 0.2f);
         rb2d = GetComponent<Rigidbody2D>();
         spriterenderer = GetComponent<SpriteRenderer>();
         //poison = GetComponent<ParticleSystem>();
 
         poisonTimer = poisonTargetTime;
+    }
+
+    private void SetHealthIntially()
+    {
+        healthbar.SetMaxHealth(maxHealth);
     }
 
     // Update is called once per frame

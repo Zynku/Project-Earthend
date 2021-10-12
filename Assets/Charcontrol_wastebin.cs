@@ -38,7 +38,7 @@ public class Charcontrol_wastebin : MonoBehaviour
     public float yVel;
     public float inputX;
     public float inputY;
-    public static GameObject closestNPC;
+    //public static GameObject closestNPC;
     [HideInInspector] public bool playerDead;
     public bool checkForSlopes;
 
@@ -533,7 +533,7 @@ public class Charcontrol_wastebin : MonoBehaviour
                 distance = curDistance;
             }
         }
-        closestNPC = closest;
+        //closestNPC = closest;
     }
 
     private void OnDrawGizmos()
