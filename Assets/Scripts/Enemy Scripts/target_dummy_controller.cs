@@ -21,7 +21,7 @@ public class target_dummy_controller : MonoBehaviour
     public GameObject floatingDmgTextPrefab;
     public GameObject floatingHealthTextPrefab;
 
-    [SerializeField] AudioClip Hit;
+    [SerializeField] AudioClip[] Hit;
 
     private void Awake()
     {
@@ -82,7 +82,8 @@ public class target_dummy_controller : MonoBehaviour
             TakeDamage(damageDoneToMe);
 
             animator.SetBool("BeenHit", true);
-            audiosource.PlayOneShot(Hit);
+            AudioClip hitclip = Hit[Random.Range(0, Hit.Length)];
+            audiosource.PlayOneShot(hitclip);
         }
     }
 

@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class Charhealth : MonoBehaviour
 {
+    Charcontrol charcontrol;
     Rigidbody2D rb2d;
     SpriteRenderer spriterenderer;
     ParticleSystem poison;
@@ -36,6 +37,7 @@ public class Charhealth : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        charcontrol = GetComponent<Charcontrol>();
         currentHealth = maxHealth;
         Invoke("SetHealthIntially", 0.2f);
         rb2d = GetComponent<Rigidbody2D>();
@@ -226,7 +228,7 @@ public class Charhealth : MonoBehaviour
 
     public void OnDeath()
     {
-        Charcontrol.Instance.currentState = Charcontrol.State.Dead;
+        charcontrol.currentState = Charcontrol.State.Dead;
         rb2d.velocity = new Vector2(0, 0);   
     }
 }

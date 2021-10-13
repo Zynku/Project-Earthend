@@ -72,7 +72,9 @@ public class Charcontrol : MonoBehaviour
     //private ParticleSystem particles;
 
     public float switchingDirTime;
-    public float switchingDirTargetTime = 20f;
+    public float switchingDirTargetTime = 0.2f;
+    public bool switchedDirToLeft, switchedDirToRight;
+    //public GameObject switchedDirOnscreenTimer;
 
     
 
@@ -86,6 +88,7 @@ public class Charcontrol : MonoBehaviour
         COMBAT_Falling,
         COMBAT_Landing,
         COMBAT_Attacking,
+        COMBAT_Dodging,
         COMBAT_Air_Attacking,
         COMBAT_Rolling,
         COMBAT_Stunned,
@@ -118,6 +121,7 @@ public class Charcontrol : MonoBehaviour
         switchingDirTime = switchingDirTargetTime;
         combatStateTime = combatStateTargetTime;
         onscreenTimer = TimerManager.instance.CreateTimer(combatStateTime, combatStateTargetTime, "Combo State Duration Time", false);
+        //switchedDirOnscreenTimer = TimerManager.instance.CreateTimer(switchingDirTime, switchingDirTargetTime, "Switching Direction Timer", false);
 
         //playerDead = false;
         animator = GetComponent<Animator>();
@@ -140,20 +144,23 @@ public class Charcontrol : MonoBehaviour
         inputX = Input.GetAxisRaw("Horizontal");
         inputY = Input.GetAxisRaw("Vertical");
         onscreenTimer.GetComponent<SimpleTimerScript>().timerTime = combatStateTime;
+        //switchedDirOnscreenTimer.GetComponent<SimpleTimerScript>().timerTime = switchingDirTime;
 
         if (inCombat) { combatStateTime -= Time.deltaTime; }
         else { combatStateTime = combatStateTargetTime; }
-
         if(combatStateTime < 0) { combatStateTime = 0; }
 
-        if (currentState != State.Dodging)
+        switchingDirTime -= Time.deltaTime;
+        if (switchingDirTime < 0) { switchingDirTime = 0; switchedDirToLeft = false; switchedDirToRight = false; }
+
+        if (currentState == State.Dodging || currentState == State.COMBAT_Dodging)
         {
-            if (isGrounded) { ApplyGroundLinearDrag(); }
-            else { ApplyAirLinearDrag(); }
+            ApplyRollDrag();
         }
         else
         {
-            ApplyRollDrag();
+            if (isGrounded) { ApplyGroundLinearDrag(); }
+            else { ApplyAirLinearDrag(); }
         }
 
         switch (currentState)
@@ -176,13 +183,24 @@ public class Charcontrol : MonoBehaviour
                 {
                     currentState = State.COMBAT_Running;
                 }
+
+                if (Input.GetButtonDown("Dodge"))
+                {
+                    currentState = State.COMBAT_Dodging;
+                }
                 break;
 
             case State.COMBAT_Walking:
                 inCombat = true;
+                combatStateTime = combatStateTargetTime;
                 if (Input.GetAxisRaw("Vertical") > 0)
                 {
                     currentState = State.COMBAT_Jumping;
+                }
+
+                if (Input.GetButtonDown("Dodge"))
+                {
+                    currentState = State.COMBAT_Dodging;
                 }
                 break;
 
@@ -190,6 +208,7 @@ public class Charcontrol : MonoBehaviour
                 inCombat = true;
                 charattacks.Combat_Running();
                 combatStateTime = combatStateTargetTime;
+                checkforSwitchingDir();
 
                 if (Input.GetAxisRaw("Vertical") > 0)
                 {
@@ -200,27 +219,33 @@ public class Charcontrol : MonoBehaviour
                 {
                     currentState = State.COMBAT_Idle;
                 }
+
+                if (Input.GetButtonDown("Dodge"))
+                {
+                    currentState = State.COMBAT_Dodging;
+                }
                 //Transition back to Walk
                 //Nothing haha fuck you
                 //Transition to Sliding
-/*                if (Input.GetButtonDown("Dodge"))
-                {
-                    currentState = State.Dodging;
-                }*/
+                /*                if (Input.GetButtonDown("Dodge"))
+                                {
+                                    currentState = State.Dodging;
+                                }*/
                 //Transition to Attacking
                 /*if (Input.GetAxisRaw("Light Attack") != 0 || Input.GetAxisRaw("Heavy Attack") != 0 || Input.GetAxisRaw("Ranged Attack") != 0)
                 {
                     currentState = State.Attacking;
                 }*/
                 //Transition to Jumping
-/*                if (Input.GetAxisRaw("Vertical") > 0)
-                {
-                    currentState = State.Jumping;
-                }*/
+                /*                if (Input.GetAxisRaw("Vertical") > 0)
+                                {
+                                    currentState = State.Jumping;
+                                }*/
                 break;
 
             case State.COMBAT_Jumping:
                 inCombat = true;
+                combatStateTime = combatStateTargetTime;
                 Jumping();
                 //Transition to Falling
                 if (rb2d.velocity.y < fallThreshold)
@@ -236,6 +261,7 @@ public class Charcontrol : MonoBehaviour
 
             case State.COMBAT_AirJumping:
                 inCombat = true;
+                combatStateTime = combatStateTargetTime;
                 AirJump();
                 //Transition to Falling
                 if (rb2d.velocity.y < fallThreshold)
@@ -246,6 +272,7 @@ public class Charcontrol : MonoBehaviour
 
             case State.COMBAT_Falling:
                 inCombat = true;
+                combatStateTime = combatStateTargetTime;
                 Falling();
                 //Transition back to Idle
                 if (isGrounded)
@@ -262,6 +289,7 @@ public class Charcontrol : MonoBehaviour
 
             case State.COMBAT_Landing:
                 inCombat = true;
+                combatStateTime = combatStateTargetTime;
                 break;
 
             case State.COMBAT_Attacking:
@@ -273,12 +301,20 @@ public class Charcontrol : MonoBehaviour
                 }
                 break;
 
+            case State.COMBAT_Dodging:
+                inCombat = true;
+                combatStateTime = combatStateTargetTime;
+                //Animation is called from Charanimation
+                break;
+
             case State.COMBAT_Air_Attacking:
                 inCombat = true;
+                combatStateTime = combatStateTargetTime;
                 break;
 
             case State.COMBAT_Rolling:
                 inCombat = true;
+                combatStateTime = combatStateTargetTime;
                 break;
 
             case State.COMBAT_Stunned:
@@ -377,9 +413,10 @@ public class Charcontrol : MonoBehaviour
             case State.Running:
                 inCombat = false;
                 Running();
+                checkforSwitchingDir();
                 //Transition back to Idle
                 //if (Input.GetAxisRaw("Horizontal") == 0 /*&& Mathf.Abs(Mathf.Ceil(rb2d.velocity.x)) == 0*/)
-                if(Mathf.Abs(Mathf.Ceil(rb2d.velocity.x)) == 0)
+                if (Mathf.Abs(Mathf.Ceil(rb2d.velocity.x)) == 0)
                 {
                     currentState = State.Idle;
                 }
@@ -485,7 +522,7 @@ public class Charcontrol : MonoBehaviour
 
             case State.Dodging:     //Is the same as rolling
                 inCombat = false;
-                //Animation is called in Charanimation
+                //Animation is called in Charanimation. The last frame of the animation calls onDodgeTransition from here, transitioning back to idle.
                 break;
 
             case State.Stunned:
@@ -494,6 +531,7 @@ public class Charcontrol : MonoBehaviour
 
             case State.Dead:
                 inCombat = false;
+                Dead();
                 break;
 
             default:
@@ -507,7 +545,6 @@ public class Charcontrol : MonoBehaviour
         if (Input.GetAxisRaw("Horizontal") == -1) { facingDir = -1; }
 
         checkforGrounded();
-
     }
 
     void checkforGrounded()
@@ -521,6 +558,37 @@ public class Charcontrol : MonoBehaviour
         {
             isGrounded = false;
         }
+    }
+
+    void checkforSwitchingDir()
+    {
+        if (Input.GetAxisRaw("Horizontal") == 1)    //If moving right....
+        {
+            switchingDirTime = switchingDirTargetTime;
+        }
+
+        if (Input.GetAxisRaw("Horizontal") == -1)    //If moving left....
+        {
+            switchingDirTime = switchingDirTargetTime;
+        }
+
+        if (switchingDirTime > 0 && facingDir == 1) //If within the switchingdirtime and you're moving right
+        {
+            if (Input.GetAxisRaw("Horizontal") == -1)   //...and you press left
+            {
+                switchedDirToLeft = true;
+            }
+        }
+
+        if (switchingDirTime > 0 && facingDir == -1) //If within the switchingdirtime and you're moving left
+        {
+            if (Input.GetAxisRaw("Horizontal") == 1)   //...and you press right
+            {
+                switchedDirToRight = true;
+            }
+        }
+        //If holding down a movement key, make timer = timertime
+        //If timertime is still above 0 and player presses the other key, we know we switched direction
     }
 
     public void Idle()
@@ -662,15 +730,20 @@ public class Charcontrol : MonoBehaviour
         }
     }
 
-    public void onDodge(int force)
+    public void onDodge(int force)  //This function called on the last frame of the dodge animation via AnimationEvent
     {
         rb2d.AddForce(new Vector2 (rb2d.velocity.x + (force * facingDir), rb2d.velocity.y));
         rolled = true;
     }
 
-    public void onDodgeTransition()
+    public void onDodgeTransition() //This function called on the last frame of the combat dodge animation via AnimationEvent
     {
         currentState = State.Idle;
+    }
+
+    public void onDodgeTransitionCombat()
+    {
+        currentState = State.COMBAT_Idle;
     }
 
     private void OnDrawGizmos()

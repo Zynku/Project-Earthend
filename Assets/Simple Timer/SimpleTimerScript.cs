@@ -15,6 +15,7 @@ public class SimpleTimerScript : MonoBehaviour
     public bool deleteOnEnd = false;
     public bool startTimer = true;
     private TimerManager timerManager;
+    //public string myScriptName;
 
     // Start is called before the first frame update
     void Start()
@@ -22,6 +23,7 @@ public class SimpleTimerScript : MonoBehaviour
         //timerTargetTime = timerTime;
         uiFill.color = Random.ColorHSV(0f,1f,1f,1f,0.5f,1f,1f,1f);
         timerManager = TimerManager.instance;
+        //myScriptName = this.ToString();
     }
 
 

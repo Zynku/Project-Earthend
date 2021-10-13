@@ -131,19 +131,19 @@ public class Charattacks : MonoBehaviour
 
     public void CheckforCombos()
     {
-        foreach (Combo combo in currentPossibleCombos) //TODO: This temporarily checks all combos, change it to check all current possible combos instead
+        foreach (Combo combo in currentPossibleCombos)
         {
             if (currentAttacks.Count == combo.attackList.Count)    //Has the same amount of attacks in its list
             {
-                //Debug.Log(combo.comboName + " has the same amount of attacks as the current attack count, which is " + currentAttacks.Count);
+                Debug.Log(combo.comboName + " has the same amount of attacks as the current attack count, which is " + currentAttacks.Count);
                 for (int i = 0; i < combo.attackList.Count; i++)    //Loop through all attacks in the combo attack list, checking if they match
                 {
-                    //Debug.Log("Checking " + combo.comboName + " to see if " + combo.attackList[i].attackType + " is the same as " + currentAttacks[i].attackType);
+                    Debug.Log("Checking " + combo.comboName + " to see if " + combo.attackList[i].attackType + " is the same as " + currentAttacks[i].attackType);
                     if (combo.attackList[i].attackType == currentAttacks[i].attackType)
                     {
                         if (i == combo.attackList.Count - 1 && combo.attackList[i].attackType == currentAttacks[i].attackType)
                         {
-                            //Debug.Log(combo.comboName + " matches perfectly");
+                            Debug.Log(combo.comboName + " matches perfectly");
 
                             comboExecuteTime = comboExecuteTargetTime;
                             currentCombo = combo;
@@ -152,7 +152,7 @@ public class Charattacks : MonoBehaviour
 
                             if (combo.endOfComboChain)
                             {
-                                Invoke("ClearAttackList", 0.1f);
+                                //Invoke("ClearAttackList", 0.1f);
                             }
                             break;
                         }

@@ -54,6 +54,15 @@ public class Charanimation : MonoBehaviour
             case Charcontrol.State.COMBAT_Attacking:
                 animator.SetBool("In combat", true);
                 break;
+
+            case Charcontrol.State.COMBAT_Dodging:
+                animator.Play("L_P_C Combat Roll into Idle");
+                //Last frame of this animation calls onDodgeTransition from Charcontrol to switch back to Idle.
+                //animator.SetTrigger("Dodging");
+                //animator.SetTrigger("Rolling");
+                animator.SetBool("Running", false);
+                break;
+
             case Charcontrol.State.COMBAT_Jumping:
                 if (jumped == false)
                 {
@@ -71,6 +80,7 @@ public class Charanimation : MonoBehaviour
                 break;
 
             case Charcontrol.State.COMBAT_Falling:
+                
                 break;
 
             case Charcontrol.State.Idle:
@@ -120,7 +130,7 @@ public class Charanimation : MonoBehaviour
                 break;
 
             case Charcontrol.State.Dodging:
-                    animator.Play("L_P Combat Roll into Idle");
+                    animator.Play("L_P Combat Roll into Idle"); //Last frame of this animation calls onDodgeTransition from Charcontrol to switch back to Idle.
                     //animator.SetTrigger("Dodging");
                     //animator.SetTrigger("Rolling");
                     animator.SetBool("Running", false);
@@ -146,7 +156,7 @@ public class Charanimation : MonoBehaviour
 
     public void AnimateCombos(string comboname)
     {
-        if (currentlyComboing && comboBuffer.Count < 1)
+        if (currentlyComboing && comboBuffer.Count < 2)
         {
             comboBuffer.Add(comboname);
         }
