@@ -25,6 +25,7 @@ public class Charanimation : MonoBehaviour
     Animator animator;
     Rigidbody2D rb2d;
     Charcontrol charcontrol;
+    Charanimation charanimation;
 
     // Start is called before the first frame update
     void Start()
@@ -32,7 +33,7 @@ public class Charanimation : MonoBehaviour
         animator = GetComponent<Animator>();
         rb2d = GetComponent<Rigidbody2D>();
         charcontrol = GetComponent<Charcontrol>();
-        
+        charanimation = GetComponent<Charanimation>();
     }
 
 
@@ -170,7 +171,7 @@ public class Charanimation : MonoBehaviour
     public void ManageComboBuffer()
     {
         AnimatorStateInfo currentAnimSInfo = animator.GetCurrentAnimatorStateInfo(0);
-        if (currentAnimSInfo.normalizedTime >= 0.6f && comboBuffer.Count > 0)
+        if (currentAnimSInfo.normalizedTime >= 0.6f && comboBuffer.Count > 0)   //If there current animation is ~60% finished, it plays the first animation stored in the buffer
         {
             string nextCombo = comboBuffer[0];
             comboBuffer.Remove(nextCombo);
@@ -188,6 +189,7 @@ public class Charanimation : MonoBehaviour
         {
             currentComboAnimName = animClipInfo[0].clip.name;
             currentComboAnimLength = animClipInfo[0].clip.length;
+
 
             if (currentAnimSInfo.normalizedTime >= 0.9f)   //Detects when the current animation is ended (Technically 95% ended). Ideally this would be 100% ended, but the timer never actually reaches 1
             {

@@ -8,6 +8,7 @@ public class Charattacks : MonoBehaviour
     public string currentState;
     Charcontrol charcontrol;
     Charanimation charanimation;
+    Rigidbody2D rb2d;
 
     [Header("Combo Variables")]
     public List<Combo> allLightCombosEver;  //Set these in inspector
@@ -17,9 +18,9 @@ public class Charattacks : MonoBehaviour
     public List<Attack> currentAttacks;
     public Combo currentCombo;
     public bool currentlyComboing;
-    public float comboSustainTargetTime = 0.5f; //How long you have to input another attack before the combo basically fizzles out
+    public float comboSustainTargetTime = 0.5f; //How long you have to input another attack before you can chain with previous attacks to make a combo. If it runs out, currentcombo is set to null
     public float comboSustainTime;
-    public float comboExecuteTargetTime = 0.5f;  //How long before current combo returns to nothing
+    public float comboExecuteTargetTime = 0.5f;  //How long before current combo returns to nothing after being executed
     public float comboExecuteTime;
     public GameObject onScreenComboSustainTimer;
     public GameObject onScreenComboExecuteTimer;
@@ -34,6 +35,7 @@ public class Charattacks : MonoBehaviour
     {
         charcontrol = GetComponent<Charcontrol>();
         charanimation = GetComponent<Charanimation>();
+        rb2d = GetComponent<Rigidbody2D>();
         comboSustainTime = comboSustainTargetTime;
         comboExecuteTime = comboExecuteTargetTime;
         onScreenComboSustainTimer = TimerManager.instance.CreateTimer(comboSustainTime, comboSustainTargetTime, "Combo Sustain Time", false);
@@ -43,10 +45,6 @@ public class Charattacks : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (currentCombo == null)
-        {
-            //Debug.Log("Current combo is null");
-        }
         currentState = charcontrol.currentState.ToString();
         switch (charcontrol.currentState)
         {
@@ -60,6 +58,7 @@ public class Charattacks : MonoBehaviour
 
         onScreenComboSustainTimer.GetComponent<SimpleTimerScript>().timerTime = comboSustainTime;
         onScreenComboExecuteTimer.GetComponent<SimpleTimerScript>().timerTime = comboExecuteTime;
+        //onScreenComboExecuteTimer.GetComponent<SimpleTimerScript>().timerTargetTime = charanimation.currentAnimLength;
 
         if (Input.GetButtonDown("Light Attack"))
         {            
@@ -68,6 +67,7 @@ public class Charattacks : MonoBehaviour
             newattack.SetupAttack("Light", lightDamageMin, Attack.AttackType.LIGHT);
             currentAttacks.Add(newattack);
             comboSustainTime = comboSustainTargetTime;
+
             CheckforCombos();
         }
 
@@ -77,6 +77,7 @@ public class Charattacks : MonoBehaviour
             newattack.SetupAttack("Heavy", heavyDamageMin, Attack.AttackType.HEAVY);
             currentAttacks.Add(newattack);
             comboSustainTime = comboSustainTargetTime;
+
             CheckforCombos();
         }
 
@@ -86,6 +87,7 @@ public class Charattacks : MonoBehaviour
             newattack.SetupAttack("Ranged", rangedDamageMin, Attack.AttackType.RANGED);
             currentAttacks.Add(newattack);
             comboSustainTime = comboSustainTargetTime;
+
             CheckforCombos();
         }
 
@@ -105,6 +107,7 @@ public class Charattacks : MonoBehaviour
             if (comboExecuteTime < 0)
             {
                 comboExecuteTime = comboExecuteTargetTime;
+                //comboExecuteTime = charanimation.currentAnimLength;
                 currentCombo = null;
                 currentAttacks.Clear();
                 currentlyComboing = false;
@@ -145,14 +148,15 @@ public class Charattacks : MonoBehaviour
                         {
                             Debug.Log(combo.comboName + " matches perfectly");
 
-                            comboExecuteTime = comboExecuteTargetTime;
+                            //comboExecuteTime = comboExecuteTargetTime;
+                            comboExecuteTime = charanimation.currentAnimLength;
                             currentCombo = combo;
                             currentlyComboing = true;
                             AnimateCombos(combo.animationName);
 
                             if (combo.endOfComboChain)
                             {
-                                //Invoke("ClearAttackList", 0.1f);
+                                Invoke("ClearAttackList", 0f);
                             }
                             break;
                         }
@@ -187,5 +191,10 @@ public class Charattacks : MonoBehaviour
     public void RemoveCombo()   //Moves a combo from possible combos to all combos
     {
 
+    }
+
+    public void onAddAttackForce(int force)  //This function called on the last frame of the dodge animation via AnimationEvent
+    {
+        rb2d.AddForce(new Vector2(rb2d.velocity.x + (force * charcontrol.facingDir), rb2d.velocity.y));
     }
 }
