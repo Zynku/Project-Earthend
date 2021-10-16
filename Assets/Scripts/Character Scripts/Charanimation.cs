@@ -11,12 +11,14 @@ public class Charanimation : MonoBehaviour
     private bool jumped;
     [Header("General Animation Variables")]
     public AnimatorClipInfo[] animClipInfo;
+    public Combo currentCombo;
     public string currentAnimName;
     public float currentAnimLength;
     public float currentStateNormalizedTime;
 
     [Header("Combo Animation Variables")]
-    public List<string> comboBuffer;        //Holds combos that are to be played if a combo is currently being played.
+    public List<Combo> comboBuffer;        //Holds combos that are to be played if a combo is currently being played.
+    public int comboBufferSize = 1;     //How many combos can be stored and buffered.
     public bool currentlyComboing = false;
     public bool inCombat = false;
     public string currentComboAnimName;
@@ -44,6 +46,7 @@ public class Charanimation : MonoBehaviour
             case Charcontrol.State.COMBAT_Idle:
                 animator.SetBool("In combat", true);
                 animator.SetBool("Running", false);
+                currentlyComboing = false;
                 break;
 
             case Charcontrol.State.COMBAT_Running:
@@ -149,35 +152,67 @@ public class Charanimation : MonoBehaviour
         }
         onAnimate();
         UpdateComboStates();
-        ManageComboBuffer();
         isGrounded = charcontrol.isGrounded;
         currentState = charcontrol.currentState.ToString();
         inCombat = charcontrol.inCombat;
     }
 
-    public void AnimateCombos(string comboname)
+    private void Update()
     {
-        if (currentlyComboing && comboBuffer.Count < 2)
+        //if (!currentlyComboing) { StartCoroutine(ManageComboBuffer()); }
+        ManageComboBuffer();
+    }
+
+    public void AnimateCombos(Combo combo) //Is called from Charattacks. The combo name is passed in. Manages whether combo is played or added to combo buffer
+    {
+        if (comboBuffer.Count == 0) //If buffer is empty
         {
-            comboBuffer.Add(comboname);
+            //Debug.Log("Combo buffer is empty...");
+            if (!currentlyComboing) //If no combos are playing...
+            {
+                //Debug.Log("...and no combos are playing currently. Playing " + comboname);
+                animator.Play(combo.animationName);
+                currentCombo = combo;
+                currentlyComboing = true;
+            }
+            else  //Combos are playing, add the combo to the buffer
+            {
+                //Debug.Log("...and combos are playing, assigning " + comboname + " to the combo buffer to await JUDGEMENT");
+                comboBuffer.Add(combo);
+            }
         }
-        else if (!currentlyComboing && comboBuffer.Count == 0)
+        else
         {
-            animator.Play(comboname);
-            currentlyComboing = true;
+            //Debug.Log("Combo buffer has animations queued to play already. Checking to see if " + comboname + " can fit in the combo buffer");
+            if (comboBuffer.Count < comboBufferSize)
+            {
+                //Debug.Log("There's space! " + comboname + " can join the combo buffer :)");
+                comboBuffer.Add(combo);
+            }
+            else if (comboBuffer.Count >= comboBufferSize)
+            {
+                //Debug.Log("Combo buffer is FULL, discarding " + comboname + " :(");
+            }
         }
     }
 
-    public void ManageComboBuffer()
+    public void ManageComboBuffer()  //Plays animations from the combo buffer if no other animations are playing
     {
-        AnimatorStateInfo currentAnimSInfo = animator.GetCurrentAnimatorStateInfo(0);
-        if (currentAnimSInfo.normalizedTime >= 0.6f && comboBuffer.Count > 0)   //If there current animation is ~60% finished, it plays the first animation stored in the buffer
+        //Debug.Log("Managing Combo Buffer...");
+        if (comboBuffer.Count > 0)
         {
-            string nextCombo = comboBuffer[0];
-            comboBuffer.Remove(nextCombo);
-            animator.Play(nextCombo);
-            currentlyComboing = true;
-            UpdateComboStates();
+            AnimatorStateInfo currentAnimSInfo = animator.GetCurrentAnimatorStateInfo(0);
+            Combo nextCombo = comboBuffer[0];
+            if (currentAnimSInfo.normalizedTime >= currentCombo.comboChainTimeLocation)   //If there current animation is ~60% finished, it plays the first animation stored in the buffer
+            {
+                
+                string nextComboAnimName = nextCombo.animationName;
+                animator.Play(nextComboAnimName);
+                comboBuffer.Remove(nextCombo);
+                Debug.Log("Removing " + nextCombo.comboName + " from combo buffer");
+                currentlyComboing = true;
+                //UpdateComboStates();
+            }
         }
     }
 
@@ -190,10 +225,10 @@ public class Charanimation : MonoBehaviour
             currentComboAnimName = animClipInfo[0].clip.name;
             currentComboAnimLength = animClipInfo[0].clip.length;
 
-
-            if (currentAnimSInfo.normalizedTime >= 0.9f)   //Detects when the current animation is ended (Technically 95% ended). Ideally this would be 100% ended, but the timer never actually reaches 1
+            if (currentAnimSInfo.normalizedTime >= 0.85f)   //Detects when the current animation is ended (Technically 85% ended). Ideally this would be 100% ended, but the timer never actually reaches 1
             {
                 currentlyComboing = false;
+                currentCombo = null;
             }
         }
         else
@@ -219,7 +254,9 @@ public class Charanimation : MonoBehaviour
         animClipInfo = this.animator.GetCurrentAnimatorClipInfo(0);
         currentAnimName = animClipInfo[0].clip.name;
         currentAnimLength = animClipInfo[0].clip.length;
-        currentStateNormalizedTime = animator.GetCurrentAnimatorStateInfo(0).normalizedTime;
+        //currentStateNormalizedTime = animator.GetCurrentAnimatorStateInfo(0).normalizedTime;
+        AnimatorStateInfo currentAnimSInfo = animator.GetCurrentAnimatorStateInfo(0);
+        currentStateNormalizedTime = currentAnimSInfo.normalizedTime;
 
 
         animator.SetFloat("yVel", Mathf.Clamp(rb2d.velocity.y, -1, 1));

@@ -22,6 +22,8 @@ public class Charattacks : MonoBehaviour
     public float comboSustainTime;
     public float comboExecuteTargetTime = 0.5f;  //How long before current combo returns to nothing after being executed
     public float comboExecuteTime;
+    public int longestComboLength;
+    public Combo longestCombo;
     public GameObject onScreenComboSustainTimer;
     public GameObject onScreenComboExecuteTimer;
 
@@ -40,6 +42,7 @@ public class Charattacks : MonoBehaviour
         comboExecuteTime = comboExecuteTargetTime;
         onScreenComboSustainTimer = TimerManager.instance.CreateTimer(comboSustainTime, comboSustainTargetTime, "Combo Sustain Time", false);
         onScreenComboExecuteTimer = TimerManager.instance.CreateTimer(comboExecuteTime, comboExecuteTargetTime, "Combo Execute Time", false);
+        FindLongestCombo();
     }
 
     // Update is called once per frame
@@ -97,7 +100,7 @@ public class Charattacks : MonoBehaviour
             if (comboSustainTime < 0)
             {
                 comboSustainTime = comboSustainTargetTime;
-                currentAttacks.Clear();
+                ClearAttackList();
             }
         }
 
@@ -109,7 +112,7 @@ public class Charattacks : MonoBehaviour
                 comboExecuteTime = comboExecuteTargetTime;
                 //comboExecuteTime = charanimation.currentAnimLength;
                 currentCombo = null;
-                currentAttacks.Clear();
+                ClearAttackList();
                 currentlyComboing = false;
             }
         }
@@ -134,35 +137,43 @@ public class Charattacks : MonoBehaviour
 
     public void CheckforCombos()
     {
+        if (currentAttacks.Count > longestComboLength)
+        {
+            ClearAttackList();
+        }
+
         foreach (Combo combo in currentPossibleCombos)
         {
             if (currentAttacks.Count == combo.attackList.Count)    //Has the same amount of attacks in its list
             {
-                Debug.Log(combo.comboName + " has the same amount of attacks as the current attack count, which is " + currentAttacks.Count);
+                //Debug.Log(combo.comboName + " has the same amount of attacks as the current attack count, which is " + currentAttacks.Count);
                 for (int i = 0; i < combo.attackList.Count; i++)    //Loop through all attacks in the combo attack list, checking if they match
                 {
-                    Debug.Log("Checking " + combo.comboName + " to see if " + combo.attackList[i].attackType + " is the same as " + currentAttacks[i].attackType);
+                    //Debug.Log("Checking " + combo.comboName + " to see if " + combo.attackList[i].attackType + " is the same as " + currentAttacks[i].attackType);
                     if (combo.attackList[i].attackType == currentAttacks[i].attackType)
                     {
-                        if (i == combo.attackList.Count - 1 && combo.attackList[i].attackType == currentAttacks[i].attackType)
+                        if (i == combo.attackList.Count - 1 && combo.attackList[i].attackType == currentAttacks[i].attackType)  //If the last attack matches...
                         {
-                            Debug.Log(combo.comboName + " matches perfectly");
+                            //Debug.Log(combo.comboName + " matches perfectly");
 
                             //comboExecuteTime = comboExecuteTargetTime;
                             comboExecuteTime = charanimation.currentAnimLength;
                             currentCombo = combo;
                             currentlyComboing = true;
-                            AnimateCombos(combo.animationName);
+                            AnimateCombos(combo);
 
                             if (combo.endOfComboChain)
                             {
-                                Invoke("ClearAttackList", 0f);
+                                ClearAttackList();
                             }
                             break;
                         }
                     }
                     else
                     {
+                        //Get the current longest combo. If the current attacks length exceeds that, it means no combo will be possible and inputs will just be added for no reason. Clear the attack list
+                        //Also, if more than 2 inputs are put in and no combos match, the player is down a path that wont result in combos ever, clear attack list.
+                        //Or maybe just clear after it finds no combos that match since that means no combos will ever match down that path.
                         break;
                     }
                 }
@@ -175,12 +186,26 @@ public class Charattacks : MonoBehaviour
         currentAttacks.Clear();
     }
 
-    public void AnimateCombos(string animationname)
+    public void AnimateCombos(Combo combo)
     {
-        if (charanimation) { charanimation.AnimateCombos(animationname); }
+        if (charanimation) { charanimation.AnimateCombos(combo); }
         else { Debug.LogWarning("Charattacks does not have a reference to Charanimation! No combo animations can be played!"); }
 
         charcontrol.currentState = Charcontrol.State.COMBAT_Attacking;
+    }
+
+    public void FindLongestCombo()
+    {
+        foreach (Combo combo in currentPossibleCombos)
+        {
+            int currentComboLength = combo.attackList.Count;
+            if (currentComboLength > longestComboLength)
+            {
+                longestComboLength = currentComboLength;
+                longestCombo = combo;
+            }
+        }
+
     }
 
     public void AddCombo()  //Moves a combo from all combos to possible combos

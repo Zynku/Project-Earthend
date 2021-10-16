@@ -19,14 +19,14 @@ public class Charcontrol : MonoBehaviour
     public float yVel;
     [HideInInspector] public float inputX;
     [HideInInspector] public float inputY;
-    public static GameObject closestNPC;
+    public static GameObject closestNPC = null;
     [HideInInspector] public bool playerDead;
     [HideInInspector] public bool checkForSlopes;
 
     [Header("Movement Variables")]
     public float currentDrag;
     public float runThreshold;
-    [HideInInspector] public float facingDir = 1;
+    public float facingDir = 1;
 
     [Header("Walking Variables")]
     public float walkSpeed = 9.5f;
