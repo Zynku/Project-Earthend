@@ -29,7 +29,7 @@ public class gamemanager : MonoBehaviour
 
     public static gamemanager instance;
 
-    #region Singleton
+    #region Singleton and Awake
     private void Awake()
     {
         if (instance != null)
@@ -38,12 +38,7 @@ public class gamemanager : MonoBehaviour
             return;
         }
         instance = this;
-    }
-    #endregion
 
-    // Start is called before the first frame update
-    void Start()
-    {
         Player = GameObject.FindWithTag("Player");
         PlayerAnim = Player.GetComponent<Animator>();
 
@@ -53,6 +48,7 @@ public class gamemanager : MonoBehaviour
         hurtScreenAnimator = hurtScreen.GetComponent<Animator>();
         hurtScreen.SetActive(false);
     }
+    #endregion
 
     private void Update()
     { 

@@ -736,7 +736,7 @@ public class Charcontrol : MonoBehaviour
         rolled = true;
     }
 
-    public void onDodgeTransition() //This function called on the last frame of the combat dodge animation via AnimationEvent
+    public void onDodgeTransition() //This function called on the last frame of the dodge animation via AnimationEvent
     {
         currentState = State.Idle;
     }

@@ -107,7 +107,7 @@ public class Charanimation : MonoBehaviour
             case Charcontrol.State.Jumping:
                 if (jumped == false)
                 {
-                    animator.Play("Jump Transition");
+                    animator.Play("Jump Transition");   //This is an empty state that immediately transitions to the correct state
                     animator.SetBool("Jumping", true);
                     jumped = true;
                 }
@@ -175,7 +175,7 @@ public class Charanimation : MonoBehaviour
                 currentCombo = combo;
                 currentlyComboing = true;
             }
-            else  //Combos are playing, add the combo to the buffer
+            else if (comboBuffer.Count < comboBufferSize) //Combos are playing, add the combo to the buffer
             {
                 //Debug.Log("...and combos are playing, assigning " + comboname + " to the combo buffer to await JUDGEMENT");
                 comboBuffer.Add(combo);

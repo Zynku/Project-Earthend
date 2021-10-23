@@ -137,6 +137,7 @@ public class Charattacks : MonoBehaviour
 
     public void CheckforCombos()
     {
+        charcontrol.canFlipXDir();
         if (currentAttacks.Count > longestComboLength)
         {
             ClearAttackList();

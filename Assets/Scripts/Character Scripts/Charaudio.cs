@@ -155,7 +155,9 @@ public class Charaudio : MonoBehaviour
             {
                 audiosource.volume = voiceGetHitVolume;
                 audiosource.pitch = 1;
-                audiosource.clip = voice_get_hit[Random.Range(0, voice_get_hit.Length)];
+                int randomNumber = Random.Range(0, voice_get_hit.Length);
+                audiosource.clip = voice_get_hit[randomNumber];
+                Debug.Log(randomNumber + " was used to play audio");
                 audiosource.Play();
             }
         }

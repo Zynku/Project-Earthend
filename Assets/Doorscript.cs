@@ -4,9 +4,11 @@ using UnityEngine;
 
 public class Doorscript : MonoBehaviour
 {
+    public GameObject Player;
     public openDirection Direction;
     public bool isDoorOpen = false;
-    private bool playerInRange = false;
+    public float interactionRange = 0.4f;
+    public bool playerInRange = false;
     private float doorcooldown = 0;
     private float doorcooldowntargettime = 0.5f;
 
@@ -39,7 +41,7 @@ public class Doorscript : MonoBehaviour
         animator = GetComponent<Animator>();
         boxCol = GetComponent<BoxCollider2D>();
         audiosource = GetComponent<AudioSource>();
-        
+        Player = gamemanager.instance.Player;
     }
 
     // Update is called once per frame
@@ -83,19 +85,12 @@ public class Doorscript : MonoBehaviour
                 doorcooldown = doorcooldowntargettime;
             }
         }
-    }
 
-    private void OnTriggerEnter2D(Collider2D collision)
-    {
-        if (collision.CompareTag("Player"))
+        if ((Vector3.Distance(Player.transform.position, transform.position) < interactionRange))
         {
             playerInRange = true;
         }
-    }
-
-    private void OnTriggerExit2D(Collider2D collision)
-    {
-        if (collision.CompareTag("Player"))
+        else
         {
             playerInRange = false;
         }
