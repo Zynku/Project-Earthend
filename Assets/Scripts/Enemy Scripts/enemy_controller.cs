@@ -32,11 +32,14 @@ public class enemy_controller : MonoBehaviour
 
     public enum State
     {
+        Spawning,
         Idle,
         Attacking,
         MovingToPlayer,
         MovingAwayFromPlayer,
         Stunned,
+        Dodging,
+        Waiting,
         Dead
     }
     // Start is called before the first frame update

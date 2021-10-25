@@ -6,105 +6,57 @@ public class Enemy_animations : MonoBehaviour
 {
     Rigidbody2D rb2d;
     Animator animator;
+    enemy_controller enemy_control;
 
-    public animstate AnimationStates;
-    
     // Start is called before the first frame update
     void Start()
     {
         rb2d = GetComponent<Rigidbody2D>();
         animator = GetComponent<Animator>();
+        enemy_control = GetComponent<enemy_controller>();
     }
-
-
-    public enum animstate
-    {
-        Idle,
-        Running,
-        Attacking,
-        Dead,
-        Stunned
-    }
-
 
     // Update is called once per frame
     void Update()
     {
-
-        //I can't figure out how to get a reference to the enum from here lol
-        if (GetComponent<enemy_controller>().currentState == enemy_controller.State.Idle)
+        switch (enemy_control.currentState)
         {
-            AnimationStates = animstate.Idle;
+            case enemy_controller.State.Spawning:
+                break;
+            case enemy_controller.State.Idle:
+                break;
+            case enemy_controller.State.Attacking:
+                if (enemy_control.attack) { animator.SetBool("Attack", true); }
+                else { animator.SetBool("Attack", false); }
+                break;
+            case enemy_controller.State.MovingToPlayer:
+                break;
+            case enemy_controller.State.MovingAwayFromPlayer:
+                break;
+            case enemy_controller.State.Stunned:
+                animator.SetBool("Stunned", true);
+                break;
+            case enemy_controller.State.Dodging:
+                break;
+            case enemy_controller.State.Waiting:
+                break;
+            case enemy_controller.State.Dead:
+                animator.Play("Dead");
+                break;
+            default:
+                break;
         }
 
-        if (GetComponent<enemy_controller>().currentState == enemy_controller.State.MovingToPlayer)
-        {
-            AnimationStates = animstate.Running;
-        }
+        if (enemy_control.canFollowPlayer == true && Mathf.Abs(rb2d.velocity.x) > 0) { animator.SetBool("Running", true); }
+        else { animator.SetBool("Running", false); }
 
-        if (GetComponent<enemy_controller>().currentState == enemy_controller.State.Attacking)
-        {
-            AnimationStates = animstate.Attacking;
-        }
-
-        if (GetComponent<enemy_controller>().currentState == enemy_controller.State.Dead)
-        {
-            AnimationStates = animstate.Dead;
-        }
-
-        if (GetComponent<enemy_controller>().currentState == enemy_controller.State.Stunned)
-        {
-            AnimationStates = animstate.Stunned;
-        }
-
-        if (GetComponent<enemy_controller>().currentState == enemy_controller.State.Dead)
-        {
-            AnimationStates = animstate.Dead;
-        }
-
-
-
-
-
-        if (GetComponent<enemy_controller>().attack == true && AnimationStates == animstate.Attacking)
-        {
-            animator.SetBool("Attack", true);
-        }
-        else
-        {
-            animator.SetBool("Attack", false);
-        }
-
-        if (GetComponent<enemy_controller>().canFollowPlayer == true && rb2d.velocity.x > 0|| rb2d.velocity.x < 0 && AnimationStates != animstate.Attacking)
-        {
-            animator.SetBool("Running", true);
-        }
-        else
-        {
-            animator.SetBool("Running", false);
-        }
-
-        if (AnimationStates == animstate.Stunned)
-        {
-            animator.SetBool("Stunned", true);
-        }
-        else
-        {
-            animator.SetBool("Stunned", false);
-        }
-
-        if (GetComponent<enemy_controller>().isGrounded == true)
+        if (enemy_control.isGrounded == true)
         {
             animator.SetBool("Grounded", true);
         }
         else
         {
             animator.SetBool("Grounded", false);
-        }
-
-        if (AnimationStates == animstate.Dead)
-        {
-            animator.Play("Dead");
         }
     }
 }
