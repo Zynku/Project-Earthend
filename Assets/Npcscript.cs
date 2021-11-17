@@ -15,9 +15,13 @@ public class Npcscript : MonoBehaviour
     private int talkedToTimes = 0;
     public bool inConversation = false;
     public bool playerInRange;                                  //Is controlled by Npccollisionhandler script on child
-    [SerializeField] Dialogue dialogue;                         //Dialogue is a function of the dialogue class. Check Systems folder in Assets
+
+    [Header("Dialogue & Conversation Variables")]
+    [SerializeField] Dialogue myDialogue;                         //Dialogue is a function of the dialogue class. Check Systems folder in Assets
     [SerializeField] Dialogue aboveHeadDialogue;
     [SerializeField] Dialogue specialDialogue;
+    public int defaultDialogueTreeNumber = 0;
+    public int currentDialogueTreeNumber = 0;
 
     
 
@@ -49,7 +53,7 @@ public class Npcscript : MonoBehaviour
         }
 
         //Out of range and this is the closest NPC
-        if (!playerInRange && Charcontrol.closestNPC == this.gameObject)
+        if (!playerInRange && Player.GetComponent<Charcontrol>().closestNPC == this.gameObject)
         {
             DialogueManager.Instance.HideDialogue();
         }
@@ -125,7 +129,7 @@ public class Npcscript : MonoBehaviour
 
     public void StartDialogue()
     {
-        DialogueManager.Instance.ShowDialogue(dialogue);
+        DialogueManager.Instance.ShowDialogue(myDialogue, currentDialogueTreeNumber);                      //Passes this dialogue instance to the manager
         //DialogueManager.Instance.ShowDialogueCharacter(dialogueanimator);
         StartCoroutine(TalkCoolDown());
         beenTalkedTo = true;
@@ -142,7 +146,7 @@ public class Npcscript : MonoBehaviour
 
     public void StartSpecialDialogue()
     {
-        DialogueManager.Instance.ShowDialogue(specialDialogue);
+        DialogueManager.Instance.ShowDialogue(specialDialogue, currentDialogueTreeNumber);
         //DialogueManager.Instance.ShowDialogueCharacter(dialogueanimator);
         StartCoroutine(TalkCoolDown());
         beenTalkedTo = true;

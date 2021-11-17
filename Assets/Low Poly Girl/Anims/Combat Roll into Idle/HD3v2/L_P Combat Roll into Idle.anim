@@ -1908,9 +1908,9 @@ AnimationClip:
     data: 
     objectReferenceParameter: {fileID: 0}
     floatParameter: 0
-    intParameter: 160
+    intParameter: 250
     messageOptions: 0
-  - time: 1.0235294
+  - time: 0.84705883
     functionName: onDodgeTransition
     data: 
     objectReferenceParameter: {fileID: 0}

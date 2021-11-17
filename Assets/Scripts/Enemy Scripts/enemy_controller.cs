@@ -29,6 +29,7 @@ public class enemy_controller : MonoBehaviour
     public GameObject Melee1;
 
     Rigidbody2D rb2d;
+    GameObject Player;
 
     public enum State
     {
@@ -49,12 +50,13 @@ public class enemy_controller : MonoBehaviour
         Melee1.SetActive(false);
         currentState = State.Idle;
         coolDownTimer = coolDownTargetTime;
+        Player = gamemanager.instance.Player;
     }
 
     private void Update()
     {
         
-        playerPos = GameObject.FindWithTag("Player").transform.position;
+        playerPos = Player.transform.position;
         collisionDir = GetComponent<Enemyhealth>().collisionDir;
         myPos = transform.position;
         speed = rb2d.velocity;

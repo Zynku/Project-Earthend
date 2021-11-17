@@ -12,19 +12,28 @@ public class DialogueManager : MonoBehaviour
     public TextMeshPro aboveheaddialogue;
 
     public GameObject dialogueBox;
-    //public GameObject dialogueCharacter;           //Sprite / Animation of character doing the talking
-    Animator dialogueCharAnim;                     //Animator component of the dialogue character
-    public TextMeshProUGUI dialogueText;           //Dialogue that is actually shown on screen at any given point
+    //public GameObject dialogueCharacter;          //Sprite / Animation of character doing the talking
+    Animator dialogueCharAnim;                      //Animator component of the dialogue character
+   
     public TextMeshProUGUI continueText;            //Text that says press [Interactor] to continue
     public int lettersPerSecond;
     private Vector2 NPCPos;
     public Vector2 AboveHeadDialogueOffset;
     public Vector2 AboveHeadDialogueBoxOffset;
+    
+    
+    public bool isTyping = false;
+    public bool endOfConversation = false;
+
+    Charcontrol charcontrol;
+
+    [Header("Current Dialogue Variables")]
+    public TextMeshProUGUI dialogueText;            //Dialogue that is actually shown on screen at any given point
     [HideInInspector] public int currentLine = 0;
     public Dialogue dialogue;
     public Dialogue line;
-    public bool isTyping = false;
-    public bool endOfConversation = false;
+    public int currentTreeNumber;
+
 
     private void Awake()
     {
@@ -36,6 +45,8 @@ public class DialogueManager : MonoBehaviour
         {
             Destroy(this);
         }
+
+        charcontrol = gamemanager.instance.Player.GetComponent<Charcontrol>();
     }
 
     // Start is called before the first frame update
@@ -71,9 +82,9 @@ public class DialogueManager : MonoBehaviour
         endOfConversation = false;
 
         //Finds closest NPC position from Charcontrol.
-        if (Charcontrol.closestNPC.gameObject != null)
+        if (charcontrol.closestNPC.gameObject != null)
         {
-            GameObject closestNPC = Charcontrol.closestNPC.gameObject;
+            GameObject closestNPC = charcontrol.closestNPC.gameObject;
             NPCPos = new Vector2(closestNPC.transform.position.x, closestNPC.transform.position.y);
         }
         
@@ -94,25 +105,39 @@ public class DialogueManager : MonoBehaviour
     }
 
     //Takes dialogue and passes it to coroutine, also sets text box to be active
-    public void ShowDialogue(Dialogue dialogue)
+    public void ShowDialogue(Dialogue dialogue, int treeNumber)
     {
+        Debug.Log("Showing Dialogue...");
         this.dialogue = dialogue;
         dialogueBox.SetActive(true);
         aboveheaddialogueBox.SetActive(false);
         aboveheaddialogue.enabled = false;
+        currentTreeNumber = treeNumber;
 
         if (!isTyping)
         {
-            if (dialogue.Lines.Count != 0 && currentLine == dialogue.Lines.Count)
+            //If at the end of dialogue lines, hide dialogue
+            if (dialogue.dialogueTrees[treeNumber].dialogueLines.Count != 0 && dialogue.dialogueTrees[currentTreeNumber].dialogueLines[currentLine].endOfConversation)   
             {
                 currentLine = 0;
                 HideDialogue();
                 endOfConversation = true;
             }
+            //If the character somehow has no lines, say so
+            else if (dialogue.dialogueTrees[treeNumber].dialogueLines.Count == 0)
+            {
+                Debug.LogWarning("Character has no dialogue lines!");
+            }
+            //Otherwise, passes one line at a time to coroutine
             else
             {
-                StartCoroutine(TypeDialogue(dialogue.Lines[currentLine]));
+                StartCoroutine(TypeDialogue(dialogue.dialogueTrees[treeNumber].dialogueLines[currentLine].lineString));       
                 endOfConversation = false;
+
+                if (dialogue.dialogueTrees[treeNumber].dialogueLines[currentLine].hasChoice)
+                {
+                    GivePlayerChoices();
+                }
             }
         }
     }
@@ -122,6 +147,10 @@ public class DialogueManager : MonoBehaviour
         
     }
 
+    public void GivePlayerChoices()
+    {
+        Debug.Log("Here's your choices fucko!");
+    }
 
     public void HideDialogue()
     {
@@ -132,17 +161,11 @@ public class DialogueManager : MonoBehaviour
 
     //Takes dialogue and shows it letter by letter
     public IEnumerator TypeDialogue(string line)
-    {
-        //Code to show line instantly, for debugging purposes
-        /*isTyping = true;
-        dialogueText.text = line;
-        ++currentLine;
-        yield return new WaitForSeconds(1);
-        isTyping = false;*/
-        
+    {        
         isTyping = true;
         dialogueText.text = "";
         ++currentLine;
+
         yield return new WaitForSeconds(0.1f);
 
 
@@ -159,9 +182,12 @@ public class DialogueManager : MonoBehaviour
                 isTyping = false;
                 yield break;
             }
-
             yield return new WaitForSecondsRealtime(1f / lettersPerSecond);
         }
         isTyping = false;
     }
 }
+
+//TODO: TypeDialogue is currently very loose, meaning, the only way the next way the next line is called is by effectively "talking" with the NPC again,
+//Instead of it being a built in functionality here. The only reason it works is that the dialogue box isnt hidden between lines, and the lines are incremented,
+//Giving the illusion of the conversation continuing, when it reality its starting over, but at a different line. FIX THAT

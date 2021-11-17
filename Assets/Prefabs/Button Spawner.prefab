@@ -47,9 +47,12 @@ SpriteRenderer:
   m_CastShadows: 0
   m_ReceiveShadows: 0
   m_DynamicOccludee: 1
+  m_StaticShadowCaster: 0
   m_MotionVectors: 1
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
+  m_RayTracingMode: 0
+  m_RayTraceProcedural: 0
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -135,12 +138,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Press: {fileID: 8300000, guid: 8a5378d2362ecdf488c79c42dbb1ffd8, type: 3}
   Spawn: {fileID: 8300000, guid: be31f532819fd924bb214666f5056b2b, type: 3}
-  coolDownTimer: 0
-  coolDown: 2
+  coolDownTargetTime: 5
   Spawnable: {fileID: 0}
   Spawnamount: 0
   forceX: 0
   forceY: 0
+  forceRotation: 0
 --- !u!82 &1514323288467966297
 AudioSource:
   m_ObjectHideFlags: 0
@@ -153,7 +156,7 @@ AudioSource:
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 0}
   m_PlayOnAwake: 0
-  m_Volume: 1
+  m_Volume: 0.495
   m_Pitch: 1
   Loop: 0
   Mute: 0

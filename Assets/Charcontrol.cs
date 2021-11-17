@@ -19,7 +19,7 @@ public class Charcontrol : MonoBehaviour
     public float yVel;
     [HideInInspector] public float inputX;
     [HideInInspector] public float inputY;
-    public static GameObject closestNPC = null;
+    [HideInInspector] public GameObject closestNPC;
     [HideInInspector] public bool playerDead;
     [HideInInspector] public bool checkForSlopes;
 
@@ -519,7 +519,6 @@ public class Charcontrol : MonoBehaviour
             case State.Air_Attacking:
                 inCombat = false;
                 break;
-
             case State.Dodging:     //Is the same as rolling
                 inCombat = false;
                 //Animation is called in Charanimation. The last frame of the animation calls onDodgeTransition from here, transitioning back to idle.
@@ -732,6 +731,7 @@ public class Charcontrol : MonoBehaviour
 
     public void onDodge(int force)  //This function called on the last frame of the dodge animation via AnimationEvent
     {
+        rb2d.velocity = new Vector2(0f, 0f);
         rb2d.AddForce(new Vector2 (rb2d.velocity.x + (force * facingDir), rb2d.velocity.y));
         rolled = true;
     }
