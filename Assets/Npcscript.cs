@@ -23,8 +23,8 @@ public class Npcscript : MonoBehaviour
     public int defaultDialogueTreeNumber = 0;
     public int currentDialogueTreeNumber = 0;
 
-    
 
+    DialogueManager dialogueManager;
     AudioSource audiosource;
     GameObject Player;
     Animator animator;
@@ -38,6 +38,8 @@ public class Npcscript : MonoBehaviour
         Player = GameObject.FindWithTag("Player");
         animator = GetComponent<Animator>();
         audiosource = GetComponent<AudioSource>();
+        dialogueManager = gamemanager.instance.dialogueManager;
+
     }
 
     // Update is called once per frame
@@ -49,35 +51,52 @@ public class Npcscript : MonoBehaviour
         if (playerInRange && !inConversation)
         {
             animator.SetBool("Player In Range", true);
-            DialogueManager.Instance.ShowAboveHeadDialogue(aboveHeadDialogue);
+            dialogueManager.ShowAboveHeadDialogue(aboveHeadDialogue);
         }
 
         //Out of range and this is the closest NPC
         if (!playerInRange && Player.GetComponent<Charcontrol>().closestNPC == this.gameObject)
         {
-            DialogueManager.Instance.HideDialogue();
+            dialogueManager.HideDialogue();
         }
 
         //Initiates dialogue
         if (playerInRange && Input.GetButtonDown("Interact"))
         {
-            if (canTalk)
+            if (canTalk && !dialogueManager.playerInConversation)
             {
                 //Sends special dialogue to dialogue manager if the correct amount of times has been reached, other than that sends regular dialogue
-                if (hasSpecialDialogue && (talkedToTimes == talkedToTimesForSpecialDialogue))
+                if (hasSpecialDialogue)
                 {
                     StartSpecialDialogue();
                 }
-                else
+                else if (talkedToTimes == talkedToTimesForSpecialDialogue)
                 {
+                    Debug.Log("Starting Conversation....");
                     StartDialogue();
                 }
-                
+            }
+            else if (dialogueManager.playerInConversation)
+            {
+                Debug.Log("Continuing Conversation....");
+                dialogueManager.ContinueConversation();
+
+                StartCoroutine(TalkCoolDown());
+                beenTalkedTo = true;
+                inConversation = true;
+
+                animator.SetBool("Talking", true);
+                animator.SetBool("Been Talked To", true);
+
+                audiosource.loop = true;
+                audiosource.volume = talkingVolume;
+                audiosource.clip = talkingClip;
+                audiosource.Play();
             }
         }
 
         //Checks dialoguemanager to know when typing has stopped
-        if (!DialogueManager.Instance.isTyping)
+        if (!dialogueManager.isTyping)
         {
             animator.SetBool("Talking", false);
             audiosource.Stop();
@@ -86,8 +105,9 @@ public class Npcscript : MonoBehaviour
         //Stops talking if player isnt in range
         if (!playerInRange && inConversation)
         {
-            DialogueManager.Instance.HideDialogue();
-            DialogueManager.Instance.currentLine = 0;
+            dialogueManager.HideDialogue();
+            dialogueManager.currentLineArray = 0;
+            dialogueManager.playerInConversation = false;
             inConversation = false;
             animator.SetBool("Talking", false);
             animator.SetBool("Player In Range", false);
@@ -96,7 +116,7 @@ public class Npcscript : MonoBehaviour
         }
 
         //If the end of the conversation is reached
-        if (DialogueManager.Instance.endOfConversation)
+        if (dialogueManager.endOfConversation)
         {
             inConversation = false;
             ++talkedToTimes;
@@ -129,8 +149,8 @@ public class Npcscript : MonoBehaviour
 
     public void StartDialogue()
     {
-        DialogueManager.Instance.ShowDialogue(myDialogue, currentDialogueTreeNumber);                      //Passes this dialogue instance to the manager
-        //DialogueManager.Instance.ShowDialogueCharacter(dialogueanimator);
+        dialogueManager.ShowDialogue(myDialogue, currentDialogueTreeNumber);                      //Passes this dialogue instance to the manager
+        //dialogueManager.ShowDialogueCharacter(dialogueanimator);
         StartCoroutine(TalkCoolDown());
         beenTalkedTo = true;
         inConversation = true;
@@ -146,8 +166,8 @@ public class Npcscript : MonoBehaviour
 
     public void StartSpecialDialogue()
     {
-        DialogueManager.Instance.ShowDialogue(specialDialogue, currentDialogueTreeNumber);
-        //DialogueManager.Instance.ShowDialogueCharacter(dialogueanimator);
+        dialogueManager.ShowDialogue(specialDialogue, currentDialogueTreeNumber);
+        //dialogueManager.ShowDialogueCharacter(dialogueanimator);
         StartCoroutine(TalkCoolDown());
         beenTalkedTo = true;
         inConversation = true;

@@ -71,6 +71,9 @@ public class Charcontrol : MonoBehaviour
     //private SpriteRenderer meleeSpriteR;
     //private ParticleSystem particles;
 
+    [Header("Dialogue Variables")]
+    public bool playerInConversation;
+
     public float switchingDirTime;
     public float switchingDirTargetTime = 0.2f;
     public bool switchedDirToLeft, switchedDirToRight;
@@ -144,6 +147,7 @@ public class Charcontrol : MonoBehaviour
         inputX = Input.GetAxisRaw("Horizontal");
         inputY = Input.GetAxisRaw("Vertical");
         onscreenTimer.GetComponent<SimpleTimerScript>().timerTime = combatStateTime;
+        playerInConversation = DialogueManager.Instance.playerInConversation;
         //switchedDirOnscreenTimer.GetComponent<SimpleTimerScript>().timerTime = switchingDirTime;
 
         if (inCombat) { combatStateTime -= Time.deltaTime; }

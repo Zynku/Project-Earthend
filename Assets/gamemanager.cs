@@ -29,6 +29,11 @@ public class gamemanager : MonoBehaviour
 
     public static gamemanager instance;
 
+    public DialogueManager dialogueManager;
+
+
+
+
     #region Singleton and Awake
     private void Awake()
     {
@@ -47,11 +52,14 @@ public class gamemanager : MonoBehaviour
 
         hurtScreenAnimator = hurtScreen.GetComponent<Animator>();
         hurtScreen.SetActive(false);
+
+        dialogueManager = GetComponentInChildren<DialogueManager>();
+
     }
     #endregion
 
     private void Update()
-    { 
+    {
         if (Input.GetKeyDown(KeyCode.P)) { PauseGame(); }
         if (Input.GetKeyDown(KeyCode.O)) { ResumeGame(); }
 
