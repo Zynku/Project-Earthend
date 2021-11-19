@@ -20,8 +20,6 @@ public class Npcscript : MonoBehaviour
     [SerializeField] Dialogue myDialogue;                         //Dialogue is a function of the dialogue class. Check Systems folder in Assets
     [SerializeField] Dialogue aboveHeadDialogue;
     [SerializeField] Dialogue specialDialogue;
-    public int defaultDialogueTreeNumber = 0;
-    public int currentDialogueTreeNumber = 0;
 
 
     DialogueManager dialogueManager;
@@ -70,7 +68,7 @@ public class Npcscript : MonoBehaviour
                 {
                     StartSpecialDialogue();
                 }
-                else if (talkedToTimes == talkedToTimesForSpecialDialogue)
+                else
                 {
                     Debug.Log("Starting Conversation....");
                     StartDialogue();
@@ -149,7 +147,7 @@ public class Npcscript : MonoBehaviour
 
     public void StartDialogue()
     {
-        dialogueManager.ShowDialogue(myDialogue, currentDialogueTreeNumber);                      //Passes this dialogue instance to the manager
+        dialogueManager.ShowDialogue(myDialogue, myDialogue.defaultTreeNumber, gameObject);                      //Passes this dialogue instance to the manager
         //dialogueManager.ShowDialogueCharacter(dialogueanimator);
         StartCoroutine(TalkCoolDown());
         beenTalkedTo = true;
@@ -166,7 +164,7 @@ public class Npcscript : MonoBehaviour
 
     public void StartSpecialDialogue()
     {
-        dialogueManager.ShowDialogue(specialDialogue, currentDialogueTreeNumber);
+        dialogueManager.ShowDialogue(specialDialogue, myDialogue.defaultTreeNumber, gameObject);
         //dialogueManager.ShowDialogueCharacter(dialogueanimator);
         StartCoroutine(TalkCoolDown());
         beenTalkedTo = true;

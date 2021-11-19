@@ -30,6 +30,7 @@ public class gamemanager : MonoBehaviour
     public static gamemanager instance;
 
     public DialogueManager dialogueManager;
+    public QuestManager questManager;
 
 
 
@@ -54,6 +55,7 @@ public class gamemanager : MonoBehaviour
         hurtScreen.SetActive(false);
 
         dialogueManager = GetComponentInChildren<DialogueManager>();
+        questManager = GetComponentInChildren<QuestManager>();
 
     }
     #endregion

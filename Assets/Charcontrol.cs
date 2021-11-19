@@ -19,7 +19,7 @@ public class Charcontrol : MonoBehaviour
     public float yVel;
     [HideInInspector] public float inputX;
     [HideInInspector] public float inputY;
-    [HideInInspector] public GameObject closestNPC;
+    public GameObject closestNPC;
     [HideInInspector] public bool playerDead;
     [HideInInspector] public bool checkForSlopes;
 
@@ -547,6 +547,7 @@ public class Charcontrol : MonoBehaviour
         if (Input.GetAxisRaw("Horizontal") == 1) { facingDir = 1; }
         if (Input.GetAxisRaw("Horizontal") == -1) { facingDir = -1; }
 
+        FindClosestNPC();
         checkforGrounded();
     }
 
