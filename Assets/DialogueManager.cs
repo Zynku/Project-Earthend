@@ -20,6 +20,7 @@ public class DialogueManager : MonoBehaviour
     public Vector2 AboveHeadDialogueBoxOffset;
 
     [Header("Typing Variables")]
+    public int defaultLettersPerSecond = 100;
 
     public bool playerInConversation;
     public bool isTyping = false;
@@ -29,10 +30,12 @@ public class DialogueManager : MonoBehaviour
     public TextMeshProUGUI dialogueText;            //TextMesh component of the text that is shown on screen
     public GameObject dialogueSource;
     public int currentTreeNumber = 0;
+    public string currentTreeId;
     public int currentLine = 0;                     //What number line are we on?(Used for visual purposes)
     public int currentLineArray = 0;                //What number line are we on?(used for array references)                
     public Dialogue dialogue;
-    public Dialogue line;
+    public DialogueTree currentDialogueTree;
+    public DialogueLine currentDialogueLine;
 
     [Header("Dialogue Choice Variables")]
     public TextMeshProUGUI dialogueOnChoiceText;    //TextMesh component of the text that is shown on screen before a choice
@@ -104,28 +107,40 @@ public class DialogueManager : MonoBehaviour
         aboveheaddialogue.transform.position = NPCPos + AboveHeadDialogueOffset;
         aboveheaddialogueBox.transform.position = NPCPos + AboveHeadDialogueBoxOffset;
 
-        aboveheaddialogueBox.transform.localScale = new Vector2((dialogue.Lines[0].Length * 0.21f), 1f);
+        //aboveheaddialogueBox.transform.localScale = new Vector2((dialogue.Lines[0].Length * 0.21f), 1f);
 
-        aboveheaddialogue.text = dialogue.Lines[0].ToString();
+        //aboveheaddialogue.text = dialogue.Lines[0].ToString();
     }
 
-    //Takes dialogue and passes it to coroutine, also sets text box to be active
-    public void ShowDialogue(Dialogue dialogue, int treeNumber, GameObject dialogueSource)
+    //Takes dialogue and passes it to coroutine, also sets text box to be active. Is only called at the START of every conversation
+    public void ShowDialogue(Dialogue dialogue, string treeId, GameObject dialogueSource)
     {
-        Debug.Log("Starting dialogue for the first time");
         this.dialogue = dialogue;
         this.dialogueSource = dialogueSource;
-        dialogueBox.SetActive(true);
+
+        var dialogueTree = dialogue.dialogueTrees.Find(i => i.treeID == treeId);    //Finds the dialogue tree in the list by ID
+        if (dialogueTree == null)
+        {
+            Debug.LogWarning("Cannot find correct Dialogue Tree via ID! Are your IDs correct?");
+            return;
+        }
+        else
+        {
+            currentTreeId = dialogueTree.treeID;
+            this.currentDialogueTree = dialogueTree;
+            this.currentDialogueLine = dialogueTree.dialogueLines[currentLineArray];
+        }
+
+        dialogueBox.SetActive(true);                //Enables all the shit
         choicesBox.SetActive(false);
         aboveheaddialogueBox.SetActive(false);
         aboveheaddialogue.enabled = false;
-        currentTreeNumber = treeNumber;
         
 
         if (!isTyping)
         {
             //If the character somehow has no lines, say so
-            if (dialogue.dialogueTrees[treeNumber].dialogueLines.Count == 0)
+            if (currentDialogueTree.dialogueLines.Count == 0)
             {
                 Debug.LogWarning("Character has no dialogue lines!");
             }
@@ -134,9 +149,9 @@ public class DialogueManager : MonoBehaviour
             {
                 currentLineArray = 0;
                 currentLine = 1;
-                StartCoroutine(TypeDialogue(this.dialogue.dialogueTrees[treeNumber].dialogueLines[0].lineString, this.dialogue.dialogueTrees[treeNumber].dialogueLines[0].lettersPerSecond));
-/*              ++currentLine;
-                ++currentLineArray;*/
+
+                //Passes the first line to the Coroutine so its starts typing
+                StartCoroutine(TypeDialogue(currentDialogueTree.dialogueLines[0].lineString, this.currentDialogueTree.dialogueLines[0].lettersPerSecond));
                 endOfConversation = false;
                 playerInConversation = true;
             }
@@ -148,34 +163,48 @@ public class DialogueManager : MonoBehaviour
 
     }
 
-
+    //Is called at the end of a dialogue. Ends everything and disables what it needs to so it's ready for the next conversation
     public void HideDialogue()
     {
-        dialogueBox.SetActive(false);
-        choicesBox.SetActive(false);
-        aboveheaddialogueBox.SetActive(false);
-        aboveheaddialogue.enabled = false;
-        endOfConversation = true;
-        playerInConversation = false;
-        isTyping = false;
+        if (currentDialogueLine.hasChoice)
+        {
+            Debug.LogWarning("Can't exit out of a line that has a choice!");
+        }
+        else
+        {
+            dialogueBox.SetActive(false);
+            choicesBox.SetActive(false);
+            aboveheaddialogueBox.SetActive(false);
+            aboveheaddialogue.enabled = false;
+            endOfConversation = true;
+            currentLineArray = 0;
+            currentLine = 1;
+            playerInConversation = false;
+            isTyping = false;
+        }
     }
 
+    //Is called while inside a conversation, and pressing [Interact]. Pulls the next line for the Coroutine to use
     public void ContinueConversation()
     {
-        if (this.dialogue.dialogueTrees[currentTreeNumber].dialogueLines[currentLineArray].endOfConversation)
+        if (currentDialogueLine.hasChoice)
         {
-            Debug.Log("Line #" + currentLine + " is the end of the dialogue Tree.");
-            HideDialogue();
+            Debug.LogWarning("Can't exit out of a line that has a choice!");
+            return;
         }
-        ++currentLine;
-        ++currentLineArray;
-        if (currentLine > this.dialogue.dialogueTrees[currentTreeNumber].dialogueLines.Count)  //The last line in the dialogueLines list, end of conversation
+
+        if (currentLine == currentDialogueTree.dialogueLines.Count)  //The last line in the dialogueLines list, end of conversation
         {
             HideDialogue();
         }
         else
         {
-            StartCoroutine(TypeDialogue(this.dialogue.dialogueTrees[currentTreeNumber].dialogueLines[currentLineArray].lineString, this.dialogue.dialogueTrees[currentTreeNumber].dialogueLines[currentLineArray].lettersPerSecond));
+            ++currentLine;
+            ++currentLineArray;
+
+            DialogueTree dialogueTree = this.currentDialogueTree;
+            this.currentDialogueLine = dialogueTree.dialogueLines[currentLineArray];
+            StartCoroutine(TypeDialogue(currentDialogueTree.dialogueLines[currentLineArray].lineString, currentDialogueTree.dialogueLines[currentLineArray].lettersPerSecond));
         }
     }
 
@@ -184,16 +213,28 @@ public class DialogueManager : MonoBehaviour
     {        
         isTyping = true;
         dialogueText.text = "";
-        if (this.dialogue.dialogueTrees[currentTreeNumber].dialogueLines[currentLineArray].hasChoice)
+
+        if(lettersPerSecond == 0)
         {
-            Debug.Log("Line #" + currentLine + " has a choice.");
-            StartCoroutine(GivePlayerChoices(line, lettersPerSecond));
+            lettersPerSecond = defaultLettersPerSecond; //Only changes lettersPerSecond if it's changed in the Dialogue Scriptable Object
+        }
+
+        //If the line has choices, switch to the choices layout so player can choose
+        if (currentDialogueTree.dialogueLines[currentLineArray].hasChoice)
+        {
+            StartCoroutine(GivePlayerChoices(line, lettersPerSecond));  
             yield break;
         }
 
-        yield return new WaitForSeconds(0.1f);
+        //If the choice can change the default tree to a different one, let it, and set the new tree ID
+        if (currentDialogueTree.dialogueLines[currentLineArray].canChangeDefaultTreeId)
+        {
+            dialogue.defaultTreeId = currentDialogueTree.dialogueLines[currentLineArray].treeIdToSwitchTo;
+        }
 
+        yield return new WaitForSeconds(0.2f);
 
+        //Actually types the line, letter by letter
         foreach (var letter in line.ToCharArray())
         {
             dialogueText.text += letter;
@@ -207,14 +248,22 @@ public class DialogueManager : MonoBehaviour
                 isTyping = false;
                 yield break;
             }
+
             yield return new WaitForSecondsRealtime(1f / lettersPerSecond);
         }
         isTyping = false;
     }
 
+    //Choices are given here. The regular dialogue box is disabled and the choices box (which is slightly different) is shown in its place
+    //The player doesn't notice because they have the same dimensions
     public IEnumerator GivePlayerChoices(string line, int lettersPerSecond)
     {
-        if (this.dialogue.choiceLines.Count == 0)
+        DialogueLine currentDialogueLine = this.dialogue.dialogueTrees[currentTreeNumber].dialogueLines[currentLineArray];
+        ChoiceTree choiceTree = dialogue.choiceTrees.Find(i => i.choiceTreeID == currentDialogueLine.choiceTreeID);
+        ChoiceLine choiceOne = choiceTree.choices[0];
+        ChoiceLine choiceTwo = choiceTree.choices[1];
+
+        if (choiceTree.choices.Count == 0)
         {
             Debug.LogWarning("NPC Dialogue has no lines for its choice options!");
             HideDialogue();
@@ -231,34 +280,49 @@ public class DialogueManager : MonoBehaviour
 
         yield return new WaitForSeconds(0.1f);
 
+        if (lettersPerSecond == 0)
+        {
+            lettersPerSecond = defaultLettersPerSecond;
+        }
 
         foreach (var letter in line.ToCharArray())
         {
             dialogueOnChoiceText.text += letter;
             yield return new WaitForSecondsRealtime(1f / lettersPerSecond);
         }
-        choiceOneText.text = this.dialogue.choiceLines[0].choiceText;
-        choiceTwoText.text = this.dialogue.choiceLines[1].choiceText;
+
+        choiceOneText.text = choiceOne.choiceText; //Finds which choice to display by ARRAY REFERENCE (not by choice #)
+        choiceTwoText.text = choiceTwo.choiceText;
         isTyping = false;
     }
 
     public void ChoiceOneSelected()
     {
-        currentTreeNumber = this.dialogue.choiceLines[0].treeNumberToSwitchTo;
-        dialogue.defaultTreeNumber = dialogue.choiceLines[0].newDefaultTreeNumber;
+        DialogueLine currentDialogueLine = this.dialogue.dialogueTrees[currentTreeNumber].dialogueLines[currentLineArray];
+        ChoiceTree choiceTree = dialogue.choiceTrees.Find(i => i.choiceTreeID == currentDialogueLine.choiceTreeID);
+        ChoiceLine choiceOne = choiceTree.choices[0];
+        ChoiceLine choiceTwo = choiceTree.choices[1];
+
+        currentTreeId = choiceOne.treeIdToSwitchTo;             //Switches tree ID so the character can "respond"
+        dialogue.defaultTreeId = choiceOne.newDefaultTreeId;    //Switches default tree ID so character says different things based on what you chose
         currentLineArray = 0;
         currentLine = 1;
-        ShowDialogue(this.dialogue, currentTreeNumber, dialogueSource);
-        
+        ShowDialogue(this.dialogue, choiceOne.treeIdToSwitchTo, dialogueSource);
+        dialogueSource.GetComponent<Npcscript>().MakeConversationBeeps();
     }
 
     public void ChoiceTwoSelected()
     {
-        currentTreeNumber = this.dialogue.choiceLines[1].treeNumberToSwitchTo;
-        dialogue.defaultTreeNumber = dialogue.choiceLines[1].newDefaultTreeNumber;
+        DialogueLine currentDialogueLine = this.dialogue.dialogueTrees[currentTreeNumber].dialogueLines[currentLineArray];
+        ChoiceTree choiceTree = dialogue.choiceTrees.Find(i => i.choiceTreeID == currentDialogueLine.choiceTreeID);
+        ChoiceLine choiceOne = choiceTree.choices[0];
+        ChoiceLine choiceTwo = choiceTree.choices[1];
+
+        currentTreeId = choiceTwo.treeIdToSwitchTo;
+        dialogue.defaultTreeId = choiceTwo.newDefaultTreeId;
         currentLineArray = 0;
         currentLine = 1;
-        ShowDialogue(this.dialogue, currentTreeNumber, dialogueSource);
+        ShowDialogue(this.dialogue, choiceTwo.treeIdToSwitchTo, dialogueSource);
+        dialogueSource.GetComponent<Npcscript>().MakeConversationBeeps();
     }
-
 }
