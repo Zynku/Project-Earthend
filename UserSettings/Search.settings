@@ -13,9 +13,6 @@ scopes = {
 	"m_DetailsPanelSplitter.83F126EB" = "700"
 	"currentGroup.83F126EB" = "asset"
 	"InspectorPreview.83F126EB" = "0"
-	"last_search.785D90A9" = "rendering mode"
-	"InspectorPreview.785D90A9" = "0"
-	"currentGroup.785D90A9" = "settings"
 }
 providers = {
 	asset = {
@@ -55,7 +52,6 @@ providers = {
 	}
 }
 recentSearches = [
-	"rendering mode"
 	"enemy"
 ]
 searchItemFavorites = [

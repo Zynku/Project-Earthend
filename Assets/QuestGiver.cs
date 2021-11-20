@@ -9,18 +9,19 @@ public class QuestGiver : MonoBehaviour
 {
     public Quest myQuest;
     GameObject player;
-    GameObject questManager;
+    gamemanager gamemanager;
+    QuestManager questManager;
     QuestManager questManagerScript;
     bool playerInRange;
     public GameObject shownQuestNameText;
    
     //QuestGiver script is not responsible for dictating the type of quest this is, only the questObject that is referenced in this Quest.
 
-    private void Awake()
+    private void Start()
     {
-        player = GameObject.FindGameObjectWithTag("Player");
-        questManager = GameObject.FindGameObjectWithTag("QuestManager");
-        questManagerScript = questManager.GetComponent<QuestManager>();
+        gamemanager = gamemanager.instance;
+        player = gamemanager.Player;
+        questManager = gamemanager.questManager;
         shownQuestNameText.GetComponent<TextMeshPro>().text = myQuest.questName;
     }
 
@@ -38,7 +39,7 @@ public class QuestGiver : MonoBehaviour
             }
             else
             {
-                if (questManagerScript.canAcceptQuest)
+                if (questManager.canAcceptQuest)
                 {
                     //player.GetComponent<Charquests>().currentQuests.Add(myQuest);
                     questManager.GetComponent<QuestManager>().SetupNewQuest(myQuest);
