@@ -21,7 +21,7 @@ public class QuestGiver : MonoBehaviour
         player = GameObject.FindGameObjectWithTag("Player");
         questManager = GameObject.FindGameObjectWithTag("QuestManager");
         questManagerScript = questManager.GetComponent<QuestManager>();
-        shownQuestNameText.GetComponent<TextMeshPro>().text = myQuest.name;
+        shownQuestNameText.GetComponent<TextMeshPro>().text = myQuest.questName;
     }
 
 
@@ -40,7 +40,7 @@ public class QuestGiver : MonoBehaviour
             {
                 if (questManagerScript.canAcceptQuest)
                 {
-                    player.GetComponent<Charquests>().currentQuests.Add(myQuest);
+                    //player.GetComponent<Charquests>().currentQuests.Add(myQuest);
                     questManager.GetComponent<QuestManager>().SetupNewQuest(myQuest);
                 }
             }
@@ -51,7 +51,7 @@ public class QuestGiver : MonoBehaviour
     {
         foreach (Quest quest in player.GetComponent<Charquests>().currentQuests)
         {
-            if (quest.name == myQuest.name)
+            if (quest.questName == myQuest.questName)
             {
                 return true;
             }

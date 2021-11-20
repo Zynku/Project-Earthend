@@ -16,7 +16,7 @@ public class Dialogue : ScriptableObject
 public class DialogueTree
 {
     public string treeName;
-    public string treeID;
+    public string treeID;                   
     public bool pauseGameOnOpen;            //TODO: Pause Game if this is true
     [SerializeField] public List<DialogueLine> dialogueLines;
 }
@@ -26,14 +26,14 @@ public class DialogueLine
 {
     public string lineString;               //Actual string of words to be said
     public bool hasChoice;
-    public string choiceTreeID;                 //The ID of the choice tree it'll show if it has a choice
+    public string choiceTreeID;             //The ID of the choice tree it'll show if it has a choice. 
     public bool canChangeDefaultTreeId;     //Can reading this line change default tree ID to another?
     public string treeIdToSwitchTo;         //If it can, which tree?
     public bool canTriggerQuest;
     public Quest myQuest;                   //Quest that can be triggered by reading this line
     public string lineOwner;                //Who said the line?
     public int lettersPerSecond = 100;      //How fast is the text said?
-    public AudioClip audio;                 //TODO: Audio that says the line
+    public AudioClip audioClip;             //TODO: Audio that says the line
 }
 
 [System.Serializable]

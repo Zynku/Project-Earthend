@@ -309,6 +309,17 @@ public class DialogueManager : MonoBehaviour
         currentLine = 1;
         ShowDialogue(this.dialogue, choiceOne.treeIdToSwitchTo, dialogueSource);
         dialogueSource.GetComponent<Npcscript>().MakeConversationBeeps();
+        if (choiceOne.canTriggerQuest)
+        {
+            if (choiceOne.myQuest != null)
+            {
+                questManager.SetupNewQuest(choiceOne.myQuest);
+            }
+            else
+            {
+                Debug.LogWarning("Dialogue has no quest attached!");
+            }
+        }
     }
 
     public void ChoiceTwoSelected()
@@ -324,5 +335,16 @@ public class DialogueManager : MonoBehaviour
         currentLine = 1;
         ShowDialogue(this.dialogue, choiceTwo.treeIdToSwitchTo, dialogueSource);
         dialogueSource.GetComponent<Npcscript>().MakeConversationBeeps();
+        if (choiceTwo.canTriggerQuest)
+        {
+            if (choiceTwo.myQuest != null)
+            {
+                questManager.SetupNewQuest(choiceTwo.myQuest);
+            }
+            else
+            {
+                Debug.LogWarning("Dialogue has no quest attached!");
+            }
+        }
     }
 }
