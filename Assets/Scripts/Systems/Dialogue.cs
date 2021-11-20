@@ -24,6 +24,7 @@ public class DialogueTree
 [System.Serializable]
 public class DialogueLine
 {
+    [TextArea(2, 10)]
     public string lineString;               //Actual string of words to be said
     public bool hasChoice;
     public string choiceTreeID;             //The ID of the choice tree it'll show if it has a choice. 
