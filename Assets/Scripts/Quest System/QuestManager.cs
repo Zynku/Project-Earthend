@@ -100,8 +100,6 @@ public class QuestManager : MonoBehaviour
 
     public void SetupNewQuest(Quest quest)
     {
-        Debug.Log("Trying to setup new quest");
-        
         if (currentQuest != null) { ClearOldQuest(); }
         {
             if (quest.questEvents.Count == 0)
@@ -128,38 +126,38 @@ public class QuestManager : MonoBehaviour
                 QuestEvent firstQE = currentQuest.questEvents.First();      //Sets the first quest event as current
                 firstQE.status = QuestEvent.EventStatus.CURRENT;
 
-                currentQuestEvent = firstQE;
-                currentQuest.isActive = true;
-                questName.GetComponent<TextMeshProUGUI>().text = currentQuest.questName;
-                questDesc.GetComponent<TextMeshProUGUI>().text = currentQuest.desc;
+            currentQuestEvent = firstQE;
+            currentQuest.isActive = true;
+            questName.GetComponent<TextMeshProUGUI>().text = currentQuest.name;
+            questDesc.GetComponent<TextMeshProUGUI>().text = currentQuest.desc;
 
                 GameObject qatp = Instantiate(questAcceptedTextPrefab, questCanvas.transform);  //Creates a Quest Accepted Text Prefab, or qatp
 
-                bool questAssigned = false;
-                if (!questAssigned) { qatp.GetComponent<QuestAcceptedText>().myQuestName.GetComponent<TextMeshProUGUI>().text = currentQuest.questName; }    //Assigns the quest name ONCE.
-                                                                                                                                                             //Can't use a quest reference because referencing a type (such as Quest) is LIVE, as opposed to referencing a variable (such as Quest.name)
-                                                                                                                                                             //that makes a copy. Because of this, if we reference Quest, it will always assign the current quest, even if it has changed since we instantiated this object, 
-                                                                                                                                                             //meaning it has the potential to show the wrong quest because it could have changed since this object was instantiated.
-                                                                                                                                                             //May need to assign more variables here if more information is needed in qatp script in the future
-                if (questAcceptedTexts.Count > 0) //If there are accepted quests on screen, yeet it to the offscreen bin. This is to avoid two accepted texts overlapping
-                {
-                    questAcceptedTextsOffscreen.Add(qatp);
-                    qatp.SetActive(false);
-                }
-                else if (questCompletedTexts.Count > 0) //If there are completed quests on screen, yeet it to the offscreen bin. This is to avoid a quest accepted and quest completed text overlapping
-                {
-                    questAcceptedTextsOffscreen.Add(qatp);
-                    qatp.SetActive(false);
-                }
-                else if (questFailedTexts.Count > 0)     //If there are failed quests on screen, yeet it to the offscreen bin
-                {
-                    questAcceptedTextsOffscreen.Add(qatp);
-                    qatp.SetActive(false);
-                }
-                else
-                {
-                    questAcceptedTexts.Add(qatp);
-                }
+            bool questAssigned = false;
+            if (!questAssigned) { qatp.GetComponent<QuestAcceptedText>().myQuestName.GetComponent<TextMeshProUGUI>().text = currentQuest.name; }    //Assigns the quest name ONCE.
+            //Can't use a quest reference because referencing a type (such as Quest) is LIVE, as opposed to referencing a variable (such as Quest.name)
+            //that makes a copy. Because of this, if we reference Quest, it will always assign the current quest, even if it has changed since we instantiated this object, 
+            //meaning it has the potential to show the wrong quest because it could have changed since this object was instantiated.
+            //May need to assign more variables here if more information is needed in qatp script in the future
+            if (questAcceptedTexts.Count > 0) //If there are accepted quests on screen, yeet it to the offscreen bin. This is to avoid two accepted texts overlapping
+            {
+                questAcceptedTextsOffscreen.Add(qatp);
+                qatp.SetActive(false);
+            }
+            else if (questCompletedTexts.Count > 0) //If there are completed quests on screen, yeet it to the offscreen bin. This is to avoid a quest accepted and quest completed text overlapping
+            {
+                questAcceptedTextsOffscreen.Add(qatp);
+                qatp.SetActive(false);
+            }
+            else if (questFailedTexts.Count > 0)     //If there are failed quests on screen, yeet it to the offscreen bin
+            {
+                questAcceptedTextsOffscreen.Add(qatp);
+                qatp.SetActive(false);
+            }
+            else
+            {
+                questAcceptedTexts.Add(qatp);
+            }
 
                 //Make loop creating each quest event script and assigning an ID for each quest event.
                 foreach (QuestEvent qe in currentQuest.questEvents)
@@ -351,7 +349,7 @@ public class QuestManager : MonoBehaviour
         firstQE.status = QuestEvent.EventStatus.CURRENT;
         currentQuestEvent = firstQE;
         currentQuest.isActive = true;
-        questName.GetComponent<TextMeshProUGUI>().text = currentQuest.questName;
+        questName.GetComponent<TextMeshProUGUI>().text = currentQuest.name;
         questDesc.GetComponent<TextMeshProUGUI>().text = currentQuest.desc;
 
         //Make loop creating each quest event script and assigning an ID for each quest event.
@@ -440,7 +438,7 @@ public class QuestManager : MonoBehaviour
 
         GameObject qctp = Instantiate(questCompletedTextPrefab, questCanvas.transform);     //Creates a Quest Completed Text Prefab, or qctp
         bool questAssigned = false;
-        if (!questAssigned) { qctp.GetComponent<QuestCompletedText>().myQuestName.GetComponent<TextMeshProUGUI>().text = currentQuest.questName; }   //Assigns the quest name ONCE.
+        if (!questAssigned) { qctp.GetComponent<QuestCompletedText>().myQuestName.GetComponent<TextMeshProUGUI>().text = currentQuest.name; }   //Assigns the quest name ONCE.
         if (questCompletedTexts.Count > 0)  //If there are completed quests on screen, yeet it to the offscreen bin
         {
             questCompletedTextsOffscreen.Add(qctp);
@@ -506,7 +504,7 @@ public class QuestManager : MonoBehaviour
 
         GameObject qftp = Instantiate(questFailedTextPrefab, questCanvas.transform);     //Creates a Quest Failed Text Prefab, or qftp
         bool questAssigned = false;
-        if (!questAssigned) { qftp.GetComponent<QuestFailedText>().myQuestName.GetComponent<TextMeshProUGUI>().text = currentQuest.questName; }   //Assigns the quest name ONCE.
+        if (!questAssigned) { qftp.GetComponent<QuestFailedText>().myQuestName.GetComponent<TextMeshProUGUI>().text = currentQuest.name; }   //Assigns the quest name ONCE.
         if (questCompletedTexts.Count > 0)  //If there are completed quests on screen, yeet it to the offscreen bin
         {
             questFailedTextsOffscreen.Add(qftp);
@@ -572,7 +570,7 @@ public class QuestManager : MonoBehaviour
 
         GameObject qftp = Instantiate(questFailedTextPrefab, questCanvas.transform);     //Creates a Quest Failed Text Prefab, or qftp
         bool questAssigned = false;
-        if (!questAssigned) { qftp.GetComponent<QuestFailedText>().myQuestName.GetComponent<TextMeshProUGUI>().text = quest.questName; }   //Assigns the quest name ONCE.
+        if (!questAssigned) { qftp.GetComponent<QuestFailedText>().myQuestName.GetComponent<TextMeshProUGUI>().text = quest.name; }   //Assigns the quest name ONCE.
         if (questCompletedTexts.Count > 0)  //If there are completed quests on screen, yeet it to the offscreen bin
         {
             questFailedTextsOffscreen.Add(qftp);

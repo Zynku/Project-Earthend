@@ -12,7 +12,7 @@ public class Charquests : MonoBehaviour
 
     public void AcceptQuest(Quest quest)
     {
-        //currentQuests.Add(quest);
+        currentQuests.Add(quest);
         questmanager.SetupNewQuest(quest);
     }
 }

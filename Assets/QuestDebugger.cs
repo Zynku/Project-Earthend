@@ -87,7 +87,7 @@ public class QuestDebugger : MonoBehaviour
 
     IEnumerator CompleteAllQuests()
     {
-        if (questManager.currentQuest.questName != "No Quest")
+        if (questManager.currentQuest.name != "No Quest")
         {
             StartCoroutine(questManager.CompleteCurrentQuest());
             //Complete a quest, wait 0.1 seconds, check if there's another quest. If there is complete it

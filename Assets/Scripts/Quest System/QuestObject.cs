@@ -51,7 +51,7 @@ public class QuestObject : MonoBehaviour
         player = GameObject.FindGameObjectWithTag("Player");
         inventory = player.GetComponent<Charpickup_inventory>();
         QuestGiver parentquestgiver = transform.parent.GetComponent<QuestGiver>();
-        if (parentquestgiver) gameObject.name = parentquestgiver.myQuest.questName;
+        if (parentquestgiver) gameObject.name = parentquestgiver.myQuest.name;
     }
 
     private void OnTriggerEnter2D(Collider2D collision)

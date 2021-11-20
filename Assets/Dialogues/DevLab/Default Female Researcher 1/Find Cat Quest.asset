@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 70258635a1361e6439261070d8ed14fd, type: 3}
   m_Name: Find Cat Quest
   m_EditorClassIdentifier: 
-  defaultTreeId: 5b
+  defaultTreeId: 1
   dialogueTrees:
   - treeName: Default
     treeID: 1
@@ -431,7 +431,7 @@ MonoBehaviour:
       choiceID: 1
       treeIdToSwitchTo: 2
       newDefaultTreeId: 4
-      canTriggerQuest: 0
+      canTriggerQuest: 1
       myQuest:
         name: 
         desc: 

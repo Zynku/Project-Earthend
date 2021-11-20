@@ -4,11 +4,11 @@ using System.Collections.Generic;
 using UnityEngine;
 
 
-[CreateAssetMenu(fileName = "New Quest", menuName = "Quest System/ New Quest")]
+//[CreateAssetMenu(fileName = "New Quest", menuName = "Quest System/ New Quest")]
 [System.Serializable]
-public class Quest : ScriptableObject
+public class Quest
 {
-    public string questName;
+    public string name;
     [TextArea(5, 10)]
     public string desc;
     public bool isActive;
@@ -27,7 +27,7 @@ public class Quest : ScriptableObject
     public Quest() 
     {
         //Default values
-        questName = "No Quest";
+        name = "No Quest";
         desc = "No Quest";
         isActive = false;
     }

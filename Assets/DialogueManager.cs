@@ -42,6 +42,9 @@ public class DialogueManager : MonoBehaviour
     public TextMeshProUGUI choiceOneText;
     public TextMeshProUGUI choiceTwoText;
 
+    [Header("Dialogue Quest Variables")]
+    public List<Quest> questsToGive;                //Quests that will be given to the player after this conversation is done
+
     Animator dialogueCharAnim;                      //Animator component of the dialogue character
     Charcontrol charcontrol;
     QuestManager questManager;
@@ -85,6 +88,8 @@ public class DialogueManager : MonoBehaviour
     {
         if (isTyping) { continueText.enabled = false; }
         else { continueText.enabled = true; }
+
+        ManageQuestsToGive();
     }
 
     public void LateUpdate()
@@ -96,6 +101,18 @@ public class DialogueManager : MonoBehaviour
         {
             GameObject closestNPC = charcontrol.closestNPC.gameObject;
             NPCPos = new Vector2(closestNPC.transform.position.x, closestNPC.transform.position.y);
+        }
+    }
+
+    public void ManageQuestsToGive()
+    {
+        if (!playerInConversation)
+        {
+            if (questsToGive.Count > 0)
+            {
+                dialogueSource.GetComponent<QuestGiver>().AcceptQuest(questsToGive[0]);
+                questsToGive.RemoveAt(0);
+            }
         }
     }
 
@@ -226,6 +243,11 @@ public class DialogueManager : MonoBehaviour
             yield break;
         }
 
+        if (currentDialogueTree.dialogueLines[currentLineArray].canTriggerQuest)
+        {
+            questsToGive.Add(currentDialogueTree.dialogueLines[currentLineArray].myQuest);
+        }
+
         //If the choice can change the default tree to a different one, let it, and set the new tree ID
         if (currentDialogueTree.dialogueLines[currentLineArray].canChangeDefaultTreeId)
         {
@@ -309,17 +331,6 @@ public class DialogueManager : MonoBehaviour
         currentLine = 1;
         ShowDialogue(this.dialogue, choiceOne.treeIdToSwitchTo, dialogueSource);
         dialogueSource.GetComponent<Npcscript>().MakeConversationBeeps();
-        if (choiceOne.canTriggerQuest)
-        {
-            if (choiceOne.myQuest != null)
-            {
-                questManager.SetupNewQuest(choiceOne.myQuest);
-            }
-            else
-            {
-                Debug.LogWarning("Dialogue has no quest attached!");
-            }
-        }
     }
 
     public void ChoiceTwoSelected()
@@ -335,16 +346,5 @@ public class DialogueManager : MonoBehaviour
         currentLine = 1;
         ShowDialogue(this.dialogue, choiceTwo.treeIdToSwitchTo, dialogueSource);
         dialogueSource.GetComponent<Npcscript>().MakeConversationBeeps();
-        if (choiceTwo.canTriggerQuest)
-        {
-            if (choiceTwo.myQuest != null)
-            {
-                questManager.SetupNewQuest(choiceTwo.myQuest);
-            }
-            else
-            {
-                Debug.LogWarning("Dialogue has no quest attached!");
-            }
-        }
     }
 }
