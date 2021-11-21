@@ -1,0 +1,95 @@
+How to make a Quest
+
+Quests are made of 5 main things:
+
+Quest Manager     -    The parent script for any quest. There is only one Quest Manager in the scene at any given time (found as a child of the Game Manager). The Game Manager is reported to by most quest related scripts and executes most of the code as it relates to updating quests, shuffling them around, etc.
+
+Quests (Script)    -    Contains all the information related to the quest such as its name, and whether or not it has a timer. It also holds all the other parts of the quest.N.B The quest is an empty slate, it does not know what type of quest it is, or to complete it. This is dictated by the other quest parts. The quest only knows that it is a quest, and it is dumb.
+
+Quest Event         -    Is basically a container for all the specific quest steps. The quest step only knows what state it is in, whether that is COMPLETED, or WAITING, FAILED, etc. Quest Events are also fairly dumb, they do not know how they are completed, but their state is updated by the Quest Objects they hold. Inside the QuestManager Script, a new Quest Event Prefab is created for each Quest Event (see below for the definition of a Quest Event Prefab)
+				
+Quest Object        -    The nitty gritty of a quest. This piece holds all the information on the type of quest step it's parent Quest Event is. This piece knows exactly how it is completed,failed, or any other state, and will report such to its parent Quest Event (which updates it accordingly). Quest Objects also know it's type of quest step, whether it be a location type, inventory item type, etc. and will look out for the player completing these objectives accordingly, once the quest is active and accepted. Quest Objects that are location type will need to have an Associated GameObject, or it will not work. The Quest Object checks for the player entering the collider of this associated game object, so it can be anything, as long as the player is able to interact with its collider.
+
+Quest Event Prefab - This is a Unity Prefab object that is instantiated for each Quest Event. These sit on the HUD UI and show information such as the quest steps and their completion status. They have references to their UI objects and can update them accordingly. There can (and usually are) multiple quest event prefabs per quest, as there is one per Quest Event. Each QEP has a Quest Event Prefab Script that controls it.
+				
+
+
+There are also:
+
+Quest Object Game Object (Script) - A simple script that updates it's parent Quest Object whenever the player enters its collider.
+
+Quest Event Prefab Script - A simple script used only for controlling
+ 
+Quest Event Prefabs. Does not do much other than be referenced by other scripts.
+
+Quest Giver    -    A script that can be put on any GameObject with a collider. This script bypasses the need for dialogue to accept a quest. Usually used for debugging.
+
+
+
+In order the make a quest you must do this:
+1. In the quest folder, right click, then go to Create -> Quest System -> New Quest.  Name the Quest something appropriate and easy to remember. Assign the fields as necessary:
+
+	1. Name - The quest name that will show onscreen.
+
+	2. Desc - A short description about the quest. The player will be able to see this
+
+	3. Timer Target Time - If the quest requires that the player complete it in a certain time, this can be set to how much time (in seconds) the player has. If you assign this make sure to check "Has timer for quest"
+
+	4. Click the + button below Quest Events (If you don't see a +, click on the quest events word to expand it). Assign the fields as necessary:
+		1. Quest Event Name - The name of the quest step the player must complete. The player will see this
+
+		2. Description - A description of the quest step. The player will see this
+
+		3. ID - Currently broken, please ignore
+
+		4. All other fields can be safely ignored
+
+	5. Click the + button below Quest Objects (If you don't see a +, click on the quest objects word to expand it). Assign the fields as necessary:
+		1. Type - This is the type of step this is, and dictates what the player will have to do to complete this step. Set it as necessary
+
+		2. If your quest is of type "Location"
+
+			1. Associated GameObject - This is only necessary if the type is set to location. Drag any GameObject into this field (it requires the GameObject has atleast one Collider and the "Quest Object Game Object" script), or drag a Quest Location GameObject Prefab from the Prefabs folder into the scene, then drag that from the hierarchy to here. The prefab is already set up to work with the Quest
+
+			2. All other fields can be safely ignored.
+
+		3. If your quest is of type "Collect Physical Item"
+			1. Currently broken, please ignore
+
+		4. If your quest is of type "Collect Item Monitor"
+			1. Currently broken, please ignore
+
+		5. If you quest is of type "Kill Enemies"
+			1. Currently broken, please ignore
+
+		6. If your quest is of type "Collect Inventory Items"
+
+			1. Item Amount Target - How much the player needs to collect in order to complete this quest step.
+
+			2. Item to Collect - Drag a scriptable object from the Inventory Item folder here to define what the player has to collect. (This only works with INVENTORY ITEMS that the player is able to PICK UP AND ADD TO INVENTORY. REGULAR SCRIPTABLE OBJECTS WILL NOT WORK)
+
+			3. All other fields can be safely ignored.
+
+
+2.   In any dialogue tree, set the bool 'canTriggerQuest' to true, then drag the created Quest Scriptable Object into the slot.
+
+3. Congratulations! At the end of the desired conversation, the quest will show up and be added! The player can then complete this quest normally (assuming you assigned everything correctly)
+	
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

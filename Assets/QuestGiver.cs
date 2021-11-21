@@ -4,19 +4,18 @@ using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
 
-[ExecuteInEditMode]
 public class QuestGiver : MonoBehaviour
 {
     public bool acceptQuestByProximity = false;         //Can you just walk up to this NPC and get a quest?
     public Quest myQuest;
-   
+
     GameObject player;
     gamemanager gamemanager;
     QuestManager questManager;
     QuestManager questManagerScript;
     bool playerInRange;
     public GameObject shownQuestNameText;
-   
+
     //QuestGiver script is not responsible for dictating the type of quest this is, only the questObject that is referenced in this Quest.
 
     private void Start()
@@ -24,7 +23,7 @@ public class QuestGiver : MonoBehaviour
         gamemanager = gamemanager.instance;
         player = gamemanager.Player;
         questManager = gamemanager.questManager;
-        shownQuestNameText.GetComponent<TextMeshPro>().text = myQuest.name;
+        shownQuestNameText.GetComponent<TextMeshPro>().text = myQuest.questName;
     }
 
 
@@ -33,7 +32,14 @@ public class QuestGiver : MonoBehaviour
     {
         if (playerInRange && Input.GetButtonDown("Interact") && acceptQuestByProximity)
         {
-            StartCoroutine(AcceptQuest(myQuest));
+            if (myQuest == null)
+            {
+                Debug.LogWarning("Quest Giver Script on " + gameObject + " has no associated quest!");
+            }
+            else
+            {
+                StartCoroutine(AcceptQuest(myQuest));
+            }
         }
     }
 
@@ -43,23 +49,32 @@ public class QuestGiver : MonoBehaviour
         //if(questManager.GetComponent<QuestManager>().currentQuest.name == myQuest.name)
         if (CheckforSameQuest(quest))
         {
-            Debug.Log("Quest already accepted!");
+            Debug.LogWarning("Quest already accepted!");
         }
         else if (questManager.canAcceptQuest)
         {
             player.GetComponent<Charquests>().currentQuests.Add(quest);
             questManager.GetComponent<QuestManager>().SetupNewQuest(quest);
-            yield return new WaitForSeconds(0.2f);
+            {
+                yield return new WaitForSeconds(0.2f);
+            }
         }
     }
 
     bool CheckforSameQuest(Quest myQuest)
     {
-        foreach (Quest quest in player.GetComponent<Charquests>().currentQuests)
+        if (player.GetComponent<Charquests>().currentQuests.Count <= 0)
         {
-            if (quest.name == myQuest.name)
+            return false;
+        }
+        else
+        {
+            foreach (Quest quest in player.GetComponent<Charquests>().currentQuests)
             {
-                return true;
+                if (quest.questName == myQuest.questName)
+                {
+                    return true;
+                }
             }
         }
         return false;
@@ -89,3 +104,4 @@ public class QuestGiver : MonoBehaviour
         }
     }
 }
+

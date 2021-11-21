@@ -59,7 +59,8 @@ public class QuestDebugger : MonoBehaviour
         //Looks in the current quest from quest manager for its quest events and returns the first one that is marked as current
         if (questManager.currentQuest.questEvents.Count != 0)
         {
-            currentEvent = questManager.currentQuest.questEvents.Where(currentEvent => currentEvent.status == QuestEvent.EventStatus.CURRENT).FirstOrDefault();
+            //TODO: FIX THIS
+            //currentEvent = questManager.currentQuest.questEvents.Where(currentEvent => currentEvent.status == QuestEvent.EventStatus.CURRENT).FirstOrDefault();
         }
         else
         {
@@ -68,8 +69,8 @@ public class QuestDebugger : MonoBehaviour
 
         if (currentEvent != null)
         {
-            currentEvent.UpdateQuestEvent(QuestEvent.EventStatus.DONE);
-            questManager.UpdateQuestsOnCompletion(currentEvent); 
+            //currentEvent.UpdateQuestEvent(QuestEvent.EventStatus.DONE);
+            //questManager.UpdateQuestsOnCompletion(currentEvent); 
         }
     }
 
@@ -87,7 +88,7 @@ public class QuestDebugger : MonoBehaviour
 
     IEnumerator CompleteAllQuests()
     {
-        if (questManager.currentQuest.name != "No Quest")
+        if (questManager.currentQuest.questName != "No Quest")
         {
             StartCoroutine(questManager.CompleteCurrentQuest());
             //Complete a quest, wait 0.1 seconds, check if there's another quest. If there is complete it
@@ -106,11 +107,11 @@ public class QuestDebugger : MonoBehaviour
 
     void ClearAllQuestEventPrefabs()
     {
-        QuestEventScript[] prefabsToBeDestroyed = FindObjectsOfType<QuestEventScript>();
+/*        QuestEventScript[] prefabsToBeDestroyed = FindObjectsOfType<QuestEventScript>();
         foreach (QuestEventScript qes in prefabsToBeDestroyed)
         {
             Destroy(qes.gameObject);
-        }
+        }*/
     }
 
     void FailCurrentQuestEvent()
@@ -118,7 +119,8 @@ public class QuestDebugger : MonoBehaviour
         //Looks in the current quest from quest manager for its quest events and returns the first one that is marked as current
         if (questManager.currentQuest.questEvents.Count != 0)
         {
-            currentEvent = questManager.currentQuest.questEvents.Where(currentEvent => currentEvent.status == QuestEvent.EventStatus.CURRENT).FirstOrDefault();
+            //TODO: FIX THIS
+            //currentEvent = questManager.currentQuest.questEvents.Where(currentEvent => currentEvent.status == QuestEvent.EventStatus.CURRENT).FirstOrDefault();
         }
         else
         {
@@ -127,8 +129,8 @@ public class QuestDebugger : MonoBehaviour
 
         if (currentEvent != null)
         {
-            currentEvent.UpdateQuestEvent(QuestEvent.EventStatus.FAILED);
-            questManager.UpdateQuestsOnCompletion(currentEvent);
+            //currentEvent.UpdateQuestEvent(QuestEvent.EventStatus.FAILED);
+            //questManager.UpdateQuestsOnCompletion(currentEvent);
         }
     }
 

@@ -3,7 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEditor;
 
-public class QuestObject : MonoBehaviour
+[System.Serializable]
+public class QuestObject
 {
     public eventType type;
     public collectItemMonitorType itemToMonitor;
@@ -12,10 +13,11 @@ public class QuestObject : MonoBehaviour
 
     [HideInInspector] public QuestManager qManager;
     [HideInInspector] public QuestEvent qEvent;
-    [HideInInspector] public QuestEventScript qScript;
+    [HideInInspector] public QuestEventPrefabScript qScript;
     [HideInInspector] public Quest myQuest;
-    //public bool hasTimeLimitforEvent = false;
-    //public bool hasTimeLimitforQuest = false;
+    public GameObject associatedGameObject;
+    public bool hasTimeLimitforEvent = false;
+    public bool hasTimeLimitforQuest = false;
 
     private GameObject player;
     private Charpickup_inventory inventory;
@@ -50,8 +52,8 @@ public class QuestObject : MonoBehaviour
     {
         player = GameObject.FindGameObjectWithTag("Player");
         inventory = player.GetComponent<Charpickup_inventory>();
-        QuestGiver parentquestgiver = transform.parent.GetComponent<QuestGiver>();
-        if (parentquestgiver) gameObject.name = parentquestgiver.myQuest.name;
+        //QuestGiver parentquestgiver = transform.parent.GetComponent<QuestGiver>();
+        //if (parentquestgiver) gameObject.name = parentquestgiver.myQuest.questName;
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
@@ -59,26 +61,27 @@ public class QuestObject : MonoBehaviour
         if (collision.gameObject.tag != "Player") return;
         if (qEvent.status != QuestEvent.EventStatus.CURRENT) return;
 
+
         if (type == eventType.location)
         {
-            qEvent.UpdateQuestEvent(QuestEvent.EventStatus.DONE);
+            //qEvent.UpdateQuestEvent(QuestEvent.EventStatus.DONE);
             qManager.UpdateQuestsOnCompletion(qEvent);
         }
     }
 
     private void Update()
     {
-        /*if (hasTimeLimitforEvent && status == QuestEvent.EventStatus.CURRENT)
+        if (hasTimeLimitforEvent && status == QuestEvent.EventStatus.CURRENT)
         {
             //CreateTimeLimitForEvent();
         }
 
         if (hasTimeLimitforQuest && myQuest.questState == Quest.QuestState.CURRENT)
         {
-            myQuest.hasTimer = true;
-            qManager.CreateTimeLimitForQuest();
+            //myQuest.hasTimer = true;
+            //qManager.CreateTimeLimitForQuest();
             //qManager.timerTime = timerTime;
-        }*/
+        }
 
         status = qEvent.status;
         if (status == QuestEvent.EventStatus.CURRENT)
@@ -117,7 +120,7 @@ public class QuestObject : MonoBehaviour
             if (moneyCounter >= moneyRequired && !eventCompleted)
             {
                 eventCompleted = true;
-                qEvent.UpdateQuestEvent(QuestEvent.EventStatus.DONE);
+                qEvent.status = QuestEvent.EventStatus.DONE;
                 qManager.UpdateQuestsOnCompletion(qEvent);
             }
         }
@@ -130,7 +133,7 @@ public class QuestObject : MonoBehaviour
         //Compare it to itemAmountRequired for completion
         if (!inventory.items.Contains(itemToCollect)) //If the specified item is not in the Inventory
         {
-            StartCoroutine(CheckforInventoryItem());
+            //StartCoroutine(CheckforInventoryItem());
         }
         else
         {
@@ -143,8 +146,8 @@ public class QuestObject : MonoBehaviour
             if (itemCounter >= itemAmountRequired && !eventCompleted)
             {
                 eventCompleted = true;
-                qEvent.UpdateQuestEvent(QuestEvent.EventStatus.DONE);
-                qManager.UpdateQuestsOnCompletion(qEvent);
+                //qEvent.UpdateQuestEvent(QuestEvent.EventStatus.DONE);
+                //qManager.UpdateQuestsOnCompletion(qEvent);
             }
         }
     }
@@ -154,7 +157,7 @@ public class QuestObject : MonoBehaviour
         if (!inventory.items.Contains(itemToCollect))
         {
             yield return new WaitForSeconds(1f);
-            StartCoroutine(CheckforInventoryItem());
+            //StartCoroutine(CheckforInventoryItem());
         }
         else
         {
@@ -180,7 +183,7 @@ public class QuestObject : MonoBehaviour
         }
     }*/
 
-    public void Setup(QuestManager qm, QuestEvent qe, QuestEventScript qs, Quest qq)
+    public void Setup(QuestManager qm, QuestEvent qe, QuestEventPrefabScript qs, Quest qq)
     {
         qManager = qm;
         qEvent = qe;

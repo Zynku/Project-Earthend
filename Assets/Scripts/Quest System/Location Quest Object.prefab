@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 7122190703482662529}
   - component: {fileID: 7122190703482662528}
   - component: {fileID: 7122190703482662542}
-  - component: {fileID: 7122190703482662531}
+  - component: {fileID: 6713142412850416349}
   m_Layer: 14
   m_Name: Location Quest Object
   m_TagString: Untagged
@@ -112,7 +112,7 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 1, y: 1}
   m_EdgeRadius: 0
---- !u!114 &7122190703482662531
+--- !u!114 &6713142412850416349
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -121,19 +121,6 @@ MonoBehaviour:
   m_GameObject: {fileID: 7122190703482662530}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d16ad97c778ca2f41ab92f80305d24d6, type: 3}
+  m_Script: {fileID: 11500000, guid: 984d1dbeafe9c684d8cb9ea7fbd09c68, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  qManager: {fileID: 0}
-  qEvent:
-    name: 
-    description: 
-    id: 
-    order: 0
-    status: 0
-  qScript: {fileID: 0}
-  interactRadius: 0
-  amountRequired: 0
-  amountHas: 0
-  status: 0
-  type: 0
