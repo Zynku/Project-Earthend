@@ -10,9 +10,9 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 70258635a1361e6439261070d8ed14fd, type: 3}
-  m_Name: Find Cat Quest
+  m_Name: Dialogue - Find Cat Quest
   m_EditorClassIdentifier: 
-  defaultTreeId: 1
+  defaultTreeId: 4
   dialogueTrees:
   - treeName: Default
     treeID: 1

@@ -106,13 +106,12 @@ public class DialogueManager : MonoBehaviour
 
     public void ManageQuestsToGive()
     {
-        if (!playerInConversation)
+        if (!playerInConversation && questsToGive.Count > 0)
         {
-            if (questsToGive.Count > 0)
-            {
-                dialogueSource.GetComponent<QuestGiver>().AcceptQuest(questsToGive[0]);
-                questsToGive.RemoveAt(0);
-            }
+            Debug.Log("There's a quest to give, let's do it");
+            QuestGiver questScript = dialogueSource.GetComponent<QuestGiver>();
+            StartCoroutine(questScript.AcceptQuest(questsToGive[0]));
+            questsToGive.RemoveAt(0);
         }
     }
 
@@ -245,7 +244,8 @@ public class DialogueManager : MonoBehaviour
 
         if (currentDialogueTree.dialogueLines[currentLineArray].canTriggerQuest)
         {
-            questsToGive.Add(currentDialogueTree.dialogueLines[currentLineArray].myQuest);
+            QuestGiver questScript = dialogueSource.GetComponent<QuestGiver>();
+            questsToGive.Add(questScript.myQuest);
         }
 
         //If the choice can change the default tree to a different one, let it, and set the new tree ID
@@ -331,6 +331,12 @@ public class DialogueManager : MonoBehaviour
         currentLine = 1;
         ShowDialogue(this.dialogue, choiceOne.treeIdToSwitchTo, dialogueSource);
         dialogueSource.GetComponent<Npcscript>().MakeConversationBeeps();
+
+        if (choiceOne.canTriggerQuest)
+        {
+            QuestGiver questScript = dialogueSource.GetComponent<QuestGiver>();
+            questsToGive.Add(questScript.myQuest);
+        }
     }
 
     public void ChoiceTwoSelected()
@@ -346,5 +352,11 @@ public class DialogueManager : MonoBehaviour
         currentLine = 1;
         ShowDialogue(this.dialogue, choiceTwo.treeIdToSwitchTo, dialogueSource);
         dialogueSource.GetComponent<Npcscript>().MakeConversationBeeps();
+
+        if (choiceTwo.canTriggerQuest)
+        {
+            QuestGiver questScript = dialogueSource.GetComponent<QuestGiver>();
+            questsToGive.Add(questScript.myQuest);
+        }
     }
 }
