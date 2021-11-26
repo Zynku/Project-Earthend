@@ -4,18 +4,31 @@ using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
 using System;
+using MyBox;
 
 public class QuestManager : MonoBehaviour
 {
     [HideInInspector] public GameObject player;
     [HideInInspector] public TextMeshProUGUI currentQuestText;
-    private float acceptTimer;
+
+    [Separator("General Quest Variables")]
     public bool canAcceptQuest;
-    public GameObject questDivider;
+    private float acceptTimer;
+    public bool showLocationsDebug;
+    public Quest[] allQuests;
+    public Quest currentQuest; //The current quest that is being completed.
+    public QuestEvent currentQuestEvent;    //The current quest event that is being completed.
+    public GameObject questName;
+    public GameObject questDesc;
+
+    [Separator("Quest & Event Timer Pieces")]
     public QuestCountdownTimer countDownTimer;
     public float timerTime;             //Actual timer time, changes with time.deltatime and counts down to 0
     public float timerTargetTime;       //Time that timer starts at before counting down
     private bool liveTimer;             //Is true when a quest has a timer and lets timer run
+
+    [Separator("Canvas and UI Pieces")]
+    public GameObject questDivider;
     public GameObject questTimerPrefab;
     public List<GameObject> questTimers;    //Keeps a list of quest timers that are instantiated and deleted as necessary
     public GameObject questEventPrefab;                                             //Assigned in Inspector
@@ -23,6 +36,8 @@ public class QuestManager : MonoBehaviour
     public GameObject questTimerHolder;                                             //Holds newly created quest Timers
     public GameObject questHolder;                                                  //Holds newly created QCTPs, QATPs and QFTPs. See below for abbreviation meanings
     public GameObject questCanvas;                                                  //Assigned in inspector
+
+    [Separator("QCTPs, QATPs and QFTPs")]
     public GameObject questCompletedTextPrefab;                                     //Assigned in inspector
     public List<GameObject> questCompletedTexts, questCompletedTextsOffscreen;
     public GameObject questAcceptedTextPrefab;                                      //Assigned in inspector
@@ -30,10 +45,7 @@ public class QuestManager : MonoBehaviour
     public GameObject questFailedTextPrefab;                                        //Assigned in inspector
     public List<GameObject> questFailedTexts, questFailedTextsOffscreen;
 
-    public Quest currentQuest; //The current quest that is being completed.
-    public QuestEvent currentQuestEvent;    //The current quest event that is being completed.
-    public GameObject questName;
-    public GameObject questDesc;
+    
 
     private void Awake()
     {
@@ -57,7 +69,18 @@ public class QuestManager : MonoBehaviour
         //Cooldown for accepting quests
         if (!canAcceptQuest) { acceptTimer -= Time.deltaTime; }
         if (acceptTimer < 0) { acceptTimer = 3f; canAcceptQuest = true; }
+
+        if (currentQuest != null) 
+        {
+            CheckForLocationCollisions(); 
+        }
     }
+
+    [ButtonMethod]
+    public void GetAllQuests()
+    {
+        allQuests = Resources.LoadAll("Quests", typeof(Quest)).Cast<Quest>().ToArray();
+    }   //Finds all quests in the resources folder and adds them to allQuests
 
     void ManageOffScreenQCTPs()  //QCTP = Quest Completed Text Prefabs generated when a quest is completed and stored in questCompletedTextsOffscreen
     {
@@ -103,56 +126,58 @@ public class QuestManager : MonoBehaviour
         if (CheckforSameQuest(quest))
         {
             Debug.LogWarning("Quest already accepted!");
-            return;
         }
         else if (canAcceptQuest)
         {
-            if (currentQuest != null) { ClearOldQuest(); }  //Check for a quest before you setup a new one.
+            if (currentQuest != null)
             {
-                if (quest.questEvents.Count == 0)
+                ClearOldQuest();
+            }
+
+            if (quest.questEvents.Count == 0)
+            {
+                Debug.LogWarning("Quest has no quest events! Quest needs atleast one to function properly");
+                return;
+            }
+            else
+            {
+                player.GetComponent<Charquests>().currentQuests.Add(quest);
+                canAcceptQuest = false;
+                questDivider.SetActive(true);                            //Activates UI Elements associated with a quest
+                currentQuestText.gameObject.SetActive(true);
+                currentQuest = quest;                                     //Assigns incoming quest as current and lets the quest manager track it
+                currentQuest.questState = Quest.QuestState.CURRENT;       //Sets current quest as current
+                                                                          //Debug.Log("Calling CheckforQuestTimer");
+                CheckforQuestTimer();                                     //Checks to see if the current quest has any sort of timer attached to it
+                SetupQuestEvents();
+                GameObject qatp = Instantiate(questAcceptedTextPrefab, questCanvas.transform);  //Creates a Quest Accepted Text Prefab, or qatp
+
+                bool questAssigned = false;
+                if (!questAssigned) { qatp.GetComponent<QuestAcceptedText>().myQuestName.GetComponent<TextMeshProUGUI>().text = currentQuest.questName; }    //Assigns the quest name ONCE.
+
+                if (questAcceptedTexts.Count > 0) //If there are accepted quests on screen, yeet it to the offscreen bin. This is to avoid two accepted texts overlapping
                 {
-                    Debug.LogWarning("Quest has no quest events! Quest needs atleast one to function properly");
-                    return;
+                    questAcceptedTextsOffscreen.Add(qatp);
+                    qatp.SetActive(false);
+                }
+                else if (questCompletedTexts.Count > 0) //If there are completed quests on screen, yeet it to the offscreen bin. This is to avoid a quest accepted and quest completed text overlapping
+                {
+                    questAcceptedTextsOffscreen.Add(qatp);
+                    qatp.SetActive(false);
+                }
+                else if (questFailedTexts.Count > 0)     //If there are failed quests on screen, yeet it to the offscreen bin
+                {
+                    questAcceptedTextsOffscreen.Add(qatp);
+                    qatp.SetActive(false);
                 }
                 else
                 {
-                    player.GetComponent<Charquests>().currentQuests.Add(quest);
-                    canAcceptQuest = false;
-                    questDivider.SetActive(true);                            //Activates UI Elements associated with a quest
-                    currentQuestText.gameObject.SetActive(true);
-                    currentQuest = quest;                                     //Assigns incoming quest as current and lets the quest manager track it
-                    currentQuest.questState = Quest.QuestState.CURRENT;       //Sets current quest as current
-                                                                              //Debug.Log("Calling CheckforQuestTimer");
-                    CheckforQuestTimer();                                     //Checks to see if the current quest has any sort of timer attached to it
-                    SetupQuestEvents();
-                    GameObject qatp = Instantiate(questAcceptedTextPrefab, questCanvas.transform);  //Creates a Quest Accepted Text Prefab, or qatp
-
-                    bool questAssigned = false;
-                    if (!questAssigned) { qatp.GetComponent<QuestAcceptedText>().myQuestName.GetComponent<TextMeshProUGUI>().text = currentQuest.questName; }    //Assigns the quest name ONCE.
-
-                    if (questAcceptedTexts.Count > 0) //If there are accepted quests on screen, yeet it to the offscreen bin. This is to avoid two accepted texts overlapping
-                    {
-                        questAcceptedTextsOffscreen.Add(qatp);
-                        qatp.SetActive(false);
-                    }
-                    else if (questCompletedTexts.Count > 0) //If there are completed quests on screen, yeet it to the offscreen bin. This is to avoid a quest accepted and quest completed text overlapping
-                    {
-                        questAcceptedTextsOffscreen.Add(qatp);
-                        qatp.SetActive(false);
-                    }
-                    else if (questFailedTexts.Count > 0)     //If there are failed quests on screen, yeet it to the offscreen bin
-                    {
-                        questAcceptedTextsOffscreen.Add(qatp);
-                        qatp.SetActive(false);
-                    }
-                    else
-                    {
-                        questAcceptedTexts.Add(qatp);
-                    }
+                    questAcceptedTexts.Add(qatp);
                 }
             }
+
         }
-    }
+    }   //Any quests that are accepted come here first, and are processed
 
     public bool CheckforSameQuest(Quest myQuest)
     {
@@ -172,12 +197,13 @@ public class QuestManager : MonoBehaviour
         foreach (QuestEvent qe in currentQuest.questEvents)       
         {
             var qep = Instantiate(questEventPrefab, questHolder.transform);     //QEP is a gameObject
+            questEventPrefabs.Add(qep);
             var qeps = qep.GetComponent<QuestEventPrefabScript>();              //QEPS is the script attached to the QEP
             qeps.Setup(qe, questHolder, qep);
             qe.status = QuestEvent.EventStatus.WAITING;
 
             //Loop setting up each quest object
-            foreach (QuestObject qo in qe.questObjects)          
+            foreach (QuestLogic qo in qe.questLogic)          
             {
                 if (qo == null)
                 {
@@ -186,7 +212,7 @@ public class QuestManager : MonoBehaviour
                 else
                 {
                     qo.Setup(this, qe, qeps, currentQuest);
-                    qo.associatedGameObject.GetComponent<QuestObjectGameObject>().Setup(qo);
+                    //qo.associatedGameObject.GetComponent<QuestObjectGameObject>().Setup(qo);
                 }
             }
         }
@@ -210,7 +236,7 @@ public class QuestManager : MonoBehaviour
 
     public void UpdateQuestEvent(Quest quest) //Update quests everytime something is done
     {
-        
+        //LOL
     }
 
     private void CheckforQuestTimer()  //Checks to see if the current quest has a timer. If it does it activates the quest manager timer and sends it to be formatted
@@ -236,6 +262,31 @@ public class QuestManager : MonoBehaviour
         }
     }
 
+    private void CheckForLocationCollisions()   //If the current quest has a location quest logic component, this function will grab the locations and check if the player enters any
+    {
+        foreach (QuestEvent qe in currentQuest.questEvents)
+        {
+            foreach (QuestLogic ql in qe.questLogic)
+            {
+                if (ql.type == QuestLogic.eventType.location && qe.status == QuestEvent.EventStatus.CURRENT)
+                {
+                    //Check for player collision
+                    Collider2D[] hitColliders = Physics2D.OverlapAreaAll(ql.areaStart, ql.areaEnd);
+                    foreach (var hitCollider in hitColliders)
+                    {
+                        if (hitCollider.CompareTag("Player"))
+                        {
+                            Debug.Log("Player collided");
+                            qe.status = QuestEvent.EventStatus.DONE;
+                            UpdateQuestsOnCompletion(qe);
+                            return;
+                        }
+                    }
+                }
+            }
+        }
+    }
+
     public void ManageTimer()
     {
         //Debug.Log("Starting ManageTimer()");
@@ -253,7 +304,7 @@ public class QuestManager : MonoBehaviour
                     GameObject newTimer = Instantiate(questTimerPrefab, questTimerHolder.transform);    //Creates a new quest Timer that is in charge of counting down and keeping track of time and when its completed
                     questTimers.Add(newTimer);
                     QuestTimer timerScript = newTimer.GetComponent<QuestTimer>();
-                    timerScript.timerTargetTime = currentQuest.timerTargetTime;            //Sets the starting time for the timer script to the quest's amount of time
+                    timerScript.timerTargetTime = currentQuest.eventTimerTargetTime;            //Sets the starting time for the timer script to the quest's amount of time
                     liveTimer = true;
                     StartCoroutine(AssignTimer(timerScript));
 
@@ -277,7 +328,7 @@ public class QuestManager : MonoBehaviour
             GameObject newTimer = Instantiate(questTimerPrefab, questTimerHolder.transform);    //Creates a new quest Timer that is in charge of counting down and keeping track of time and when its completed
             questTimers.Add(newTimer);
             QuestTimer timerScript = newTimer.GetComponent<QuestTimer>();
-            timerScript.timerTargetTime = currentQuest.timerTargetTime;            //Sets the starting time for the timer script to the quest's amount of time
+            timerScript.timerTargetTime = currentQuest.eventTimerTargetTime;            //Sets the starting time for the timer script to the quest's amount of time
             liveTimer = true;
             StartCoroutine(AssignTimer(timerScript));
             
@@ -390,8 +441,11 @@ public class QuestManager : MonoBehaviour
 
     public void UpdateQuestsOnCompletion(QuestEvent e)
     {
-        e.status = QuestEvent.EventStatus.DONE;
-        if (currentQuest.questEvents.Count > 0)     //If there are quest events...
+        if (e.status == QuestEvent.EventStatus.CURRENT)
+        {
+            e.status = QuestEvent.EventStatus.DONE;
+        }
+        else if (currentQuest.questEvents.Count > 0)     //If there are quest events...
         {
             foreach (QuestEvent n in currentQuest.questEvents)
             {
@@ -406,26 +460,23 @@ public class QuestManager : MonoBehaviour
             }
         }
 
-        bool qctpShown = false;
-        bool qftpShown = false;
+
         //If the last quest event gets completed, that means the quest is done! Call that function!
-        if (currentQuest.questEvents.Last().status == QuestEvent.EventStatus.DONE && !qctpShown)
+        if (currentQuest.questEvents.Last().status == QuestEvent.EventStatus.DONE)
         {
             StartCoroutine(CompleteCurrentQuest());
             questDivider.SetActive(false);
             currentQuestText.gameObject.SetActive(false);
             countDownTimer.gameObject.SetActive(false);
             liveTimer = false;
-            qctpShown = true;
         }
-        else if (currentQuest.questEvents.Last().status == QuestEvent.EventStatus.FAILED && !qftpShown)    //Right now it fails if only the LAST quest event is failed. Add functionality for flexibility
+        else if (currentQuest.questEvents.Last().status == QuestEvent.EventStatus.FAILED)    //Right now it fails if only the LAST quest event is failed. Add functionality for flexibility
         {
             StartCoroutine(FailCurrentQuest());
             questDivider.SetActive(false);
             countDownTimer.gameObject.SetActive(false);
             liveTimer = false;
             currentQuestText.gameObject.SetActive(false);
-            qftpShown = true;
         }
     }
 
@@ -474,6 +525,16 @@ public class QuestManager : MonoBehaviour
         else
         {
             questCompletedTexts.Add(qctp);     //If there is nothing onscreen, just put it onscreen
+        }
+        //Checks for duplicate qctps
+        foreach (var qcto in questCompletedTextsOffscreen)
+        {
+            if (qcto == qctp)
+            {
+                Destroy(qctp);
+                Debug.LogWarning("Tried to make more than one instance of a Quest Completed Text Prefab for a Quest where one was already created! Stopped spawning 'em for ya");
+                break;
+            }
         }
 
         //Gets rid of all quest event prefabs on screen and clears the list
@@ -628,6 +689,45 @@ public class QuestManager : MonoBehaviour
         if (player.GetComponent<Charquests>().currentQuests.Count != 0)     //If there are more quests yet to be completed, add the next one back
         {
            ReAddQuest(player.GetComponent<Charquests>().currentQuests[0]);
+        }
+    }
+
+    private void OnDrawGizmos()
+    {
+        //Shows areas for quest location quest events
+        if (currentQuest != null && showLocationsDebug)
+        {
+            foreach (QuestEvent qe in currentQuest.questEvents)
+            {
+                foreach (QuestLogic ql in qe.questLogic)
+                {
+                    if (ql.type == QuestLogic.eventType.location)
+                    {
+                        Vector3 bottomLeft = new Vector3(ql.areaStart.x, ql.areaStart.y, ql.areaStart.z);
+                        Vector3 topRight = new Vector3(ql.areaEnd.x, ql.areaEnd.y, ql.areaEnd.z);
+
+                        Vector3 bottomRight = new Vector3(topRight.x, bottomLeft.y, bottomLeft.z);
+                        Vector3 topLeft = new Vector3(bottomLeft.x, topRight.y, bottomLeft.z);
+
+                        Gizmos.color = Color.magenta;
+                        Gizmos.DrawWireSphere(bottomLeft, 0.05f);
+                        Gizmos.DrawWireSphere(topRight, 0.05f);
+
+                        Gizmos.color = Color.red;
+                        Gizmos.DrawWireSphere(bottomRight, 0.05f);
+                        Gizmos.DrawWireSphere(topLeft, 0.05f);
+
+                        Gizmos.color = Color.magenta;
+                        Gizmos.DrawLine(bottomLeft, topRight);
+                        Gizmos.DrawLine(bottomRight, topLeft);
+
+                        Gizmos.DrawLine(topLeft, topRight);
+                        Gizmos.DrawLine(topRight, bottomRight);
+                        Gizmos.DrawLine(bottomRight, bottomLeft);
+                        Gizmos.DrawLine(bottomLeft, topLeft);
+                    }
+                }
+            }
         }
     }
 }

@@ -1,0 +1,55 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 49ae13b474215be4d82abdb3781dd09c, type: 3}
+  m_Name: Collect 200 Rived Rock
+  m_EditorClassIdentifier: 
+  questName: Collect 200 Rived Rock
+  desc: You know Rived Rock, that purple crumbly stuff that you find on the ground.
+    A researcher in the Devlab requires 200 of it for an experiment. Help them out!
+  isActive: 0
+  hasTimerForQuest: 0
+  hasTimerForEvent: 0
+  whichEventOrderNumber: 0
+  timerTargetTime: 0
+  questState: 0
+  questEvents:
+  - questEventName: 
+    description: 
+    id: 
+    order: 0
+    status: 0
+    questEventPrefabScript: {fileID: 0}
+    questObjects:
+    - type: 0
+      itemToMonitor: 0
+      eventCompleted: 0
+      qManager: {fileID: 0}
+      qEvent:
+        questEventName: 
+        description: 
+        id: 
+        order: 0
+        status: 0
+        questEventPrefabScript: {fileID: 0}
+        questObjects: []
+      qScript: {fileID: 0}
+      myQuest: {fileID: 0}
+      associatedGameObject: {fileID: 0}
+      hasTimeLimitforEvent: 0
+      hasTimeLimitforQuest: 0
+      interactRadius: 0
+      moneyTarget: 0
+      moneyCounter: 0
+      itemAmountTarget: 0
+      itemCounter: 0
+      itemToCollect: {fileID: 0}
+      status: 0

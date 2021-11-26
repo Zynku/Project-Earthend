@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
 using UnityEngine.UI;
+using MyBox;
 
 
 //[CreateAssetMenu(fileName = "New Quest", menuName = "Quest System/ New Quest")]
@@ -16,9 +17,12 @@ public class Quest : ScriptableObject
     public string desc;
     public bool isActive;
     public bool hasTimerForQuest;
+    [ConditionalField(nameof(hasTimerForQuest))] public float questTimerTargetTime;       //Time that timer starts at before counting down
     public bool hasTimerForEvent;
+    [ConditionalField(nameof(hasTimerForEvent))] public float eventTimerTargetTime;       //Time that timer starts at before counting down
     public int whichEventOrderNumber;
-    public float timerTargetTime;       //Time that timer starts at before counting down
+    public GameObject[] associatedNpcs;         //Do any NPCs give you this quest via dialogue?
+    
     public enum QuestState { WAITING, CURRENT, COMPLETED, FAILED};
     public QuestState questState;
     //Enum that defines quest state
@@ -52,7 +56,7 @@ public class QuestEvent
     public int order = -1;
     public EventStatus status;
     [HideInInspector] public QuestEventPrefabScript questEventPrefabScript; //Holds the script associated with this quest event's quest event prefab (try saying that x10 fast)
-    public List<QuestObject> questObjects;
+    public List<QuestLogic> questLogic;
 
     public QuestEvent(string n, string d)
     {
@@ -60,6 +64,7 @@ public class QuestEvent
         questEventName = n;
         description = d;
         status = EventStatus.WAITING;
+        //TODO: Add a condition, where, if true, failing this quest event fails the entire quest.
     }
 }
 

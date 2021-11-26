@@ -4,7 +4,6 @@ using System.Linq;
 using UnityEngine;
 using TMPro;
 
-[ExecuteInEditMode]
 public class QuestDebugger : MonoBehaviour
 {
     GameObject player;
@@ -17,10 +16,10 @@ public class QuestDebugger : MonoBehaviour
     public enum DebugType { completeAllQuests, completeCurrentQuest, completeCurrentQuestEvent, failCurrentQuestEvent, failCurrentQuest, clearAllQuestEventPrefabs}
     bool playerInRange;
 
-    private void Awake()
+    public void Start()
     {
-        player = GameObject.FindGameObjectWithTag("Player");
-        questManager = GameObject.FindGameObjectWithTag("QuestManager").GetComponent<QuestManager>();
+        player = gamemanager.instance.Player;
+        questManager = gamemanager.instance.questManager;
         shownDebugType.GetComponent<TextMeshPro>().text = DebuggingType.ToString();
     }
 
@@ -59,18 +58,17 @@ public class QuestDebugger : MonoBehaviour
         //Looks in the current quest from quest manager for its quest events and returns the first one that is marked as current
         if (questManager.currentQuest.questEvents.Count != 0)
         {
-            //TODO: FIX THIS
-            //currentEvent = questManager.currentQuest.questEvents.Where(currentEvent => currentEvent.status == QuestEvent.EventStatus.CURRENT).FirstOrDefault();
+            currentEvent = questManager.currentQuest.questEvents.Where(currentEvent => currentEvent.status == QuestEvent.EventStatus.CURRENT).FirstOrDefault();
         }
         else
         {
-            Debug.Log("No quest events chief...");
+            Debug.LogWarning("No quest events chief...");
         }
 
         if (currentEvent != null)
         {
-            //currentEvent.UpdateQuestEvent(QuestEvent.EventStatus.DONE);
-            //questManager.UpdateQuestsOnCompletion(currentEvent); 
+            currentEvent.status = QuestEvent.EventStatus.DONE;
+            questManager.UpdateQuestsOnCompletion(currentEvent); 
         }
     }
 
@@ -82,7 +80,7 @@ public class QuestDebugger : MonoBehaviour
         }
         else
         {
-            Debug.Log("No quests chief...");
+            Debug.LogWarning("No quests chief...");
         }
     }
 
@@ -107,11 +105,11 @@ public class QuestDebugger : MonoBehaviour
 
     void ClearAllQuestEventPrefabs()
     {
-/*        QuestEventScript[] prefabsToBeDestroyed = FindObjectsOfType<QuestEventScript>();
-        foreach (QuestEventScript qes in prefabsToBeDestroyed)
+        QuestEventPrefabScript[] prefabsToBeDestroyed = FindObjectsOfType<QuestEventPrefabScript>();
+        foreach (QuestEventPrefabScript qes in prefabsToBeDestroyed)
         {
             Destroy(qes.gameObject);
-        }*/
+        }
     }
 
     void FailCurrentQuestEvent()
@@ -119,8 +117,7 @@ public class QuestDebugger : MonoBehaviour
         //Looks in the current quest from quest manager for its quest events and returns the first one that is marked as current
         if (questManager.currentQuest.questEvents.Count != 0)
         {
-            //TODO: FIX THIS
-            //currentEvent = questManager.currentQuest.questEvents.Where(currentEvent => currentEvent.status == QuestEvent.EventStatus.CURRENT).FirstOrDefault();
+            currentEvent = questManager.currentQuest.questEvents.Where(currentEvent => currentEvent.status == QuestEvent.EventStatus.CURRENT).FirstOrDefault();
         }
         else
         {
@@ -129,8 +126,8 @@ public class QuestDebugger : MonoBehaviour
 
         if (currentEvent != null)
         {
-            //currentEvent.UpdateQuestEvent(QuestEvent.EventStatus.FAILED);
-            //questManager.UpdateQuestsOnCompletion(currentEvent);
+            currentEvent.status = QuestEvent.EventStatus.FAILED;
+            questManager.UpdateQuestsOnCompletion(currentEvent);
         }
     }
 

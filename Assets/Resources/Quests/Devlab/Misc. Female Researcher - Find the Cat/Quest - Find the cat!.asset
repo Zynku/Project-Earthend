@@ -1,0 +1,55 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 49ae13b474215be4d82abdb3781dd09c, type: 3}
+  m_Name: Quest - Find the cat!
+  m_EditorClassIdentifier: 
+  questName: Find the cat!
+  desc: A researcher in the Devlab says she misplaced her cat, help her find the
+    kitty kitty meow meow
+  isActive: 1
+  hasTimerForQuest: 0
+  questTimerTargetTime: 0
+  hasTimerForEvent: 0
+  eventTimerTargetTime: 0
+  whichEventOrderNumber: 0
+  associatedNpcs: []
+  questState: 0
+  questEvents:
+  - questEventName: Go Upstairs to look for the cat
+    description: Go Upstairs to look for the cat
+    id: 0
+    order: 0
+    status: 0
+    questEventPrefabScript: {fileID: 0}
+    questLogic:
+    - type: 1
+      status: 0
+      eventCompleted: 0
+      hasTimeLimitforEvent: 0
+      hasTimeLimitforQuest: 0
+      areaStart: {x: -14.83, y: -3.64, z: 0}
+      areaEnd: {x: 0.77, y: -1.27, z: 0}
+      radius: 0
+      interactRadius: 0
+      moneyTarget: 0
+      moneyCounter: 0
+      playerAspectToMonitor: 0
+      itemAmountTarget: 0
+      itemCounter: 0
+      itemToCollect: {fileID: 0}
+  - questEventName: Find da cat
+    description: Find da cat
+    id: 1
+    order: 0
+    status: 0
+    questEventPrefabScript: {fileID: 0}
+    questLogic: []

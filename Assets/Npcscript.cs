@@ -17,9 +17,9 @@ public class Npcscript : MonoBehaviour
     public bool playerInRange;                                  //Is controlled by Npccollisionhandler script on child
 
     [Header("Dialogue & Conversation Variables")]
-    [SerializeField] Dialogue myDialogue;                         //Dialogue is a function of the dialogue class. Check Systems folder in Assets
-    [SerializeField] Dialogue aboveHeadDialogue;
-    [SerializeField] Dialogue specialDialogue;
+    [SerializeField] public Dialogue myDialogue;                         //Dialogue is a function of the dialogue class. Check Systems folder in Assets
+    [SerializeField] public Dialogue aboveHeadDialogue;
+    [SerializeField] public Dialogue specialDialogue;
 
 
     DialogueManager dialogueManager;

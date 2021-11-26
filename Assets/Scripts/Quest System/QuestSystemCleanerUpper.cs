@@ -1,53 +1,151 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using MyBox;
+using System.Linq;
+using TMPro;
 
-[ExecuteAlways, ExecuteInEditMode]
 public class QuestSystemCleanerUpper : MonoBehaviour
 {
-    GameObject[] questObjects;
-    private bool spritesEnabled;
+    GameObject player;
+    QuestManager questManager;
+    QuestEvent currentEvent;
+    Quest currentQuest;
 
-    public void ToggleQuestObjectSprites()
+    public void Start()
     {
-        questObjects = GameObject.FindGameObjectsWithTag("QuestObject");
-        if (!spritesEnabled)
+        player = gamemanager.instance.Player;
+        questManager = gamemanager.instance.questManager;
+    }
+
+    [ButtonMethod]
+    public void CompleteCurrentQuestEvent()
+    {
+        //Looks in the current quest from quest manager for its quest events and returns the first one that is marked as current
+        if (questManager.currentQuest.questEvents.Count != 0)
         {
-            EnableQuestObjectSprites();
-            spritesEnabled = true;
+            currentEvent = questManager.currentQuest.questEvents.Where(currentEvent => currentEvent.status == QuestEvent.EventStatus.CURRENT).FirstOrDefault();
         }
         else
         {
-            DisableQuestObjectSprites();
+            Debug.LogWarning("No quest events chief...");
+        }
+
+        if (currentEvent != null)
+        {
+            currentEvent.status = QuestEvent.EventStatus.DONE;
+            questManager.UpdateQuestsOnCompletion(currentEvent);
         }
     }
 
-    void EnableQuestObjectSprites()
+    [ButtonMethod]
+    public void CompleteCurrentQuest()
     {
-        foreach (GameObject questobject in questObjects)
+        if (questManager.questAcceptedTexts.Count == 0)
         {
-            if (questobject.GetComponent<SpriteRenderer>())
+            if (player.GetComponent<Charquests>().currentQuests.Count > 0)
             {
-                if (questobject.GetComponent<SpriteRenderer>().enabled == false)
-                {
-                    questobject.GetComponent<SpriteRenderer>().enabled = true;
-                    spritesEnabled = true;
-                }
+                StartCoroutine(questManager.CompleteCurrentQuest());
+            }
+            else
+            {
+                Debug.LogWarning("No quests chief...");
+            }
+        }
+        else
+        {
+            Debug.LogWarning("Wait for the Quest Accepted Text to finish showing before doing this. Try again in a second");
+        }
+    }
+
+    [ButtonMethod]
+    public IEnumerator CompleteAllQuests()
+    {
+        if (questManager.currentQuest.questName != "No Quest")
+        {
+            StartCoroutine(questManager.CompleteCurrentQuest());
+            //Complete a quest, wait 0.1 seconds, check if there's another quest. If there is complete it
+            yield return new WaitForSeconds(0.1f);
+            foreach (GameObject qep in questManager.questEventPrefabs)
+            {
+                Destroy(qep);
+            }
+            questManager.questEventPrefabs.Clear();
+            if (player.GetComponent<Charquests>().currentQuests.Count > 0)
+            {
+                StartCoroutine(CompleteAllQuests());
             }
         }
     }
 
-
-    void DisableQuestObjectSprites()
+    [ButtonMethod]
+    public void ClearAllQuestEventPrefabs()
     {
-        foreach (GameObject questobject in questObjects)
+        QuestEventPrefabScript[] prefabsToBeDestroyed = FindObjectsOfType<QuestEventPrefabScript>();
+        foreach (QuestEventPrefabScript qes in prefabsToBeDestroyed)
         {
-            if (questobject.GetComponent<SpriteRenderer>())
+            Destroy(qes.gameObject);
+        }
+    }
+
+    [ButtonMethod]
+    public void FailCurrentQuestEvent()
+    {
+        //Looks in the current quest from quest manager for its quest events and returns the first one that is marked as current
+        if (questManager.currentQuest.questEvents.Count != 0)
+        {
+            currentEvent = questManager.currentQuest.questEvents.Where(currentEvent => currentEvent.status == QuestEvent.EventStatus.CURRENT).FirstOrDefault();
+        }
+        else
+        {
+            Debug.Log("No quest events chief...");
+        }
+
+        if (currentEvent != null)
+        {
+            currentEvent.status = QuestEvent.EventStatus.FAILED;
+            questManager.UpdateQuestsOnCompletion(currentEvent);
+        }
+    }
+
+    [ButtonMethod]
+    public void FailCurrentQuest()
+    {
+        if (player.GetComponent<Charquests>().currentQuests.Count > 0)
+        {
+            StartCoroutine(questManager.FailCurrentQuest());
+        }
+        else
+        {
+            Debug.Log("No quests chief...");
+        }
+    }
+
+    [ButtonMethod]
+    public void ClearQctpsQatpsAndQftps()
+    {
+        questManager.questAcceptedTextsOffscreen.Clear();
+        questManager.questAcceptedTexts.Clear();
+        questManager.questCompletedTextsOffscreen.Clear();
+        questManager.questCompletedTexts.Clear();
+        questManager.questFailedTextsOffscreen.Clear();
+        questManager.questFailedTexts.Clear();
+    }
+
+    [ButtonMethod]
+    public void ResetAllQuestStatuses()
+    {
+        Quest[] allQuests = Resources.LoadAll("Quests", typeof(Quest)).Cast<Quest>().ToArray();
+
+        foreach (var quest in allQuests)
+        {
+            quest.questState = Quest.QuestState.WAITING;
+            foreach (var questEvent in quest.questEvents)
             {
-                if (questobject.GetComponent<SpriteRenderer>().enabled == true)
+                questEvent.status = QuestEvent.EventStatus.WAITING;
+                foreach (var questLogic in questEvent.questLogic)
                 {
-                    questobject.GetComponent<SpriteRenderer>().enabled = false;
-                    spritesEnabled = false;
+                    questLogic.status = QuestEvent.EventStatus.WAITING;
                 }
             }
         }

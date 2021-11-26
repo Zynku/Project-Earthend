@@ -38,7 +38,7 @@ public class DialogueLine
     [ConditionalField(nameof(canTriggerQuest))] 
     public Quest myQuest;                   //Quest that can be triggered by reading this line
 
-    [Separator("Default Variables")]
+    [Header("Default Variables")]
     public string lineOwner;                //Who said the line?
     public int lettersPerSecond = 100;      //How fast is the text said?
     public AudioClip audio;                 //TODO: Audio that says the line
