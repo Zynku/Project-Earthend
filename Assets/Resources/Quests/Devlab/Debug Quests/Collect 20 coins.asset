@@ -1,0 +1,50 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 49ae13b474215be4d82abdb3781dd09c, type: 3}
+  m_Name: Collect 20 coins
+  m_EditorClassIdentifier: 
+  questName: Collect 20 coins
+  desc: You seem a bit strapped for cash, it's time you changed that. Find 20 coins
+    somewhere (try checking in between the couch cushions)
+  isActive: 0
+  hasTimerForQuest: 0
+  questTimerTargetTime: 0
+  hasTimerForEvent: 0
+  eventTimerTargetTime: 0
+  whichEventOrderNumber: 0
+  associatedQuestGivers:
+  - {fileID: 0}
+  questState: 2
+  questEvents:
+  - questEventName: Collect 20 coins
+    description: Collect 20 coins
+    id: 
+    order: 0
+    status: 2
+    questEventPrefabScript: {fileID: 0}
+    questLogic:
+    - type: 3
+      status: 0
+      eventCompleted: 1
+      hasTimeLimitforEvent: 0
+      hasTimeLimitforQuest: 0
+      areaStart: {x: 0, y: 0, z: 0}
+      areaEnd: {x: 0, y: 0, z: 0}
+      interactRadius: 0
+      playerAspectToMonitor: 0
+      moneyTarget: 20
+      moneyRequired: 50
+      moneyCounter: 51
+      itemAmountTarget: 0
+      itemCounter: 0
+      amountsSet: 1
+      itemToCollect: {fileID: 0}

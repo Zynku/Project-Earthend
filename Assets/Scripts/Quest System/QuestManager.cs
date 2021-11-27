@@ -16,10 +16,11 @@ public class QuestManager : MonoBehaviour
     private float acceptTimer;
     public bool showLocationsDebug;
     public Quest[] allQuests;
-    public Quest currentQuest; //The current quest that is being completed.
+    public Quest currentQuest;              //The current quest that is being completed.
     public QuestEvent currentQuestEvent;    //The current quest event that is being completed.
     public GameObject questName;
     public GameObject questDesc;
+    private bool checkedForQuestLogicTypes = false; //Makes sure that this script isnt constantly checking the type, and only does it once
 
     [Separator("Quest & Event Timer Pieces")]
     public QuestCountdownTimer countDownTimer;
@@ -49,12 +50,13 @@ public class QuestManager : MonoBehaviour
 
     private void Awake()
     {
-        player = GameObject.FindGameObjectWithTag("Player");
+        
         player.GetComponent<Charquests>().questmanager = this;
     }
 
     private void Start()
     {
+        player = gamemanager.instance.Player;
         questDivider.SetActive(false);
         currentQuestText.gameObject.SetActive(false);
         countDownTimer.gameObject.SetActive(false);
@@ -70,9 +72,26 @@ public class QuestManager : MonoBehaviour
         if (!canAcceptQuest) { acceptTimer -= Time.deltaTime; }
         if (acceptTimer < 0) { acceptTimer = 3f; canAcceptQuest = true; }
 
-        if (currentQuest != null) 
+        if (currentQuest != null && !checkedForQuestLogicTypes) 
         {
-            CheckForLocationCollisions(); 
+            foreach (QuestEvent qe in currentQuest.questEvents)
+            {
+                foreach (QuestLogic ql in qe.questLogic)
+                {
+                    if (ql.type == QuestLogic.EventType.location)
+                    {
+                        StartCoroutine(CheckForLocationCollisions(ql));
+                        checkedForQuestLogicTypes = true;
+                        break;
+                    }
+                    else if (ql.type == QuestLogic.EventType.playerAspectMonitor)
+                    {
+                        StartCoroutine(CheckForPlayerAspect(ql));
+                        checkedForQuestLogicTypes = true;
+                        break;
+                    }
+                }
+            }
         }
     }
 
@@ -121,8 +140,9 @@ public class QuestManager : MonoBehaviour
         }
     }
 
-    public void SetupNewQuest(Quest quest)
+    public void SetupNewQuest(Quest quest) //Any quests that are accepted come here first, and are processed
     {
+        checkedForQuestLogicTypes = false;
         if (CheckforSameQuest(quest))
         {
             Debug.LogWarning("Quest already accepted!");
@@ -139,7 +159,8 @@ public class QuestManager : MonoBehaviour
                 Debug.LogWarning("Quest has no quest events! Quest needs atleast one to function properly");
                 return;
             }
-            else
+
+            else if (CheckforQuestLogic(quest))
             {
                 player.GetComponent<Charquests>().currentQuests.Add(quest);
                 canAcceptQuest = false;
@@ -177,7 +198,7 @@ public class QuestManager : MonoBehaviour
             }
 
         }
-    }   //Any quests that are accepted come here first, and are processed
+    }   
 
     public bool CheckforSameQuest(Quest myQuest)
     {
@@ -191,6 +212,19 @@ public class QuestManager : MonoBehaviour
         return false;
     }
 
+    public bool CheckforQuestLogic(Quest myQuest) //Makes sure that all quest events in the quest have quest logic attached
+    {
+        foreach (var questEvent in myQuest.questEvents)
+        {
+            if (questEvent.questLogic.Count <= 0)
+            {
+                Debug.LogWarning(questEvent + " has no quest logic attached! Every quest event must have quest logic attached.");
+                return false;
+            }
+        }
+        return true;
+    }   
+
     public void SetupQuestEvents()  //Also sets up quest objects and quest object game object (should they have one)
     {
         //Sets up all quest event prefabs and sets quest events as waiting
@@ -203,16 +237,16 @@ public class QuestManager : MonoBehaviour
             qe.status = QuestEvent.EventStatus.WAITING;
 
             //Loop setting up each quest object
-            foreach (QuestLogic qo in qe.questLogic)          
+            foreach (QuestLogic ql in qe.questLogic)          
             {
-                if (qo == null)
+                if (ql == null)
                 {
                     Debug.LogWarning("There are no quest events associated with this quest event! Please Check the quest to make sure each quest event has a quest object!");
                 }
                 else
                 {
-                    qo.Setup(this, qe, qeps, currentQuest);
-                    //qo.associatedGameObject.GetComponent<QuestObjectGameObject>().Setup(qo);
+                    ql.Setup(this, qe, qeps, currentQuest);
+                    ql.status = QuestEvent.EventStatus.WAITING;
                 }
             }
         }
@@ -262,30 +296,86 @@ public class QuestManager : MonoBehaviour
         }
     }
 
-    private void CheckForLocationCollisions()   //If the current quest has a location quest logic component, this function will grab the locations and check if the player enters any
+    #region Quest Logic Functionality
+    private IEnumerator CheckForLocationCollisions(QuestLogic questLogic)   //If the current quest has a location quest logic component, this function will grab the locations and check if the player enters any
     {
-        foreach (QuestEvent qe in currentQuest.questEvents)
+        Debug.Log("Checking for locations for " + questLogic.qEvent.questEventName);
+        if (currentQuest != null)
         {
-            foreach (QuestLogic ql in qe.questLogic)
+            //Check for player collision
+            Collider2D[] hitColliders = Physics2D.OverlapAreaAll(questLogic.areaStart, questLogic.areaEnd);
+            foreach (var hitCollider in hitColliders)
             {
-                if (ql.type == QuestLogic.eventType.location && qe.status == QuestEvent.EventStatus.CURRENT)
+                if (hitCollider.CompareTag("Player"))
                 {
-                    //Check for player collision
-                    Collider2D[] hitColliders = Physics2D.OverlapAreaAll(ql.areaStart, ql.areaEnd);
-                    foreach (var hitCollider in hitColliders)
-                    {
-                        if (hitCollider.CompareTag("Player"))
-                        {
-                            Debug.Log("Player collided");
-                            qe.status = QuestEvent.EventStatus.DONE;
-                            UpdateQuestsOnCompletion(qe);
-                            return;
-                        }
-                    }
+                    questLogic.status = QuestEvent.EventStatus.DONE;
+                    UpdateQuestsOnCompletion(questLogic.qEvent);
+                    yield break;
                 }
             }
         }
+        yield return new WaitForSeconds(0.1f);
+        StartCoroutine(CheckForLocationCollisions(questLogic));
     }
+
+    public IEnumerator CheckForPlayerAspect(QuestLogic questLogic)
+    {
+        if (questLogic.playerAspectToMonitor == QuestLogic.PlayerAspectMonitorType.money)
+        {
+            Debug.Log("Checking money player aspect for " + questLogic.qEvent.questEventName);
+            questLogic.moneyCounter = questLogic.moneyCounter = player.GetComponent<Charpickup_inventory>().money;  //Sets the counter to how much cash you're on right now
+            if (!questLogic.amountsSet)
+            {
+                questLogic.moneyRequired = questLogic.moneyCounter + questLogic.moneyTarget;
+                questLogic.amountsSet = true;
+            }
+            if (questLogic.moneyCounter >= questLogic.moneyRequired && !questLogic.eventCompleted)
+            {
+                questLogic.eventCompleted = true;
+                questLogic.qEvent.status = QuestEvent.EventStatus.DONE;
+                UpdateQuestsOnCompletion(questLogic.qEvent);
+                yield break;
+            }
+        }
+
+        if (questLogic.playerAspectToMonitor == QuestLogic.PlayerAspectMonitorType.level)
+        {
+            Debug.Log("Checking level player aspect for " + questLogic.qEvent.questEventName);
+            questLogic.levelCounter = player.GetComponent<Charhealth>().level;  //Sets the counter to how what level you are currently
+            if (!questLogic.amountsSet)
+            {
+                questLogic.amountsSet = true;
+            }
+            if (questLogic.levelCounter >= questLogic.levelTarget && !questLogic.eventCompleted)
+            {
+                questLogic.eventCompleted = true;
+                questLogic.qEvent.status = QuestEvent.EventStatus.DONE;
+                UpdateQuestsOnCompletion(questLogic.qEvent);
+                yield break;
+            }
+        }
+
+        if (questLogic.playerAspectToMonitor == QuestLogic.PlayerAspectMonitorType.health)
+        {
+            Debug.Log("Checking health player aspect for " + questLogic.qEvent.questEventName);
+            questLogic.healthCounter = player.GetComponent<Charhealth>().currentHealth;  //Sets the counter to how what level you are currently
+            if (!questLogic.amountsSet)
+            {
+                questLogic.amountsSet = true;
+            }
+            if (questLogic.healthCounter >= questLogic.healthTarget && !questLogic.eventCompleted)
+            {
+                questLogic.eventCompleted = true;
+                questLogic.qEvent.status = QuestEvent.EventStatus.DONE;
+                UpdateQuestsOnCompletion(questLogic.qEvent);
+                yield break;
+            }
+        }
+
+        yield return new WaitForSeconds(0.1f);
+        StartCoroutine(CheckForPlayerAspect(questLogic));
+    }
+    #endregion
 
     public void ManageTimer()
     {
@@ -439,18 +529,19 @@ public class QuestManager : MonoBehaviour
         SetupQuestEvents();
     }
 
-    public void UpdateQuestsOnCompletion(QuestEvent e)
+    public void UpdateQuestsOnCompletion(QuestEvent qe)
     {
-        if (e.status == QuestEvent.EventStatus.CURRENT)
+        if (qe.status == QuestEvent.EventStatus.CURRENT)
         {
-            e.status = QuestEvent.EventStatus.DONE;
+            qe.status = QuestEvent.EventStatus.DONE;
         }
-        else if (currentQuest.questEvents.Count > 0)     //If there are quest events...
+        
+        if (currentQuest.questEvents.Count > 0)     //If there are quest events...
         {
             foreach (QuestEvent n in currentQuest.questEvents)
             {
                 //If this event is the next in order
-                if (n.order == (e.order + 1))
+                if (n.order == (qe.order + 1))
                 {
                     //Make the next in line available for completion
                     n.status = QuestEvent.EventStatus.CURRENT;
@@ -701,7 +792,7 @@ public class QuestManager : MonoBehaviour
             {
                 foreach (QuestLogic ql in qe.questLogic)
                 {
-                    if (ql.type == QuestLogic.eventType.location)
+                    if (ql.type == QuestLogic.EventType.location)
                     {
                         Vector3 bottomLeft = new Vector3(ql.areaStart.x, ql.areaStart.y, ql.areaStart.z);
                         Vector3 topRight = new Vector3(ql.areaEnd.x, ql.areaEnd.y, ql.areaEnd.z);

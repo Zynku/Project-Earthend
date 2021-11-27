@@ -7,8 +7,7 @@ using MyBox;
 [System.Serializable]
 public class QuestLogic
 {
-    public eventType type;
-    
+    public EventType type;
     public QuestEvent.EventStatus status;
     public bool eventCompleted = false;
 
@@ -26,39 +25,68 @@ public class QuestLogic
     [Separator("Dynamic Variables")]
     [Tooltip("The gameObject that the player must collide with the complete this step")]
     //[ConditionalField(nameof(type), false, eventType.location)] public GameObject associatedGameObject;
-    [ConditionalField(nameof(type), false, eventType.location)] public Vector3 areaStart;
-    [ConditionalField(nameof(type), false, eventType.location)] public Vector3 areaEnd;
-    [ConditionalField(nameof(type), false, eventType.location)] public float radius;
+    [ConditionalField(nameof(type), false, EventType.location)] public Vector3 areaStart;
+    [ConditionalField(nameof(type), false, EventType.location)] public Vector3 areaEnd;
 
-    [ConditionalField(nameof(type), false, eventType.collectPhysicalItem)] public int interactRadius;
-
-    [ConditionalField(nameof(type), false, eventType.collectItemMonitor)] public int moneyTarget;
-    [Tooltip("How much player needs to collect based on how much they currently have. Is equal to the money counter + the money target.")]
-    private int moneyRequired;
-    
-    [Tooltip("How much player actually has.")]
-    [ConditionalField(nameof(type), false, eventType.collectItemMonitor)] public int moneyCounter;
+    [ConditionalField(nameof(type), false, EventType.collectUniqueItem)] public int interactRadius;
 
     [Tooltip("What player aspect should be monitored")]
-    [ConditionalField(nameof(type), false, eventType.collectItemMonitor)] public playerAspectMonitorType playerAspectToMonitor;
+    [ConditionalField(nameof(type), false, EventType.playerAspectMonitor)] public PlayerAspectMonitorType playerAspectToMonitor;
 
+
+    [Tooltip("How much MORE the player is intended to collect to reach the target. Is assigned in Inspector.")]
+    [ConditionalField(nameof(playerAspectToMonitor), false, PlayerAspectMonitorType.money)] public int moneyTarget;
+
+    [Tooltip("How much player actually has.")]
+    [ConditionalField(nameof(playerAspectToMonitor), false, PlayerAspectMonitorType.money)] public int moneyCounter;
+
+    [Tooltip("How much player needs to collect based on how much they currently have. Is equal to the money counter + the money target.")]
+    [HideInInspector] public int moneyRequired;
+
+
+    [Tooltip("What level the player should be at or above to finish this quest. Is assigned in Inspector.")]
+    [ConditionalField(nameof(playerAspectToMonitor), false, PlayerAspectMonitorType.level)] public int levelTarget;
+
+    [Tooltip("What level the player is upon accepting this quest.")]
+    [ConditionalField(nameof(playerAspectToMonitor), false, PlayerAspectMonitorType.level)] public int levelCounter;
+
+
+    [Tooltip("What amount of health the player should be at or above to finish this quest. Is assigned in Inspector.")]
+    [ConditionalField(nameof(playerAspectToMonitor), false, PlayerAspectMonitorType.health)] public int healthTarget;
+
+    [Tooltip("What amount of health the player is upon accepting this quest.")]
+    [ConditionalField(nameof(playerAspectToMonitor), false, PlayerAspectMonitorType.health)] public int healthCounter;
+
+    //TODO: Add functionality for eventtype: collectinventoryitem similar to how playeraspect is set up
 
     [Tooltip("How much is required to complete quest event.")]
-    [ConditionalField(nameof(type), false, eventType.collectInventoryItems)] public int itemAmountTarget;         //itemAmountTarget is set in Inspector. Is how much is required to complete quest event. 
+    [ConditionalField(nameof(type), false, EventType.collectInventoryItems)] public int itemAmountTarget;         //itemAmountTarget is set in Inspector. Is how much is required to complete quest event. 
     
     [Tooltip("How much player needs to collect based on how much they currently have. Is equal to the item counter + the amount target.")]
     private int itemAmountRequired;       //itemAmountRequired is how much you need to collect based on how many you have now. Is itemcounter(item.amountHas) + itemAmountTarget
     
     [Tooltip("How much player actually has.")]
-    [ConditionalField(nameof(type), false, eventType.collectInventoryItems)] public int itemCounter;              //How much you actually have. This is item.amountHas
-    private bool amountsSet;
+    [ConditionalField(nameof(type), false, EventType.collectInventoryItems)] public int itemCounter;              //How much you actually have. This is item.amountHas
+    [HideInInspector] public bool amountsSet;
     
-    [ConditionalField(nameof(type), false, eventType.collectInventoryItems)] public ItemScriptable itemToCollect;
+    [ConditionalField(nameof(type), false, EventType.collectInventoryItems)] public ItemScriptable itemToCollect;
     
-    public enum eventType {none, location, collectPhysicalItem, collectItemMonitor, killEnemies, collectInventoryItems}
-    public enum playerAspectMonitorType {money, health, level}
+    public enum EventType {
+        none, 
+        location, 
+        collectUniqueItem, 
+        playerAspectMonitor, 
+        killEnemies, 
+        collectInventoryItems
+    }
+    public enum PlayerAspectMonitorType {
+        none, 
+        money, 
+        health, 
+        level
+    }
 
-    private void Start()
+    /*private void Start()
     {
         player = GameObject.FindGameObjectWithTag("Player");
         inventory = player.GetComponent<Charpickup_inventory>();
@@ -116,10 +144,10 @@ public class QuestLogic
             }
         }
     }
-
-    void CollectPhysicalItem()
+*/
+    void playerAspectMonitor()
     {
-        if (playerAspectToMonitor == playerAspectMonitorType.money)
+        if (playerAspectToMonitor == PlayerAspectMonitorType.money)
         {
             moneyCounter = moneyCounter = player.GetComponent<Charpickup_inventory>().money;
             if (!amountsSet)
@@ -156,13 +184,13 @@ public class QuestLogic
             if (itemCounter >= itemAmountRequired && !eventCompleted)
             {
                 eventCompleted = true;
-                //qEvent.UpdateQuestEvent(QuestEvent.EventStatus.DONE);
-                //qManager.UpdateQuestsOnCompletion(qEvent);
+                qEvent.status = QuestEvent.EventStatus.DONE;
+                qManager.UpdateQuestsOnCompletion(qEvent);
             }
         }
     }
 
-    IEnumerator CheckforInventoryItem()
+    /*IEnumerator CheckforInventoryItem()
     {
         if (!inventory.items.Contains(itemToCollect))
         {
@@ -174,7 +202,7 @@ public class QuestLogic
             CollectInventoryItems();
         }
     }
-
+*/
     /*void CreateTimeLimitForEvent()
     {
         if (!timerSet)

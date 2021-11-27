@@ -149,5 +149,34 @@ public class QuestSystemCleanerUpper : MonoBehaviour
                 }
             }
         }
+
+        GameObject[] allNPCS = GameObject.FindGameObjectsWithTag("NPC");
+        foreach (var npc in allNPCS)
+        {
+/*            foreach (var dialogueSwitcher in npc.GetComponent<QuestGiver>().dialogueSwitchInstances)
+            {
+                dialogueSwitcher.dialogueTreeSwitched = false;
+            }*/
+        }
+    }
+
+    [ButtonMethod]
+    public void ResetAllDialogueTrees()
+    {
+        Dialogue[] allDialogues = Resources.LoadAll("Dialogue", typeof(Dialogue)).Cast<Dialogue>().ToArray();
+        foreach (var dialogue in allDialogues)
+        {
+            dialogue.defaultTreeId = 1.ToString();
+        }
+
+        GameObject[] allNPCS = GameObject.FindGameObjectsWithTag("NPC");
+        foreach (var npc in allNPCS)
+        {
+/*            foreach (var dialogueSwitcher in npc.GetComponent<QuestGiver>().dialogueSwitchInstances)
+            {
+                dialogueSwitcher.dialogueTreeSwitched = false;
+            }*/
+            
+        }
     }
 }

@@ -20,6 +20,9 @@ MonoBehaviour:
   hasTimerForEvent: 0
   eventTimerTargetTime: 0
   whichEventOrderNumber: 0
+  associatedQuestGivers:
+  - {fileID: 0}
+  - {fileID: 0}
   questState: 1
   questEvents:
   - questEventName: Move to the right slightly
@@ -32,124 +35,10 @@ MonoBehaviour:
     - type: 1
       status: 2
       eventCompleted: 0
-      qManager: {fileID: 0}
-      qEvent:
-        questEventName: Move to the right slightly
-        description: Move to the right slightly
-        id: 
-        order: 0
-        status: 2
-        questEventPrefabScript: {fileID: 0}
-        questLogic:
-        - type: 1
-          status: 2
-          eventCompleted: 0
-          qManager: {fileID: 0}
-          qEvent:
-            questEventName: Move to the right slightly
-            description: Move to the right slightly
-            id: 
-            order: 0
-            status: 2
-            questEventPrefabScript: {fileID: 0}
-            questLogic:
-            - type: 1
-              status: 2
-              eventCompleted: 0
-              qManager: {fileID: 0}
-              qEvent:
-                questEventName: Move to the right slightly
-                description: Move to the right slightly
-                id: 
-                order: 0
-                status: 2
-                questEventPrefabScript: {fileID: 0}
-                questLogic:
-                - type: 1
-                  status: 2
-                  eventCompleted: 0
-                  qManager: {fileID: 0}
-                  qEvent:
-                    questEventName: Move to the right slightly
-                    description: Move to the right slightly
-                    id: 
-                    order: 0
-                    status: 2
-                    questEventPrefabScript: {fileID: 0}
-                    questLogic:
-                    - type: 1
-                      status: 2
-                      eventCompleted: 0
-                      qManager: {fileID: 0}
-                      qEvent:
-                        questEventName: Move to the right slightly
-                        description: Move to the right slightly
-                        id: 
-                        order: 0
-                        status: 2
-                      qScript: {fileID: 0}
-                      myQuest: {fileID: 11400000}
-                      hasTimeLimitforEvent: 0
-                      hasTimeLimitforQuest: 0
-                      areaStart: {x: 8.25, y: -6.29, z: 0}
-                      areaEnd: {x: 9.23, y: -5.44, z: 0}
-                      radius: 1.42
-                      interactRadius: 0
-                      moneyTarget: 0
-                      moneyCounter: 0
-                      playerAspectToMonitor: 0
-                      itemAmountTarget: 0
-                      itemCounter: 0
-                      itemToCollect: {fileID: 0}
-                  qScript: {fileID: 0}
-                  myQuest: {fileID: 11400000}
-                  hasTimeLimitforEvent: 0
-                  hasTimeLimitforQuest: 0
-                  areaStart: {x: 8.25, y: -6.29, z: 0}
-                  areaEnd: {x: 9.23, y: -5.44, z: 0}
-                  radius: 1.42
-                  interactRadius: 0
-                  moneyTarget: 0
-                  moneyCounter: 0
-                  playerAspectToMonitor: 0
-                  itemAmountTarget: 0
-                  itemCounter: 0
-                  itemToCollect: {fileID: 0}
-              qScript: {fileID: 0}
-              myQuest: {fileID: 11400000}
-              hasTimeLimitforEvent: 0
-              hasTimeLimitforQuest: 0
-              areaStart: {x: 8.25, y: -6.29, z: 0}
-              areaEnd: {x: 9.23, y: -5.44, z: 0}
-              radius: 1.42
-              interactRadius: 0
-              moneyTarget: 0
-              moneyCounter: 0
-              playerAspectToMonitor: 0
-              itemAmountTarget: 0
-              itemCounter: 0
-              itemToCollect: {fileID: 0}
-          qScript: {fileID: 0}
-          myQuest: {fileID: 11400000}
-          hasTimeLimitforEvent: 0
-          hasTimeLimitforQuest: 0
-          areaStart: {x: 8.25, y: -6.29, z: 0}
-          areaEnd: {x: 9.23, y: -5.44, z: 0}
-          radius: 1.42
-          interactRadius: 0
-          moneyTarget: 0
-          moneyCounter: 0
-          playerAspectToMonitor: 0
-          itemAmountTarget: 0
-          itemCounter: 0
-          itemToCollect: {fileID: 0}
-      qScript: {fileID: 0}
-      myQuest: {fileID: 11400000}
       hasTimeLimitforEvent: 0
       hasTimeLimitforQuest: 0
       areaStart: {x: 8.25, y: -6.29, z: 0}
       areaEnd: {x: 9.23, y: -5.44, z: 0}
-      radius: 1.42
       interactRadius: 0
       moneyTarget: 0
       moneyCounter: 0
@@ -161,130 +50,16 @@ MonoBehaviour:
     description: Move to the right  slightly again
     id: 
     order: 1
-    status: 2
+    status: 0
     questEventPrefabScript: {fileID: 0}
     questLogic:
     - type: 1
-      status: 2
+      status: 0
       eventCompleted: 0
-      qManager: {fileID: 0}
-      qEvent:
-        questEventName: Move to the right slightly again
-        description: Move to the right  slightly again
-        id: 
-        order: 1
-        status: 2
-        questEventPrefabScript: {fileID: 0}
-        questLogic:
-        - type: 1
-          status: 2
-          eventCompleted: 0
-          qManager: {fileID: 0}
-          qEvent:
-            questEventName: Move to the right slightly again
-            description: Move to the right  slightly again
-            id: 
-            order: 1
-            status: 2
-            questEventPrefabScript: {fileID: 0}
-            questLogic:
-            - type: 1
-              status: 2
-              eventCompleted: 0
-              qManager: {fileID: 0}
-              qEvent:
-                questEventName: Move to the right slightly again
-                description: Move to the right  slightly again
-                id: 
-                order: 1
-                status: 2
-                questEventPrefabScript: {fileID: 0}
-                questLogic:
-                - type: 1
-                  status: 2
-                  eventCompleted: 0
-                  qManager: {fileID: 0}
-                  qEvent:
-                    questEventName: Move to the right slightly again
-                    description: Move to the right  slightly again
-                    id: 
-                    order: 1
-                    status: 2
-                    questEventPrefabScript: {fileID: 0}
-                    questLogic:
-                    - type: 1
-                      status: 2
-                      eventCompleted: 0
-                      qManager: {fileID: 0}
-                      qEvent:
-                        questEventName: Move to the right slightly again
-                        description: Move to the right  slightly again
-                        id: 
-                        order: 1
-                        status: 2
-                      qScript: {fileID: 0}
-                      myQuest: {fileID: 11400000}
-                      hasTimeLimitforEvent: 0
-                      hasTimeLimitforQuest: 0
-                      areaStart: {x: 9.59, y: -6.29, z: 0}
-                      areaEnd: {x: 10.35, y: -5.44, z: 0}
-                      radius: 0
-                      interactRadius: 0
-                      moneyTarget: 0
-                      moneyCounter: 0
-                      playerAspectToMonitor: 0
-                      itemAmountTarget: 0
-                      itemCounter: 0
-                      itemToCollect: {fileID: 0}
-                  qScript: {fileID: 0}
-                  myQuest: {fileID: 11400000}
-                  hasTimeLimitforEvent: 0
-                  hasTimeLimitforQuest: 0
-                  areaStart: {x: 9.59, y: -6.29, z: 0}
-                  areaEnd: {x: 10.35, y: -5.44, z: 0}
-                  radius: 0
-                  interactRadius: 0
-                  moneyTarget: 0
-                  moneyCounter: 0
-                  playerAspectToMonitor: 0
-                  itemAmountTarget: 0
-                  itemCounter: 0
-                  itemToCollect: {fileID: 0}
-              qScript: {fileID: 0}
-              myQuest: {fileID: 11400000}
-              hasTimeLimitforEvent: 0
-              hasTimeLimitforQuest: 0
-              areaStart: {x: 9.59, y: -6.29, z: 0}
-              areaEnd: {x: 10.35, y: -5.44, z: 0}
-              radius: 0
-              interactRadius: 0
-              moneyTarget: 0
-              moneyCounter: 0
-              playerAspectToMonitor: 0
-              itemAmountTarget: 0
-              itemCounter: 0
-              itemToCollect: {fileID: 0}
-          qScript: {fileID: 0}
-          myQuest: {fileID: 11400000}
-          hasTimeLimitforEvent: 0
-          hasTimeLimitforQuest: 0
-          areaStart: {x: 9.59, y: -6.29, z: 0}
-          areaEnd: {x: 10.35, y: -5.44, z: 0}
-          radius: 0
-          interactRadius: 0
-          moneyTarget: 0
-          moneyCounter: 0
-          playerAspectToMonitor: 0
-          itemAmountTarget: 0
-          itemCounter: 0
-          itemToCollect: {fileID: 0}
-      qScript: {fileID: 0}
-      myQuest: {fileID: 11400000}
       hasTimeLimitforEvent: 0
       hasTimeLimitforQuest: 0
       areaStart: {x: 9.59, y: -6.29, z: 0}
       areaEnd: {x: 10.35, y: -5.44, z: 0}
-      radius: 0
       interactRadius: 0
       moneyTarget: 0
       moneyCounter: 0
@@ -296,131 +71,16 @@ MonoBehaviour:
     description: Move to the right  slightly one more time lol
     id: 
     order: 2
-    status: 2
+    status: 0
     questEventPrefabScript: {fileID: 0}
     questLogic:
     - type: 1
-      status: 2
+      status: 0
       eventCompleted: 0
-      qManager: {fileID: 0}
-      qEvent:
-        questEventName: Move to the right slightly one more time lol
-        description: Move to the right  slightly one more time lol
-        id: 
-        order: 2
-        status: 2
-        questEventPrefabScript: {fileID: 0}
-        questLogic:
-        - type: 1
-          status: 2
-          eventCompleted: 0
-          qManager: {fileID: 0}
-          qEvent:
-            questEventName: Move to the right slightly one more time lol
-            description: Move to the right  slightly one more time lol
-            id: 
-            order: 2
-            status: 2
-            questEventPrefabScript: {fileID: 0}
-            questLogic:
-            - type: 1
-              status: 2
-              eventCompleted: 0
-              qManager: {fileID: 0}
-              qEvent:
-                questEventName: Move to the right slightly one more time lol
-                description: Move to the right  slightly one more time lol
-                id: 
-                order: 2
-                status: 2
-                questEventPrefabScript: {fileID: 0}
-                questLogic:
-                - type: 1
-                  status: 2
-                  eventCompleted: 0
-                  qManager: {fileID: 0}
-                  qEvent:
-                    questEventName: Move to the right slightly one more time lol
-                    description: Move to the right  slightly one more time lol
-                    id: 
-                    order: 2
-                    status: 2
-                    questEventPrefabScript: {fileID: 0}
-                    questLogic:
-                    - type: 1
-                      status: 2
-                      eventCompleted: 0
-                      qManager: {fileID: 0}
-                      qEvent:
-                        questEventName: Move to the right slightly one more time
-                          lol
-                        description: Move to the right  slightly one more time lol
-                        id: 
-                        order: 2
-                        status: 2
-                      qScript: {fileID: 0}
-                      myQuest: {fileID: 11400000}
-                      hasTimeLimitforEvent: 0
-                      hasTimeLimitforQuest: 0
-                      areaStart: {x: 10.71, y: -6.29, z: 0}
-                      areaEnd: {x: 11.63, y: -5.44, z: 0}
-                      radius: 0
-                      interactRadius: 0
-                      moneyTarget: 0
-                      moneyCounter: 0
-                      playerAspectToMonitor: 0
-                      itemAmountTarget: 0
-                      itemCounter: 0
-                      itemToCollect: {fileID: 0}
-                  qScript: {fileID: 0}
-                  myQuest: {fileID: 11400000}
-                  hasTimeLimitforEvent: 0
-                  hasTimeLimitforQuest: 0
-                  areaStart: {x: 10.71, y: -6.29, z: 0}
-                  areaEnd: {x: 11.63, y: -5.44, z: 0}
-                  radius: 0
-                  interactRadius: 0
-                  moneyTarget: 0
-                  moneyCounter: 0
-                  playerAspectToMonitor: 0
-                  itemAmountTarget: 0
-                  itemCounter: 0
-                  itemToCollect: {fileID: 0}
-              qScript: {fileID: 0}
-              myQuest: {fileID: 11400000}
-              hasTimeLimitforEvent: 0
-              hasTimeLimitforQuest: 0
-              areaStart: {x: 10.71, y: -6.29, z: 0}
-              areaEnd: {x: 11.63, y: -5.44, z: 0}
-              radius: 0
-              interactRadius: 0
-              moneyTarget: 0
-              moneyCounter: 0
-              playerAspectToMonitor: 0
-              itemAmountTarget: 0
-              itemCounter: 0
-              itemToCollect: {fileID: 0}
-          qScript: {fileID: 0}
-          myQuest: {fileID: 11400000}
-          hasTimeLimitforEvent: 0
-          hasTimeLimitforQuest: 0
-          areaStart: {x: 10.71, y: -6.29, z: 0}
-          areaEnd: {x: 11.63, y: -5.44, z: 0}
-          radius: 0
-          interactRadius: 0
-          moneyTarget: 0
-          moneyCounter: 0
-          playerAspectToMonitor: 0
-          itemAmountTarget: 0
-          itemCounter: 0
-          itemToCollect: {fileID: 0}
-      qScript: {fileID: 0}
-      myQuest: {fileID: 11400000}
       hasTimeLimitforEvent: 0
       hasTimeLimitforQuest: 0
       areaStart: {x: 10.71, y: -6.29, z: 0}
       areaEnd: {x: 11.63, y: -5.44, z: 0}
-      radius: 0
       interactRadius: 0
       moneyTarget: 0
       moneyCounter: 0

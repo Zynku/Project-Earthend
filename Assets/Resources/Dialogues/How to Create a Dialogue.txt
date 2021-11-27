@@ -1,0 +1,53 @@
+How to Create a Dialogue
+
+Dialogues are made of 4 main things:
+
+1.Dialogue Trees - Dialogue Trees contain lists of dialogue Lines. Think of them as whole conversations as they hold lines from both the player and the person the player is talking with.
+
+2.Dialogue Lines - These are the individual sentences that are said. The "Line String" field are the literal words that are said
+
+3.Choice Trees - These are similar to Dialogue Trees, except that they hold choice lines. Currently should only hold two choice lines, as the UI isnt made to handle more than two.
+
+4.Choice Lines - The actual lines that are presented to a player after a dialogue line that has a choice.
+
+N.B. The default tree ID is the ID of the dialogue tree that the character will start on when the conversation is started. Every time the conversation ends, the very next time it is started, the dialogue will show the lines of this tree.
+
+
+In order to make a Dialogue you must do this:
+1. Right click in Assets/Resources/Dialogues/[Appropriate Folder], go to Create > New Character Dialogue
+
+2. Click the + under Dialogue Trees to add one.
+
+3. Name the tree something appropriate to what this conversation is, and give it an appropriate tree ID
+
+4. Click the + under Dialogue Lines to add one.
+
+5. In the Line String, write the exact words that the character or player should say. This is what the player will see inside the Dialogue Box onscreen
+
+6. If you want the player to make a choice after this line, set "Has choice" to true. Assign the choice tree ID to the ID of the choice tree you'd like the player to see after this line.
+
+7. If you want the character to say something different (i.e move to a new dialogue tree) after this conversation is exited (either by walking away, or coming to the end of the conversation), set "Can Change Default Tree ID" to true, then set the tree ID the character should switch to saying when this conversation is exited.
+
+8. If you want this dialogue line to give the player a quest, set "Can Trigger Quest to true", then drag the quest ScriptableObject into the field. Quests are given to the player after the conversation is over, and not during.
+
+9. Line Owner currently has no functionality
+
+10. Letters per second will allow the typing of individual letters to go at a different pace. If the value is at 0, the dialogue will use the DialogueManager's default letters per second value. If it is anything other than 0, it will use the the new value instead.
+
+11. Audio currently has no functionality
+
+
+
+Important to remember
+1. You can add as many dialogue trees, dialogue lines and choice trees you need to in order to get the conversation across, however, each choice tree should have two choice lines only
+
+
+
+
+
+
+
+
+
+
+

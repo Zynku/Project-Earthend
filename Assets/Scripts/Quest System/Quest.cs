@@ -12,6 +12,7 @@ using MyBox;
 [CreateAssetMenu(fileName = "New Quest", menuName = "Quests/New Quest")]
 public class Quest : ScriptableObject
 {
+    
     public string questName;
     [TextArea(5, 10)]
     public string desc;
@@ -21,7 +22,7 @@ public class Quest : ScriptableObject
     public bool hasTimerForEvent;
     [ConditionalField(nameof(hasTimerForEvent))] public float eventTimerTargetTime;       //Time that timer starts at before counting down
     public int whichEventOrderNumber;
-    public GameObject[] associatedNpcs;         //Do any NPCs give you this quest via dialogue?
+    public List<GameObject> associatedQuestGivers;         //Do any NPCs give you this quest via dialogue?
     
     public enum QuestState { WAITING, CURRENT, COMPLETED, FAILED};
     public QuestState questState;
@@ -37,6 +38,22 @@ public class Quest : ScriptableObject
         questName = "No Quest";
         desc = "No Quest";
         isActive = false;
+    }
+
+    [ButtonMethod]
+    [SerializeField]
+    public void ResetQuest()
+    {
+        isActive = false;
+        questState = Quest.QuestState.WAITING;
+        foreach (var questEvent in questEvents)
+        {
+            questEvent.status = QuestEvent.EventStatus.WAITING;
+            foreach (var questLogic in questEvent.questLogic)
+            {
+                questLogic.status = QuestEvent.EventStatus.WAITING;
+            }
+        }
     }
 }
 

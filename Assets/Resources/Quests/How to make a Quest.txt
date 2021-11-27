@@ -2,13 +2,13 @@ How to make a Quest
 
 Quests are made of 5 main things:
 
-Quest Manager     -    The parent script for any quest. There is only one Quest Manager in the scene at any given time (found as a child of the Game Manager). The Game Manager is reported to by most quest related scripts and executes most of the code as it relates to updating quests, shuffling them around, etc.
+Quest Manager - The parent script for any quest. There is only one Quest Manager in the scene at any given time (found as a child of the Game Manager). The Game Manager is reported to by most quest related scripts and executes most of the code as it relates to updating quests, shuffling them around, etc.
 
-Quests (Script)    -    Contains all the information related to the quest such as its name, and whether or not it has a timer. It also holds all the other parts of the quest.N.B The quest is an empty slate, it does not know what type of quest it is, or to complete it. This is dictated by the other quest parts. The quest only knows that it is a quest, and it is dumb.
+Quests (Script) - Contains all the information related to the quest such as its name, and whether or not it has a timer. It also holds all the other parts of the quest.N.B The quest is an empty slate, it does not know what type of quest it is, or to complete it. This is dictated by the other quest parts. The quest only knows that it is a quest, and it is dumb.
 
-Quest Event         -    Is basically a container for all the specific quest steps. The quest step only knows what state it is in, whether that is COMPLETED, or WAITING, FAILED, etc. Quest Events are also fairly dumb, they do not know how they are completed, but their state is updated by the Quest Objects they hold. Inside the QuestManager Script, a new Quest Event Prefab is created for each Quest Event (see below for the definition of a Quest Event Prefab)
+Quest Event  - Is basically a container for all the specific quest steps. The quest step only knows what state it is in, whether that is COMPLETED, or WAITING, FAILED, etc. Quest Events are also fairly dumb, they do not know how they are completed, but their state is updated by the Quest Objects they hold. Inside the QuestManager Script, a new Quest Event Prefab is created for each Quest Event (see below for the definition of a Quest Event Prefab)
 				
-Quest Object        -    The nitty gritty of a quest. This piece holds all the information on the type of quest step it's parent Quest Event is. This piece knows exactly how it is completed,failed, or any other state, and will report such to its parent Quest Event (which updates it accordingly). Quest Objects also know it's type of quest step, whether it be a location type, inventory item type, etc. and will look out for the player completing these objectives accordingly, once the quest is active and accepted. Quest Objects that are location type will need to have an Associated GameObject, or it will not work. The Quest Object checks for the player entering the collider of this associated game object, so it can be anything, as long as the player is able to interact with its collider.
+Quest Logic - The nitty gritty of a quest. This piece holds all the information on the type of quest step it's parent Quest Event is. This piece knows exactly how it is completed,failed, or any other state, and will report such to its parent Quest Event (which updates it accordingly). Quest Logic also knows it's type of quest step, whether it be a location type, inventory item type, etc. and will look out for the player completing these objectives accordingly, once the quest is active and accepted. Quest Logic that are location type will need to have a defined area to check for player collision, or it will not work. The Quest Logic checks for the player entering the collider of the defined region.
 
 Quest Event Prefab - This is a Unity Prefab object that is instantiated for each Quest Event. These sit on the HUD UI and show information such as the quest steps and their completion status. They have references to their UI objects and can update them accordingly. There can (and usually are) multiple quest event prefabs per quest, as there is one per Quest Event. Each QEP has a Quest Event Prefab Script that controls it.
 				
@@ -16,13 +16,9 @@ Quest Event Prefab - This is a Unity Prefab object that is instantiated for each
 
 There are also:
 
-Quest Object Game Object (Script) - A simple script that updates it's parent Quest Object whenever the player enters its collider.
+Quest Event Prefab Script - A simple script used only for controlling Quest Event Prefabs. Does not do much other than be referenced by other scripts.
 
-Quest Event Prefab Script - A simple script used only for controlling
- 
-Quest Event Prefabs. Does not do much other than be referenced by other scripts.
-
-Quest Giver    -    A script that can be put on any GameObject with a collider. This script bypasses the need for dialogue to accept a quest. Usually used for debugging.
+Quest Giver - A script that can be put on any GameObject with a collider. This script bypasses the need for dialogue to accept a quest. Usually used for debugging.
 
 
 
@@ -46,19 +42,18 @@ In order the make a quest you must do this:
 
 		4. All other fields can be safely ignored
 
-	5. Click the + button below Quest Objects (If you don't see a +, click on the quest objects word to expand it). Assign the fields as necessary:
+	5. Click the + button below Quest Logic (If you don't see a +, click on the quest logic word to expand it). Assign the fields as necessary:
 		1. Type - This is the type of step this is, and dictates what the player will have to do to complete this step. Set it as necessary
 
 		2. If your quest is of type "Location"
 
 			1. Area Start & Area End - These two vectors define the corners of a rectangle. If the player steps inside this rectangle, it will complete the quest logic step. To show the area defined by these vectors, the game must be in play mode, and the player must give themself the quest. Then, go to the quest manager in the hierarchy and make sure "ShowLocationsDebug" is set to true, as well as Gizmos being set to true just above the game view.
-			2. All other fields can be safely ignored.
-
-		3. If your quest is of type "Collect Physical Item"
+			
+		3. If your quest is of type "Collect Unique Item"
 			1. Currently broken, please ignore
 
-		4. If your quest is of type "Collect Item Monitor"
-			1. Currently broken, please ignore
+		4. If your quest is of type "Player Aspect Monitor"
+			1. Choose which player aspect to monitor under "Dynamic Variables". Irregardless of which aspect is chosen, the "... target" is the value that the player must attain to complete this quest event. The counter is a visible counter of how much the player currently has during runtime. You do not need to assign values to the counter.
 
 		5. If you quest is of type "Kill Enemies"
 			1. Currently broken, please ignore
@@ -69,9 +64,7 @@ In order the make a quest you must do this:
 
 			2. Item to Collect - Drag a scriptable object from the Inventory Item folder here to define what the player has to collect. (This only works with INVENTORY ITEMS that the player is able to PICK UP AND ADD TO INVENTORY. REGULAR SCRIPTABLE OBJECTS WILL NOT WORK)
 
-			3. All other fields can be safely ignored.
-
-
+			
 2.   In any dialogue tree, set the bool 'canTriggerQuest' to true, then drag the created Quest Scriptable Object into the slot.
 
 3. Congratulations! At the end of the desired conversation, the quest will show up and be added! The player can then complete this quest normally (assuming you assigned everything correctly)
@@ -81,7 +74,10 @@ In order the make a quest you must do this:
 
 
 
+Additional Quest Functionality:
+1.	Dialogue Switching - In the Quest Giver script, the NPC has the ability to change it's dialogue based on the state of a quests event. To enable this,set "Change Dialogue on Quest Update" to true and press the + button under the Dialogue Switcher line. Give it a descriptive name, and assign the Dialogue Tree to switch to (or DTTST). The dialogue trees in the "My Dialogue" field in the NPCScript should all have tree IDs, and this is what the Dialogue Tree to switch to is referring to. The 'Quest Event Order To Change On' (or QEOTCO) field refers to the Quest Event Order Number that would trigger the change the dialogue switch. Finally the Quest event state checks the above field's quest event for this state. 
 
+For example, if the DTTST is set to 7, the QEOTCO is set to 4, and the Quest Event state is set to DONE, then the script will check the Quest Event at order #4 to see if it's Done. If it is, the dialogue tree will switch to tree #7.
 
 
 
