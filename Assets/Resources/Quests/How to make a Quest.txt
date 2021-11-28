@@ -8,7 +8,7 @@ Quests (Script) - Contains all the information related to the quest such as its 
 
 Quest Event  - Is basically a container for all the specific quest steps. The quest step only knows what state it is in, whether that is COMPLETED, or WAITING, FAILED, etc. Quest Events are also fairly dumb, they do not know how they are completed, but their state is updated by the Quest Objects they hold. Inside the QuestManager Script, a new Quest Event Prefab is created for each Quest Event (see below for the definition of a Quest Event Prefab)
 				
-Quest Logic - The nitty gritty of a quest. This piece holds all the information on the type of quest step it's parent Quest Event is. This piece knows exactly how it is completed,failed, or any other state, and will report such to its parent Quest Event (which updates it accordingly). Quest Logic also knows it's type of quest step, whether it be a location type, inventory item type, etc. and will look out for the player completing these objectives accordingly, once the quest is active and accepted. Quest Logic that are location type will need to have a defined area to check for player collision, or it will not work. The Quest Logic checks for the player entering the collider of the defined region.
+Quest Logic - The nitty gritty of a quest. This piece holds all the information on the type of quest step it's parent Quest Event is. This piece knows exactly how it is completed,failed, or any other state, and will report such to its parent Quest Event (which updates it accordingly). Quest Logic also knows it's type of quest step, whether it be a location type, inventory item type, etc. and will pass this information to the QuestManager, which looks out for the player completing these objectives accordingly, once the quest is active and accepted. Quest Logic that are location type will need to have a defined area to check for player collision, or it will not work. The Quest Logic checks for the player entering the collider of the defined region.
 
 Quest Event Prefab - This is a Unity Prefab object that is instantiated for each Quest Event. These sit on the HUD UI and show information such as the quest steps and their completion status. They have references to their UI objects and can update them accordingly. There can (and usually are) multiple quest event prefabs per quest, as there is one per Quest Event. Each QEP has a Quest Event Prefab Script that controls it.
 				
@@ -50,13 +50,13 @@ In order the make a quest you must do this:
 			1. Area Start & Area End - These two vectors define the corners of a rectangle. If the player steps inside this rectangle, it will complete the quest logic step. To show the area defined by these vectors, the game must be in play mode, and the player must give themself the quest. Then, go to the quest manager in the hierarchy and make sure "ShowLocationsDebug" is set to true, as well as Gizmos being set to true just above the game view.
 			
 		3. If your quest is of type "Collect Unique Item"
-			1. Currently broken, please ignore
+			1. No current functionality
 
 		4. If your quest is of type "Player Aspect Monitor"
 			1. Choose which player aspect to monitor under "Dynamic Variables". Irregardless of which aspect is chosen, the "... target" is the value that the player must attain to complete this quest event. The counter is a visible counter of how much the player currently has during runtime. You do not need to assign values to the counter.
 
 		5. If you quest is of type "Kill Enemies"
-			1. Currently broken, please ignore
+			1. No current functionality
 
 		6. If your quest is of type "Collect Inventory Items"
 

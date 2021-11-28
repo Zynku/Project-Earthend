@@ -11,26 +11,19 @@ using MyBox;
 [System.Serializable]
 [CreateAssetMenu(fileName = "New Quest", menuName = "Quests/New Quest")]
 public class Quest : ScriptableObject
-{
-    
+{ 
     public string questName;
     [TextArea(5, 10)]
     public string desc;
     public bool isActive;
     public bool hasTimerForQuest;
     [ConditionalField(nameof(hasTimerForQuest))] public float questTimerTargetTime;       //Time that timer starts at before counting down
-    public bool hasTimerForEvent;
-    [ConditionalField(nameof(hasTimerForEvent))] public float eventTimerTargetTime;       //Time that timer starts at before counting down
-    public int whichEventOrderNumber;
-    public List<GameObject> associatedQuestGivers;         //Do any NPCs give you this quest via dialogue?
+    public List<GameObject> associatedQuestGivers;                                        //Do any NPCs give you this quest via dialogue?
     
     public enum QuestState { WAITING, CURRENT, COMPLETED, FAILED};
     public QuestState questState;
-    //Enum that defines quest state
-
-    //public List<ScriptableObject> questEvents = new List<ScriptableObject>();
+    
     [SerializeField] public List<QuestEvent> questEvents = new List<QuestEvent>();
-
 
     public Quest() 
     {

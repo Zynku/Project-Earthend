@@ -10,6 +10,7 @@ public class QuestManager : MonoBehaviour
 {
     [HideInInspector] public GameObject player;
     [HideInInspector] public TextMeshProUGUI currentQuestText;
+    [HideInInspector] public Charpickup_inventory inventory;
 
     [Separator("General Quest Variables")]
     public bool canAcceptQuest;
@@ -24,14 +25,16 @@ public class QuestManager : MonoBehaviour
 
     [Separator("Quest & Event Timer Pieces")]
     public QuestCountdownTimer countDownTimer;
-    public float timerTime;             //Actual timer time, changes with time.deltatime and counts down to 0
-    public float timerTargetTime;       //Time that timer starts at before counting down
+    public GameObject questTimerPrefab;
+    public List<GameObject> questTimers;          //Keeps a list of quest timers that are instantiated and deleted as necessary
+    public float questLogicTimerTime;             //Actual timer time, changes with time.deltatime and counts down to 0
+    public float questLogicTimerTargetTime;       //Time that timer starts at before counting down
+    private bool timerSet;              //Have the values for timerTime and timerTargetTime been assigned?
     private bool liveTimer;             //Is true when a quest has a timer and lets timer run
 
     [Separator("Canvas and UI Pieces")]
     public GameObject questDivider;
-    public GameObject questTimerPrefab;
-    public List<GameObject> questTimers;    //Keeps a list of quest timers that are instantiated and deleted as necessary
+    
     public GameObject questEventPrefab;                                             //Assigned in Inspector
     public List<GameObject> questEventPrefabs;
     public GameObject questTimerHolder;                                             //Holds newly created quest Timers
@@ -50,13 +53,13 @@ public class QuestManager : MonoBehaviour
 
     private void Awake()
     {
-        
         player.GetComponent<Charquests>().questmanager = this;
     }
 
     private void Start()
     {
         player = gamemanager.instance.Player;
+        inventory = player.GetComponent<Charpickup_inventory>();
         questDivider.SetActive(false);
         currentQuestText.gameObject.SetActive(false);
         countDownTimer.gameObject.SetActive(false);
@@ -78,17 +81,27 @@ public class QuestManager : MonoBehaviour
             {
                 foreach (QuestLogic ql in qe.questLogic)
                 {
-                    if (ql.type == QuestLogic.EventType.location)
+                    switch (ql.type)
                     {
-                        StartCoroutine(CheckForLocationCollisions(ql));
-                        checkedForQuestLogicTypes = true;
-                        break;
-                    }
-                    else if (ql.type == QuestLogic.EventType.playerAspectMonitor)
-                    {
-                        StartCoroutine(CheckForPlayerAspect(ql));
-                        checkedForQuestLogicTypes = true;
-                        break;
+                        case QuestLogic.EventType.none:
+                            break;
+                        case QuestLogic.EventType.location:
+                            StartCoroutine(CheckForLocationCollisions(ql));
+                            checkedForQuestLogicTypes = true;
+                            break;
+                        case QuestLogic.EventType.collectUniqueItem:
+                            break;
+                        case QuestLogic.EventType.playerAspectMonitor:
+                            StartCoroutine(CheckForPlayerAspect(ql));
+                            checkedForQuestLogicTypes = true;
+                            break;
+                        case QuestLogic.EventType.killEnemies:
+                            break;
+                        case QuestLogic.EventType.collectInventoryItems:
+                            StartCoroutine(CollectInventoryItems(ql));
+                            break;
+                        default:
+                            break;
                     }
                 }
             }
@@ -168,8 +181,7 @@ public class QuestManager : MonoBehaviour
                 currentQuestText.gameObject.SetActive(true);
                 currentQuest = quest;                                     //Assigns incoming quest as current and lets the quest manager track it
                 currentQuest.questState = Quest.QuestState.CURRENT;       //Sets current quest as current
-                                                                          //Debug.Log("Calling CheckforQuestTimer");
-                CheckforQuestTimer();                                     //Checks to see if the current quest has any sort of timer attached to it
+                                                                          //Debug.Log("Calling CheckforQuestTimer");                                 
                 SetupQuestEvents();
                 GameObject qatp = Instantiate(questAcceptedTextPrefab, questCanvas.transform);  //Creates a Quest Accepted Text Prefab, or qatp
 
@@ -194,6 +206,18 @@ public class QuestManager : MonoBehaviour
                 else
                 {
                     questAcceptedTexts.Add(qatp);
+                }
+
+                foreach (QuestEvent qe in currentQuest.questEvents) //Checks to see if the current quest has any sort of timer attached to it
+                {
+                    foreach (QuestLogic ql in qe.questLogic)
+                    {
+                        if (ql.hasEventTimeLimit)
+                        {
+                            //StartCoroutine(CreateTimeLimitForEvent(ql));
+                            CheckforQuestTimer(ql);
+                        }
+                    }
                 }
             }
 
@@ -268,31 +292,26 @@ public class QuestManager : MonoBehaviour
         }*/
     }
 
-    public void UpdateQuestEvent(Quest quest) //Update quests everytime something is done
+    private void CheckforQuestTimer(QuestLogic questLogic)  //Checks to see if the current quest has a timer. If it does it activates the quest manager timer and sends it to be formatted
     {
-        //LOL
-    }
-
-    private void CheckforQuestTimer()  //Checks to see if the current quest has a timer. If it does it activates the quest manager timer and sends it to be formatted
-    {
-        if (currentQuest.hasTimerForQuest)
+        if (questLogic.hasEventTimeLimit)
         {
             countDownTimer.gameObject.SetActive(true);
             countDownTimer.shownTimer.text = "";
             liveTimer = true;
-            //Debug.Log("Quest demands a timer be made, invoking ManageTimer() to make one");
-            ManageTimer();
+            Debug.Log("Quest demands a timer be made, invoking ManageTimer() to make one");
+            ManageTimer(questLogic);
         }
-        else if (currentQuest.hasTimerForEvent)
+        else if (currentQuest.hasTimerForQuest)
         {
-            //TODO: Manage the code here for quest timers that refer to events, and not full quests
+            //TODO: Manage the code here for quest timers that refer to quests, and not events
         }
         else
         {
             countDownTimer.shownTimer.text = "";
             countDownTimer.gameObject.SetActive(false);
             liveTimer = false;
-            //Debug.Log("Quest does not have a timer attached");
+            Debug.LogWarning("Quest does not have a timer attached");
         }
     }
 
@@ -309,7 +328,7 @@ public class QuestManager : MonoBehaviour
                 if (hitCollider.CompareTag("Player"))
                 {
                     questLogic.status = QuestEvent.EventStatus.DONE;
-                    UpdateQuestsOnCompletion(questLogic.qEvent);
+                    UpdateQuestsOnCompletion(questLogic.qEvent, QuestEvent.EventStatus.DONE);
                     yield break;
                 }
             }
@@ -333,7 +352,7 @@ public class QuestManager : MonoBehaviour
             {
                 questLogic.eventCompleted = true;
                 questLogic.qEvent.status = QuestEvent.EventStatus.DONE;
-                UpdateQuestsOnCompletion(questLogic.qEvent);
+                UpdateQuestsOnCompletion(questLogic.qEvent, QuestEvent.EventStatus.DONE);
                 yield break;
             }
         }
@@ -350,7 +369,7 @@ public class QuestManager : MonoBehaviour
             {
                 questLogic.eventCompleted = true;
                 questLogic.qEvent.status = QuestEvent.EventStatus.DONE;
-                UpdateQuestsOnCompletion(questLogic.qEvent);
+                UpdateQuestsOnCompletion(questLogic.qEvent, QuestEvent.EventStatus.DONE);
                 yield break;
             }
         }
@@ -367,7 +386,7 @@ public class QuestManager : MonoBehaviour
             {
                 questLogic.eventCompleted = true;
                 questLogic.qEvent.status = QuestEvent.EventStatus.DONE;
-                UpdateQuestsOnCompletion(questLogic.qEvent);
+                UpdateQuestsOnCompletion(questLogic.qEvent, QuestEvent.EventStatus.DONE);
                 yield break;
             }
         }
@@ -375,38 +394,102 @@ public class QuestManager : MonoBehaviour
         yield return new WaitForSeconds(0.1f);
         StartCoroutine(CheckForPlayerAspect(questLogic));
     }
+
+    public IEnumerator CollectInventoryItems(QuestLogic questLogic)
+    {
+        //Check if you have the item. If you don't recheck if you have the item every 0.5 seconds.
+        //If you have the item, reference the amountHas value. Set itemCounter equal to it
+        //Compare it to itemAmountRequired for completion
+        if (!inventory.items.Contains(questLogic.itemToCollect)) //If the specified item is not in the Inventory
+        {
+            StartCoroutine(CheckforInventoryItem(questLogic));
+        }
+        else
+        {
+            questLogic.itemCounter = questLogic.itemToCollect.amountHas;
+            if (!questLogic.amountsSet)
+            {
+                questLogic.itemAmountRequired = questLogic.itemCounter + questLogic.itemAmountTarget;
+                questLogic.amountsSet = true;
+            }
+            if (questLogic.itemCounter >= questLogic.itemAmountRequired && !questLogic.eventCompleted)
+            {
+                questLogic.eventCompleted = true;
+                questLogic.status = QuestEvent.EventStatus.DONE;
+                UpdateQuestsOnCompletion(questLogic.qEvent, QuestEvent.EventStatus.DONE);
+                yield break;
+            }
+        }
+    }
+
+    public IEnumerator CheckforInventoryItem(QuestLogic questLogic)
+    {
+        if (!inventory.items.Contains(questLogic.itemToCollect))
+        {
+            yield return new WaitForSeconds(1f);
+            StartCoroutine(CheckforInventoryItem(questLogic));
+        }
+        else
+        {
+            CollectInventoryItems(questLogic);
+        }
+    }
+
+    /*public IEnumerator CreateTimeLimitForEvent(QuestLogic questLogic)
+    {
+        if (!timerSet)
+        {
+            questLogicTimerTargetTime = questLogic.TimerTargetTime;
+            questLogicTimerTime = questLogicTimerTargetTime;
+            timerSet = true;
+        }
+
+        questLogicTimerTime -= Time.deltaTime;
+        if (questLogicTimerTime <= 1)
+        {
+            questLogicTimerTime = 1;
+            UpdateQuestEvent(questLogic.qEvent, QuestEvent.EventStatus.FAILED);
+            UpdateQuestsOnCompletion(questLogic.qEvent);
+            questLogicTimerTime = questLogicTimerTargetTime;
+            yield break;
+        }
+        else
+        {
+            yield return new WaitForSeconds(0.01f);
+            StartCoroutine(CreateTimeLimitForEvent(questLogic));
+        }
+    }*/
     #endregion
 
-    public void ManageTimer()
+    public void ManageTimer(QuestLogic questLogic)
     {
-        //Debug.Log("Starting ManageTimer()");
+        Debug.Log("Starting ManageTimer()");
         if (questTimers.Count > 0)  //If quest timers exist
         {
             foreach (GameObject timer in questTimers)   //Check them all to make sure none of them are associated with the quest current quest
             {
-                if (timer.GetComponent<QuestTimer>().myQuest == currentQuest)
+
+                GameObject newTimer = Instantiate(questTimerPrefab, questTimerHolder.transform);    //Creates a new quest Timer that is in charge of counting down and keeping track of time and when its completed
+                questTimers.Add(newTimer);
+                QuestTimer timerScript = newTimer.GetComponent<QuestTimer>();
+                timerScript.timerTargetTime = questLogic.timerTargetTime;            //Sets the starting time for the timer script to the quest's amount of time
+                liveTimer = true;
+                StartCoroutine(AssignTimer(timerScript));
+
+                if (currentQuest.hasTimerForQuest)
                 {
-                    //Debug.Log("A quest timer for this quest already exists!");
+                    timerScript.TypeofTimer = QuestTimer.Timertype.QUEST;
+                    timerScript.myQuest = currentQuest;
                     return;
                 }
-                else
+                else if (questLogic.hasEventTimeLimit)
                 {
-                    GameObject newTimer = Instantiate(questTimerPrefab, questTimerHolder.transform);    //Creates a new quest Timer that is in charge of counting down and keeping track of time and when its completed
-                    questTimers.Add(newTimer);
-                    QuestTimer timerScript = newTimer.GetComponent<QuestTimer>();
-                    timerScript.timerTargetTime = currentQuest.eventTimerTargetTime;            //Sets the starting time for the timer script to the quest's amount of time
-                    liveTimer = true;
-                    StartCoroutine(AssignTimer(timerScript));
+                    timerScript.TypeofTimer = QuestTimer.Timertype.EVENT;
+                    timerScript.myQuestEvent = currentQuestEvent;
 
-                    if (currentQuest.hasTimerForQuest)
+                    if(questLogic.qEvent.order == 0)
                     {
-                        timerScript.TypeofTimer = QuestTimer.Timertype.QUEST;
-                        timerScript.myQuest = currentQuest;
-                    }
-                    else if (currentQuest.hasTimerForEvent)
-                    {
-                        timerScript.TypeofTimer = QuestTimer.Timertype.EVENT;
-                        timerScript.myQuestEvent = currentQuestEvent;
+                        questLogic.status = QuestEvent.EventStatus.CURRENT;
                     }
                     return;
                 }
@@ -414,11 +497,12 @@ public class QuestManager : MonoBehaviour
         }
         else
         {
-            //Debug.Log("No quest timers exist at all, instantiating one...");
+            Debug.Log("No quest timers exist at all, instantiating one...");
             GameObject newTimer = Instantiate(questTimerPrefab, questTimerHolder.transform);    //Creates a new quest Timer that is in charge of counting down and keeping track of time and when its completed
             questTimers.Add(newTimer);
             QuestTimer timerScript = newTimer.GetComponent<QuestTimer>();
-            timerScript.timerTargetTime = currentQuest.eventTimerTargetTime;            //Sets the starting time for the timer script to the quest's amount of time
+            timerScript.myQuest = currentQuest;
+            timerScript.timerTargetTime = questLogic.timerTargetTime;            //Sets the starting time for the timer script to the quest's amount of time
             liveTimer = true;
             StartCoroutine(AssignTimer(timerScript));
             
@@ -427,12 +511,16 @@ public class QuestManager : MonoBehaviour
                 timerScript.TypeofTimer = QuestTimer.Timertype.QUEST;
                 timerScript.myQuest = currentQuest;
             }
-            else if (currentQuest.hasTimerForEvent)
+            else if (questLogic.hasEventTimeLimit)
             {
                 timerScript.TypeofTimer = QuestTimer.Timertype.EVENT;
                 timerScript.myQuestEvent = currentQuestEvent;
+                if (questLogic.qEvent.order == 0)
+                {
+                    questLogic.status = QuestEvent.EventStatus.CURRENT;
+                }
             }
-            StartCoroutine(CheckforTimerDone());
+            StartCoroutine(CheckforTimerDone(questLogic));
         }        
     }
 
@@ -447,7 +535,7 @@ public class QuestManager : MonoBehaviour
         if (liveTimer) { StartCoroutine(AssignTimer(timerScript)); }            //Loops this coroutine to continue assigning the text if there is a text available
     }
 
-    private IEnumerator CheckforTimerDone() //Constantly checks every timer in the questTimers list to see if its done. If it is, fail that quest or event
+    private IEnumerator CheckforTimerDone(QuestLogic questLogic) //Constantly checks every timer in the questTimers list to see if its done. If it is, fail that quest or event
     {
         yield return new WaitForSeconds(0.5f);
         if (questTimers.Count > 0)
@@ -458,15 +546,40 @@ public class QuestManager : MonoBehaviour
                 {
                     //Debug.Log("Timer done, quest failed...");
                     //Fail current quest if it is a quest timer
-                    StartCoroutine(FailSpecificQuest(timer.GetComponent<QuestTimer>().myQuest));
+                    //StartCoroutine(FailSpecificQuest(timer.GetComponent<QuestTimer>().myQuest));
+
+                    if (currentQuest.hasTimerForQuest)
+                    {
+                        
+                    }
+                    else if (questLogic.hasEventTimeLimit)
+                    {
+                        UpdateQuestsOnCompletion(questLogic.qEvent, QuestEvent.EventStatus.FAILED);
+                        countDownTimer.gameObject.SetActive(false);
+                        liveTimer = false;
+                    }
+
                     questTimers.Remove(timer);
                     Destroy(timer);
-                    break;
 
+                    foreach (QuestEvent n in currentQuest.questEvents)
+                    {
+                        //If this event is the next in order
+                        if (n.order == (questLogic.qEvent.order + 1))
+                        {
+                            //Make the next in line available for completion
+                            n.status = QuestEvent.EventStatus.CURRENT;
+                            n.questLogic[0].status = QuestEvent.EventStatus.CURRENT;
+                            currentQuestEvent = n;
+                            yield break;
+                        }
+                    }
+
+                    break;
                     //Fail current event if it is an event timer
                 }
             }
-            StartCoroutine(CheckforTimerDone());
+            StartCoroutine(CheckforTimerDone(questLogic));
         }
         else
         {
@@ -529,13 +642,14 @@ public class QuestManager : MonoBehaviour
         SetupQuestEvents();
     }
 
-    public void UpdateQuestsOnCompletion(QuestEvent qe)
+    public void UpdateQuestsOnCompletion(QuestEvent qe, QuestEvent.EventStatus status) //Update quests everytime something is done and makes sure the next event is ready. If it's the last it will finish the quest
     {
-        if (qe.status == QuestEvent.EventStatus.CURRENT)
+        if (qe != null)
         {
-            qe.status = QuestEvent.EventStatus.DONE;
+            qe.status = status;
+            qe.questLogic[0].status = status;
         }
-        
+
         if (currentQuest.questEvents.Count > 0)     //If there are quest events...
         {
             foreach (QuestEvent n in currentQuest.questEvents)
@@ -545,12 +659,12 @@ public class QuestManager : MonoBehaviour
                 {
                     //Make the next in line available for completion
                     n.status = QuestEvent.EventStatus.CURRENT;
+                    n.questLogic[0].status = QuestEvent.EventStatus.CURRENT;
                     currentQuestEvent = n;
                     return;
                 }
             }
         }
-
 
         //If the last quest event gets completed, that means the quest is done! Call that function!
         if (currentQuest.questEvents.Last().status == QuestEvent.EventStatus.DONE)
@@ -713,7 +827,7 @@ public class QuestManager : MonoBehaviour
 
         if (player.GetComponent<Charquests>().currentQuests.Count != 0)     //If there are more quests yet to be completed, add the next one back
         {
-           // ReAddQuest(player.GetComponent<Charquests>().currentQuests[0]);
+           ReAddQuest(player.GetComponent<Charquests>().currentQuests[0]);
         }
     }
 
