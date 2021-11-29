@@ -65,9 +65,11 @@ In order the make a quest you must do this:
 			2. Item to Collect - Drag a scriptable object from the Inventory Item folder here to define what the player has to collect. (This only works with INVENTORY ITEMS that the player is able to PICK UP AND ADD TO INVENTORY. REGULAR SCRIPTABLE OBJECTS WILL NOT WORK)
 
 			
-2.   In any dialogue tree, set the bool 'canTriggerQuest' to true, then drag the created Quest Scriptable Object into the slot.
+2.  In any dialogue tree, set the bool 'canTriggerQuest' to true, then drag the created Quest Scriptable Object into the slot.
 
-3. Congratulations! At the end of the desired conversation, the quest will show up and be added! The player can then complete this quest normally (assuming you assigned everything correctly)
+3. At the very bottom of the quest, press the button that says "Auto Generate Orders". This will assign each quest event it's order in the quest chain
+
+4. Congratulations! At the end of the desired conversation, the quest will show up and be added! The player can then complete this quest normally (assuming you assigned everything correctly)
 	
 
 

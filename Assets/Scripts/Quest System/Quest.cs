@@ -45,7 +45,21 @@ public class Quest : ScriptableObject
             foreach (var questLogic in questEvent.questLogic)
             {
                 questLogic.status = QuestEvent.EventStatus.WAITING;
+                questLogic.moneyCounter = 0;
+                questLogic.healthCounter = 0;
+                questLogic.itemCounter = 0;
+                questLogic.levelCounter = 0;
             }
+        }
+    }
+
+    [ButtonMethod]
+    [SerializeField]
+    public void AutoGenerateOrders()
+    {
+        for (int i = 0; i < questEvents.Count; i++)
+        {
+            questEvents[i].order = i;
         }
     }
 }
@@ -62,19 +76,17 @@ public class QuestEvent
 
     public string questEventName;
     public string description; //The actual text used to display onscreen indicating what needs to be done
-    public string id;
     public int order = -1;
+    public bool failWholeQuest; //If this quest event is failed, then the whole quest fails. If not, it can be failed, and the quest can still be passed with it's other events
     public EventStatus status;
     [HideInInspector] public QuestEventPrefabScript questEventPrefabScript; //Holds the script associated with this quest event's quest event prefab (try saying that x10 fast)
     public List<QuestLogic> questLogic;
 
     public QuestEvent(string n, string d)
     {
-        id = Guid.NewGuid().ToString();
         questEventName = n;
         description = d;
         status = EventStatus.WAITING;
-        //TODO: Add a condition, where, if true, failing this quest event fails the entire quest.
     }
 }
 

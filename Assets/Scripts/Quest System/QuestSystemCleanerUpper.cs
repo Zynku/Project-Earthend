@@ -79,16 +79,6 @@ public class QuestSystemCleanerUpper : MonoBehaviour
     }
 
     [ButtonMethod]
-    public void ClearAllQuestEventPrefabs()
-    {
-        QuestEventPrefabScript[] prefabsToBeDestroyed = FindObjectsOfType<QuestEventPrefabScript>();
-        foreach (QuestEventPrefabScript qes in prefabsToBeDestroyed)
-        {
-            Destroy(qes.gameObject);
-        }
-    }
-
-    [ButtonMethod]
     public void FailCurrentQuestEvent()
     {
         //Looks in the current quest from quest manager for its quest events and returns the first one that is marked as current
@@ -130,6 +120,26 @@ public class QuestSystemCleanerUpper : MonoBehaviour
         questManager.questCompletedTexts.Clear();
         questManager.questFailedTextsOffscreen.Clear();
         questManager.questFailedTexts.Clear();
+    }
+
+    [ButtonMethod]
+    public void ClearAllQuestEventPrefabs()
+    {
+        QuestEventPrefabScript[] prefabsToBeDestroyed = FindObjectsOfType<QuestEventPrefabScript>();
+        foreach (QuestEventPrefabScript qes in prefabsToBeDestroyed)
+        {
+            Destroy(qes.gameObject);
+        }
+    }
+
+    [ButtonMethod]
+    public void ClearAllTimers()
+    {
+        QuestTimer[] allTimers = FindObjectsOfType<QuestTimer>();
+        foreach (QuestTimer qtimer in allTimers)
+        {
+            Destroy(qtimer.gameObject);
+        }
     }
 
     [ButtonMethod]

@@ -15,7 +15,7 @@ MonoBehaviour:
   questName: Collect 2 debug items in 30 seconds
   desc: This stuff tastes like the event horizon of a black hole, with a crisp outer
     shell and a soft, warm interior. What's it made of? Who knows? Get 2 of it!
-  isActive: 1
+  isActive: 0
   hasTimerForQuest: 0
   questTimerTargetTime: 0
   associatedQuestGivers:
@@ -24,17 +24,17 @@ MonoBehaviour:
   - {fileID: 0}
   - {fileID: 0}
   - {fileID: 0}
-  questState: 1
+  questState: 0
   questEvents:
   - questEventName: Collect 2 debug items in 30 seconds
     description: Collect 2 debug items in 30 seconds
-    id: 
     order: 0
-    status: 3
+    failWholeQuest: 1
+    status: 0
     questEventPrefabScript: {fileID: 0}
     questLogic:
     - type: 5
-      status: 3
+      status: 0
       eventCompleted: 0
       hasEventTimeLimit: 1
       areaStart: {x: 0, y: 0, z: 0}
@@ -50,14 +50,14 @@ MonoBehaviour:
       healthCounter: 0
       itemAmountTarget: 2
       itemAmountRequired: 66
-      itemCounter: 71
+      itemCounter: 0
       amountsSet: 0
       itemToCollect: {fileID: 11400000, guid: 594f0c2dc1366804b843c56bf6071218, type: 2}
       timerTargetTime: 5
   - questEventName: Collect 2 debug items in 30 seconds
     description: Collect 2 debug items in 30 seconds
-    id: 
-    order: 1
+    order: 0
+    failWholeQuest: 0
     status: 0
     questEventPrefabScript: {fileID: 0}
     questLogic:
@@ -78,35 +78,7 @@ MonoBehaviour:
       healthCounter: 0
       itemAmountTarget: 2
       itemAmountRequired: 66
-      itemCounter: 71
+      itemCounter: 0
       amountsSet: 0
       itemToCollect: {fileID: 11400000, guid: 594f0c2dc1366804b843c56bf6071218, type: 2}
-      timerTargetTime: 10
-  - questEventName: Collect 2 debug items in 30 seconds
-    description: Collect 2 debug items in 30 seconds
-    id: 
-    order: 2
-    status: 0
-    questEventPrefabScript: {fileID: 0}
-    questLogic:
-    - type: 5
-      status: 0
-      eventCompleted: 0
-      hasEventTimeLimit: 1
-      areaStart: {x: 0, y: 0, z: 0}
-      areaEnd: {x: 0, y: 0, z: 0}
-      interactRadius: 0
-      playerAspectToMonitor: 0
-      moneyTarget: 0
-      moneyCounter: 0
-      moneyRequired: 0
-      levelTarget: 0
-      levelCounter: 0
-      healthTarget: 0
-      healthCounter: 0
-      itemAmountTarget: 2
-      itemAmountRequired: 66
-      itemCounter: 71
-      amountsSet: 0
-      itemToCollect: {fileID: 11400000, guid: 594f0c2dc1366804b843c56bf6071218, type: 2}
-      timerTargetTime: 15
+      timerTargetTime: 5

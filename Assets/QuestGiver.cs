@@ -198,14 +198,6 @@ public class QuestGiver : MonoBehaviour
             playerInRange = false;
         }
     }
-
-    public void GenerateQuestEventID()
-    {
-        foreach (QuestEvent questevent in myQuest.questEvents)
-        {
-            questevent.id = Guid.NewGuid().ToString();
-        }
-    }
 }
 
 [System.Serializable]
