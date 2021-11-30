@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using MyBox;
 
 [System.Serializable]
 [CreateAssetMenu(fileName = "New Character Dialogue", menuName = "Dialogue/New Character Dialogue")]
@@ -26,12 +27,18 @@ public class DialogueLine
 {
     [TextArea(2, 10)]
     public string lineString;               //Actual string of words to be said
+    [Separator("Dynamic Variables")]
     public bool hasChoice;
-    public string choiceTreeID;                 //The ID of the choice tree it'll show if it has a choice
+    [ConditionalField(nameof(hasChoice))] 
+    public string choiceTreeID;             //The ID of the choice tree it'll show if it has a choice
     public bool canChangeDefaultTreeId;     //Can reading this line change default tree ID to another?
+    [ConditionalField(nameof(canChangeDefaultTreeId))]
     public string treeIdToSwitchTo;         //If it can, which tree?
     public bool canTriggerQuest;
+    [ConditionalField(nameof(canTriggerQuest))] 
     public Quest myQuest;                   //Quest that can be triggered by reading this line
+
+    [Header("Default Variables")]
     public string lineOwner;                //Who said the line?
     public int lettersPerSecond = 100;      //How fast is the text said?
     public AudioClip audio;                 //TODO: Audio that says the line
@@ -50,8 +57,8 @@ public class ChoiceLine
 {
     public string choiceText;               //Displays the text of the options the player has to choose
     public string choiceID;                 //ID that identifies this choice
-    public string treeIdToSwitchTo;
+    public string treeIdToSwitchTo;         //The next line after this choice will be from this tree
     public string newDefaultTreeId;         //What the NPC will say as default after a choice a made, and the conversation is exited and reopened
     public bool canTriggerQuest;
-    public Quest myQuest;                   //Quest that can be triggered by reading this line
+    [ConditionalField(nameof(canTriggerQuest))] public Quest myQuest;                   //Quest that can be triggered by reading this line
 }

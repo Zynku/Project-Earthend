@@ -34,6 +34,12 @@ public class QuestTimer : MonoBehaviour
         FormatTimer();
     }
 
+    private IEnumerator DestroyTimer()  //Not used, but here if you need it.
+    {
+        yield return new WaitForSeconds(2f);
+        Destroy(gameObject);
+    }
+
     private void FormatTimer()
     {
         int days = (int)(rawTimer / 86400) % 365;

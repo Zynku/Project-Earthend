@@ -4,7 +4,6 @@ using System.Linq;
 using UnityEngine;
 using TMPro;
 
-[ExecuteInEditMode]
 public class QuestDebugger : MonoBehaviour
 {
     GameObject player;
@@ -17,10 +16,10 @@ public class QuestDebugger : MonoBehaviour
     public enum DebugType { completeAllQuests, completeCurrentQuest, completeCurrentQuestEvent, failCurrentQuestEvent, failCurrentQuest, clearAllQuestEventPrefabs}
     bool playerInRange;
 
-    private void Awake()
+    public void Start()
     {
-        player = GameObject.FindGameObjectWithTag("Player");
-        questManager = GameObject.FindGameObjectWithTag("QuestManager").GetComponent<QuestManager>();
+        player = gamemanager.instance.Player;
+        questManager = gamemanager.instance.questManager;
         shownDebugType.GetComponent<TextMeshPro>().text = DebuggingType.ToString();
     }
 
@@ -63,13 +62,12 @@ public class QuestDebugger : MonoBehaviour
         }
         else
         {
-            Debug.Log("No quest events chief...");
+            Debug.LogWarning("No quest events chief...");
         }
 
         if (currentEvent != null)
         {
-            currentEvent.UpdateQuestEvent(QuestEvent.EventStatus.DONE);
-            questManager.UpdateQuestsOnCompletion(currentEvent); 
+            questManager.UpdateQuestsOnCompletion(currentEvent, QuestEvent.EventStatus.DONE); 
         }
     }
 
@@ -81,13 +79,13 @@ public class QuestDebugger : MonoBehaviour
         }
         else
         {
-            Debug.Log("No quests chief...");
+            Debug.LogWarning("No quests chief...");
         }
     }
 
     IEnumerator CompleteAllQuests()
     {
-        if (questManager.currentQuest.name != "No Quest")
+        if (questManager.currentQuest.questName != "No Quest")
         {
             StartCoroutine(questManager.CompleteCurrentQuest());
             //Complete a quest, wait 0.1 seconds, check if there's another quest. If there is complete it
@@ -106,8 +104,8 @@ public class QuestDebugger : MonoBehaviour
 
     void ClearAllQuestEventPrefabs()
     {
-        QuestEventScript[] prefabsToBeDestroyed = FindObjectsOfType<QuestEventScript>();
-        foreach (QuestEventScript qes in prefabsToBeDestroyed)
+        QuestEventPrefabScript[] prefabsToBeDestroyed = FindObjectsOfType<QuestEventPrefabScript>();
+        foreach (QuestEventPrefabScript qes in prefabsToBeDestroyed)
         {
             Destroy(qes.gameObject);
         }
@@ -127,8 +125,7 @@ public class QuestDebugger : MonoBehaviour
 
         if (currentEvent != null)
         {
-            currentEvent.UpdateQuestEvent(QuestEvent.EventStatus.FAILED);
-            questManager.UpdateQuestsOnCompletion(currentEvent);
+            questManager.UpdateQuestsOnCompletion(currentEvent, QuestEvent.EventStatus.FAILED);
         }
     }
 

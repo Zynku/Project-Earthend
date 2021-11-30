@@ -1,0 +1,53 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 49ae13b474215be4d82abdb3781dd09c, type: 3}
+  m_Name: Have atleast 190 Health
+  m_EditorClassIdentifier: 
+  questName: Have atleast 190 Health
+  desc: You need to be in tip top shape if you want to survive outside this Developer
+    Lab. Make sure you're healed up!
+  isActive: 0
+  hasTimerForQuest: 0
+  questTimerTargetTime: 0
+  hasTimerForEvent: 0
+  eventTimerTargetTime: 0
+  whichEventOrderNumber: 0
+  associatedQuestGivers: []
+  questState: 0
+  questEvents:
+  - questEventName: Have 190 or more health
+    description: Have 190 or more health
+    id: 
+    order: 0
+    status: 0
+    questEventPrefabScript: {fileID: 0}
+    questLogic:
+    - type: 3
+      status: 0
+      eventCompleted: 0
+      hasTimeLimitforEvent: 0
+      hasTimeLimitforQuest: 0
+      areaStart: {x: 0, y: 0, z: 0}
+      areaEnd: {x: 0, y: 0, z: 0}
+      interactRadius: 0
+      playerAspectToMonitor: 2
+      moneyTarget: 0
+      moneyCounter: 0
+      moneyRequired: 0
+      levelTarget: 0
+      levelCounter: 0
+      healthTarget: 190
+      healthCounter: 0
+      itemAmountTarget: 0
+      itemCounter: 0
+      amountsSet: 0
+      itemToCollect: {fileID: 0}

@@ -109,9 +109,11 @@ public class DialogueManager : MonoBehaviour
         if (!playerInConversation && questsToGive.Count > 0)
         {
             Debug.Log("There's a quest to give, let's do it");
-            QuestGiver questScript = dialogueSource.GetComponent<QuestGiver>();
-            StartCoroutine(questScript.AcceptQuest(questsToGive[0]));
-            questsToGive.RemoveAt(0);
+            //QuestGiver questScript = dialogueSource.GetComponent<QuestGiver>();
+            //StartCoroutine(questScript.AcceptQuest(questsToGive[0]));
+            Quest questToGive = questsToGive[0];
+            questsToGive.Remove(questToGive);
+            questManager.SetupNewQuest(questToGive);
         }
     }
 
@@ -334,8 +336,10 @@ public class DialogueManager : MonoBehaviour
 
         if (choiceOne.canTriggerQuest)
         {
-            QuestGiver questScript = dialogueSource.GetComponent<QuestGiver>();
-            questsToGive.Add(questScript.myQuest);
+            //QuestGiver questScript = dialogueSource.GetComponent<QuestGiver>();
+            //Quest questToGive = questScript.myQuest;
+            Quest questToGive = choiceOne.myQuest;
+            questsToGive.Add(questToGive);
         }
     }
 
@@ -355,8 +359,10 @@ public class DialogueManager : MonoBehaviour
 
         if (choiceTwo.canTriggerQuest)
         {
-            QuestGiver questScript = dialogueSource.GetComponent<QuestGiver>();
-            questsToGive.Add(questScript.myQuest);
+            //QuestGiver questScript = dialogueSource.GetComponent<QuestGiver>();
+            //Quest questToGive = questScript.myQuest;
+            Quest questToGive = choiceTwo.myQuest;
+            questsToGive.Add(questToGive);
         }
     }
 }
