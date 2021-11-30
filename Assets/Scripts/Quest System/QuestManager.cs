@@ -243,6 +243,7 @@ public class QuestManager : MonoBehaviour
             if (questEvent.questLogic.Count <= 0)
             {
                 Debug.LogWarning(questEvent + " has no quest logic attached! Every quest event must have quest logic attached.");
+                ReAddQuest(player.GetComponent<Charquests>().currentQuests[0]);
                 return false;
             }
         }
@@ -724,8 +725,9 @@ public class QuestManager : MonoBehaviour
         //Checks for duplicate qctps
         foreach (var qcto in questCompletedTextsOffscreen)
         {
-            if (qcto == qctp)
+            if (qcto == qctp && canAcceptQuest)
             {
+                questCompletedTextsOffscreen.Remove(qctp);
                 Destroy(qctp);
                 Debug.LogWarning("Tried to make more than one instance of a Quest Completed Text Prefab for a Quest where one was already created! Stopped spawning 'em for ya");
                 break;
