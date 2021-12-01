@@ -48,15 +48,11 @@ public class InventoryUI : MonoBehaviour
 
         slots = itemsParent.GetComponentsInChildren<InventoryItemSlot>();
 
-        InventoryUIObject.SetActive(false);
+        //InventoryUIObject.SetActive(false);
     }
 
     private void Update()
     {
-        if (Input.GetButtonDown("Inventory"))
-        {
-            InventoryUIObject.SetActive(!InventoryUIObject.activeSelf);
-        }
         //ManagePickedUpTexts();
 
         if (pickedUpTexts.Count == 0)

@@ -31,6 +31,7 @@ public class gamemanager : MonoBehaviour
 
     public DialogueManager dialogueManager;
     public QuestManager questManager;
+    public InfoHubManager infoHub;
 
 
 
@@ -56,6 +57,7 @@ public class gamemanager : MonoBehaviour
 
         dialogueManager = GetComponentInChildren<DialogueManager>();
         questManager = GetComponentInChildren<QuestManager>();
+        infoHub = GetComponentInChildren<InfoHubManager>();
 
     }
     #endregion
