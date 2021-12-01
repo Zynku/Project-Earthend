@@ -94,7 +94,7 @@ public class QuestSystemCleanerUpper : MonoBehaviour
         if (currentEvent != null)
         {
             currentEvent.status = QuestEvent.EventStatus.FAILED;
-            questManager.UpdateQuestsOnCompletion(currentEvent, QuestEvent.EventStatus.DONE);
+            questManager.UpdateQuestsOnCompletion(currentEvent, QuestEvent.EventStatus.FAILED);
         }
     }
 

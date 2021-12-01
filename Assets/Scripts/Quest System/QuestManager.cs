@@ -49,8 +49,6 @@ public class QuestManager : MonoBehaviour
     public GameObject questFailedTextPrefab;                                        //Assigned in inspector
     public List<GameObject> questFailedTexts, questFailedTextsOffscreen;
 
-    
-
     private void Awake()
     {
         player.GetComponent<Charquests>().questmanager = this;
@@ -243,7 +241,10 @@ public class QuestManager : MonoBehaviour
             if (questEvent.questLogic.Count <= 0)
             {
                 Debug.LogWarning(questEvent + " has no quest logic attached! Every quest event must have quest logic attached.");
-                ReAddQuest(player.GetComponent<Charquests>().currentQuests[0]);
+                if (player.GetComponent<Charquests>().currentQuests.Count > 0)
+                { 
+                    ReAddQuest(player.GetComponent<Charquests>().currentQuests[0]); 
+                }
                 return false;
             }
         }
@@ -435,31 +436,6 @@ public class QuestManager : MonoBehaviour
             CollectInventoryItems(questLogic);
         }
     }
-
-    /*public IEnumerator CreateTimeLimitForEvent(QuestLogic questLogic)
-    {
-        if (!timerSet)
-        {
-            questLogicTimerTargetTime = questLogic.TimerTargetTime;
-            questLogicTimerTime = questLogicTimerTargetTime;
-            timerSet = true;
-        }
-
-        questLogicTimerTime -= Time.deltaTime;
-        if (questLogicTimerTime <= 1)
-        {
-            questLogicTimerTime = 1;
-            UpdateQuestEvent(questLogic.qEvent, QuestEvent.EventStatus.FAILED);
-            UpdateQuestsOnCompletion(questLogic.qEvent);
-            questLogicTimerTime = questLogicTimerTargetTime;
-            yield break;
-        }
-        else
-        {
-            yield return new WaitForSeconds(0.01f);
-            StartCoroutine(CreateTimeLimitForEvent(questLogic));
-        }
-    }*/
     #endregion
 
     public void ManageTimer(QuestLogic questLogic)
