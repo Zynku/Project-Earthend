@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-public class gamemanager : MonoBehaviour
+public class Gamemanager : MonoBehaviour
 {
     [Header("Time")]
     public bool overwriteTime;
@@ -27,11 +27,12 @@ public class gamemanager : MonoBehaviour
     public static bool pause, resume;
     public bool paused, resumed;
 
-    public static gamemanager instance;
+    public static Gamemanager instance;
 
     public DialogueManager dialogueManager;
     public QuestManager questManager;
     public InfoHubManager infoHub;
+    public Pause_menu_manager pause_Menu_Manager;
 
 
 
@@ -58,6 +59,7 @@ public class gamemanager : MonoBehaviour
         dialogueManager = GetComponentInChildren<DialogueManager>();
         questManager = GetComponentInChildren<QuestManager>();
         infoHub = GetComponentInChildren<InfoHubManager>();
+        pause_Menu_Manager = GetComponentInChildren<Pause_menu_manager>();
 
     }
     #endregion
@@ -85,6 +87,7 @@ public class gamemanager : MonoBehaviour
         Debug.Log("Pausing game...");
         Player.SetActive(false);
         PlayerAnim.enabled = false;
+        pause_Menu_Manager.isGamePaused = true;
         Time.timeScale = 0;
     }
 
@@ -93,7 +96,41 @@ public class gamemanager : MonoBehaviour
         Debug.Log("Resuming game...");
         Player.SetActive(true);
         PlayerAnim.enabled = true;
+        pause_Menu_Manager.isGamePaused = false;
         Time.timeScale = 1;
+    }
+
+    public void TogglePauseGame()
+    {
+        if (pause_Menu_Manager.isGamePaused == false)
+        {
+            PauseGame();
+        }
+        else
+        {
+            ResumeGame();
+        }
+    }
+
+    public void ResumeFromMenu()
+    {
+        Debug.Log("Resuming game...");
+        //PlayerAnim.enabled = true;
+        pause_Menu_Manager.PauseMenuUi.SetActive(false);
+        //Time.timeScale = 1;
+        pause_Menu_Manager.isGamePaused = false;
+        Gamemanager.instance.ResumeGame();
+
+    }
+
+    public void PauseWithMenu()
+    {
+        Debug.Log("Pausing game...");
+        //PlayerAnim.enabled = false;
+        pause_Menu_Manager.PauseMenuUi.SetActive(true);
+        //Time.timeScale = 0;
+        pause_Menu_Manager.isGamePaused = true;
+        Gamemanager.instance.PauseGame();
     }
 
     void HurtFlash()

@@ -56,7 +56,7 @@ public class QuestManager : MonoBehaviour
 
     private void Start()
     {
-        player = gamemanager.instance.Player;
+        player = Gamemanager.instance.Player;
         inventory = player.GetComponent<Charpickup_inventory>();
         questDivider.SetActive(false);
         currentQuestText.gameObject.SetActive(false);

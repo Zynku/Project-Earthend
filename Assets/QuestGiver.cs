@@ -18,7 +18,7 @@ public class QuestGiver : MonoBehaviour
     [ConditionalField(nameof(acceptQuestByName), true)] public Quest myQuest;   //The quest you want to give the player
     Npcscript npcscript;
     GameObject player;
-    gamemanager gamemanager;
+    Gamemanager gamemanager;
     QuestManager questManager;
     DialogueManager dialogueManager;
     QuestGiver questgiverscript;
@@ -31,7 +31,7 @@ public class QuestGiver : MonoBehaviour
 
     private void Start()
     {
-        gamemanager = gamemanager.instance;
+        gamemanager = Gamemanager.instance;
         player = gamemanager.Player;
         questManager = gamemanager.questManager;
         dialogueManager = gamemanager.dialogueManager;

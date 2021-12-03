@@ -52,13 +52,13 @@ public class teleporternetwork : MonoBehaviour
         uiElements.SetActive(true);
         EventSystem.current.SetSelectedGameObject(null);
         EventSystem.current.SetSelectedGameObject(teleporterUiElements[0]);
-        gamemanager.instance.PauseGame();
+        Gamemanager.instance.PauseGame();
     }
 
     public void hideNetworkUI()
     {
         uiElements.SetActive(false);
-        gamemanager.instance.ResumeGame();
+        Gamemanager.instance.ResumeGame();
     }
 
     // Update is called once per frame
@@ -105,7 +105,7 @@ public class teleporternetwork : MonoBehaviour
 
         uiElements.SetActive(false);
 
-        gamemanager.instance.ResumeGame();
+        Gamemanager.instance.ResumeGame();
     }
 
     public void AssignTeleporters(int tp)
@@ -174,7 +174,7 @@ public class teleporternetwork : MonoBehaviour
 
             TeleportCanvas.SetActive(false);
 
-            gamemanager.instance.ResumeGame();
+            Gamemanager.instance.ResumeGame();
         }
     }
 
@@ -192,7 +192,7 @@ public class teleporternetwork : MonoBehaviour
 
             TeleportCanvas.SetActive(false);
 
-            gamemanager.instance.ResumeGame();
+            Gamemanager.instance.ResumeGame();
         }
     }
 
@@ -210,7 +210,7 @@ public class teleporternetwork : MonoBehaviour
 
             TeleportCanvas.SetActive(false);
 
-            gamemanager.instance.ResumeGame();
+            Gamemanager.instance.ResumeGame();
         }
     }*/
 }

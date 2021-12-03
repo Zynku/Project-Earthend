@@ -36,7 +36,7 @@ public class Npcscript : MonoBehaviour
         Player = GameObject.FindWithTag("Player");
         animator = GetComponent<Animator>();
         audiosource = GetComponent<AudioSource>();
-        dialogueManager = gamemanager.instance.dialogueManager;
+        dialogueManager = Gamemanager.instance.dialogueManager;
 
     }
 

@@ -41,7 +41,7 @@ public class Doorscript : MonoBehaviour
         animator = GetComponent<Animator>();
         boxCol = GetComponent<BoxCollider2D>();
         audiosource = GetComponent<AudioSource>();
-        Player = gamemanager.instance.Player;
+        Player = Gamemanager.instance.Player;
     }
 
     // Update is called once per frame

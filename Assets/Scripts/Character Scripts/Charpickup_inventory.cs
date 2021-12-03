@@ -36,8 +36,8 @@ public class Charpickup_inventory : MonoBehaviour
     void Start()
     {
         Charcontrol = GetComponent<Charcontrol>();
-        inventoryui = GameObject.Find("Inventory Screen Canvas").GetComponent<InventoryUI>();
-        infoHub = gamemanager.instance.infoHub;
+        //inventoryui = GameObject.Find("Inventory Screen Canvas").GetComponent<InventoryUI>();
+        infoHub = Gamemanager.instance.infoHub;
     }
 
     // Update is called once per frame
@@ -45,10 +45,10 @@ public class Charpickup_inventory : MonoBehaviour
     {
         //Get damage values from dropped weapon script on collision object, apply to charhealth
 
-        if (Input.GetButtonDown("Inventory"))
+/*        if (Input.GetButtonDown("Inventory"))
         {
             infoHub.gameObject.SetActive(!infoHub.gameObject.activeSelf);
-        }
+        }*/
     }
 
     public bool AddItem(ItemScriptable item)

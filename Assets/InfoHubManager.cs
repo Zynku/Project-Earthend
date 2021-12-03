@@ -20,10 +20,11 @@ public class InfoHubManager : MonoBehaviour
     public TextMeshProUGUI whatPageIsThis;           //The raw text that shows at the top of this menu showing what page is currently active.
     public GameObject iHPageButtonPrefab;
     public GameObject iHPageButtonHolder;
-    private bool firstPageShown = false;
+    [HideInInspector] public bool firstPageShown = false;
 
     private void Start()
     {
+        this.gameObject.SetActive(false);
         pages = GetComponentsInChildren<IHPageScript>();
         currentPageNumber = 0;
         currentPage = pages[0].gameObject;

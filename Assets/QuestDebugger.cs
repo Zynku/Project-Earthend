@@ -18,8 +18,8 @@ public class QuestDebugger : MonoBehaviour
 
     public void Start()
     {
-        player = gamemanager.instance.Player;
-        questManager = gamemanager.instance.questManager;
+        player = Gamemanager.instance.Player;
+        questManager = Gamemanager.instance.questManager;
         shownDebugType.GetComponent<TextMeshPro>().text = DebuggingType.ToString();
     }
 
