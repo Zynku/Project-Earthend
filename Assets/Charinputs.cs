@@ -19,14 +19,8 @@ public class Charinputs : MonoBehaviour
     }
 
 
-    private void Update()
+    public void Update()
     {
-        if (Input.GetButtonDown("Info Hub"))
-        {
-            bool infoHubenabled = infohub.gameObject.activeSelf;
-            infohub.gameObject.SetActive(!infoHubenabled);
-            if (!infoHubenabled) { infohub.firstPageShown = false; }
-            gamemanager.TogglePauseGame();
-        }
+        
     }
 }

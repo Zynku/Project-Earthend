@@ -34,7 +34,8 @@ public class Gamemanager : MonoBehaviour
     public InfoHubManager infoHub;
     public Pause_menu_manager pause_Menu_Manager;
 
-
+    public InventoryUI inventoryui;
+    public InventoryUIHelper inventoryUIHelper;
 
 
     #region Singleton and Awake
@@ -61,6 +62,8 @@ public class Gamemanager : MonoBehaviour
         infoHub = GetComponentInChildren<InfoHubManager>();
         pause_Menu_Manager = GetComponentInChildren<Pause_menu_manager>();
 
+        inventoryui = GetComponentInChildren<InventoryUI>();
+        inventoryUIHelper = GetComponentInChildren<InventoryUIHelper>();
     }
     #endregion
 
@@ -68,6 +71,14 @@ public class Gamemanager : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.P)) { PauseGame(); }
         if (Input.GetKeyDown(KeyCode.O)) { ResumeGame(); }
+
+        if (Input.GetButtonDown("Info Hub"))
+        {
+            bool infoHubenabled = infoHub.gameObject.activeSelf;
+            infoHub.gameObject.SetActive(!infoHubenabled);
+            if (!infoHubenabled) { infoHub.firstPageShown = false; }
+            TogglePauseGame();
+        }
 
         if (pause) { paused = true; }
         if (resume) { resumed = true; }
@@ -89,6 +100,10 @@ public class Gamemanager : MonoBehaviour
         PlayerAnim.enabled = false;
         pause_Menu_Manager.isGamePaused = true;
         Time.timeScale = 0;
+        pause = true;
+        paused = true;
+        resume = false;
+        resumed = false;
     }
 
     public void ResumeGame()
@@ -98,17 +113,24 @@ public class Gamemanager : MonoBehaviour
         PlayerAnim.enabled = true;
         pause_Menu_Manager.isGamePaused = false;
         Time.timeScale = 1;
+        pause = false;
+        paused = false;
+        resume = true;
+        resumed = true;
     }
 
     public void TogglePauseGame()
     {
-        if (pause_Menu_Manager.isGamePaused == false)
+        Debug.Log("Toggling Pause");
+        if (paused == false)
         {
             PauseGame();
+            paused = true;
         }
         else
         {
             ResumeGame();
+            paused = false;
         }
     }
 

@@ -11,6 +11,7 @@ public class Charpickup_inventory : MonoBehaviour
     public static Charpickup_inventory instance;
     private Charcontrol Charcontrol;
     private InventoryUI inventoryui;
+    private InventoryUIHelper inventoryUIHelper;
     private InfoHubManager infoHub;
     //private bool canInteract;
 
@@ -36,7 +37,8 @@ public class Charpickup_inventory : MonoBehaviour
     void Start()
     {
         Charcontrol = GetComponent<Charcontrol>();
-        //inventoryui = GameObject.Find("Inventory Screen Canvas").GetComponent<InventoryUI>();
+        inventoryui = Gamemanager.instance.inventoryui;
+        inventoryUIHelper = Gamemanager.instance.inventoryUIHelper;
         infoHub = Gamemanager.instance.infoHub;
     }
 
@@ -68,7 +70,7 @@ public class Charpickup_inventory : MonoBehaviour
                 //Has item
                 items[i].amountHas += items[i].amount;
 
-                inventoryui.ShowPickedUpText(item);
+                inventoryUIHelper.ShowPickedUpText(item);
                 if (onItemChangedCallback != null) { onItemChangedCallback.Invoke(); }
                 return true;
             }

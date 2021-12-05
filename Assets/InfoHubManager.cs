@@ -52,6 +52,7 @@ public class InfoHubManager : MonoBehaviour
     private void Update()
     {
         currentPage = pages[currentPageNumber].gameObject;
+        whatPageIsThis.text = currentPage.GetComponent<IHPageScript>().pageName;
 
         if (currentPageNumber > 0)
         {
@@ -80,10 +81,9 @@ public class InfoHubManager : MonoBehaviour
         if (!firstPageShown)
         {
             currentPage.GetComponent<IHPageScript>().pagePanel.GetComponentInChildren<Animator>().Play("IH Page Idle");
+            whatPageIsThis.text = currentPage.GetComponent<IHPageScript>().pageName;
             firstPageShown = true;
         }
-
-        whatPageIsThis.text = currentPage.GetComponent<IHPageScript>().pageName;
     }
 
     [ButtonMethod]
