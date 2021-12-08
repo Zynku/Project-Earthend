@@ -51,6 +51,8 @@ public class InfoHubManager : MonoBehaviour
 
     private void Update()
     {
+        //if (Input.GetKeyDown(KeyCode.RightArrow)) { ScrollRight(); }  //TODO; Implement arrow scrolling
+
         currentPage = pages[currentPageNumber].gameObject;
         whatPageIsThis.text = currentPage.GetComponent<IHPageScript>().pageName;
 

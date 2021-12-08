@@ -13,7 +13,7 @@ public class QuestGiver : MonoBehaviour
     public bool acceptQuestByName;                        //Gives the player a specific quest by its name. Not case sensitive, whitespace sensitive though
     [ConditionalField(nameof(acceptQuestByName))] public string questName;      //The name of the quest you want to give the player
     public bool changeDialogueOnQuestUpdate;            //Does this NPC change their dialogue if you update the quest in some way?
-    [ConditionalField(nameof(changeDialogueOnQuestUpdate))] public DSArrays dialogueSwitchers; //Separate instances of dialogue switching so the NPC can do it multiple times
+    public DialogueSwitcher[] dialogueSwitchers; //Separate instances of dialogue switching so the NPC can do it multiple times
 
     [ConditionalField(nameof(acceptQuestByName), true)] public Quest myQuest;   //The quest you want to give the player
     Npcscript npcscript;
@@ -44,7 +44,10 @@ public class QuestGiver : MonoBehaviour
 
     private void Update()
     {
-       
+       if (myQuest.isActive)
+        {
+            CheckSpecificQuestEvent();
+        }
     }
 
     void LateUpdate()
@@ -105,6 +108,7 @@ public class QuestGiver : MonoBehaviour
                 return allQuests[i];
             }
         }
+        Debug.LogWarning("No quest with that name found!");
         return null;
     }
 
@@ -129,7 +133,7 @@ public class QuestGiver : MonoBehaviour
 
     public void CheckSpecificQuestEvent()
     {
-/*        foreach (var dialogueswitcher in dialogueSwitchInstances)
+        foreach (var dialogueswitcher in dialogueSwitchers)
         {
             QuestEvent qeToCheck = myQuest.questEvents.Where(qeToCheck => qeToCheck.order == dialogueswitcher.whichQuestEventOrderToChangeOn).FirstOrDefault();
 
@@ -159,7 +163,7 @@ public class QuestGiver : MonoBehaviour
                 default:
                     break;
             }
-        }*/
+        }
     }
 
     //TODO: Let this allow quest events to change dialogue trees on update
@@ -200,7 +204,7 @@ public class QuestGiver : MonoBehaviour
     }
 }
 
-[System.Serializable]
+/*[System.Serializable]
 public class DSArrays: CollectionWrapper<DialogueSwitcher> { }
 
 [System.Serializable]
@@ -212,5 +216,16 @@ public class DialogueSwitcher
     [HideInInspector] public bool dialogueTreeSwitched = false;  //Has the dialogue tree been switched already? Used to prevent infinite tree changing.
     public QuestEventState questEventState;
     public enum QuestEventState { CURRENT, COMPLETED, FAILED };
+}*/
+
+[System.Serializable]
+public class DialogueSwitcher
+{
+    public string name;
+    public string dialogueTreeToSwitchTo;        //Which dialogue tree will the NPC switch to if the designated quest is updated
+    public int whichQuestEventOrderToChangeOn;   //Which Quest Event, when changed, will change dialogue for this NPC. This is the quest event's order number
+    public QuestEventState questEventState;
+    public enum QuestEventState { CURRENT, COMPLETED, FAILED };
+    public bool dialogueTreeSwitched = false;  //Has the dialogue tree been switched already? Used to prevent infinite tree changing.
 }
 

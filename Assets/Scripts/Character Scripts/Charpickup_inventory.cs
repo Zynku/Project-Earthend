@@ -71,7 +71,8 @@ public class Charpickup_inventory : MonoBehaviour
                 items[i].amountHas += items[i].amount;
 
                 inventoryUIHelper.ShowPickedUpText(item);
-                if (onItemChangedCallback != null) { onItemChangedCallback.Invoke(); }
+                //if (onItemChangedCallback != null) { onItemChangedCallback.Invoke(); }
+                inventoryui.UpdateUI();
                 return true;
             }
         }
@@ -80,7 +81,8 @@ public class Charpickup_inventory : MonoBehaviour
         item.amountHas = 0;
         item.amountHas += item.amount;
         //inventoryui.ShowPickedUpText(item);
-        if (onItemChangedCallback != null) { onItemChangedCallback.Invoke(); }
+        //if (onItemChangedCallback != null) { onItemChangedCallback.Invoke(); }
+        inventoryui.UpdateUI();
         return true;
     }
 

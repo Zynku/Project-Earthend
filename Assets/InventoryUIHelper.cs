@@ -35,14 +35,14 @@ public class InventoryUIHelper : MonoBehaviour
         {
             foreach (GameObject text in pickedUpTexts)
             {
-                Debug.Log("Checking " + pickedUpTexts.Count + " texts in pickedUpTexts array containing " + item.name);
+                //Debug.Log("Checking " + pickedUpTexts.Count + " texts in pickedUpTexts array containing " + item.name);
                 if (text.GetComponent<TextMeshProUGUI>().text.Contains(item.name.ToString()))
                 {
-                    Debug.Log("Text found containing " + item.name + " . Adding " + item.amount + " to it");
+                    //Debug.Log("Text found containing " + item.name + " . Adding " + item.amount + " to it");
                     //Add the amount that was picked up to the amount already being displayed.
                     text.GetComponent<PickedUpTextScript>().myItemAmount += item.amount;
                     text.GetComponent<PickedUpTextScript>().AssignNewNameandAmount();
-                    Debug.Log("New text says contains " + text.GetComponent<PickedUpTextScript>().myItemAmount + " " + item.name);
+                    //Debug.Log("New text says contains " + text.GetComponent<PickedUpTextScript>().myItemAmount + " " + item.name);
                     textfound = true;
                     break;
                 }

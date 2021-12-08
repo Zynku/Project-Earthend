@@ -26,6 +26,9 @@ public class InventoryUI : MonoBehaviour
     InventoryItemSlot[] slots;
     List<ItemScriptable> allitems;
     public static InventoryUI instance;
+    public InventoryUIHelper inventoryUIHelper;
+
+    public bool beenSetup = false;
 
     #region Singleton
     private void Awake()
@@ -43,12 +46,13 @@ public class InventoryUI : MonoBehaviour
     void Start()
     {
         inventory = Charpickup_inventory.instance;
-        inventory.onItemChangedCallback += UpdateUI;
+        //inventory.onItemChangedCallback += UpdateUI;
         inventory.onClearInventoryCallback += ClearInventory;
 
         slots = itemsParent.GetComponentsInChildren<InventoryItemSlot>();
-
+        inventoryUIHelper = Gamemanager.instance.inventoryUIHelper;
         //InventoryUIObject.SetActive(false);
+        beenSetup = true;
     }
 
     private void Update()
@@ -86,8 +90,9 @@ public class InventoryUI : MonoBehaviour
     }
 
 
-    void UpdateUI()
+    public void UpdateUI()
     {
+        if (!beenSetup) { Start(); }
         //Loops through all inventory slots
         for (int i = 0; i < slots.Length; i++)
         {

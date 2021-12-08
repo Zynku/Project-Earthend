@@ -43,22 +43,26 @@ public class PickedUpTextScript : MonoBehaviour
 
     public void SetHiAsInactive()
     {
-        GetComponentInParent<InventoryUI>().isTextHiActive = false;
+        if (GetComponentInParent<InventoryUI>() != null) { GetComponentInParent<InventoryUI>().isTextHiActive = false; }
+        else if (GetComponentInParent<InventoryUIHelper>() != null) { GetComponentInParent<InventoryUIHelper>().isTextMidActive = false; }
     }
 
     public void SetMidAsInactive()
     {
-        GetComponentInParent<InventoryUI>().isTextMidActive = false;
+        if (GetComponentInParent<InventoryUI>() != null) { GetComponentInParent<InventoryUI>().isTextMidActive = false; }
+        else if (GetComponentInParent<InventoryUIHelper>() != null) { GetComponentInParent<InventoryUIHelper>().isTextMidActive = false; }
     }
 
     public void SetLoAsInactive()
     {
-        GetComponentInParent<InventoryUI>().isTextLoActive = false;
+        if (GetComponentInParent<InventoryUI>() != null) { GetComponentInParent<InventoryUI>().isTextLoActive = false; }
+        else if (GetComponentInParent<InventoryUIHelper>() != null) { GetComponentInParent<InventoryUIHelper>().isTextLoActive = false; }
     }
 
     public IEnumerator Despawn()
     {
-        GetComponentInParent<InventoryUI>().pickedUpTexts.Remove(gameObject);
+        if (GetComponentInParent<InventoryUI>() != null) { GetComponentInParent<InventoryUI>().pickedUpTexts.Remove(gameObject); }
+        else if (GetComponentInParent<InventoryUIHelper>() != null) { GetComponentInParent<InventoryUIHelper>().pickedUpTexts.Remove(gameObject); }
         yield return new WaitForSeconds(0.01f);
         Destroy(gameObject);
     }
