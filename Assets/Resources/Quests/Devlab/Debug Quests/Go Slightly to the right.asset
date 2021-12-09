@@ -13,78 +13,98 @@ MonoBehaviour:
   m_Name: Go Slightly to the right
   m_EditorClassIdentifier: 
   questName: Go Slightly to the right
-  desc: Just move over...ever so slightly...a couple steps
+  questDesc: To test this quest, I just need you to move ever so slightly to the
+    right....a couple times.You got this.
   isActive: 1
   hasTimerForQuest: 0
   questTimerTargetTime: 0
-  hasTimerForEvent: 0
-  eventTimerTargetTime: 0
-  whichEventOrderNumber: 0
   associatedQuestGivers:
+  - {fileID: 0}
   - {fileID: 0}
   - {fileID: 0}
   questState: 1
   questEvents:
   - questEventName: Move to the right slightly
     description: Move to the right slightly
-    id: 
     order: 0
-    status: 2
+    failWholeQuest: 0
+    status: 1
     questEventPrefabScript: {fileID: 0}
     questLogic:
     - type: 1
-      status: 2
+      status: 0
       eventCompleted: 0
-      hasTimeLimitforEvent: 0
-      hasTimeLimitforQuest: 0
+      hasEventTimeLimit: 0
       areaStart: {x: 8.25, y: -6.29, z: 0}
       areaEnd: {x: 9.23, y: -5.44, z: 0}
       interactRadius: 0
+      playerAspectToMonitor: 0
       moneyTarget: 0
       moneyCounter: 0
-      playerAspectToMonitor: 0
+      moneyRequired: 0
+      levelTarget: 0
+      levelCounter: 0
+      healthTarget: 0
+      healthCounter: 0
       itemAmountTarget: 0
+      itemAmountRequired: 0
       itemCounter: 0
+      amountsSet: 0
       itemToCollect: {fileID: 0}
+      timerTargetTime: 0
   - questEventName: Move to the right slightly again
     description: Move to the right  slightly again
-    id: 
     order: 1
+    failWholeQuest: 0
     status: 0
     questEventPrefabScript: {fileID: 0}
     questLogic:
     - type: 1
       status: 0
       eventCompleted: 0
-      hasTimeLimitforEvent: 0
-      hasTimeLimitforQuest: 0
+      hasEventTimeLimit: 0
       areaStart: {x: 9.59, y: -6.29, z: 0}
       areaEnd: {x: 10.35, y: -5.44, z: 0}
       interactRadius: 0
+      playerAspectToMonitor: 0
       moneyTarget: 0
       moneyCounter: 0
-      playerAspectToMonitor: 0
+      moneyRequired: 0
+      levelTarget: 0
+      levelCounter: 0
+      healthTarget: 0
+      healthCounter: 0
       itemAmountTarget: 0
+      itemAmountRequired: 0
       itemCounter: 0
+      amountsSet: 0
       itemToCollect: {fileID: 0}
+      timerTargetTime: 0
   - questEventName: Move to the right slightly one more time lol
     description: Move to the right  slightly one more time lol
-    id: 
     order: 2
+    failWholeQuest: 0
     status: 0
     questEventPrefabScript: {fileID: 0}
     questLogic:
     - type: 1
       status: 0
       eventCompleted: 0
-      hasTimeLimitforEvent: 0
-      hasTimeLimitforQuest: 0
+      hasEventTimeLimit: 0
       areaStart: {x: 10.71, y: -6.29, z: 0}
       areaEnd: {x: 11.63, y: -5.44, z: 0}
       interactRadius: 0
+      playerAspectToMonitor: 0
       moneyTarget: 0
       moneyCounter: 0
-      playerAspectToMonitor: 0
+      moneyRequired: 0
+      levelTarget: 0
+      levelCounter: 0
+      healthTarget: 0
+      healthCounter: 0
       itemAmountTarget: 0
+      itemAmountRequired: 0
       itemCounter: 0
+      amountsSet: 0
       itemToCollect: {fileID: 0}
+      timerTargetTime: 0

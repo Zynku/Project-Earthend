@@ -34,7 +34,7 @@ public class InfoHubManager : MonoBehaviour
             pages[i].pageNumber = i;
         }
 
-        for (int i = pages.Length; i-- > 0;)              //Creates a new button for each page
+        for (int i = pages.Length; i-- > 0;)              //Creates a new button at the top of the IHUI for each page
         {
             var newButton = Instantiate(iHPageButtonPrefab, iHPageButtonHolder.transform);
             newButton.GetComponent<IHUIPageButton>().myPage = pages[i];

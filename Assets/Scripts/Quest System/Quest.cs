@@ -14,7 +14,7 @@ public class Quest : ScriptableObject
 { 
     public string questName;
     [TextArea(5, 10)]
-    public string desc;
+    public string questDesc;
     public bool isActive;
     public bool hasTimerForQuest;
     [ConditionalField(nameof(hasTimerForQuest))] public float questTimerTargetTime;       //Time that timer starts at before counting down
@@ -29,7 +29,7 @@ public class Quest : ScriptableObject
     {
         //Default values
         questName = "No Quest";
-        desc = "No Quest";
+        questDesc = "No Quest";
         isActive = false;
     }
 

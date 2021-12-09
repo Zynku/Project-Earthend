@@ -11,6 +11,7 @@ public class QuestManager : MonoBehaviour
     [HideInInspector] public GameObject player;
     [HideInInspector] public TextMeshProUGUI currentQuestText;
     [HideInInspector] public Charpickup_inventory inventory;
+    [HideInInspector] public IHUIQuestManager ihuiquestmanager;
 
     [Separator("General Quest Variables")]
     public bool canAcceptQuest;
@@ -58,6 +59,7 @@ public class QuestManager : MonoBehaviour
     {
         player = Gamemanager.instance.Player;
         inventory = player.GetComponent<Charpickup_inventory>();
+        ihuiquestmanager = Gamemanager.instance.ihuiquestmanager;
         questDivider.SetActive(false);
         currentQuestText.gameObject.SetActive(false);
         countDownTimer.gameObject.SetActive(false);
@@ -160,9 +162,14 @@ public class QuestManager : MonoBehaviour
         }
         else if (canAcceptQuest)
         {
-            if (currentQuest != null)
+            if (currentQuest != null)   //If we already have a quest...
             {
                 ClearOldQuest();
+                ihuiquestmanager.AddAnotherQuest(quest);
+            }
+            else
+            {
+                ihuiquestmanager.SetupNewQuest(quest);
             }
 
             if (quest.questEvents.Count == 0)
@@ -174,6 +181,7 @@ public class QuestManager : MonoBehaviour
             else if (CheckforQuestLogic(quest))
             {
                 player.GetComponent<Charquests>().currentQuests.Add(quest);
+                
                 canAcceptQuest = false;
                 questDivider.SetActive(true);                            //Activates UI Elements associated with a quest
                 currentQuestText.gameObject.SetActive(true);
@@ -283,7 +291,7 @@ public class QuestManager : MonoBehaviour
         currentQuestEvent = firstQE;
         currentQuest.isActive = true;
         questName.GetComponent<TextMeshProUGUI>().text = currentQuest.questName;
-        questDesc.GetComponent<TextMeshProUGUI>().text = currentQuest.desc;
+        questDesc.GetComponent<TextMeshProUGUI>().text = currentQuest.questDesc;
 
         /*
         //Make loop creating each quest event script and assigning an ID for each quest event.
@@ -606,7 +614,7 @@ public class QuestManager : MonoBehaviour
         currentQuestEvent = firstQE;
         currentQuest.isActive = true;
         questName.GetComponent<TextMeshProUGUI>().text = currentQuest.questName;
-        questDesc.GetComponent<TextMeshProUGUI>().text = currentQuest.desc;
+        questDesc.GetComponent<TextMeshProUGUI>().text = currentQuest.questDesc;
 
         SetupQuestEvents();
     }
@@ -617,6 +625,7 @@ public class QuestManager : MonoBehaviour
         {
             qe.status = status;
             qe.questLogic[0].status = status;
+            ihuiquestmanager.UpdateQuestSteppie(qe, status);
         }
 
         if (qe.failWholeQuest && qe.status == QuestEvent.EventStatus.FAILED)

@@ -31,11 +31,14 @@ public class Gamemanager : MonoBehaviour
 
     public DialogueManager dialogueManager;
     public QuestManager questManager;
+    public IHUIQuestManager ihuiquestmanager;
     public InfoHubManager infoHub;
     public Pause_menu_manager pause_Menu_Manager;
 
     public InventoryUI inventoryui;
     public InventoryUIHelper inventoryUIHelper;
+
+    
 
 
     #region Singleton and Awake
@@ -59,11 +62,14 @@ public class Gamemanager : MonoBehaviour
 
         dialogueManager = GetComponentInChildren<DialogueManager>();
         questManager = GetComponentInChildren<QuestManager>();
+        ihuiquestmanager = GetComponentInChildren<IHUIQuestManager>();
         infoHub = GetComponentInChildren<InfoHubManager>();
         pause_Menu_Manager = GetComponentInChildren<Pause_menu_manager>();
 
         inventoryui = GetComponentInChildren<InventoryUI>();
         inventoryUIHelper = GetComponentInChildren<InventoryUIHelper>();
+
+        
     }
     #endregion
 
