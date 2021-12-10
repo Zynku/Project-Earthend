@@ -13,43 +13,42 @@ MonoBehaviour:
   m_Name: Collect 200 Rived Rock
   m_EditorClassIdentifier: 
   questName: Collect 200 Rived Rock
-  desc: You know Rived Rock, that purple crumbly stuff that you find on the ground.
-    A researcher in the Devlab requires 200 of it for an experiment. Help them out!
+  questDesc: Rived rock represents far more than just a lump of stone that's a strante
+    color. It harnesses raw mayhem in it's molecular matrix, the color change is
+    evocative of destruction on a level unto-unheard of until this moment. Truly
+    devastating. Collect 20 of 'em.
   isActive: 0
   hasTimerForQuest: 0
-  hasTimerForEvent: 0
-  whichEventOrderNumber: 0
-  timerTargetTime: 0
+  questTimerTargetTime: 0
+  associatedQuestGivers:
+  - {fileID: 0}
   questState: 0
   questEvents:
-  - questEventName: 
+  - questEventName: Collect 20 rived rock
     description: 
-    id: 
     order: 0
+    failWholeQuest: 0
     status: 0
     questEventPrefabScript: {fileID: 0}
-    questObjects:
-    - type: 0
-      itemToMonitor: 0
+    questLogic:
+    - type: 5
+      status: 0
       eventCompleted: 0
-      qManager: {fileID: 0}
-      qEvent:
-        questEventName: 
-        description: 
-        id: 
-        order: 0
-        status: 0
-        questEventPrefabScript: {fileID: 0}
-        questObjects: []
-      qScript: {fileID: 0}
-      myQuest: {fileID: 0}
-      associatedGameObject: {fileID: 0}
-      hasTimeLimitforEvent: 0
-      hasTimeLimitforQuest: 0
+      hasEventTimeLimit: 0
+      areaStart: {x: 0, y: 0, z: 0}
+      areaEnd: {x: 0, y: 0, z: 0}
       interactRadius: 0
+      playerAspectToMonitor: 0
       moneyTarget: 0
       moneyCounter: 0
-      itemAmountTarget: 0
+      moneyRequired: 0
+      levelTarget: 0
+      levelCounter: 0
+      healthTarget: 0
+      healthCounter: 0
+      itemAmountTarget: 20
+      itemAmountRequired: 0
       itemCounter: 0
-      itemToCollect: {fileID: 0}
-      status: 0
+      amountsSet: 0
+      itemToCollect: {fileID: 11400000, guid: 68c83f497bda5474bb5c906e71092d37, type: 2}
+      timerTargetTime: 0

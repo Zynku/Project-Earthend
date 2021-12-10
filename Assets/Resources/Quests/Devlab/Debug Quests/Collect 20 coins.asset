@@ -13,38 +13,41 @@ MonoBehaviour:
   m_Name: Collect 20 coins
   m_EditorClassIdentifier: 
   questName: Collect 20 coins
-  desc: You seem a bit strapped for cash, it's time you changed that. Find 20 coins
-    somewhere (try checking in between the couch cushions)
+  questDesc: You need some dollar my guy. Walk around looking for some coins and
+    hopefully you'll find 20 of the stuff.
   isActive: 0
   hasTimerForQuest: 0
   questTimerTargetTime: 0
-  hasTimerForEvent: 0
-  eventTimerTargetTime: 0
-  whichEventOrderNumber: 0
   associatedQuestGivers:
   - {fileID: 0}
-  questState: 2
+  - {fileID: 0}
+  questState: 1
   questEvents:
   - questEventName: Collect 20 coins
     description: Collect 20 coins
-    id: 
     order: 0
-    status: 2
+    failWholeQuest: 0
+    status: 1
     questEventPrefabScript: {fileID: 0}
     questLogic:
     - type: 3
       status: 0
-      eventCompleted: 1
-      hasTimeLimitforEvent: 0
-      hasTimeLimitforQuest: 0
+      eventCompleted: 0
+      hasEventTimeLimit: 0
       areaStart: {x: 0, y: 0, z: 0}
       areaEnd: {x: 0, y: 0, z: 0}
       interactRadius: 0
       playerAspectToMonitor: 0
       moneyTarget: 20
-      moneyRequired: 50
       moneyCounter: 51
+      moneyRequired: 50
+      levelTarget: 0
+      levelCounter: 0
+      healthTarget: 0
+      healthCounter: 0
       itemAmountTarget: 0
+      itemAmountRequired: 0
       itemCounter: 0
-      amountsSet: 1
+      amountsSet: 0
       itemToCollect: {fileID: 0}
+      timerTargetTime: 0

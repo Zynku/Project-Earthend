@@ -13,29 +13,26 @@ MonoBehaviour:
   m_Name: Be Atleast Level 8
   m_EditorClassIdentifier: 
   questName: Be atleast level 8
-  desc: Level up some! Get some XP under your belt until you're level 8 or higher.
+  questDesc: Get enough XP to reach level 8.
   isActive: 0
   hasTimerForQuest: 0
   questTimerTargetTime: 0
-  hasTimerForEvent: 0
-  eventTimerTargetTime: 0
-  whichEventOrderNumber: 0
   associatedQuestGivers:
+  - {fileID: 0}
   - {fileID: 0}
   questState: 0
   questEvents:
   - questEventName: Reach level 8 or higher
     description: Reach level 8 or higher
-    id: 
     order: 0
+    failWholeQuest: 0
     status: 0
     questEventPrefabScript: {fileID: 0}
     questLogic:
     - type: 3
       status: 0
       eventCompleted: 0
-      hasTimeLimitforEvent: 0
-      hasTimeLimitforQuest: 0
+      hasEventTimeLimit: 0
       areaStart: {x: 0, y: 0, z: 0}
       areaEnd: {x: 0, y: 0, z: 0}
       interactRadius: 0
@@ -48,6 +45,8 @@ MonoBehaviour:
       healthTarget: 0
       healthCounter: 0
       itemAmountTarget: 0
+      itemAmountRequired: 0
       itemCounter: 0
       amountsSet: 0
       itemToCollect: {fileID: 0}
+      timerTargetTime: 0

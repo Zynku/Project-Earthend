@@ -29,7 +29,7 @@ public class Quest : ScriptableObject
     {
         //Default values
         questName = "No Quest";
-        questDesc = "No Quest";
+        questDesc = "No Quest Description";
         isActive = false;
     }
 

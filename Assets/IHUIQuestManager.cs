@@ -38,11 +38,7 @@ public class IHUIQuestManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (QuestManager.currentQuest == null)
-        {
-            onScreenQuestName.text = "No Quests accepted!";
-            onScreenQuestDesc.text = "";
-        }
+
     }
 
     public void SetupNewQuest(Quest quest)
@@ -98,8 +94,6 @@ public class IHUIQuestManager : MonoBehaviour
         onScreenQuestName.text = "";
         onScreenQuestDesc.text = "";
 
-        ihuiQuestsTotalNumber = 1;
-        ihuiQuestsCurrentNumber = 1;
         ihuiQuestsTotal.text = "00";
         ihuiQuestsCurrent.text = "00";
 
@@ -150,21 +144,40 @@ public class IHUIQuestManager : MonoBehaviour
 
     public void QuestCanvasShowNextQuest()
     {
-        int nextQuestArrayNumber = currentQuestArrayNumber++;
-        Quest newQuestToShow = currentQuests[nextQuestArrayNumber];
-        currentQuestArrayNumber = currentQuestArrayNumber++;
-        ClearCurrentQuest();
-        ShowNewQuest(newQuestToShow);
-        currentQuest = newQuestToShow;
+        if (currentQuestArrayNumber + 1== currentQuests.Count)
+        {
+            //Debug.Log("End of quest list reached, not scrolling");
+            return;
+        }
+        else
+        {
+            int nextQuestArrayNumber = currentQuestArrayNumber + 1;
+            Quest newQuestToShow = currentQuests[nextQuestArrayNumber];
+            currentQuestArrayNumber = nextQuestArrayNumber;
+            ihuiQuestsCurrentNumber++;
+            ClearCurrentQuest();
+            ShowNewQuest(newQuestToShow);
+            currentQuest = newQuestToShow;
+        }
     }
 
     public void QuestCanvasShowPreviousQuest()
     {
-        Quest newQuestToShow = currentQuests[currentQuestArrayNumber--];
-        currentQuestArrayNumber = currentQuestArrayNumber--;
-        ClearCurrentQuest();
-        ShowNewQuest(newQuestToShow);
-        currentQuest = newQuestToShow;
+        if (currentQuestArrayNumber + 1 == 1)
+        {
+            //Debug.Log("Beginning of quest list reached, not scrolling");
+            return;
+        }
+        else
+        {
+            int nextQuestArrayNumber = currentQuestArrayNumber - 1;
+            Quest newQuestToShow = currentQuests[nextQuestArrayNumber];
+            currentQuestArrayNumber = nextQuestArrayNumber;
+            ihuiQuestsCurrentNumber--;
+            ClearCurrentQuest();
+            ShowNewQuest(newQuestToShow);
+            currentQuest = newQuestToShow;
+        }
     }
 
 

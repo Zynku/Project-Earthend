@@ -1,0 +1,555 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 49ae13b474215be4d82abdb3781dd09c, type: 3}
+  m_Name: A quest with a million steps
+  m_EditorClassIdentifier: 
+  questName: A quest with a million steps
+  questDesc: This quest is long, arduous, extensive, outstretched, considerable,
+    extended, lengthy, long-lived, drawn-out....
+  isActive: 0
+  hasTimerForQuest: 0
+  questTimerTargetTime: 0
+  associatedQuestGivers: []
+  questState: 0
+  questEvents:
+  - questEventName: Here's a quest step
+    description: 
+    order: 0
+    failWholeQuest: 0
+    status: 0
+    questEventPrefabScript: {fileID: 0}
+    questLogic:
+    - type: 0
+      status: 0
+      eventCompleted: 0
+      hasEventTimeLimit: 0
+      areaStart: {x: 0, y: 0, z: 0}
+      areaEnd: {x: 0, y: 0, z: 0}
+      interactRadius: 0
+      playerAspectToMonitor: 0
+      moneyTarget: 0
+      moneyCounter: 0
+      moneyRequired: 0
+      levelTarget: 0
+      levelCounter: 0
+      healthTarget: 0
+      healthCounter: 0
+      itemAmountTarget: 0
+      itemAmountRequired: 0
+      itemCounter: 0
+      amountsSet: 0
+      itemToCollect: {fileID: 0}
+      timerTargetTime: 0
+  - questEventName: Here's a quest step
+    description: 
+    order: 1
+    failWholeQuest: 0
+    status: 0
+    questEventPrefabScript: {fileID: 0}
+    questLogic:
+    - type: 0
+      status: 0
+      eventCompleted: 0
+      hasEventTimeLimit: 0
+      areaStart: {x: 0, y: 0, z: 0}
+      areaEnd: {x: 0, y: 0, z: 0}
+      interactRadius: 0
+      playerAspectToMonitor: 0
+      moneyTarget: 0
+      moneyCounter: 0
+      moneyRequired: 0
+      levelTarget: 0
+      levelCounter: 0
+      healthTarget: 0
+      healthCounter: 0
+      itemAmountTarget: 0
+      itemAmountRequired: 0
+      itemCounter: 0
+      amountsSet: 0
+      itemToCollect: {fileID: 0}
+      timerTargetTime: 0
+  - questEventName: Here's a quest step
+    description: 
+    order: 2
+    failWholeQuest: 0
+    status: 0
+    questEventPrefabScript: {fileID: 0}
+    questLogic:
+    - type: 0
+      status: 0
+      eventCompleted: 0
+      hasEventTimeLimit: 0
+      areaStart: {x: 0, y: 0, z: 0}
+      areaEnd: {x: 0, y: 0, z: 0}
+      interactRadius: 0
+      playerAspectToMonitor: 0
+      moneyTarget: 0
+      moneyCounter: 0
+      moneyRequired: 0
+      levelTarget: 0
+      levelCounter: 0
+      healthTarget: 0
+      healthCounter: 0
+      itemAmountTarget: 0
+      itemAmountRequired: 0
+      itemCounter: 0
+      amountsSet: 0
+      itemToCollect: {fileID: 0}
+      timerTargetTime: 0
+  - questEventName: Here's a quest step
+    description: 
+    order: 3
+    failWholeQuest: 0
+    status: 0
+    questEventPrefabScript: {fileID: 0}
+    questLogic:
+    - type: 0
+      status: 0
+      eventCompleted: 0
+      hasEventTimeLimit: 0
+      areaStart: {x: 0, y: 0, z: 0}
+      areaEnd: {x: 0, y: 0, z: 0}
+      interactRadius: 0
+      playerAspectToMonitor: 0
+      moneyTarget: 0
+      moneyCounter: 0
+      moneyRequired: 0
+      levelTarget: 0
+      levelCounter: 0
+      healthTarget: 0
+      healthCounter: 0
+      itemAmountTarget: 0
+      itemAmountRequired: 0
+      itemCounter: 0
+      amountsSet: 0
+      itemToCollect: {fileID: 0}
+      timerTargetTime: 0
+  - questEventName: Here's a quest step
+    description: 
+    order: 4
+    failWholeQuest: 0
+    status: 0
+    questEventPrefabScript: {fileID: 0}
+    questLogic:
+    - type: 0
+      status: 0
+      eventCompleted: 0
+      hasEventTimeLimit: 0
+      areaStart: {x: 0, y: 0, z: 0}
+      areaEnd: {x: 0, y: 0, z: 0}
+      interactRadius: 0
+      playerAspectToMonitor: 0
+      moneyTarget: 0
+      moneyCounter: 0
+      moneyRequired: 0
+      levelTarget: 0
+      levelCounter: 0
+      healthTarget: 0
+      healthCounter: 0
+      itemAmountTarget: 0
+      itemAmountRequired: 0
+      itemCounter: 0
+      amountsSet: 0
+      itemToCollect: {fileID: 0}
+      timerTargetTime: 0
+  - questEventName: Here's a quest step
+    description: 
+    order: 5
+    failWholeQuest: 0
+    status: 0
+    questEventPrefabScript: {fileID: 0}
+    questLogic:
+    - type: 0
+      status: 0
+      eventCompleted: 0
+      hasEventTimeLimit: 0
+      areaStart: {x: 0, y: 0, z: 0}
+      areaEnd: {x: 0, y: 0, z: 0}
+      interactRadius: 0
+      playerAspectToMonitor: 0
+      moneyTarget: 0
+      moneyCounter: 0
+      moneyRequired: 0
+      levelTarget: 0
+      levelCounter: 0
+      healthTarget: 0
+      healthCounter: 0
+      itemAmountTarget: 0
+      itemAmountRequired: 0
+      itemCounter: 0
+      amountsSet: 0
+      itemToCollect: {fileID: 0}
+      timerTargetTime: 0
+  - questEventName: Here's a quest step
+    description: 
+    order: 6
+    failWholeQuest: 0
+    status: 0
+    questEventPrefabScript: {fileID: 0}
+    questLogic:
+    - type: 0
+      status: 0
+      eventCompleted: 0
+      hasEventTimeLimit: 0
+      areaStart: {x: 0, y: 0, z: 0}
+      areaEnd: {x: 0, y: 0, z: 0}
+      interactRadius: 0
+      playerAspectToMonitor: 0
+      moneyTarget: 0
+      moneyCounter: 0
+      moneyRequired: 0
+      levelTarget: 0
+      levelCounter: 0
+      healthTarget: 0
+      healthCounter: 0
+      itemAmountTarget: 0
+      itemAmountRequired: 0
+      itemCounter: 0
+      amountsSet: 0
+      itemToCollect: {fileID: 0}
+      timerTargetTime: 0
+  - questEventName: Here's a quest step
+    description: 
+    order: 7
+    failWholeQuest: 0
+    status: 0
+    questEventPrefabScript: {fileID: 0}
+    questLogic:
+    - type: 0
+      status: 0
+      eventCompleted: 0
+      hasEventTimeLimit: 0
+      areaStart: {x: 0, y: 0, z: 0}
+      areaEnd: {x: 0, y: 0, z: 0}
+      interactRadius: 0
+      playerAspectToMonitor: 0
+      moneyTarget: 0
+      moneyCounter: 0
+      moneyRequired: 0
+      levelTarget: 0
+      levelCounter: 0
+      healthTarget: 0
+      healthCounter: 0
+      itemAmountTarget: 0
+      itemAmountRequired: 0
+      itemCounter: 0
+      amountsSet: 0
+      itemToCollect: {fileID: 0}
+      timerTargetTime: 0
+  - questEventName: Here's a quest step
+    description: 
+    order: 8
+    failWholeQuest: 0
+    status: 0
+    questEventPrefabScript: {fileID: 0}
+    questLogic:
+    - type: 0
+      status: 0
+      eventCompleted: 0
+      hasEventTimeLimit: 0
+      areaStart: {x: 0, y: 0, z: 0}
+      areaEnd: {x: 0, y: 0, z: 0}
+      interactRadius: 0
+      playerAspectToMonitor: 0
+      moneyTarget: 0
+      moneyCounter: 0
+      moneyRequired: 0
+      levelTarget: 0
+      levelCounter: 0
+      healthTarget: 0
+      healthCounter: 0
+      itemAmountTarget: 0
+      itemAmountRequired: 0
+      itemCounter: 0
+      amountsSet: 0
+      itemToCollect: {fileID: 0}
+      timerTargetTime: 0
+  - questEventName: Here's a quest step
+    description: 
+    order: 9
+    failWholeQuest: 0
+    status: 0
+    questEventPrefabScript: {fileID: 0}
+    questLogic:
+    - type: 0
+      status: 0
+      eventCompleted: 0
+      hasEventTimeLimit: 0
+      areaStart: {x: 0, y: 0, z: 0}
+      areaEnd: {x: 0, y: 0, z: 0}
+      interactRadius: 0
+      playerAspectToMonitor: 0
+      moneyTarget: 0
+      moneyCounter: 0
+      moneyRequired: 0
+      levelTarget: 0
+      levelCounter: 0
+      healthTarget: 0
+      healthCounter: 0
+      itemAmountTarget: 0
+      itemAmountRequired: 0
+      itemCounter: 0
+      amountsSet: 0
+      itemToCollect: {fileID: 0}
+      timerTargetTime: 0
+  - questEventName: Here's a quest step
+    description: 
+    order: 10
+    failWholeQuest: 0
+    status: 0
+    questEventPrefabScript: {fileID: 0}
+    questLogic:
+    - type: 0
+      status: 0
+      eventCompleted: 0
+      hasEventTimeLimit: 0
+      areaStart: {x: 0, y: 0, z: 0}
+      areaEnd: {x: 0, y: 0, z: 0}
+      interactRadius: 0
+      playerAspectToMonitor: 0
+      moneyTarget: 0
+      moneyCounter: 0
+      moneyRequired: 0
+      levelTarget: 0
+      levelCounter: 0
+      healthTarget: 0
+      healthCounter: 0
+      itemAmountTarget: 0
+      itemAmountRequired: 0
+      itemCounter: 0
+      amountsSet: 0
+      itemToCollect: {fileID: 0}
+      timerTargetTime: 0
+  - questEventName: Here's a quest step
+    description: 
+    order: 11
+    failWholeQuest: 0
+    status: 0
+    questEventPrefabScript: {fileID: 0}
+    questLogic:
+    - type: 0
+      status: 0
+      eventCompleted: 0
+      hasEventTimeLimit: 0
+      areaStart: {x: 0, y: 0, z: 0}
+      areaEnd: {x: 0, y: 0, z: 0}
+      interactRadius: 0
+      playerAspectToMonitor: 0
+      moneyTarget: 0
+      moneyCounter: 0
+      moneyRequired: 0
+      levelTarget: 0
+      levelCounter: 0
+      healthTarget: 0
+      healthCounter: 0
+      itemAmountTarget: 0
+      itemAmountRequired: 0
+      itemCounter: 0
+      amountsSet: 0
+      itemToCollect: {fileID: 0}
+      timerTargetTime: 0
+  - questEventName: Here's a quest step
+    description: 
+    order: 12
+    failWholeQuest: 0
+    status: 0
+    questEventPrefabScript: {fileID: 0}
+    questLogic:
+    - type: 0
+      status: 0
+      eventCompleted: 0
+      hasEventTimeLimit: 0
+      areaStart: {x: 0, y: 0, z: 0}
+      areaEnd: {x: 0, y: 0, z: 0}
+      interactRadius: 0
+      playerAspectToMonitor: 0
+      moneyTarget: 0
+      moneyCounter: 0
+      moneyRequired: 0
+      levelTarget: 0
+      levelCounter: 0
+      healthTarget: 0
+      healthCounter: 0
+      itemAmountTarget: 0
+      itemAmountRequired: 0
+      itemCounter: 0
+      amountsSet: 0
+      itemToCollect: {fileID: 0}
+      timerTargetTime: 0
+  - questEventName: Here's a quest step
+    description: 
+    order: 13
+    failWholeQuest: 0
+    status: 0
+    questEventPrefabScript: {fileID: 0}
+    questLogic:
+    - type: 0
+      status: 0
+      eventCompleted: 0
+      hasEventTimeLimit: 0
+      areaStart: {x: 0, y: 0, z: 0}
+      areaEnd: {x: 0, y: 0, z: 0}
+      interactRadius: 0
+      playerAspectToMonitor: 0
+      moneyTarget: 0
+      moneyCounter: 0
+      moneyRequired: 0
+      levelTarget: 0
+      levelCounter: 0
+      healthTarget: 0
+      healthCounter: 0
+      itemAmountTarget: 0
+      itemAmountRequired: 0
+      itemCounter: 0
+      amountsSet: 0
+      itemToCollect: {fileID: 0}
+      timerTargetTime: 0
+  - questEventName: Here's a quest step
+    description: 
+    order: 14
+    failWholeQuest: 0
+    status: 0
+    questEventPrefabScript: {fileID: 0}
+    questLogic:
+    - type: 0
+      status: 0
+      eventCompleted: 0
+      hasEventTimeLimit: 0
+      areaStart: {x: 0, y: 0, z: 0}
+      areaEnd: {x: 0, y: 0, z: 0}
+      interactRadius: 0
+      playerAspectToMonitor: 0
+      moneyTarget: 0
+      moneyCounter: 0
+      moneyRequired: 0
+      levelTarget: 0
+      levelCounter: 0
+      healthTarget: 0
+      healthCounter: 0
+      itemAmountTarget: 0
+      itemAmountRequired: 0
+      itemCounter: 0
+      amountsSet: 0
+      itemToCollect: {fileID: 0}
+      timerTargetTime: 0
+  - questEventName: Here's a quest step
+    description: 
+    order: 15
+    failWholeQuest: 0
+    status: 0
+    questEventPrefabScript: {fileID: 0}
+    questLogic:
+    - type: 0
+      status: 0
+      eventCompleted: 0
+      hasEventTimeLimit: 0
+      areaStart: {x: 0, y: 0, z: 0}
+      areaEnd: {x: 0, y: 0, z: 0}
+      interactRadius: 0
+      playerAspectToMonitor: 0
+      moneyTarget: 0
+      moneyCounter: 0
+      moneyRequired: 0
+      levelTarget: 0
+      levelCounter: 0
+      healthTarget: 0
+      healthCounter: 0
+      itemAmountTarget: 0
+      itemAmountRequired: 0
+      itemCounter: 0
+      amountsSet: 0
+      itemToCollect: {fileID: 0}
+      timerTargetTime: 0
+  - questEventName: Here's a quest step
+    description: 
+    order: 16
+    failWholeQuest: 0
+    status: 0
+    questEventPrefabScript: {fileID: 0}
+    questLogic:
+    - type: 0
+      status: 0
+      eventCompleted: 0
+      hasEventTimeLimit: 0
+      areaStart: {x: 0, y: 0, z: 0}
+      areaEnd: {x: 0, y: 0, z: 0}
+      interactRadius: 0
+      playerAspectToMonitor: 0
+      moneyTarget: 0
+      moneyCounter: 0
+      moneyRequired: 0
+      levelTarget: 0
+      levelCounter: 0
+      healthTarget: 0
+      healthCounter: 0
+      itemAmountTarget: 0
+      itemAmountRequired: 0
+      itemCounter: 0
+      amountsSet: 0
+      itemToCollect: {fileID: 0}
+      timerTargetTime: 0
+  - questEventName: Here's a quest step
+    description: 
+    order: 17
+    failWholeQuest: 0
+    status: 0
+    questEventPrefabScript: {fileID: 0}
+    questLogic:
+    - type: 0
+      status: 0
+      eventCompleted: 0
+      hasEventTimeLimit: 0
+      areaStart: {x: 0, y: 0, z: 0}
+      areaEnd: {x: 0, y: 0, z: 0}
+      interactRadius: 0
+      playerAspectToMonitor: 0
+      moneyTarget: 0
+      moneyCounter: 0
+      moneyRequired: 0
+      levelTarget: 0
+      levelCounter: 0
+      healthTarget: 0
+      healthCounter: 0
+      itemAmountTarget: 0
+      itemAmountRequired: 0
+      itemCounter: 0
+      amountsSet: 0
+      itemToCollect: {fileID: 0}
+      timerTargetTime: 0
+  - questEventName: Here's a quest step
+    description: 
+    order: 18
+    failWholeQuest: 0
+    status: 0
+    questEventPrefabScript: {fileID: 0}
+    questLogic:
+    - type: 0
+      status: 0
+      eventCompleted: 0
+      hasEventTimeLimit: 0
+      areaStart: {x: 0, y: 0, z: 0}
+      areaEnd: {x: 0, y: 0, z: 0}
+      interactRadius: 0
+      playerAspectToMonitor: 0
+      moneyTarget: 0
+      moneyCounter: 0
+      moneyRequired: 0
+      levelTarget: 0
+      levelCounter: 0
+      healthTarget: 0
+      healthCounter: 0
+      itemAmountTarget: 0
+      itemAmountRequired: 0
+      itemCounter: 0
+      amountsSet: 0
+      itemToCollect: {fileID: 0}
+      timerTargetTime: 0

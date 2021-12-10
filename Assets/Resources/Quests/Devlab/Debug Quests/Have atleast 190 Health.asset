@@ -13,29 +13,26 @@ MonoBehaviour:
   m_Name: Have atleast 190 Health
   m_EditorClassIdentifier: 
   questName: Have atleast 190 Health
-  desc: You need to be in tip top shape if you want to survive outside this Developer
-    Lab. Make sure you're healed up!
+  questDesc: Healthcare is free in this world, and it looks like you definitely need
+    it. See if you can find a nurse or something to patch you up buddy.
   isActive: 0
   hasTimerForQuest: 0
   questTimerTargetTime: 0
-  hasTimerForEvent: 0
-  eventTimerTargetTime: 0
-  whichEventOrderNumber: 0
-  associatedQuestGivers: []
+  associatedQuestGivers:
+  - {fileID: 0}
   questState: 0
   questEvents:
   - questEventName: Have 190 or more health
     description: Have 190 or more health
-    id: 
     order: 0
+    failWholeQuest: 0
     status: 0
     questEventPrefabScript: {fileID: 0}
     questLogic:
     - type: 3
       status: 0
       eventCompleted: 0
-      hasTimeLimitforEvent: 0
-      hasTimeLimitforQuest: 0
+      hasEventTimeLimit: 0
       areaStart: {x: 0, y: 0, z: 0}
       areaEnd: {x: 0, y: 0, z: 0}
       interactRadius: 0
@@ -48,6 +45,8 @@ MonoBehaviour:
       healthTarget: 190
       healthCounter: 0
       itemAmountTarget: 0
+      itemAmountRequired: 0
       itemCounter: 0
       amountsSet: 0
       itemToCollect: {fileID: 0}
+      timerTargetTime: 0

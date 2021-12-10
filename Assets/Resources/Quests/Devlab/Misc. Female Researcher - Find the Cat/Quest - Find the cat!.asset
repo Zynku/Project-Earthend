@@ -13,60 +13,72 @@ MonoBehaviour:
   m_Name: Quest - Find the cat!
   m_EditorClassIdentifier: 
   questName: Find the cat!
-  desc: A researcher in the Devlab says she misplaced her cat, help her find the
-    kitty kitty meow meow
+  questDesc: A researcher in the devlab has lost her cat and she desperately needs
+    your help to find him. Look around for a cat, you might need to find some cat
+    treats.
   isActive: 1
   hasTimerForQuest: 0
   questTimerTargetTime: 0
-  hasTimerForEvent: 0
-  eventTimerTargetTime: 0
-  whichEventOrderNumber: 0
   associatedQuestGivers:
+  - {fileID: 0}
+  - {fileID: 0}
   - {fileID: 0}
   - {fileID: 0}
   questState: 1
   questEvents:
   - questEventName: Go Upstairs to look for the cat
     description: Go Upstairs to look for the cat
-    id: 0
     order: 0
-    status: 2
+    failWholeQuest: 0
+    status: 1
     questEventPrefabScript: {fileID: 0}
     questLogic:
     - type: 1
       status: 0
       eventCompleted: 0
-      hasTimeLimitforEvent: 0
-      hasTimeLimitforQuest: 0
+      hasEventTimeLimit: 0
       areaStart: {x: -14.83, y: -3.64, z: 0}
       areaEnd: {x: 0.77, y: -1.27, z: 0}
-      radius: 0
       interactRadius: 0
+      playerAspectToMonitor: 0
       moneyTarget: 0
       moneyCounter: 0
-      playerAspectToMonitor: 0
+      moneyRequired: 0
+      levelTarget: 0
+      levelCounter: 0
+      healthTarget: 0
+      healthCounter: 0
       itemAmountTarget: 0
+      itemAmountRequired: 0
       itemCounter: 0
+      amountsSet: 0
       itemToCollect: {fileID: 0}
+      timerTargetTime: 0
   - questEventName: Now actually find the cat lol
     description: Now actually find the cat lol
-    id: 0
     order: 1
-    status: 1
+    failWholeQuest: 0
+    status: 0
     questEventPrefabScript: {fileID: 0}
     questLogic:
     - type: 0
       status: 0
       eventCompleted: 0
-      hasTimeLimitforEvent: 0
-      hasTimeLimitforQuest: 0
+      hasEventTimeLimit: 0
       areaStart: {x: -14.83, y: -3.64, z: 0}
       areaEnd: {x: 0.77, y: -1.27, z: 0}
-      radius: 0
       interactRadius: 0
+      playerAspectToMonitor: 0
       moneyTarget: 0
       moneyCounter: 0
-      playerAspectToMonitor: 0
+      moneyRequired: 0
+      levelTarget: 0
+      levelCounter: 0
+      healthTarget: 0
+      healthCounter: 0
       itemAmountTarget: 0
+      itemAmountRequired: 0
       itemCounter: 0
+      amountsSet: 0
       itemToCollect: {fileID: 0}
+      timerTargetTime: 0

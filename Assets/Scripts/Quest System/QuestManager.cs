@@ -20,8 +20,8 @@ public class QuestManager : MonoBehaviour
     public Quest[] allQuests;
     public Quest currentQuest;              //The current quest that is being completed.
     public QuestEvent currentQuestEvent;    //The current quest event that is being completed.
-    public GameObject questName;
-    public GameObject questDesc;
+    //public GameObject questName;
+    //public GameObject questDesc;
     private bool checkedForQuestLogicTypes = false; //Makes sure that this script isnt constantly checking the type, and only does it once
 
     [Separator("Quest & Event Timer Pieces")]
@@ -34,10 +34,10 @@ public class QuestManager : MonoBehaviour
     private bool liveTimer;             //Is true when a quest has a timer and lets timer run
 
     [Separator("Canvas and UI Pieces")]
-    public GameObject questDivider;
+    //public GameObject questDivider;
     
-    public GameObject questEventPrefab;                                             //Assigned in Inspector
-    public List<GameObject> questEventPrefabs;
+    //public GameObject questEventPrefab;                                             //Assigned in Inspector
+    //public List<GameObject> questEventPrefabs;
     public GameObject questTimerHolder;                                             //Holds newly created quest Timers
     public GameObject questHolder;                                                  //Holds newly created QCTPs, QATPs and QFTPs. See below for abbreviation meanings
     public GameObject questCanvas;                                                  //Assigned in inspector
@@ -60,7 +60,7 @@ public class QuestManager : MonoBehaviour
         player = Gamemanager.instance.Player;
         inventory = player.GetComponent<Charpickup_inventory>();
         ihuiquestmanager = Gamemanager.instance.ihuiquestmanager;
-        questDivider.SetActive(false);
+        //questDivider.SetActive(false);
         currentQuestText.gameObject.SetActive(false);
         countDownTimer.gameObject.SetActive(false);
     }
@@ -183,7 +183,7 @@ public class QuestManager : MonoBehaviour
                 player.GetComponent<Charquests>().currentQuests.Add(quest);
                 
                 canAcceptQuest = false;
-                questDivider.SetActive(true);                            //Activates UI Elements associated with a quest
+                //questDivider.SetActive(true);                            //Activates UI Elements associated with a quest
                 currentQuestText.gameObject.SetActive(true);
                 currentQuest = quest;                                     //Assigns incoming quest as current and lets the quest manager track it
                 currentQuest.questState = Quest.QuestState.CURRENT;       //Sets current quest as current
