@@ -3,11 +3,12 @@ using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
 using MyBox;
+using System.Linq;
 
 public class IHUIQuestManager : MonoBehaviour
 {
     [Separator("Variables to Assign")]
-    Gamemanager gamemanager;
+    GameManager gamemanager;
     Charquests charquests;
     Charcontrol charcontrol;
     QuestManager QuestManager;
@@ -31,7 +32,7 @@ public class IHUIQuestManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        gamemanager = Gamemanager.instance;
+        gamemanager = GameManager.instance;
         QuestManager = gamemanager.questManager;
     }
 
@@ -58,7 +59,7 @@ public class IHUIQuestManager : MonoBehaviour
         {
             var newQuestSteppie = Instantiate(questSteppiePrefab, contentHolder.transform);
             IHUIQuestSteppieScript steppieScript = newQuestSteppie.GetComponent<IHUIQuestSteppieScript>();
-            steppieScript.myText.text = qEvent.description;
+            steppieScript.myText.text = qEvent.questEventName;
             steppieScript.myQuest = quest;
             steppieScript.myQuestEvent = qEvent;
 
@@ -79,7 +80,7 @@ public class IHUIQuestManager : MonoBehaviour
         {
             var newQuestSteppie = Instantiate(questSteppiePrefab, contentHolder.transform);
             IHUIQuestSteppieScript steppieScript = newQuestSteppie.GetComponent<IHUIQuestSteppieScript>();
-            steppieScript.myText.text = qEvent.description;
+            steppieScript.myText.text = qEvent.questEventName;
             steppieScript.myQuest = quest;
             steppieScript.myQuestEvent = qEvent;
 
@@ -180,6 +181,18 @@ public class IHUIQuestManager : MonoBehaviour
         }
     }
 
+    public void RemoveQuestOnCompletion(Quest quest)
+    {
+        ihuiQuestsTotalNumber--;
+        ihuiQuestsTotal.text = ("0" + ihuiQuestsTotalNumber);
+        Quest questToRemove = currentQuests.Where(questToRemove => questToRemove.questName == quest.questName).FirstOrDefault();
+        currentQuests.Remove(questToRemove);
+
+        if(currentQuests.Count == 0)
+        {
+            ClearCurrentQuest();
+        }
+    }
 
     public int? FindQuestArrayNumber(Quest quest)
     {

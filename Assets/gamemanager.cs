@@ -2,8 +2,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using MyBox;
 
-public class Gamemanager : MonoBehaviour
+public class GameManager : MonoBehaviour
 {
     [Header("Time")]
     public bool overwriteTime;
@@ -27,7 +28,7 @@ public class Gamemanager : MonoBehaviour
     public static bool pause, resume;
     public bool paused, resumed;
 
-    public static Gamemanager instance;
+    public static GameManager instance;
 
     public DialogueManager dialogueManager;
     public QuestManager questManager;
@@ -37,9 +38,6 @@ public class Gamemanager : MonoBehaviour
 
     public InventoryUI inventoryui;
     public InventoryUIHelper inventoryUIHelper;
-
-    
-
 
     #region Singleton and Awake
     private void Awake()
@@ -57,8 +55,8 @@ public class Gamemanager : MonoBehaviour
         playerRespawnPoint = GameObject.FindWithTag("player_respawn");
         if (!overwriteTime) Time.timeScale = 1f;
 
-        hurtScreenAnimator = hurtScreen.GetComponent<Animator>();
-        hurtScreen.SetActive(false);
+        //hurtScreenAnimator = hurtScreen.GetComponent<Animator>();
+        //hurtScreen.SetActive(false);
 
         dialogueManager = GetComponentInChildren<DialogueManager>();
         questManager = GetComponentInChildren<QuestManager>();
@@ -68,8 +66,6 @@ public class Gamemanager : MonoBehaviour
 
         inventoryui = GetComponentInChildren<InventoryUI>();
         inventoryUIHelper = GetComponentInChildren<InventoryUIHelper>();
-
-        
     }
     #endregion
 
@@ -147,7 +143,7 @@ public class Gamemanager : MonoBehaviour
         pause_Menu_Manager.PauseMenuUi.SetActive(false);
         //Time.timeScale = 1;
         pause_Menu_Manager.isGamePaused = false;
-        Gamemanager.instance.ResumeGame();
+        GameManager.instance.ResumeGame();
 
     }
 
@@ -158,7 +154,7 @@ public class Gamemanager : MonoBehaviour
         pause_Menu_Manager.PauseMenuUi.SetActive(true);
         //Time.timeScale = 0;
         pause_Menu_Manager.isGamePaused = true;
-        Gamemanager.instance.PauseGame();
+        GameManager.instance.PauseGame();
     }
 
     void HurtFlash()
@@ -183,5 +179,34 @@ public class Gamemanager : MonoBehaviour
     void ReloadScene()
     {
         SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+    }
+
+    [ButtonMethod]
+    public void AssignAllReferences()
+    {
+        if (instance != null)
+        {
+            Debug.LogWarning("More than one instance of Game Manager found at " + instance);
+            return;
+        }
+        instance = this;
+
+        Player = GameObject.FindWithTag("Player");
+        PlayerAnim = Player.GetComponent<Animator>();
+
+        playerRespawnPoint = GameObject.FindWithTag("player_respawn");
+        if (!overwriteTime) Time.timeScale = 1f;
+
+        hurtScreenAnimator = hurtScreen.GetComponent<Animator>();
+        hurtScreen.SetActive(false);
+
+        dialogueManager = GetComponentInChildren<DialogueManager>();
+        questManager = GetComponentInChildren<QuestManager>();
+        ihuiquestmanager = GetComponentInChildren<IHUIQuestManager>();
+        infoHub = GetComponentInChildren<InfoHubManager>();
+        pause_Menu_Manager = GetComponentInChildren<Pause_menu_manager>();
+
+        inventoryui = GetComponentInChildren<InventoryUI>();
+        inventoryUIHelper = GetComponentInChildren<InventoryUIHelper>();
     }
 }

@@ -85,11 +85,11 @@ public class QuestLogic
         level
     }
 
-    public void Setup(QuestManager qm, QuestEvent qe, QuestEventPrefabScript qs, Quest qq)
+    public void Setup(QuestManager qm, QuestEvent qe, Quest qq)
     {
         qManager = qm;
         qEvent = qe;
-        qScript = qs;
+        //qScript = qes;
         eventCompleted = false;
         amountsSet = false;
         myQuest = qq;

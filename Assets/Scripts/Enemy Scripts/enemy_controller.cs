@@ -50,7 +50,7 @@ public class enemy_controller : MonoBehaviour
         Melee1.SetActive(false);
         currentState = State.Idle;
         coolDownTimer = coolDownTargetTime;
-        Player = Gamemanager.instance.Player;
+        Player = GameManager.instance.Player;
     }
 
     private void Update()

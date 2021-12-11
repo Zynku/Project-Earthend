@@ -39,7 +39,7 @@ public class Pause_menu_manager : MonoBehaviour
 
     private void Start()
     {
-        Player = Gamemanager.instance.Player;
+        Player = GameManager.instance.Player;
         PlayerAnim = Player.GetComponent<Animator>();
         PauseMenuUi.SetActive(false);
     }
@@ -89,7 +89,7 @@ public class Pause_menu_manager : MonoBehaviour
         PauseMenuUi.SetActive(false);
         //Time.timeScale = 1;
         isGamePaused = false;
-        Gamemanager.instance.ResumeGame();
+        GameManager.instance.ResumeGame();
 
     }
 
@@ -99,7 +99,7 @@ public class Pause_menu_manager : MonoBehaviour
         PauseMenuUi.SetActive(true);
         //Time.timeScale = 0;
         isGamePaused = true;
-        Gamemanager.instance.PauseGame();
+        GameManager.instance.PauseGame();
     }
 
 

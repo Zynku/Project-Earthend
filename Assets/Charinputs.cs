@@ -8,14 +8,14 @@ using MyBox;
 public class Charinputs : MonoBehaviour
 {
     Charcontrol charcontrol;
-    Gamemanager gamemanager;
+    GameManager gamemanager;
     InfoHubManager infohub;
 
     private void Start()
     {
-        gamemanager = Gamemanager.instance;
+        gamemanager = GameManager.instance;
         charcontrol = GetComponent<Charcontrol>();
-        infohub = Gamemanager.instance.infoHub;
+        infohub = GameManager.instance.infoHub;
     }
 
 

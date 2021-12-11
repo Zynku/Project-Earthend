@@ -17,11 +17,11 @@ public class welcome_screen : MonoBehaviour
 
     public void PauseGame()
     {
-        Gamemanager.instance.PauseGame();
+        GameManager.instance.PauseGame();
     }
 
     public void ResumeGame()
     {
-        Gamemanager.instance.ResumeGame();
+        GameManager.instance.ResumeGame();
     }
 }

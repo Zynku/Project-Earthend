@@ -18,8 +18,8 @@ public class QuestDebugger : MonoBehaviour
 
     public void Start()
     {
-        player = Gamemanager.instance.Player;
-        questManager = Gamemanager.instance.questManager;
+        player = GameManager.instance.Player;
+        questManager = GameManager.instance.questManager;
         shownDebugType.GetComponent<TextMeshPro>().text = DebuggingType.ToString();
     }
 
@@ -56,9 +56,9 @@ public class QuestDebugger : MonoBehaviour
     void CompleteCurrentQuestEvent()
     {
         //Looks in the current quest from quest manager for its quest events and returns the first one that is marked as current
-        if (questManager.currentQuest.questEvents.Count != 0)
+        if (questManager.lastAcceptedQuest.questEvents.Count != 0)
         {
-            currentEvent = questManager.currentQuest.questEvents.Where(currentEvent => currentEvent.status == QuestEvent.EventStatus.CURRENT).FirstOrDefault();
+            currentEvent = questManager.lastAcceptedQuest.questEvents.Where(currentEvent => currentEvent.status == QuestEvent.EventStatus.CURRENT).FirstOrDefault();
         }
         else
         {
@@ -85,16 +85,16 @@ public class QuestDebugger : MonoBehaviour
 
     IEnumerator CompleteAllQuests()
     {
-        if (questManager.currentQuest.questName != "No Quest")
+        if (questManager.lastAcceptedQuest.questName != "No Quest")
         {
             StartCoroutine(questManager.CompleteCurrentQuest());
             //Complete a quest, wait 0.1 seconds, check if there's another quest. If there is complete it
             yield return new WaitForSeconds(0.1f);
-            foreach (GameObject qep in questManager.questEventPrefabs)
+/*            foreach (GameObject qep in questManager.questEventPrefabs)
             {
                 Destroy(qep);
-            }
-            questManager.questEventPrefabs.Clear();
+            }*/
+            //questManager.questEventPrefabs.Clear();
             if (player.GetComponent<Charquests>().currentQuests.Count > 0)
             {
                 StartCoroutine(CompleteAllQuests());
@@ -114,9 +114,9 @@ public class QuestDebugger : MonoBehaviour
     void FailCurrentQuestEvent()
     {
         //Looks in the current quest from quest manager for its quest events and returns the first one that is marked as current
-        if (questManager.currentQuest.questEvents.Count != 0)
+        if (questManager.lastAcceptedQuest.questEvents.Count != 0)
         {
-            currentEvent = questManager.currentQuest.questEvents.Where(currentEvent => currentEvent.status == QuestEvent.EventStatus.CURRENT).FirstOrDefault();
+            currentEvent = questManager.lastAcceptedQuest.questEvents.Where(currentEvent => currentEvent.status == QuestEvent.EventStatus.CURRENT).FirstOrDefault();
         }
         else
         {

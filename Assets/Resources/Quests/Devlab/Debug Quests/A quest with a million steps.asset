@@ -18,14 +18,15 @@ MonoBehaviour:
   isActive: 0
   hasTimerForQuest: 0
   questTimerTargetTime: 0
-  associatedQuestGivers: []
-  questState: 0
+  associatedQuestGivers:
+  - {fileID: 0}
+  questState: 2
   questEvents:
   - questEventName: Here's a quest step
-    description: 
+    description: test
     order: 0
     failWholeQuest: 0
-    status: 0
+    status: 1
     questEventPrefabScript: {fileID: 0}
     questLogic:
     - type: 0

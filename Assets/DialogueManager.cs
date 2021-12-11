@@ -79,8 +79,8 @@ public class DialogueManager : MonoBehaviour
         //dialogueCharAnim = dialogueCharacter.GetComponent<Animator>();
 
 
-        charcontrol = Gamemanager.instance.Player.GetComponent<Charcontrol>();
-        questManager = Gamemanager.instance.questManager;
+        charcontrol = GameManager.instance.Player.GetComponent<Charcontrol>();
+        questManager = GameManager.instance.questManager;
     }
 
 

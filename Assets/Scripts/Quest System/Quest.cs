@@ -74,8 +74,8 @@ public class QuestEvent
     //CURRENT - the one the player should be trying to achieve
     //DONE - has been achieved
 
-    public string questEventName;
-    public string description; //The actual text used to display onscreen indicating what needs to be done
+    public string questEventName;   //The name of the quest event. This is what is shown in the IHUI
+    public string description; //This may not be needed anymore...
     public int order = -1;
     public bool failWholeQuest; //If this quest event is failed, then the whole quest fails. If not, it can be failed, and the quest can still be passed with it's other events
     public EventStatus status;

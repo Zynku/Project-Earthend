@@ -50,7 +50,7 @@ public class InventoryUI : MonoBehaviour
         inventory.onClearInventoryCallback += ClearInventory;
 
         slots = itemsParent.GetComponentsInChildren<InventoryItemSlot>();
-        inventoryUIHelper = Gamemanager.instance.inventoryUIHelper;
+        inventoryUIHelper = GameManager.instance.inventoryUIHelper;
         //InventoryUIObject.SetActive(false);
         beenSetup = true;
     }

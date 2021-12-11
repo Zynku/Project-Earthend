@@ -52,13 +52,13 @@ public class teleporternetwork : MonoBehaviour
         uiElements.SetActive(true);
         EventSystem.current.SetSelectedGameObject(null);
         EventSystem.current.SetSelectedGameObject(teleporterUiElements[0]);
-        Gamemanager.instance.PauseGame();
+        GameManager.instance.PauseGame();
     }
 
     public void hideNetworkUI()
     {
         uiElements.SetActive(false);
-        Gamemanager.instance.ResumeGame();
+        GameManager.instance.ResumeGame();
     }
 
     // Update is called once per frame
@@ -105,7 +105,7 @@ public class teleporternetwork : MonoBehaviour
 
         uiElements.SetActive(false);
 
-        Gamemanager.instance.ResumeGame();
+        GameManager.instance.ResumeGame();
     }
 
     public void AssignTeleporters(int tp)

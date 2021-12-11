@@ -37,9 +37,9 @@ public class Charpickup_inventory : MonoBehaviour
     void Start()
     {
         Charcontrol = GetComponent<Charcontrol>();
-        inventoryui = Gamemanager.instance.inventoryui;
-        inventoryUIHelper = Gamemanager.instance.inventoryUIHelper;
-        infoHub = Gamemanager.instance.infoHub;
+        inventoryui = GameManager.instance.inventoryui;
+        inventoryUIHelper = GameManager.instance.inventoryUIHelper;
+        infoHub = GameManager.instance.infoHub;
     }
 
     // Update is called once per frame
