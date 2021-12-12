@@ -25,26 +25,47 @@ public class IHUIQuestManager : MonoBehaviour
     public Quest currentQuest;
     private int currentQuestArrayNumber;
     public List<Quest> currentQuests;
+    public List<Quest> failedQuests;
+    public List<Quest> completedQuests;
     public List<GameObject> questSteppies;
     public int ihuiQuestsTotalNumber;
     public int ihuiQuestsCurrentNumber;
+
+    private bool beenSetup = false;
 
     // Start is called before the first frame update
     void Start()
     {
         gamemanager = GameManager.instance;
         QuestManager = gamemanager.questManager;
+        charquests = gamemanager.Player.GetComponent<Charquests>();
+        currentQuests = charquests.currentQuests;
+        failedQuests = charquests.failedQuests;
+        completedQuests = charquests.completedQuests;
+
+        //onScreenQuestName.text = "No Quests!";
+        //onScreenQuestDesc.text = "No Quests!";
+
+        beenSetup = true;
     }
 
-    // Update is called once per frame
-    void Update()
+    private void Update()
     {
+        if (this.gameObject.activeInHierarchy && Input.GetKeyDown(KeyCode.UpArrow))
+        {
+            QuestCanvasShowPreviousQuest();
+        }
 
+        if (this.gameObject.activeInHierarchy && Input.GetKeyDown(KeyCode.DownArrow))
+        {
+            QuestCanvasShowNextQuest();
+        }
     }
 
     public void SetupNewQuest(Quest quest)
     {
-        currentQuests.Add(quest);
+        if (!beenSetup) { Start(); }
+        //currentQuests.Add(quest);
         currentQuest = currentQuests[0];
         currentQuestArrayNumber = 0;
         onScreenQuestName.text = quest.questName;
@@ -136,11 +157,36 @@ public class IHUIQuestManager : MonoBehaviour
         }
     }
 
+    public void CheckQuestEvents()      //Makes sure that quest steppies are up to date with their corresponding quest events
+    {
+        foreach (GameObject questSteppie in questSteppies)
+        {
+            GameObject steppieToUpdate = questSteppie;
+            IHUIQuestSteppieScript steppieScript = steppieToUpdate.GetComponent<IHUIQuestSteppieScript>();
+
+            switch (steppieScript.myQuestEvent.status)
+            {
+                case QuestEvent.EventStatus.WAITING:
+                    break;
+                case QuestEvent.EventStatus.CURRENT:
+                    break;
+                case QuestEvent.EventStatus.DONE:
+                    steppieScript.tick.SetActive(true);
+                    break;
+                case QuestEvent.EventStatus.FAILED:
+                    steppieScript.x.SetActive(true);
+                    break;
+                default:
+                    break;
+            }
+        }
+    }
+
     public void AddAnotherQuest(Quest quest)    //This occurs when the player already has a quest, and accepts another. Creates another page inside the Quest canvas
     {
         ihuiQuestsTotalNumber++;
         ihuiQuestsTotal.text = ("0" + ihuiQuestsTotalNumber);
-        currentQuests.Add(quest);
+        //currentQuests.Add(quest);
     }
 
     public void QuestCanvasShowNextQuest()
@@ -158,6 +204,7 @@ public class IHUIQuestManager : MonoBehaviour
             ihuiQuestsCurrentNumber++;
             ClearCurrentQuest();
             ShowNewQuest(newQuestToShow);
+            CheckQuestEvents();
             currentQuest = newQuestToShow;
         }
     }
@@ -177,6 +224,7 @@ public class IHUIQuestManager : MonoBehaviour
             ihuiQuestsCurrentNumber--;
             ClearCurrentQuest();
             ShowNewQuest(newQuestToShow);
+            CheckQuestEvents();
             currentQuest = newQuestToShow;
         }
     }
@@ -185,12 +233,19 @@ public class IHUIQuestManager : MonoBehaviour
     {
         ihuiQuestsTotalNumber--;
         ihuiQuestsTotal.text = ("0" + ihuiQuestsTotalNumber);
-        Quest questToRemove = currentQuests.Where(questToRemove => questToRemove.questName == quest.questName).FirstOrDefault();
-        currentQuests.Remove(questToRemove);
+/*        Quest questToRemove = currentQuests.Where(questToRemove => questToRemove.questName == quest.questName).FirstOrDefault();
+        currentQuests.Remove(questToRemove);*/
+        
+        if (quest == currentQuest)
+        {
+            QuestCanvasShowPreviousQuest();
+        }
 
         if(currentQuests.Count == 0)
         {
             ClearCurrentQuest();
+            onScreenQuestName.text = "No Quests!";
+            onScreenQuestDesc.text = "No Quests!";
         }
     }
 

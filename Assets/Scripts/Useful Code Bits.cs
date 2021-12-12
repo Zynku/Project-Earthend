@@ -99,14 +99,22 @@ public void BFS(string id, int orderNumber = 1) //Breadth first search, gives al
 
 
     //This code runs a function every "interval" amount of seconds.
-/*    private int interval = 3;
+    /*    private int interval = 3;
 
-    void Update()
-    {
-        if (Time.frameCount % interval == 0)
+        void Update()
         {
-            ExampleExpensiveFunction();
-        }
-    }*/
+            if (Time.frameCount % interval == 0)
+            {
+                ExampleExpensiveFunction();
+            }
+        }*/
+
+    //Find the index of an item inside an array
+    /*   
+     *   public int FindIndexOfItem(Item item)
+    {
+        return ArrayOrList.IndexOf(item);
+    }
+        }*/
 
 }

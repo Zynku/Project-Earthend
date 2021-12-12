@@ -49,6 +49,7 @@ public class QuestManager : MonoBehaviour
     public List<GameObject> questAcceptedTexts, questAcceptedTextsOffscreen;
     public GameObject questFailedTextPrefab;                                        //Assigned in inspector
     public List<GameObject> questFailedTexts, questFailedTextsOffscreen;
+    public bool qBlankOnScreen, qctpOnScreen, qatpOnScreen, qftpOnScreen;           //Are any of the related qBlanktp's currently onscreen?
 
     private void Awake()
     {
@@ -70,6 +71,7 @@ public class QuestManager : MonoBehaviour
         ManageOffScreenQATPs(); //This is called before ManageOffScreenQFTPs and QCTPs so that it prioritizes showing qatps over qctps and qftps over qctps
         ManageOffScreenQFTPs();
         ManageOffScreenQCTPs();
+        ManageQBlankTPs();
 
         //Cooldown for accepting quests
         if (!canAcceptQuest) { acceptTimer -= Time.deltaTime; }
@@ -153,6 +155,21 @@ public class QuestManager : MonoBehaviour
         }
     }
 
+    void ManageQBlankTPs()       //Shows whether any qctps, qatps or qftps are currently onscreen
+    {
+        if (questCompletedTexts.Count == 0) { qctpOnScreen = false; }
+        else { qctpOnScreen = true; }
+
+        if (questAcceptedTexts.Count == 0) { qatpOnScreen = false; }
+        else { qatpOnScreen = true; }
+
+        if (questFailedTexts.Count == 0) { qftpOnScreen = false; }
+        else { qftpOnScreen = true; }
+
+        if (qatpOnScreen || qftpOnScreen || qctpOnScreen) { qBlankOnScreen = true; }
+        else { qBlankOnScreen = false; }
+    }
+
     public void SetupNewQuest(Quest quest) //Any quests that are accepted come here first, and are processed
     {
         checkedForQuestLogicTypes = false;
@@ -162,34 +179,35 @@ public class QuestManager : MonoBehaviour
         }
         else if (canAcceptQuest)
         {
-            if (lastAcceptedQuest != null)   //If we already have a quest...
-            {
-                //ClearOldQuest();
-                ihuiquestmanager.AddAnotherQuest(quest);
-            }
-            else
-            {
-                ihuiquestmanager.SetupNewQuest(quest);
-            }
-
             if (quest.questEvents.Count == 0)
             {
                 Debug.LogWarning("Quest has no quest events! Quest needs atleast one to function properly");
                 return;
             }
 
-            else if (CheckforQuestLogic(quest))
+            else if (CheckforQuestLogic(quest)) //If this returns true, we're good to go! Let's star setting up that quest!
             {
                 player.GetComponent<Charquests>().currentQuests.Add(quest);
-                
+
+                if (lastAcceptedQuest != null)   //If we already have a quest...
+                {
+                    //ClearOldQuest();
+                    ihuiquestmanager.AddAnotherQuest(quest);    //We don't have to add a quest for the first time again, just add another one
+                }
+                else
+                {
+                    ihuiquestmanager.SetupNewQuest(quest);      //However if you don't already have a quest, add this one for the first time
+                }
+
                 canAcceptQuest = false;
-                //questDivider.SetActive(true);                            //Activates UI Elements associated with a quest
+                //questDivider.SetActive(true);                                //Activates UI Elements associated with a quest
                 //currentQuestText.gameObject.SetActive(true);
                 lastAcceptedQuest = quest;                                     //Assigns incoming quest as current and lets the quest manager track it
                 lastAcceptedQuest.questState = Quest.QuestState.CURRENT;       //Sets current quest as current
-                                                                          //Debug.Log("Calling CheckforQuestTimer");                                 
+
                 SetupQuestEvents();
                 GameObject qatp = Instantiate(questAcceptedTextPrefab, questCanvas.transform);  //Creates a Quest Accepted Text Prefab, or qatp
+                qatp.GetComponent<QuestAcceptedText>().myQuest = quest;
 
                 bool questAssigned = false;
                 if (!questAssigned) { qatp.GetComponent<QuestAcceptedText>().myQuestName.GetComponent<TextMeshProUGUI>().text = lastAcceptedQuest.questName; }    //Assigns the quest name ONCE.
@@ -226,7 +244,6 @@ public class QuestManager : MonoBehaviour
                     }
                 }
             }
-
         }
     }   
 
@@ -269,6 +286,7 @@ public class QuestManager : MonoBehaviour
             //var qeps = qep.GetComponent<QuestEventPrefabScript>();              //QEPS is the script attached to the QEP
             //qeps.Setup(qe, questHolder, qep);
             qe.status = QuestEvent.EventStatus.WAITING;
+            qe.myQuest = lastAcceptedQuest;
             
             //Loop setting up each quest object
             foreach (QuestLogic ql in qe.questLogic)          
@@ -328,7 +346,7 @@ public class QuestManager : MonoBehaviour
     #region Quest Logic Functionality
     private IEnumerator CheckForLocationCollisions(QuestLogic questLogic)   //If the current quest has a location quest logic component, this function will grab the locations and check if the player enters any
     {
-        //Debug.Log("Checking for locations for " + questLogic.qEvent.questEventName);
+        Debug.Log("Checking for location collisions for " + questLogic.qEvent.questEventName + " in " + questLogic.myQuest);
         if (lastAcceptedQuest != null)
         {
             //Check for player collision
@@ -590,7 +608,7 @@ public class QuestManager : MonoBehaviour
     private void ReAddQuest(Quest quest)
     {
         //questDivider.SetActive(true);
-        currentQuestText.gameObject.SetActive(true);
+        //currentQuestText.gameObject.SetActive(true);
         lastAcceptedQuest = quest;
         lastAcceptedQuest.questState = Quest.QuestState.CURRENT;
 
@@ -655,20 +673,22 @@ public class QuestManager : MonoBehaviour
             }
         }
 
+        Quest thisQeQuest = qe.myQuest;
+
         //If the last quest event gets completed, that means the quest is done! Call that function!
-        if (lastAcceptedQuest.questEvents.Last().status == QuestEvent.EventStatus.DONE)
+        if (thisQeQuest.questEvents.Last().status == QuestEvent.EventStatus.DONE)
         {
             StopCoroutine(CheckforTimerDone(qe.questLogic[0]));
-            StartCoroutine(CompleteCurrentQuest());
+            StartCoroutine(CompleteSpecificQuest(thisQeQuest));
             //questDivider.SetActive(false);
             currentQuestText.gameObject.SetActive(false);
             countDownTimer.gameObject.SetActive(false);
             liveTimer = false;
         }
-        else if (lastAcceptedQuest.questEvents.Last().status == QuestEvent.EventStatus.FAILED)    //Right now it fails if only the LAST quest event is failed. Add functionality for flexibility
+        else if (thisQeQuest.questEvents.Last().status == QuestEvent.EventStatus.FAILED)    //Right now it fails if only the LAST quest event is failed. Add functionality for flexibility
         {
             StopCoroutine(CheckforTimerDone(qe.questLogic[0]));
-            StartCoroutine(FailCurrentQuest());
+            StartCoroutine(FailSpecificQuest(thisQeQuest));
             //questDivider.SetActive(false);
             countDownTimer.gameObject.SetActive(false);
             liveTimer = false;
@@ -682,10 +702,11 @@ public class QuestManager : MonoBehaviour
         currentQuestText.gameObject.SetActive(false);
         countDownTimer.gameObject.SetActive(false);
         liveTimer = false;
-        ihuiquestmanager.RemoveQuestOnCompletion(lastAcceptedQuest);
+        
         CleanUpTimers();
 
         GameObject qctp = Instantiate(questCompletedTextPrefab, questCanvas.transform);     //Creates a Quest Completed Text Prefab, or qctp
+        qctp.GetComponent<QuestCompletedText>().myQuest = lastAcceptedQuest;
         bool questAssigned = false;
         if (!questAssigned) { qctp.GetComponent<QuestCompletedText>().myQuestName.GetComponent<TextMeshProUGUI>().text = lastAcceptedQuest.questName; }   //Assigns the quest name ONCE.
         if (questCompletedTexts.Count > 0)  //If there are completed quests on screen, yeet it to the offscreen bin
@@ -710,7 +731,7 @@ public class QuestManager : MonoBehaviour
         //Checks for duplicate qctps
         foreach (var qcto in questCompletedTextsOffscreen)
         {
-            if (qcto == qctp && canAcceptQuest)
+            if (qcto.GetComponent<QuestCompletedText>().myQuest == qctp.GetComponent<QuestCompletedText>().myQuest && canAcceptQuest)
             {
                 questCompletedTextsOffscreen.Remove(qctp);
                 Destroy(qctp);
@@ -731,7 +752,81 @@ public class QuestManager : MonoBehaviour
         //questDesc.GetComponent<TextMeshProUGUI>().text = null;
         lastAcceptedQuest.isActive = false;
         player.GetComponent<Charquests>().currentQuests.Remove(lastAcceptedQuest);
+        player.GetComponent<Charquests>().completedQuests.Add(lastAcceptedQuest);
+        ihuiquestmanager.RemoveQuestOnCompletion(lastAcceptedQuest);
         lastAcceptedQuest.questState = Quest.QuestState.COMPLETED;
+
+        lastAcceptedQuestEvent = null;
+        lastAcceptedQuest = null;    //Sets the current quest to nothing
+
+        if (player.GetComponent<Charquests>().currentQuests.Count != 0)     //If there are more quests yet to be completed, add the next one back
+        {
+            ReAddQuest(player.GetComponent<Charquests>().currentQuests[0]);
+        }
+    }
+
+    public IEnumerator CompleteSpecificQuest(Quest quest)
+    {
+        //questDivider.SetActive(false);
+        currentQuestText.gameObject.SetActive(false);
+        countDownTimer.gameObject.SetActive(false);
+        liveTimer = false;
+
+        CleanUpTimers();
+
+        GameObject qctp = Instantiate(questCompletedTextPrefab, questCanvas.transform);     //Creates a Quest Completed Text Prefab, or qctp
+        qctp.GetComponent<QuestCompletedText>().myQuest = quest;
+
+        //Checks for duplicate qctps
+        foreach (var qcto in questCompletedTextsOffscreen)
+        {
+            if (qcto.GetComponent<QuestCompletedText>().myQuest == qctp.GetComponent<QuestCompletedText>().myQuest && canAcceptQuest)
+            {
+                //questCompletedTextsOffscreen.Remove(qctp);
+                Destroy(qctp);
+                Debug.LogWarning(qcto.GetComponent<QuestCompletedText>().myQuest + " and " + qctp.GetComponent<QuestCompletedText>().myQuest + " are the same quest. Tried to make more than one instance of a Quest Completed Text Prefab for a Quest where one was already created! Stopped spawning 'em for ya");
+                break;
+            }
+        }
+
+        bool questAssigned = false;
+        if (!questAssigned) { qctp.GetComponent<QuestCompletedText>().myQuestName.GetComponent<TextMeshProUGUI>().text = quest.questName; }   //Assigns the quest name ONCE.
+        if (questCompletedTexts.Count > 0)  //If there are completed quests on screen, yeet it to the offscreen bin
+        {
+            questCompletedTextsOffscreen.Add(qctp);
+            qctp.SetActive(false);
+        }
+        else if (questAcceptedTexts.Count > 0)     //If there are accepted quests on screen, yeet it to the offscreen bin
+        {
+            questCompletedTextsOffscreen.Add(qctp);
+            qctp.SetActive(false);
+        }
+        else if (questFailedTexts.Count > 0)     //If there are failed quests on screen, yeet it to the offscreen bin
+        {
+            questCompletedTextsOffscreen.Add(qctp);
+            qctp.SetActive(false);
+        }
+        else
+        {
+            questCompletedTexts.Add(qctp);     //If there is nothing onscreen, just put it onscreen
+        }
+        
+        /*
+                //Gets rid of all quest event prefabs on screen and clears the list
+                foreach (GameObject qep in questEventPrefabs)
+                {
+                    Destroy(qep);
+                }
+                questEventPrefabs.Clear();*/
+
+        yield return new WaitForSeconds(0.1f);
+        //questName.GetComponent<TextMeshProUGUI>().text = null;
+        //questDesc.GetComponent<TextMeshProUGUI>().text = null;
+        quest.isActive = false;
+        player.GetComponent<Charquests>().currentQuests.Remove(quest);
+        player.GetComponent<Charquests>().completedQuests.Add(quest);
+        ihuiquestmanager.RemoveQuestOnCompletion(quest);
+        quest.questState = Quest.QuestState.COMPLETED;
 
         lastAcceptedQuestEvent = null;
         lastAcceptedQuest = null;    //Sets the current quest to nothing
@@ -752,6 +847,7 @@ public class QuestManager : MonoBehaviour
         CleanUpTimers();
 
         GameObject qftp = Instantiate(questFailedTextPrefab, questCanvas.transform);     //Creates a Quest Failed Text Prefab, or qftp
+        qftp.GetComponent<QuestCompletedText>().myQuest = lastAcceptedQuest;
         bool questAssigned = false;
         if (!questAssigned) { qftp.GetComponent<QuestFailedText>().myQuestName.GetComponent<TextMeshProUGUI>().text = lastAcceptedQuest.questName; }   //Assigns the quest name ONCE.
         if (questCompletedTexts.Count > 0)  //If there are completed quests on screen, yeet it to the offscreen bin
@@ -786,6 +882,7 @@ public class QuestManager : MonoBehaviour
         //questDesc.GetComponent<TextMeshProUGUI>().text = null;
         lastAcceptedQuest.isActive = false;
         player.GetComponent<Charquests>().currentQuests.Remove(lastAcceptedQuest);
+        player.GetComponent<Charquests>().failedQuests.Add(lastAcceptedQuest);
         lastAcceptedQuest.questState = Quest.QuestState.FAILED;
 
         lastAcceptedQuestEvent = null;
@@ -818,6 +915,7 @@ public class QuestManager : MonoBehaviour
         }
 
         GameObject qftp = Instantiate(questFailedTextPrefab, questCanvas.transform);     //Creates a Quest Failed Text Prefab, or qftp
+        qftp.GetComponent<QuestCompletedText>().myQuest = quest;
         bool questAssigned = false;
         if (!questAssigned) { qftp.GetComponent<QuestFailedText>().myQuestName.GetComponent<TextMeshProUGUI>().text = quest.questName; }   //Assigns the quest name ONCE.
         if (questCompletedTexts.Count > 0)  //If there are completed quests on screen, yeet it to the offscreen bin

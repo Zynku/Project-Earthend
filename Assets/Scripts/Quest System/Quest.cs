@@ -81,6 +81,7 @@ public class QuestEvent
     public EventStatus status;
     [HideInInspector] public QuestEventPrefabScript questEventPrefabScript; //Holds the script associated with this quest event's quest event prefab (try saying that x10 fast)
     public List<QuestLogic> questLogic;
+    [HideInInspector] public Quest myQuest;
 
     public QuestEvent(string n, string d)
     {

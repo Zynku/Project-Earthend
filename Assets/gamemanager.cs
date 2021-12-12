@@ -80,6 +80,12 @@ public class GameManager : MonoBehaviour
             infoHub.gameObject.SetActive(!infoHubenabled);
             if (!infoHubenabled) { infoHub.firstPageShown = false; }
             TogglePauseGame();
+
+            if (questManager.qBlankOnScreen)
+            {
+                ihuiquestmanager.ClearCurrentQuest();
+                ihuiquestmanager.ShowNewQuest(questManager.lastAcceptedQuest);
+            }
         }
 
         if (pause) { paused = true; }

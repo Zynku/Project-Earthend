@@ -10,12 +10,66 @@ public class QuestSystemCleanerUpper : MonoBehaviour
     GameObject player;
     QuestManager questManager;
     QuestEvent currentEvent;
-    Quest currentQuest;
+    Charquests charquests;
+    
 
     public void Start()
     {
         player = GameManager.instance.Player;
         questManager = GameManager.instance.questManager;
+        charquests = player.GetComponent<Charquests>();
+    }
+
+    private void Update()
+    {
+        if (charquests.currentQuests.Count == 0)
+        {
+            currentQuest = null;
+        }
+    }
+
+    [ButtonMethod]
+    public void MakeNextQuestCurrent()
+    {
+        int indexOfNextQuest = FindIndexOfQuest(currentQuest) + 1;
+        currentQuest = charquests.currentQuests[indexOfNextQuest];
+    }
+
+    [ButtonMethod]
+    public void MakePreviousQuestCurrent()
+    {
+        int indexOfNextQuest = FindIndexOfQuest(currentQuest) - 1;
+        currentQuest = charquests.currentQuests[indexOfNextQuest];
+    }
+
+    [ButtonMethod]
+    public void CompleteCurrentQuest()
+    {
+        StartCoroutine(questManager.CompleteSpecificQuest(currentQuest));
+        currentQuest = charquests.currentQuests[0];
+    }
+    
+    [Separator("-")]
+    public Quest currentQuest;
+
+    [ButtonMethod]
+    public void CompleteLastAcceptedQuest()
+    {
+        if (questManager.questAcceptedTexts.Count == 0)
+        {
+            if (player.GetComponent<Charquests>().currentQuests.Count > 0)
+            {
+                StartCoroutine(questManager.CompleteCurrentQuest());
+            }
+            else
+            {
+                Debug.LogWarning("No quests chief...");
+            }
+        }
+        else
+        {
+            Debug.LogWarning("Wait for the Quest Accepted Text to finish showing before doing this. Try again in a second");
+        }
     }
 
     [ButtonMethod]
@@ -35,26 +89,6 @@ public class QuestSystemCleanerUpper : MonoBehaviour
         {
             currentEvent.status = QuestEvent.EventStatus.DONE;
             questManager.UpdateQuestsOnCompletion(currentEvent, QuestEvent.EventStatus.DONE);
-        }
-    }
-
-    [ButtonMethod]
-    public void CompleteLastAcceptedQuest()
-    {
-        if (questManager.questAcceptedTexts.Count == 0)
-        {
-            if (player.GetComponent<Charquests>().currentQuests.Count > 0)
-            {
-                StartCoroutine(questManager.CompleteCurrentQuest());
-            }
-            else
-            {
-                Debug.LogWarning("No quests chief...");
-            }
-        }
-        else
-        {
-            Debug.LogWarning("Wait for the Quest Accepted Text to finish showing before doing this. Try again in a second");
         }
     }
 
@@ -188,5 +222,10 @@ public class QuestSystemCleanerUpper : MonoBehaviour
             }*/
             
         }
+    }
+
+    public int FindIndexOfQuest(Quest quest)
+    {
+        return charquests.currentQuests.IndexOf(quest);
     }
 }
