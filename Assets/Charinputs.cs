@@ -21,6 +21,6 @@ public class Charinputs : MonoBehaviour
 
     public void Update()
     {
-        
+        //AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA FUCK
     }
 }

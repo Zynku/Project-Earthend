@@ -117,4 +117,11 @@ public void BFS(string id, int orderNumber = 1) //Breadth first search, gives al
     }
         }*/
 
+
+
+
+    //Sets a new color
+
+    /*spriterenderer.color = new Color(1, 1, 1, 1)*/
+
 }

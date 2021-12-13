@@ -4,6 +4,7 @@ using UnityEngine;
 using TMPro;
 using MyBox;
 using System.Linq;
+using UnityEngine.UI;
 
 public class IHUIQuestManager : MonoBehaviour
 {
@@ -17,6 +18,8 @@ public class IHUIQuestManager : MonoBehaviour
     public TextMeshProUGUI onScreenQuestDesc;
     public TextMeshProUGUI ihuiQuestsTotal;
     public TextMeshProUGUI ihuiQuestsCurrent;
+    public Image questKindColorImage;
+    public TextMeshProUGUI questKindText;
 
     public GameObject questSteppiePrefab;
     public GameObject contentHolder;
@@ -28,8 +31,16 @@ public class IHUIQuestManager : MonoBehaviour
     public List<Quest> failedQuests;
     public List<Quest> completedQuests;
     public List<GameObject> questSteppies;
-    public int ihuiQuestsTotalNumber;
-    public int ihuiQuestsCurrentNumber;
+    public int ihuiQuestsTotalNumber;       //How many quests are in the current list?
+    public int ihuiQuestsCurrentNumber;     //Which quest in the list is currently active?
+
+    public enum questPageType
+    {
+        currentQuests,
+        completedQuests,
+        failedQuests
+    };
+    public questPageType qPType;
 
     private bool beenSetup = false;
 
@@ -42,6 +53,7 @@ public class IHUIQuestManager : MonoBehaviour
         currentQuests = charquests.currentQuests;
         failedQuests = charquests.failedQuests;
         completedQuests = charquests.completedQuests;
+        qPType = questPageType.currentQuests;
 
         //onScreenQuestName.text = "No Quests!";
         //onScreenQuestDesc.text = "No Quests!";
@@ -60,10 +72,85 @@ public class IHUIQuestManager : MonoBehaviour
         {
             QuestCanvasShowNextQuest();
         }
+
+        switch (qPType)
+        {
+            case questPageType.currentQuests:
+                questKindColorImage.color = new Color(1, 1, 1, 0.2f);
+                questKindText.text = "Current Quests";
+                break;
+            case questPageType.completedQuests:
+                questKindColorImage.color = new Color(0.4f, 1, 0.2f, 0.2f);
+                questKindText.text = "Completed Quests";
+                break;
+            case questPageType.failedQuests:
+                questKindColorImage.color = new Color(1, 0.2f, 0.2f, 0.2f);
+                questKindText.text = "Failed Quests";
+                break;
+            default:
+                break;
+        }
     }
 
-    public void SetupNewQuest(Quest quest)
+    public void SwitchToCurrentQuestsPage()
     {
+        if (qPType == questPageType.currentQuests)
+        {
+            return;
+        }
+        else
+        {
+            qPType = questPageType.currentQuests;
+            ShowNewListOfQuests();
+        }
+        
+        if (currentQuests.Count == 0)
+        {
+            ClearCurrentQuest();
+        }
+    }
+
+    public void SwitchToCompletedQuestsPage()
+    {
+        if (qPType == questPageType.completedQuests)
+        {
+            return;
+        }
+        else
+        {
+            qPType = questPageType.completedQuests;
+            ShowNewListOfQuests();
+        }
+        
+        if (completedQuests.Count == 0)
+        {
+            ClearCurrentQuest();
+        }
+    }
+
+    public void SwitchToFailedQuestsPage()
+    {
+        if (qPType == questPageType.failedQuests)
+        {
+            return;
+        }
+        else
+        {
+            qPType = questPageType.failedQuests;
+            ShowNewListOfQuests();
+        }
+
+        if (failedQuests.Count == 0)
+        {
+            ClearCurrentQuest();
+        }
+    }
+
+    public void SetupNewQuest(Quest quest)  //Called for the first quest accepted
+    {
+        questPageType previousqpType = qPType;
+        qPType = questPageType.currentQuests;       //Switch to currentQuests
+
         if (!beenSetup) { Start(); }
         //currentQuests.Add(quest);
         currentQuest = currentQuests[0];
@@ -88,8 +175,11 @@ public class IHUIQuestManager : MonoBehaviour
         }
     }
 
-    public void ShowNewQuest(Quest quest)
+    public void ShowNewQuest(Quest quest)       //Called for subsequent quests accepted after the first
     {
+        questPageType previousqpType = qPType;
+        qPType = questPageType.currentQuests;       //Switch to currentQuests
+
         currentQuest = quest;
         onScreenQuestName.text = quest.questName;
         onScreenQuestDesc.text = quest.questDesc;
@@ -106,6 +196,62 @@ public class IHUIQuestManager : MonoBehaviour
             steppieScript.myQuestEvent = qEvent;
 
             questSteppies.Add(newQuestSteppie);
+        }
+    }
+
+    public void ReFillQuestList(int qNumber, List<Quest> list)    //Called when switching lists between current, completed, and failed quests
+    {
+        
+        if (list == currentQuests) { currentQuest = list[0]; currentQuestArrayNumber = 0; }
+
+        onScreenQuestName.text = list[qNumber].questName;
+        onScreenQuestDesc.text = list[qNumber].questDesc;
+
+        ihuiQuestsTotalNumber = list.Count;
+        ihuiQuestsCurrentNumber = 1;
+
+        ihuiQuestsTotal.text = ("0" + list.Count);
+        ihuiQuestsCurrent.text = ("0" + ihuiQuestsCurrentNumber);
+
+        foreach (var qEvent in list[qNumber].questEvents)
+        {
+            var newQuestSteppie = Instantiate(questSteppiePrefab, contentHolder.transform);
+            IHUIQuestSteppieScript steppieScript = newQuestSteppie.GetComponent<IHUIQuestSteppieScript>();
+            steppieScript.myText.text = qEvent.questEventName;
+            steppieScript.myQuest = list[qNumber];
+            steppieScript.myQuestEvent = qEvent;
+
+            questSteppies.Add(newQuestSteppie);
+        }
+    }
+
+    public void ShowNewListOfQuests()
+    {
+        switch (qPType)
+        {
+            case questPageType.currentQuests:
+                for (int i = 0; i < currentQuests.Count; i++)
+                {
+                    ClearCurrentQuest();
+                    ReFillQuestList(i, currentQuests);
+                }
+                break;
+            case questPageType.completedQuests:
+                for (int i = 0; i < completedQuests.Count; i++)
+                {
+                    ClearCurrentQuest();
+                    ReFillQuestList(i, completedQuests);
+                }
+                break;
+            case questPageType.failedQuests:
+                for (int i = 0; i < failedQuests.Count; i++)
+                {
+                    ClearCurrentQuest();
+                    ReFillQuestList(i, failedQuests);
+                }
+                break;
+            default:
+                break;
         }
     }
 
@@ -191,41 +337,63 @@ public class IHUIQuestManager : MonoBehaviour
 
     public void QuestCanvasShowNextQuest()
     {
-        if (currentQuestArrayNumber + 1== currentQuests.Count)
+        switch (qPType)
         {
-            //Debug.Log("End of quest list reached, not scrolling");
-            return;
-        }
-        else
-        {
-            int nextQuestArrayNumber = currentQuestArrayNumber + 1;
-            Quest newQuestToShow = currentQuests[nextQuestArrayNumber];
-            currentQuestArrayNumber = nextQuestArrayNumber;
-            ihuiQuestsCurrentNumber++;
-            ClearCurrentQuest();
-            ShowNewQuest(newQuestToShow);
-            CheckQuestEvents();
-            currentQuest = newQuestToShow;
+            case questPageType.currentQuests:
+                if (currentQuestArrayNumber + 1 == currentQuests.Count)
+                {
+                    //Debug.Log("End of quest list reached, not scrolling");
+                    return;
+                }
+                else
+                {
+                    int nextQuestArrayNumber = currentQuestArrayNumber + 1;
+                    Quest newQuestToShow = currentQuests[nextQuestArrayNumber];
+                    currentQuestArrayNumber = nextQuestArrayNumber;
+                    ihuiQuestsCurrentNumber++;
+                    ClearCurrentQuest();
+                    ShowNewQuest(newQuestToShow);
+                    CheckQuestEvents();
+                    currentQuest = newQuestToShow;
+                }
+                break;
+            case questPageType.completedQuests:
+                break;
+            case questPageType.failedQuests:
+                break;
+            default:
+                break;
         }
     }
 
     public void QuestCanvasShowPreviousQuest()
     {
-        if (currentQuestArrayNumber + 1 == 1)
+        switch (qPType)
         {
-            //Debug.Log("Beginning of quest list reached, not scrolling");
-            return;
-        }
-        else
-        {
-            int nextQuestArrayNumber = currentQuestArrayNumber - 1;
-            Quest newQuestToShow = currentQuests[nextQuestArrayNumber];
-            currentQuestArrayNumber = nextQuestArrayNumber;
-            ihuiQuestsCurrentNumber--;
-            ClearCurrentQuest();
-            ShowNewQuest(newQuestToShow);
-            CheckQuestEvents();
-            currentQuest = newQuestToShow;
+            case questPageType.currentQuests:
+                if (currentQuestArrayNumber + 1 == 1)
+                {
+                    //Debug.Log("Beginning of quest list reached, not scrolling");
+                    return;
+                }
+                else
+                {
+                    int nextQuestArrayNumber = currentQuestArrayNumber - 1;
+                    Quest newQuestToShow = currentQuests[nextQuestArrayNumber];
+                    currentQuestArrayNumber = nextQuestArrayNumber;
+                    ihuiQuestsCurrentNumber--;
+                    ClearCurrentQuest();
+                    ShowNewQuest(newQuestToShow);
+                    CheckQuestEvents();
+                    currentQuest = newQuestToShow;
+                }
+                break;
+            case questPageType.completedQuests:
+                break;
+            case questPageType.failedQuests:
+                break;
+            default:
+                break;
         }
     }
 
