@@ -36,7 +36,7 @@ public class QuestManager : MonoBehaviour
     [Separator("Canvas and UI Pieces")]
     //public GameObject questDivider;
     
-    //public GameObject questEventPrefab;                                             //Assigned in Inspector
+    //public GameObject questEventPrefab;                                            //Assigned in Inspector
     //public List<GameObject> questEventPrefabs;
     public GameObject questTimerHolder;                                             //Holds newly created quest Timers
     public GameObject questHolder;                                                  //Holds newly created QCTPs, QATPs and QFTPs. See below for abbreviation meanings
@@ -68,6 +68,7 @@ public class QuestManager : MonoBehaviour
 
     private void Update()
     {
+        Debug.Log($"This Quest Manager's name is {this}");
         ManageOffScreenQATPs(); //This is called before ManageOffScreenQFTPs and QCTPs so that it prioritizes showing qatps over qctps and qftps over qctps
         ManageOffScreenQFTPs();
         ManageOffScreenQCTPs();

@@ -16,7 +16,7 @@ public class Quest : ScriptableObject
     [TextArea(5, 10)]
     public string questDesc;
     public bool isActive;
-    public bool hasTimerForQuest;
+    [HideInInspector] public bool hasTimerForQuest;                                                        //A bool that enables timers for this quest. Is currently broken
     [ConditionalField(nameof(hasTimerForQuest))] public float questTimerTargetTime;       //Time that timer starts at before counting down
     public List<GameObject> associatedQuestGivers;                                        //Do any NPCs give you this quest via dialogue?
     

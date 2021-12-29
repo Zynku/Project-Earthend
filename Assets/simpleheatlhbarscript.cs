@@ -15,7 +15,6 @@ public class simpleheatlhbarscript : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        
         healthbarFill = transform.GetChild(0).gameObject;
         stunnedFill = transform.GetChild(1).gameObject;
         stunnedFill.SetActive(false);

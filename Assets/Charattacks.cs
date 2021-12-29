@@ -69,7 +69,7 @@ public class Charattacks : MonoBehaviour
             Attack newattack = new Attack();
             newattack.SetupAttack("Light", lightDamageMin, Attack.AttackType.LIGHT);
             currentAttacks.Add(newattack);
-            comboSustainTime = comboSustainTargetTime;
+            comboSustainTime = comboSustainTargetTime;              //Resets the combo sustain timer
 
             CheckforCombos();
         }
