@@ -15,6 +15,9 @@ public class GameManager : MonoBehaviour
     [Range(1f, 60f)]
     public int frameRate = -1;
 
+    public float hitStopAmount = 0.2f;
+    public float hitStopTimeScale = 0.5f;
+
     public GameObject hurtScreen;
     private Animator hurtScreenAnimator;
 
@@ -35,6 +38,7 @@ public class GameManager : MonoBehaviour
     public IHUIQuestManager ihuiquestmanager;
     public InfoHubManager infoHub;
     public Pause_menu_manager pause_Menu_Manager;
+    public ParticleManager Particle_Manager;
 
     public InventoryUI inventoryui;
     public InventoryUIHelper inventoryUIHelper;
@@ -63,6 +67,7 @@ public class GameManager : MonoBehaviour
         ihuiquestmanager = GetComponentInChildren<IHUIQuestManager>();
         infoHub = GetComponentInChildren<InfoHubManager>();
         pause_Menu_Manager = GetComponentInChildren<Pause_menu_manager>();
+        Particle_Manager = GetComponentInChildren<ParticleManager>();
 
         inventoryui = GetComponentInChildren<InventoryUI>();
         inventoryUIHelper = GetComponentInChildren<InventoryUIHelper>();
@@ -161,6 +166,13 @@ public class GameManager : MonoBehaviour
         //Time.timeScale = 0;
         pause_Menu_Manager.isGamePaused = true;
         GameManager.instance.PauseGame();
+    }
+
+    public IEnumerator MeleeHitStop()
+    {
+        Time.timeScale = hitStopTimeScale;
+        yield return new WaitForSecondsRealtime(hitStopAmount);
+        Time.timeScale = 1f;
     }
 
     void HurtFlash()

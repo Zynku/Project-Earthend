@@ -68,7 +68,6 @@ public class QuestManager : MonoBehaviour
 
     private void Update()
     {
-        Debug.Log($"This Quest Manager's name is {this}");
         ManageOffScreenQATPs(); //This is called before ManageOffScreenQFTPs and QCTPs so that it prioritizes showing qatps over qctps and qftps over qctps
         ManageOffScreenQFTPs();
         ManageOffScreenQCTPs();

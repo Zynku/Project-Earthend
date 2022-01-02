@@ -199,17 +199,16 @@ public class Charanimation : MonoBehaviour
     public void ManageComboBuffer()  //Plays animations from the combo buffer if no other animations are playing
     {
         //Debug.Log("Managing Combo Buffer...");
-        if (comboBuffer.Count > 0)
+        if (comboBuffer.Count > 0 && currentCombo != null)
         {
             AnimatorStateInfo currentAnimSInfo = animator.GetCurrentAnimatorStateInfo(0);
             Combo nextCombo = comboBuffer[0];
             if (currentAnimSInfo.normalizedTime >= currentCombo.comboChainTimeLocation)   //If there current animation is ~60% finished, it plays the first animation stored in the buffer
             {
-                
                 string nextComboAnimName = nextCombo.animationName;
                 animator.Play(nextComboAnimName);
                 comboBuffer.Remove(nextCombo);
-                Debug.Log("Removing " + nextCombo.comboName + " from combo buffer");
+                Debug.Log($"Removing {nextCombo.comboName} from combo buffer by playing it");
                 currentlyComboing = true;
                 //UpdateComboStates();
             }

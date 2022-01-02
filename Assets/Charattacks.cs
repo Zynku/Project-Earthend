@@ -55,10 +55,6 @@ public class Charattacks : MonoBehaviour
                 break;
         }
 
-        //Make a timer dictating how long current attacks are kept in current attacks list
-        //When player presses any attack key, immediately transition to combat = true, and the appropriate state,
-        //Check which button was pressed, add that attack to list of current attacks
-
         onScreenComboSustainTimer.GetComponent<SimpleTimerScript>().timerTime = comboSustainTime;
         onScreenComboExecuteTimer.GetComponent<SimpleTimerScript>().timerTime = comboExecuteTime;
         //onScreenComboExecuteTimer.GetComponent<SimpleTimerScript>().timerTargetTime = charanimation.currentAnimLength;

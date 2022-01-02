@@ -84,6 +84,9 @@ public class target_dummy_controller : MonoBehaviour
             animator.SetBool("BeenHit", true);
             AudioClip hitclip = Hit[Random.Range(0, Hit.Length)];
             audiosource.PlayOneShot(hitclip);
+
+            GameManager.instance.Particle_Manager.PlayHitParticles(collision.gameObject.GetComponent<Collider2D>().ClosestPoint(transform.position));
+            GameManager.instance.MeleeHitStop();
         }
     }
 
