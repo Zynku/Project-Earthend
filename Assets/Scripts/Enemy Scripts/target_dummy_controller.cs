@@ -4,14 +4,14 @@ using UnityEngine;
 
 public class target_dummy_controller : MonoBehaviour
 {
-    private Animator animator;
-    private AudioSource audiosource;
+    public Animator animator;
+    public AudioSource audiosource;
 
     public int currentHealth;
     public int maxHealth;
-    private float collisionDir;
-    private int damageDoneToMeMax;
-    private int damageDoneToMeMin;
+    public float collisionDir;
+    public int damageDoneToMeMax;
+    public int damageDoneToMeMin;
     public int damageDoneToMe;
     private float dmgCooldown;
     private float dmgCooldownTargetTime = 0.1f;
@@ -66,27 +66,7 @@ public class target_dummy_controller : MonoBehaviour
     {
         if (collision.gameObject.CompareTag("player_attackhitbox"))
         {
-            if (collision.transform.position.x > transform.position.x)
-            {
-                collisionDir = -1;
-            }
-            else if (collision.transform.position.x < transform.position.x)
-            {
-                collisionDir = 1;
-            }
-
-            //Gets max and min attack values from enemy script, returns random value between them, applies damage
-            damageDoneToMeMax = Mathf.FloorToInt(collision.gameObject.GetComponentInParent<Charcontrol>().attackdamageMax);
-            damageDoneToMeMin = Mathf.FloorToInt(collision.gameObject.GetComponentInParent<Charcontrol>().attackdamageMin);
-            damageDoneToMe = (Random.Range(damageDoneToMeMax, damageDoneToMeMin));
-            TakeDamage(damageDoneToMe);
-
-            animator.SetBool("BeenHit", true);
-            AudioClip hitclip = Hit[Random.Range(0, Hit.Length)];
-            audiosource.PlayOneShot(hitclip);
-
-            GameManager.instance.Particle_Manager.PlayHitParticles(collision.gameObject.GetComponent<Collider2D>().ClosestPoint(transform.position));
-            GameManager.instance.MeleeHitStop();
+            
         }
     }
 
@@ -109,6 +89,13 @@ public class target_dummy_controller : MonoBehaviour
             dmgCooldown = dmgCooldownTargetTime;
             healCooldown = healCooldownTargetTime;
         }
+    }
+
+    public void BeenHit()
+    {
+        animator.SetBool("BeenHit", true);
+        AudioClip hitclip = Hit[Random.Range(0, Hit.Length)];
+        audiosource.PlayOneShot(hitclip);
     }
 
     public void AddHealth(int health)

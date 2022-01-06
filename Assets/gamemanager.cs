@@ -30,6 +30,7 @@ public class GameManager : MonoBehaviour
 
     public static bool pause, resume;
     public bool paused, resumed;
+    public bool hitStopped = false;
 
     public static GameManager instance;
 
@@ -170,9 +171,14 @@ public class GameManager : MonoBehaviour
 
     public IEnumerator MeleeHitStop()
     {
-        Time.timeScale = hitStopTimeScale;
-        yield return new WaitForSecondsRealtime(hitStopAmount);
-        Time.timeScale = 1f;
+        if (!hitStopped)
+        {
+            hitStopped = true;
+            Time.timeScale = hitStopTimeScale;
+            yield return new WaitForSecondsRealtime(hitStopAmount);
+            Time.timeScale = 1f;
+            hitStopped = false;
+        }
     }
 
     void HurtFlash()

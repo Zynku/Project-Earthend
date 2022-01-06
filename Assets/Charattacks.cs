@@ -9,6 +9,7 @@ public class Charattacks : MonoBehaviour
     Charcontrol charcontrol;
     Charanimation charanimation;
     Rigidbody2D rb2d;
+    CharMeleeHitBox charMeleeHitBox;
 
     [Header("Combo Variables")]
     public List<Combo> allLightCombosEver;  //Set these in inspector
@@ -23,6 +24,8 @@ public class Charattacks : MonoBehaviour
     public float comboExecuteTargetTime = 0.5f;  //How long before current combo returns to nothing after being executed
     public float comboExecuteTime;
     public int longestComboLength;
+    private float buttonHeldFloat;
+    public float buttonHeldThreshold;           //How much time needs to pass (measured from time.deltaTime) for the button to be considered as "held"
     public Combo longestCombo;
     public GameObject onScreenComboSustainTimer;
     public GameObject onScreenComboExecuteTimer;
@@ -38,6 +41,7 @@ public class Charattacks : MonoBehaviour
         charcontrol = GetComponent<Charcontrol>();
         charanimation = GetComponent<Charanimation>();
         rb2d = GetComponent<Rigidbody2D>();
+        charMeleeHitBox = GetComponentInChildren<CharMeleeHitBox>();
         comboSustainTime = comboSustainTargetTime;
         comboExecuteTime = comboExecuteTargetTime;
         onScreenComboSustainTimer = TimerManager.instance.CreateTimer(comboSustainTime, comboSustainTargetTime, "Combo Sustain Time", false);
@@ -59,18 +63,45 @@ public class Charattacks : MonoBehaviour
         onScreenComboExecuteTimer.GetComponent<SimpleTimerScript>().timerTime = comboExecuteTime;
         //onScreenComboExecuteTimer.GetComponent<SimpleTimerScript>().timerTargetTime = charanimation.currentAnimLength;
 
-        if (Input.GetButtonDown("Light Attack"))
-        {            
-            //Debug.Log("Pressing light attack");
-            Attack newattack = new Attack();
-            newattack.SetupAttack("Light", lightDamageMin, Attack.AttackType.LIGHT);
-            currentAttacks.Add(newattack);
-            comboSustainTime = comboSustainTargetTime;              //Resets the combo sustain timer
+        if (Input.GetButtonUp("Light Attack"))
+        {
+            if (charcontrol.currentState == Charcontrol.State.COMBAT_Air_Attacking)
+            {
+                return;
+            }
+            else
+            {
+                if (buttonHeldFloat > buttonHeldThreshold) { return; }
+                //Debug.Log("Pressing light attack");
+                Attack newattack = new Attack();
+                newattack.SetupAttack("Light", lightDamageMin, Attack.AttackType.LIGHT);
+                currentAttacks.Add(newattack);
+                comboSustainTime = comboSustainTargetTime;              //Resets the combo sustain timer
 
-            CheckforCombos();
+                CheckforCombos();
+                buttonHeldFloat = 0;
+            }
         }
 
-        if (Input.GetButtonDown("Heavy Attack"))
+        if (Input.GetButton("Light Attack"))
+        {
+            buttonHeldFloat += Time.deltaTime;
+            if (buttonHeldFloat > buttonHeldThreshold)
+            {
+                buttonHeldFloat = 0;
+                //Debug.Log($"Light attack is being held");
+                Attack newattack = new Attack();
+                newattack.SetupAttack("Light_Held", lightDamageMin, Attack.AttackType.LIGHT_HELD);
+                currentAttacks.Add(newattack);
+                comboSustainTime = comboSustainTargetTime;              //Resets the combo sustain timer
+
+                CheckforCombos();
+            }
+            //Debug.Log($"{buttonHeldFloat}");
+        }
+
+
+        if (Input.GetButtonUp("Heavy Attack"))
         {
             Attack newattack = new Attack();
             newattack.SetupAttack("Heavy", heavyDamageMin, Attack.AttackType.HEAVY);
@@ -134,7 +165,7 @@ public class Charattacks : MonoBehaviour
     public void CheckforCombos()
     {
         charcontrol.canFlipXDir();
-        if (currentAttacks.Count > longestComboLength)
+        if (currentAttacks.Count > longestComboLength + 1)
         {
             ClearAttackList();
         }
@@ -159,10 +190,8 @@ public class Charattacks : MonoBehaviour
                             currentlyComboing = true;
                             AnimateCombos(combo);
 
-                            if (combo.endOfComboChain)
-                            {
-                                ClearAttackList();
-                            }
+                            if (combo.canChangeState) { StartCoroutine(charanimation.ComboCharcontrolStates(combo)); } //Checks the current combo to see if it requires a state change
+                            if (combo.endOfComboChain) { ClearAttackList(); }
                             break;
                         }
                     }
@@ -177,6 +206,7 @@ public class Charattacks : MonoBehaviour
             }
         }
     }
+
 
     public void ClearAttackList()
     {
@@ -215,8 +245,23 @@ public class Charattacks : MonoBehaviour
 
     }
 
-    public void onAddAttackForce(int force)  //This function called on the last frame of the dodge animation via AnimationEvent
+    public void onAddAttackForceHorizontal(int force)  //This function called on the last frame of the dodge animation via AnimationEvent
     {
         rb2d.AddForce(new Vector2(rb2d.velocity.x + (force * charcontrol.facingDir), rb2d.velocity.y));
+    }
+
+    public void onAddAttackForceVertical(int force)  //This function called on the last frame of the dodge animation via AnimationEvent
+    {
+        rb2d.AddForce(new Vector2(rb2d.velocity.x, rb2d.velocity.y + (force)));
+    }
+
+    public void onChangeGravityScale(float gravity)
+    {
+        rb2d.gravityScale = gravity;
+    }
+
+    public void onResetGravity()
+    {
+        rb2d.gravityScale = 0.8f; //0.8 is just a temporary value. Please make a defaultGravityScale float and use that instead.
     }
 }

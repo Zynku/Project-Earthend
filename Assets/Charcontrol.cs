@@ -142,6 +142,7 @@ public class Charcontrol : MonoBehaviour
 
     private void Update()
     {
+        Debug.Log($"Current state is {currentState}");
         xVel = rb2d.velocity.x;
         yVel = rb2d.velocity.y;
         inputX = Input.GetAxisRaw("Horizontal");
@@ -314,6 +315,11 @@ public class Charcontrol : MonoBehaviour
             case State.COMBAT_Air_Attacking:
                 inCombat = true;
                 combatStateTime = combatStateTargetTime;
+                if (isGrounded)
+                {
+                    currentState = State.COMBAT_Idle;
+                }
+                Falling();
                 break;
 
             case State.COMBAT_Rolling:

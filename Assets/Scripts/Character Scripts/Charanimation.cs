@@ -215,6 +215,30 @@ public class Charanimation : MonoBehaviour
         }
     }
 
+    private Charcontrol.State stateWhenStartedLookingForComboStateChanges;
+    private bool stateSet;
+
+    public IEnumerator ComboCharcontrolStates(Combo combo)
+    {
+        Debug.Log($"{stateWhenStartedLookingForComboStateChanges} is the state {this} is trying to keep Charcontrol at");
+        AnimatorStateInfo currentAnimSInfo = animator.GetCurrentAnimatorStateInfo(0);
+        if (currentAnimSInfo.normalizedTime <= combo.stateChangeTimeLocation)
+        {
+            if (!stateSet)
+            {
+                stateWhenStartedLookingForComboStateChanges = charcontrol.currentState;
+            }
+            charcontrol.currentState = stateWhenStartedLookingForComboStateChanges;
+            yield return new WaitForSecondsRealtime(0.1f);
+            StartCoroutine(ComboCharcontrolStates(combo));
+        }
+        else if (currentAnimSInfo.normalizedTime >= combo.stateChangeTimeLocation)   //Detects when the current animation has passed the time required to allow a state change
+        {
+            charcontrol.currentState = combo.stateChange;
+            stateSet = false;
+        }
+    }
+
     public void UpdateComboStates()
     {
         AnimatorStateInfo currentAnimSInfo = animator.GetCurrentAnimatorStateInfo(0);

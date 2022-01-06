@@ -9,7 +9,7 @@ public class Attack
     public int attackDamage;
     public AttackType attackType;
 
-    public enum AttackType { LIGHT, HEAVY, RANGED}
+    public enum AttackType { LIGHT, LIGHT_HELD, HEAVY, HEAVY_HELD, RANGED, RANGED_HELD}
 
 
     public void SetupAttack(string name, int damage, AttackType type)
