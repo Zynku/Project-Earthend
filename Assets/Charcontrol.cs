@@ -142,7 +142,7 @@ public class Charcontrol : MonoBehaviour
 
     private void Update()
     {
-        Debug.Log($"Current state is {currentState}");
+        //Debug.Log($"Current state is {currentState}");
         xVel = rb2d.velocity.x;
         yVel = rb2d.velocity.y;
         inputX = Input.GetAxisRaw("Horizontal");

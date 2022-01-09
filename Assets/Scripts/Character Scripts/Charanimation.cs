@@ -167,31 +167,31 @@ public class Charanimation : MonoBehaviour
     {
         if (comboBuffer.Count == 0) //If buffer is empty
         {
-            //Debug.Log("Combo buffer is empty...");
+            Debug.Log("Combo buffer is empty...");
             if (!currentlyComboing) //If no combos are playing...
             {
-                //Debug.Log("...and no combos are playing currently. Playing " + comboname);
+                Debug.Log($"...and no combos are playing currently. Playing {combo.comboName}");
                 animator.Play(combo.animationName);
                 currentCombo = combo;
                 currentlyComboing = true;
             }
             else if (comboBuffer.Count < comboBufferSize) //Combos are playing, add the combo to the buffer
             {
-                //Debug.Log("...and combos are playing, assigning " + comboname + " to the combo buffer to await JUDGEMENT");
+                Debug.Log($"...and {currentCombo.comboName} is playing, assigning {combo.comboName} to the combo buffer to await JUDGEMENT");
                 comboBuffer.Add(combo);
             }
         }
         else
         {
-            //Debug.Log("Combo buffer has animations queued to play already. Checking to see if " + comboname + " can fit in the combo buffer");
+            Debug.Log($"Combo buffer has {comboBuffer[0].comboName} queued to play already. Checking to see if {combo.comboName} can fit in the combo buffer");
             if (comboBuffer.Count < comboBufferSize)
             {
-                //Debug.Log("There's space! " + comboname + " can join the combo buffer :)");
+                Debug.Log($"There's space! {combo.comboName} can join the combo buffer :)");
                 comboBuffer.Add(combo);
             }
             else if (comboBuffer.Count >= comboBufferSize)
             {
-                //Debug.Log("Combo buffer is FULL, discarding " + comboname + " :(");
+                Debug.Log($"Combo buffer is FULL, discarding {combo.comboName} :(");
             }
         }
     }
@@ -218,9 +218,9 @@ public class Charanimation : MonoBehaviour
     private Charcontrol.State stateWhenStartedLookingForComboStateChanges;
     private bool stateSet;
 
-    public IEnumerator ComboCharcontrolStates(Combo combo)
+    public IEnumerator ComboCharcontrolStates(Combo combo)  //Forces Charcontrol to stay in a certain state until the stateChangeTime has been reached, according to the combo
     {
-        Debug.Log($"{stateWhenStartedLookingForComboStateChanges} is the state {this} is trying to keep Charcontrol at");
+        //Debug.Log($"{stateWhenStartedLookingForComboStateChanges} is the state {this} is trying to keep Charcontrol at");
         AnimatorStateInfo currentAnimSInfo = animator.GetCurrentAnimatorStateInfo(0);
         if (currentAnimSInfo.normalizedTime <= combo.stateChangeTimeLocation)
         {

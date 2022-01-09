@@ -21,8 +21,10 @@ public class TimerManager : MonoBehaviour
     }
     #endregion
 
-    //In order to make an onscreen timer, call TimerManager.instance.CreateTimer(timerTime, timerTargetTime, "timerName", false) and assign the variables in brackets as arguments
+    //In order to make an onscreen timer, call TimerManager.instance.CreateTimer(timerTime, timerTargetTime, "timerName", false) in Start() and assign the variables in brackets as arguments
     //You also must continually assign timerTime in the Update() function from wherever you called CreateTimer() as it needs a live reference to count down.
+    //Non-auto timers need to do timerTime -= time.DeltaTime from wherever it is instantiated. In that regard, this script's only job is to display said timer, not to count.
+    //Stop making that mistake lol.
 
     private void Update()
     {
@@ -47,7 +49,7 @@ public class TimerManager : MonoBehaviour
         }
     }
 
-    public GameObject CreateTimer(float timerTime, float timerTargetTime, string timerName, bool deleteOnEnd)    //TIMER IS NOT IN CHARGE OF CALCULATING ITS TIME. IF YOU WANT THAT USE THE METHOD BELOW
+    public GameObject CreateTimer(float timerTime, float timerTargetTime, string timerName, bool deleteOnEnd)    //TIMER IS NOT IN CHARGE OF CALCULATING ITS TIME. IF YOU WANT THAT USE AUTO TIMER
     {
         GameObject timer = Instantiate(timerPrefab, gameObject.transform);
         SimpleTimerScript timerScript = timer.GetComponent<SimpleTimerScript>();

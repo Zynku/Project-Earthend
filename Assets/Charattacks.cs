@@ -23,12 +23,15 @@ public class Charattacks : MonoBehaviour
     public float comboSustainTime;
     public float comboExecuteTargetTime = 0.5f;  //How long before current combo returns to nothing after being executed
     public float comboExecuteTime;
+    public float inputTargetTime;
+    public float inputTime;
     public int longestComboLength;
     private float buttonHeldFloat;
     public float buttonHeldThreshold;           //How much time needs to pass (measured from time.deltaTime) for the button to be considered as "held"
     public Combo longestCombo;
     public GameObject onScreenComboSustainTimer;
     public GameObject onScreenComboExecuteTimer;
+    public GameObject inputTimer;
 
     [Header("Damage Variables")]
     public int lightDamageMax, lightDamageMin;
@@ -44,8 +47,10 @@ public class Charattacks : MonoBehaviour
         charMeleeHitBox = GetComponentInChildren<CharMeleeHitBox>();
         comboSustainTime = comboSustainTargetTime;
         comboExecuteTime = comboExecuteTargetTime;
+        inputTime = inputTargetTime;
         onScreenComboSustainTimer = TimerManager.instance.CreateTimer(comboSustainTime, comboSustainTargetTime, "Combo Sustain Time", false);
         onScreenComboExecuteTimer = TimerManager.instance.CreateTimer(comboExecuteTime, comboExecuteTargetTime, "Combo Execute Time", false);
+        inputTimer =                TimerManager.instance.CreateTimer(inputTime, inputTargetTime, "Input Time", false);
         FindLongestCombo();
     }
 
@@ -53,6 +58,9 @@ public class Charattacks : MonoBehaviour
     void Update()
     {
         currentState = charcontrol.currentState.ToString();
+        inputTime -= Time.deltaTime;
+        if (inputTime < 0) { inputTime = 0; }
+
         switch (charcontrol.currentState)
         {
             case Charcontrol.State.COMBAT_Idle:
@@ -61,6 +69,7 @@ public class Charattacks : MonoBehaviour
 
         onScreenComboSustainTimer.GetComponent<SimpleTimerScript>().timerTime = comboSustainTime;
         onScreenComboExecuteTimer.GetComponent<SimpleTimerScript>().timerTime = comboExecuteTime;
+        inputTimer.GetComponent<SimpleTimerScript>().timerTime = inputTime;
         //onScreenComboExecuteTimer.GetComponent<SimpleTimerScript>().timerTargetTime = charanimation.currentAnimLength;
 
         if (Input.GetButtonUp("Light Attack"))
@@ -69,14 +78,15 @@ public class Charattacks : MonoBehaviour
             {
                 return;
             }
-            else
+            else if (inputTime == 0)
             {
                 if (buttonHeldFloat > buttonHeldThreshold) { return; }
-                //Debug.Log("Pressing light attack");
+                Debug.Log("Light!");
                 Attack newattack = new Attack();
                 newattack.SetupAttack("Light", lightDamageMin, Attack.AttackType.LIGHT);
                 currentAttacks.Add(newattack);
                 comboSustainTime = comboSustainTargetTime;              //Resets the combo sustain timer
+                inputTime = inputTargetTime;                            //Resets input timer
 
                 CheckforCombos();
                 buttonHeldFloat = 0;
@@ -86,7 +96,7 @@ public class Charattacks : MonoBehaviour
         if (Input.GetButton("Light Attack"))
         {
             buttonHeldFloat += Time.deltaTime;
-            if (buttonHeldFloat > buttonHeldThreshold)
+            if (buttonHeldFloat > buttonHeldThreshold && inputTime == 0)
             {
                 buttonHeldFloat = 0;
                 //Debug.Log($"Light attack is being held");
@@ -103,6 +113,7 @@ public class Charattacks : MonoBehaviour
 
         if (Input.GetButtonUp("Heavy Attack"))
         {
+            Debug.Log("Heavy!");
             Attack newattack = new Attack();
             newattack.SetupAttack("Heavy", heavyDamageMin, Attack.AttackType.HEAVY);
             currentAttacks.Add(newattack);
@@ -182,7 +193,7 @@ public class Charattacks : MonoBehaviour
                     {
                         if (i == combo.attackList.Count - 1 && combo.attackList[i].attackType == currentAttacks[i].attackType)  //If the last attack matches...
                         {
-                            //Debug.Log(combo.comboName + " matches perfectly");
+                            Debug.Log($"{combo.comboName}!");
 
                             //comboExecuteTime = comboExecuteTargetTime;
                             comboExecuteTime = charanimation.currentAnimLength;
@@ -206,7 +217,6 @@ public class Charattacks : MonoBehaviour
             }
         }
     }
-
 
     public void ClearAttackList()
     {
