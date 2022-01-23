@@ -95,7 +95,7 @@ public class Charattacks : MonoBehaviour
 
         if (Input.GetButton("Light Attack"))
         {
-            buttonHeldFloat += Time.deltaTime;
+            buttonHeldFloat += Time.deltaTime;                          //If player holds the light attack button, start counting the buttonHeldFloat by adding Time.deltaTime each frame
             if (buttonHeldFloat > buttonHeldThreshold && inputTime == 0)
             {
                 buttonHeldFloat = 0;
@@ -245,11 +245,13 @@ public class Charattacks : MonoBehaviour
 
     }
 
+    //TODO
     public void AddCombo()  //Moves a combo from all combos to possible combos
     {
 
     }
 
+    //TODO
     public void RemoveCombo()   //Moves a combo from possible combos to all combos
     {
 

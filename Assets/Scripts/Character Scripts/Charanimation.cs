@@ -18,7 +18,7 @@ public class Charanimation : MonoBehaviour
 
     [Header("Combo Animation Variables")]
     public List<Combo> comboBuffer;        //Holds combos that are to be played if a combo is currently being played.
-    public int comboBufferSize = 1;     //How many combos can be stored and buffered.
+    public int comboBufferSize = 1;        //How many combos can be stored and buffered.
     public bool currentlyComboing = false;
     public bool inCombat = false;
     public string currentComboAnimName;
@@ -210,9 +210,19 @@ public class Charanimation : MonoBehaviour
                 comboBuffer.Remove(nextCombo);
                 Debug.Log($"Removing {nextCombo.comboName} from combo buffer by playing it");
                 currentlyComboing = true;
+
+                if (nextCombo.endOfComboChain)
+                {
+                    ClearComboBuffer();
+                }
                 //UpdateComboStates();
             }
         }
+    }
+
+    public void ClearComboBuffer()
+    {
+        comboBuffer.Clear();
     }
 
     private Charcontrol.State stateWhenStartedLookingForComboStateChanges;
