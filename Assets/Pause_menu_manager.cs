@@ -71,9 +71,17 @@ public class Pause_menu_manager : MonoBehaviour
     IEnumerator LoadAsynchronously(int index)
     {
         //Gets operation values from scenemanager loading
+        Debug.Log($"Loading some shit asynchronously");
         AsyncOperation operation = SceneManager.LoadSceneAsync(index);
 
-        LoadingScreen.SetActive(true);
+        
+
+        if (operation.isDone)
+        {
+            Debug.Log($"Done loading!");
+            LoadingScreen.SetActive(true);
+        }
+
         while (!operation.isDone)
         {
             //Do some quick maths and apply loading progress to float, then slider bar

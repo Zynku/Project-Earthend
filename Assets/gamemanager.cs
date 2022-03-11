@@ -34,15 +34,25 @@ public class GameManager : MonoBehaviour
 
     public static GameManager instance;
 
-    public DialogueManager dialogueManager;
+    public List<MonoBehaviour> allModules;
+
+
+
+    //Make sure when you declare a new reference below, add it to all Modules list in AddAllReferencesToModuleList(), make sure it is assigned to in AssignAllReferences()
+    //and it is enabled and disabled in various scenes in ChangedActiveScene()-
+    public DialogueManager dialogueManager;             
     public QuestManager questManager;
     public IHUIQuestManager ihuiquestmanager;
     public InfoHubManager infoHub;
     public Pause_menu_manager pause_Menu_Manager;
     public ParticleManager Particle_Manager;
+    public global_script Global_Script;
+    public teleporternetwork teleporternetwork;
 
     public InventoryUI inventoryui;
     public InventoryUIHelper inventoryUIHelper;
+    //------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
 
     #region Singleton and Awake
     private void Awake()
@@ -50,9 +60,35 @@ public class GameManager : MonoBehaviour
         if (instance != null)
         {
             Debug.LogWarning("More than one instance of Game Manager found!");
+            Destroy(gameObject);
             return;
         }
         instance = this;
+
+        AssignAllReferences();
+        AddAllReferencesToModuleList();
+        DontDestroyOnLoad(this);
+        SceneManager.activeSceneChanged += ChangedActiveScene;
+    }
+    #endregion
+    
+    private void AddAllReferencesToModuleList()
+    {
+        allModules.Add(dialogueManager);
+        allModules.Add(questManager);
+        allModules.Add(ihuiquestmanager);
+        allModules.Add(infoHub);
+        allModules.Add(pause_Menu_Manager);
+        allModules.Add(Particle_Manager);
+        allModules.Add(Global_Script);
+        allModules.Add(teleporternetwork);
+        allModules.Add(inventoryui);
+        allModules.Add(inventoryUIHelper);
+    }
+
+    [ButtonMethod]
+    public void AssignAllReferences()
+    {
 
         Player = GameObject.FindWithTag("Player");
         PlayerAnim = Player.GetComponent<Animator>();
@@ -63,20 +99,23 @@ public class GameManager : MonoBehaviour
         //hurtScreenAnimator = hurtScreen.GetComponent<Animator>();
         //hurtScreen.SetActive(false);
 
+
         dialogueManager = GetComponentInChildren<DialogueManager>();
         questManager = GetComponentInChildren<QuestManager>();
         ihuiquestmanager = GetComponentInChildren<IHUIQuestManager>();
         infoHub = GetComponentInChildren<InfoHubManager>();
         pause_Menu_Manager = GetComponentInChildren<Pause_menu_manager>();
         Particle_Manager = GetComponentInChildren<ParticleManager>();
-
+        Global_Script = GameObject.Find("Global Object").GetComponent<global_script>();
         inventoryui = GetComponentInChildren<InventoryUI>();
         inventoryUIHelper = GetComponentInChildren<InventoryUIHelper>();
+        teleporternetwork = GetComponentInChildren<teleporternetwork>();
     }
-    #endregion
 
     private void Update()
     {
+        Debug.Log($"Current Scene number is {SceneManager.GetActiveScene().buildIndex} and Scene name is {SceneManager.GetActiveScene().name}");
+
         if (Input.GetKeyDown(KeyCode.P)) { PauseGame(); }
         if (Input.GetKeyDown(KeyCode.O)) { ResumeGame(); }
 
@@ -105,6 +144,88 @@ public class GameManager : MonoBehaviour
         Application.targetFrameRate = frameRate;
 
         //Charhealth.Hit += HurtFlash;
+    }
+
+    private void ChangedActiveScene(Scene currentScene, Scene nextScene)
+    {
+        Debug.Log($"Scene changed to {SceneManager.GetActiveScene().name}");
+        
+
+        switch (SceneManager.GetActiveScene().name)
+        {
+            case "Game Test Scene":
+                OnSceneChangedEnableThese(
+                    dialogueManager.gameObject,
+                    questManager.gameObject,
+                    ihuiquestmanager.gameObject,
+                    infoHub.gameObject,
+                    pause_Menu_Manager.gameObject,
+                    Particle_Manager.gameObject,
+                    Global_Script.gameObject,
+                    teleporternetwork.gameObject,
+                    inventoryui.gameObject,
+                    inventoryUIHelper.gameObject
+                                             ) ;
+                AssignAllReferences();
+                break;
+
+            case "Main Menu Scene":
+                OnSceneChangedDisableThese(
+                    dialogueManager.gameObject,
+                    questManager.gameObject,
+                    ihuiquestmanager.gameObject,
+                    infoHub.gameObject,
+                    pause_Menu_Manager.gameObject,
+                    Particle_Manager.gameObject,
+                    Global_Script.gameObject,
+                    teleporternetwork.gameObject,
+                    inventoryui.gameObject,
+                    inventoryUIHelper.gameObject
+                                            );
+                AssignAllReferences();
+                break;
+
+            default:
+                Debug.LogWarning($"Current scene name is not part of GameManager switch statement. Please add it. All modules disabled.");
+                break;
+        }
+
+    }
+
+    public void OnSceneChangedDisableThese(params GameObject[] list) //Sets all modules that have been passed in as disabled. Should be used on scene changes in ChangedActiveScene()
+    {
+        foreach (var item in list)
+        {
+            item.SetActive(false);
+            Debug.Log($"Scene was changed, {item.name} was disabled");
+        }
+    }
+
+    public void OnSceneChangedEnableThese(params GameObject[] list) //Sets all modules that have been passed in as enabled. Should be used on scene changes in ChangedActiveScene()
+    {
+        foreach (var item in list)
+        {
+            item.SetActive(true);
+            Debug.Log($"Scene was changed, {item.name} was enabled");
+        }
+    }
+
+    [ButtonMethod]
+    public void OnSceneChangedDisableAll()
+    {
+        foreach (var item in allModules)
+        {
+            item.gameObject.SetActive(false);
+        }
+    }
+
+    [ButtonMethod]
+    public void OnSceneChangedEnableAll()
+    {
+        foreach (var item in allModules)
+        {
+            item.gameObject.SetActive(true);
+        }
     }
 
     public void PauseGame()
@@ -203,34 +324,5 @@ public class GameManager : MonoBehaviour
     void ReloadScene()
     {
         SceneManager.LoadScene(SceneManager.GetActiveScene().name);
-    }
-
-    [ButtonMethod]
-    public void AssignAllReferences()
-    {
-        if (instance != null)
-        {
-            Debug.LogWarning("More than one instance of Game Manager found at " + instance);
-            return;
-        }
-        instance = this;
-
-        Player = GameObject.FindWithTag("Player");
-        PlayerAnim = Player.GetComponent<Animator>();
-
-        playerRespawnPoint = GameObject.FindWithTag("player_respawn");
-        if (!overwriteTime) Time.timeScale = 1f;
-
-        hurtScreenAnimator = hurtScreen.GetComponent<Animator>();
-        hurtScreen.SetActive(false);
-
-        dialogueManager = GetComponentInChildren<DialogueManager>();
-        questManager = GetComponentInChildren<QuestManager>();
-        ihuiquestmanager = GetComponentInChildren<IHUIQuestManager>();
-        infoHub = GetComponentInChildren<InfoHubManager>();
-        pause_Menu_Manager = GetComponentInChildren<Pause_menu_manager>();
-
-        inventoryui = GetComponentInChildren<InventoryUI>();
-        inventoryUIHelper = GetComponentInChildren<InventoryUIHelper>();
     }
 }

@@ -96,8 +96,12 @@ public class Npcscript : MonoBehaviour
     {
         if (canTalk && !dialogueManager.playerInConversation)
         {
-            //Sends special dialogue to dialogue manager if the correct amount of times has been reached, other than that sends regular dialogue
-            if (hasSpecialDialogue)
+            if (!myDialogue)
+            {
+                Debug.Log($"NPC has no dialogue! Check {this.transform.name}'s NPC script");
+                return;
+            }
+            else if (hasSpecialDialogue) //Sends special dialogue to dialogue manager if the correct amount of times has been reached, other than that sends regular dialogue
             {
                 StartSpecialDialogue();
             }

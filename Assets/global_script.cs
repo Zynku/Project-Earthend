@@ -36,8 +36,6 @@ public class global_script : MonoBehaviour
         GetMasterVolume();
         GetMusicVolume();
         GetSoundVolume();
-
-        
     }
 
 
