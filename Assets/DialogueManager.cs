@@ -7,7 +7,7 @@ using TMPro;
 public class DialogueManager : MonoBehaviour
 {
     [Header("Variables to be Assgined")]
-    public static DialogueManager Instance;
+    public static DialogueManager instance;
     public GameObject aboveheaddialogueBox;
     public TextMeshPro aboveheaddialogue;
     public GameObject dialogueBox;
@@ -51,14 +51,19 @@ public class DialogueManager : MonoBehaviour
 
     private void Awake()
     {
-        if (Instance == null)
-        {
-            Instance = this;
-        }
-        else if (Instance != null)
-        {
-            Destroy(this);
-        }
+        /*        if (instance != null)
+                {
+                    Debug.LogWarning("More than one instance of Dialogue Manager found!");
+
+                    DialogueManager old_dm = instance;
+                    instance = this;
+                    Destroy(old_dm.gameObject);
+                }
+                else
+                {
+                    instance = this;
+                }*/
+        instance = this;
     }
 
     // Start is called before the first frame update

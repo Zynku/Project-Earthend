@@ -34,6 +34,11 @@ public class Charhealth : MonoBehaviour
     public bool frozen;
     public bool onFire;
 
+    private void Awake()
+    {
+        Debug.Log("Player has been spawned, whats up bitches");
+    }
+
     // Start is called before the first frame update
     void Start()
     {

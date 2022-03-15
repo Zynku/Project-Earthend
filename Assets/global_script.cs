@@ -7,7 +7,7 @@ using UnityEngine.Audio;
 
 public class global_script : MonoBehaviour
 {
-    public static global_script Instance;
+    public static global_script instance;
 
 
     [Header("Audio")]
@@ -18,16 +18,17 @@ public class global_script : MonoBehaviour
 
     void Awake()
     {
-        //Ensures there's only ever one global script
-        if (Instance == null)
-        {
-            Instance = this;
-            DontDestroyOnLoad(this);
-        }
-        else if (Instance != null)
-        {
-            Destroy(this);
-        }
+        /*        //Ensures there's only ever one global script
+                if (instance == null)
+                {
+                    instance = this;
+                    //DontDestroyOnLoad(this);
+                }
+                else if (instance != null)
+                {
+                    Destroy(this);
+                }*/
+        instance = this;
     }
 
     private void Update()

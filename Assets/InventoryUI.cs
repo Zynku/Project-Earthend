@@ -33,11 +33,18 @@ public class InventoryUI : MonoBehaviour
     #region Singleton
     private void Awake()
     {
-        if (instance != null)
-        {
-            Debug.LogWarning("More than one instance of Inventory found!");
-            return;
-        }
+        /*        if (instance != null)
+                {
+                    Debug.LogWarning("More than one instance of InventoryUI found!");
+
+                    InventoryUI old_iu = instance;
+                    instance = this;
+                    Destroy(old_iu.gameObject);
+                }
+                else
+                {
+                    instance = this;
+                }*/
         instance = this;
     }
     #endregion

@@ -37,6 +37,11 @@ public class Pause_menu_manager : MonoBehaviour
         eventsystem = FindObjectOfType<EventSystem>();
     }
 
+    private void OnDisable()
+    {
+        PauseMenuUi.SetActive(false);
+    }
+
     private void Start()
     {
         Player = GameManager.instance.Player;

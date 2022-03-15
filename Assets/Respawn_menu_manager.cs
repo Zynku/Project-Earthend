@@ -17,7 +17,7 @@ public class Respawn_menu_manager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        Player = GameObject.FindWithTag("Player");
+        Player = GameManager.instance.Player;
         PlayerAnim = Player.GetComponent<Animator>();
         playerRespawnPoint = GameObject.FindWithTag("player_respawn");
         RespawnScreenUI.SetActive(false);

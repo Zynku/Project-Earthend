@@ -1,11 +1,14 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.EventSystems;
 using UnityEngine.SceneManagement;
 using MyBox;
 
 public class GameManager : MonoBehaviour
 {
+    public float aliveTime;                    //Keeps track of how long this script (and by extension its children) have been alive
+
     [Header("Time")]
     public bool overwriteTime;
     [Range(0.001f, 1f)]
@@ -35,11 +38,11 @@ public class GameManager : MonoBehaviour
     public static GameManager instance;
 
     public List<MonoBehaviour> allModules;
-
-
+    
 
     //Make sure when you declare a new reference below, add it to all Modules list in AddAllReferencesToModuleList(), make sure it is assigned to in AssignAllReferences()
     //and it is enabled and disabled in various scenes in ChangedActiveScene()-
+
     public DialogueManager dialogueManager;             
     public QuestManager questManager;
     public IHUIQuestManager ihuiquestmanager;
@@ -48,9 +51,15 @@ public class GameManager : MonoBehaviour
     public ParticleManager Particle_Manager;
     public global_script Global_Script;
     public teleporternetwork teleporternetwork;
+    public TimerManager timerManager;
 
     public InventoryUI inventoryui;
     public InventoryUIHelper inventoryUIHelper;
+
+    public InGameUi ingame_UI;
+    public Respawn_menu_manager respawn_Menu_Manager;
+
+    public EventSystem theEventSystem;
     //------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 
@@ -60,11 +69,22 @@ public class GameManager : MonoBehaviour
         if (instance != null)
         {
             Debug.LogWarning("More than one instance of Game Manager found!");
-            Destroy(gameObject);
-            return;
-        }
-        instance = this;
 
+            if (this.aliveTime > instance.aliveTime)    //If this alive time is greater than the alive time of the current instance, then the instance is younger
+            {
+                Destroy(instance);
+                instance = this;
+            }
+            else if (this.aliveTime < instance.aliveTime) //If this alive time is less than the alive time of the current instance, then the instance is older
+            {
+                Destroy(this.gameObject);
+            }
+        }
+        else
+        {
+            instance = this;
+        }
+        
         AssignAllReferences();
         AddAllReferencesToModuleList();
         DontDestroyOnLoad(this);
@@ -82,34 +102,43 @@ public class GameManager : MonoBehaviour
         allModules.Add(Particle_Manager);
         allModules.Add(Global_Script);
         allModules.Add(teleporternetwork);
+        allModules.Add(timerManager);
         allModules.Add(inventoryui);
         allModules.Add(inventoryUIHelper);
+        allModules.Add(ingame_UI);
+        allModules.Add(respawn_Menu_Manager);
+        allModules.Add(theEventSystem);
     }
 
     [ButtonMethod]
-    public void AssignAllReferences()
+    public void AssignAllReferences()   
     {
-
-        Player = GameObject.FindWithTag("Player");
-        PlayerAnim = Player.GetComponent<Animator>();
-
-        playerRespawnPoint = GameObject.FindWithTag("player_respawn");
-        if (!overwriteTime) Time.timeScale = 1f;
-
-        //hurtScreenAnimator = hurtScreen.GetComponent<Animator>();
-        //hurtScreen.SetActive(false);
-
-
         dialogueManager = GetComponentInChildren<DialogueManager>();
         questManager = GetComponentInChildren<QuestManager>();
         ihuiquestmanager = GetComponentInChildren<IHUIQuestManager>();
         infoHub = GetComponentInChildren<InfoHubManager>();
         pause_Menu_Manager = GetComponentInChildren<Pause_menu_manager>();
         Particle_Manager = GetComponentInChildren<ParticleManager>();
-        Global_Script = GameObject.Find("Global Object").GetComponent<global_script>();
+        Global_Script = GetComponentInChildren<global_script>();
+        teleporternetwork = GetComponentInChildren<teleporternetwork>();
+        timerManager = GetComponentInChildren<TimerManager>();
         inventoryui = GetComponentInChildren<InventoryUI>();
         inventoryUIHelper = GetComponentInChildren<InventoryUIHelper>();
-        teleporternetwork = GetComponentInChildren<teleporternetwork>();
+        ingame_UI = GetComponentInChildren<InGameUi>();
+        respawn_Menu_Manager = GetComponentInChildren<Respawn_menu_manager>();
+        theEventSystem = GetComponentInChildren<EventSystem>();
+
+
+        //hurtScreenAnimator = hurtScreen.GetComponent<Animator>();
+        //hurtScreen.SetActive(false);
+    }
+
+    [ButtonMethod]
+    public void AssignPlayerReferences()
+    {
+        try { Player = GameObject.FindWithTag("Player"); } catch { }
+        if (Player != null) PlayerAnim = Player.GetComponent<Animator>();
+        if (Player != null) playerRespawnPoint = GameObject.FindWithTag("player_respawn");
     }
 
     private void Update()
@@ -144,69 +173,98 @@ public class GameManager : MonoBehaviour
         Application.targetFrameRate = frameRate;
 
         //Charhealth.Hit += HurtFlash;
+        aliveTime += Time.deltaTime;
     }
 
-    private void ChangedActiveScene(Scene currentScene, Scene nextScene)
+    private void ChangedActiveScene(Scene currentScene, Scene nextScene)    //Is called every time the scene is changed
     {
-        Debug.Log($"Scene changed to {SceneManager.GetActiveScene().name}");
-        
+        Debug.Log($"-----------------------------------Scene changed to {SceneManager.GetActiveScene().name}------------------------------------");
 
         switch (SceneManager.GetActiveScene().name)
         {
             case "Game Test Scene":
                 OnSceneChangedEnableThese(
-                    dialogueManager.gameObject,
-                    questManager.gameObject,
-                    ihuiquestmanager.gameObject,
-                    infoHub.gameObject,
-                    pause_Menu_Manager.gameObject,
-                    Particle_Manager.gameObject,
-                    Global_Script.gameObject,
-                    teleporternetwork.gameObject,
-                    inventoryui.gameObject,
-                    inventoryUIHelper.gameObject
+                    dialogueManager,
+                    questManager,
+                    ihuiquestmanager,
+                    infoHub,
+                    pause_Menu_Manager,
+                    Particle_Manager,
+                    Global_Script,
+                    teleporternetwork,
+                    timerManager,
+                    inventoryui,
+                    inventoryUIHelper,
+                    ingame_UI,
+                    respawn_Menu_Manager
                                              ) ;
-                AssignAllReferences();
+
+                OnSceneChangedDisableThese();
+                AssignPlayerReferences();
                 break;
 
             case "Main Menu Scene":
                 OnSceneChangedDisableThese(
-                    dialogueManager.gameObject,
-                    questManager.gameObject,
-                    ihuiquestmanager.gameObject,
-                    infoHub.gameObject,
-                    pause_Menu_Manager.gameObject,
-                    Particle_Manager.gameObject,
-                    Global_Script.gameObject,
-                    teleporternetwork.gameObject,
-                    inventoryui.gameObject,
-                    inventoryUIHelper.gameObject
+                    dialogueManager,
+                    questManager,
+                    ihuiquestmanager,
+                    infoHub,
+                    pause_Menu_Manager,
+                    Particle_Manager,
+                    Global_Script,
+                    teleporternetwork,
+                    timerManager,
+                    inventoryui,
+                    inventoryUIHelper,
+                    ingame_UI,
+                    respawn_Menu_Manager,
+                    theEventSystem                  //Main Menu Scene already has its own event system
                                             );
-                AssignAllReferences();
+
+                OnSceneChangedEnableThese();
                 break;
 
             default:
                 Debug.LogWarning($"Current scene name is not part of GameManager switch statement. Please add it. All modules disabled.");
                 break;
         }
-
+        //AssignAllReferences();
+        
     }
 
-    public void OnSceneChangedDisableThese(params GameObject[] list) //Sets all modules that have been passed in as disabled. Should be used on scene changes in ChangedActiveScene()
+    public void OnSceneChangedDisableThese(params MonoBehaviour[] list) //Sets all modules that have been passed in as disabled. Should be used on scene changes in ChangedActiveScene()
     {
-        foreach (var item in list)
+        //Debug.Log($"Scene was changed...");
+        if (list.Length > 0)
         {
-            item.SetActive(false);
-            Debug.Log($"Scene was changed, {item.name} was disabled");
+            foreach (var item in list)
+            {
+                item.enabled = false;
+                Debug.Log($"{item.name} was disabled");
+
+                if (item == list[list.Length - 1])
+                {
+                    Debug.Log($"----------------------------------All {list.Length} modules in list successfully updated!-------------------------------------------");
+                }
+            }
         }
     }
 
-    public void OnSceneChangedEnableThese(params GameObject[] list) //Sets all modules that have been passed in as enabled. Should be used on scene changes in ChangedActiveScene()
+    public void OnSceneChangedEnableThese(params MonoBehaviour[] list) //Sets all modules that have been passed in as enabled. Should be used on scene changes in ChangedActiveScene()
     {
-        foreach (var item in list)
+        //Debug.Log($"Scene was changed...");
+        if (list.Length > 0)
         {
-            item.SetActive(true);
-            Debug.Log($"Scene was changed, {item.name} was enabled");
+            foreach (var item in list)
+            {
+                item.enabled = true;
+                Debug.Log($"{item.name} was enabled");
+
+                if (item == list[list.Length - 1])
+                {
+                    Debug.Log($"----------------------------------All {list.Length} modules in list successfully updated!-------------------------------------------");
+                }
+            }
         }
     }
 
@@ -244,14 +302,19 @@ public class GameManager : MonoBehaviour
     public void ResumeGame()
     {
         Debug.Log("Resuming game...");
-        Player.SetActive(true);
-        PlayerAnim.enabled = true;
         pause_Menu_Manager.isGamePaused = false;
         Time.timeScale = 1;
         pause = false;
         paused = false;
         resume = true;
         resumed = true;
+
+        try
+        {
+            Player.SetActive(true);
+            PlayerAnim.enabled = true;
+        }
+        catch (MissingReferenceException) { }
     }
 
     public void TogglePauseGame()

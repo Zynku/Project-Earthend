@@ -25,8 +25,8 @@ public class teleporterscript : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        Player = GameObject.FindWithTag("Player");
-        Network = GetComponentInChildren<teleporternetwork>();
+        Player = GameManager.instance.Player;
+        Network = GameManager.instance.teleporternetwork; //GetComponentInChildren<teleporternetwork>();
         animator = GetComponent<Animator>();
         audiosource = GetComponent<AudioSource>();
         timerTime = timerTargetTime;
@@ -36,17 +36,8 @@ public class teleporterscript : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if ((Vector3.Distance(Player.transform.position, transform.position) < teleportRange))
-        {
-            if (Input.GetButtonDown("Interact") && canActivateTPMenu)
-            {
-                Debug.Log("Activating teleport menu");
-                Network.showNetworkUI();
-                Network.activatedAt = gameObject;
-            }
-        }
+        if (Network.enabled == false) {this.enabled = false;}
 
-        
         timerTime += Time.deltaTime;
         if (timerTime > timerTargetTime)
         {
@@ -59,6 +50,19 @@ public class teleporterscript : MonoBehaviour
         }
         
         rechargeBar.transform.localScale = new Vector2((timerTime / timerTargetTime) * 0.5f, yScale);
+        try
+        {
+            if ((Vector3.Distance(Player.transform.position, transform.position) < teleportRange))
+            {
+                if (Input.GetButtonDown("Interact") && canActivateTPMenu)
+                {
+                    Debug.Log("Activating teleport menu");
+                    Network.showNetworkUI();
+                    Network.activatedAt = gameObject;
+                }
+            }
+        }
+        catch (MissingReferenceException) { }
     }
 
     public void ResetTPTimer()

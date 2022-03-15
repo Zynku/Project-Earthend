@@ -12,11 +12,18 @@ public class TimerManager : MonoBehaviour
     #region Singleton
     private void Awake()
     {
-        if (instance != null)
-        {
-            Debug.LogWarning("More than one instance of Timer Manager found!");
-            return;
-        }
+        /*        if (instance != null)
+                {
+                    Debug.LogWarning("More than one instance of Timer Manager found!");
+
+                    TimerManager old_tm = instance;
+                    instance = this;
+                    Destroy(old_tm.gameObject);
+                }
+                else
+                {
+                    instance = this;
+                }*/
         instance = this;
     }
     #endregion
@@ -25,6 +32,14 @@ public class TimerManager : MonoBehaviour
     //You also must continually assign timerTime in the Update() function from wherever you called CreateTimer() as it needs a live reference to count down.
     //Non-auto timers need to do timerTime -= time.DeltaTime from wherever it is instantiated. In that regard, this script's only job is to display said timer, not to count.
     //Stop making that mistake lol.
+
+    private void OnDisable()
+    {
+        foreach (var timer in timers)
+        {
+            Destroy(timer);
+        }
+    }
 
     private void Update()
     {

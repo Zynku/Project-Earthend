@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class UsefulCodeBits : MonoBehaviour
 {
-    //public static myScript Instance;
+    //public static myScript instance;
 
     //public float timerTime;
     //public float timerTargetTime;
@@ -64,13 +64,13 @@ public void BFS(string id, int orderNumber = 1) //Breadth first search, gives al
     /*#region Singleton
     private void Awake()
     {
-    //Don't forget to create an Instance reference
-        if (Instance != null)
+    //Don't forget to create an instance reference
+        if (instance != null)
         {
             Debug.LogWarning("More than one instance of myScript found!");
             return;
         }
-        Instance = this;
+        instance = this;
     }
     #endregion
     */

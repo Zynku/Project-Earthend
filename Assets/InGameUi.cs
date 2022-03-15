@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class onscreenText : MonoBehaviour
+public class InGameUi : MonoBehaviour
 {
     [Header("Player")]
     public GameObject Player;
@@ -15,7 +15,7 @@ public class onscreenText : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        Player = GameObject.FindGameObjectWithTag("Player");
+        Player = GameManager.instance.Player;
         healthBar = GetComponentInChildren<Healthbar>();
 
         Player.GetComponent<Charhealth>().healthbar = healthBar;

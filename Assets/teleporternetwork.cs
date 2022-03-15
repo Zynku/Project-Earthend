@@ -32,6 +32,14 @@ public class teleporternetwork : MonoBehaviour
         teleportNetwork = GetComponentInChildren<teleporternetwork>();
     }
 
+    private void OnEnable()
+    {
+        foreach (var tp in teleporters)             //Make sure all child teleporters' scripts are awake
+        {
+            tp.GetComponent<teleporterscript>().enabled = true;
+        }
+    }
+
     private void Start()
     {
         foreach (GameObject teleporter in teleporters)
@@ -65,7 +73,6 @@ public class teleporternetwork : MonoBehaviour
     void Update()
     {
         //pageNumberText.text = pageNumber.ToString();
-        
     }
 
     public void Teleport(GameObject teleporter)

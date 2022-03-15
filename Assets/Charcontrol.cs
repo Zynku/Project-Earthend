@@ -148,7 +148,7 @@ public class Charcontrol : MonoBehaviour
         inputX = Input.GetAxisRaw("Horizontal");
         inputY = Input.GetAxisRaw("Vertical");
         onscreenTimer.GetComponent<SimpleTimerScript>().timerTime = combatStateTime;
-        playerInConversation = DialogueManager.Instance.playerInConversation;
+        playerInConversation = DialogueManager.instance.playerInConversation;
         //switchedDirOnscreenTimer.GetComponent<SimpleTimerScript>().timerTime = switchingDirTime;
 
         if (inCombat) { combatStateTime -= Time.deltaTime; }
