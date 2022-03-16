@@ -53,7 +53,7 @@ public class QuestManager : MonoBehaviour
 
     private void Awake()
     {
-        player.GetComponent<Charquests>().questmanager = this;
+ 
     }
 
     private void Start()

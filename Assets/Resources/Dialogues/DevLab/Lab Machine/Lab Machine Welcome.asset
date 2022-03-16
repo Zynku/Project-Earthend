@@ -1,0 +1,73 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 70258635a1361e6439261070d8ed14fd, type: 3}
+  m_Name: Lab Machine Welcome
+  m_EditorClassIdentifier: 
+  defaultTreeId: 1
+  dialogueTrees:
+  - treeName: Welcome!
+    treeID: 1
+    pauseGameOnOpen: 0
+    dialogueLines:
+    - lineString: Welcome to the Developer Labs!
+      hasChoice: 0
+      choiceTreeID: 
+      canChangeDefaultTreeId: 0
+      treeIdToSwitchTo: 
+      canTriggerQuest: 0
+      myQuest: {fileID: 0}
+      lineOwner: 
+      lettersPerSecond: 0
+      audio: {fileID: 8300000, guid: ba8e00b0b80eb2e4f8eef2708e89c2e8, type: 3}
+    - lineString: Use WASD to walk around, A for a ranged attack, S for a heavy attack,
+        and D for a light attack.
+      hasChoice: 0
+      choiceTreeID: 
+      canChangeDefaultTreeId: 0
+      treeIdToSwitchTo: 
+      canTriggerQuest: 0
+      myQuest: {fileID: 0}
+      lineOwner: 
+      lettersPerSecond: 0
+      audio: {fileID: 8300000, guid: ba8e00b0b80eb2e4f8eef2708e89c2e8, type: 3}
+    - lineString: Feel free to use the teleporters to get around the Devlab! There's
+        one behind you, just interact with it.
+      hasChoice: 0
+      choiceTreeID: 
+      canChangeDefaultTreeId: 0
+      treeIdToSwitchTo: 
+      canTriggerQuest: 0
+      myQuest: {fileID: 0}
+      lineOwner: 
+      lettersPerSecond: 0
+      audio: {fileID: 8300000, guid: ba8e00b0b80eb2e4f8eef2708e89c2e8, type: 3}
+    - lineString: Also feel free to smash some stuff. (It's made to be smashed)
+      hasChoice: 0
+      choiceTreeID: 
+      canChangeDefaultTreeId: 0
+      treeIdToSwitchTo: 
+      canTriggerQuest: 0
+      myQuest: {fileID: 0}
+      lineOwner: 
+      lettersPerSecond: 0
+      audio: {fileID: 8300000, guid: ba8e00b0b80eb2e4f8eef2708e89c2e8, type: 3}
+    - lineString: Don't forget to have fun :)
+      hasChoice: 0
+      choiceTreeID: 
+      canChangeDefaultTreeId: 0
+      treeIdToSwitchTo: 
+      canTriggerQuest: 0
+      myQuest: {fileID: 0}
+      lineOwner: 
+      lettersPerSecond: 0
+      audio: {fileID: 8300000, guid: ba8e00b0b80eb2e4f8eef2708e89c2e8, type: 3}
+  choiceTrees: []

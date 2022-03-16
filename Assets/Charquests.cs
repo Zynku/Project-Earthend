@@ -10,6 +10,11 @@ public class Charquests : MonoBehaviour
 
     [HideInInspector] public QuestManager questmanager;
 
+    private void Start()
+    {
+        questmanager = GameManager.instance.questManager;
+    }
+
     public void AcceptQuest(Quest quest)
     {
         currentQuests.Add(quest);

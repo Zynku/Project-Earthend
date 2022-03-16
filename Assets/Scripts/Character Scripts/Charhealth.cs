@@ -9,7 +9,7 @@ public class Charhealth : MonoBehaviour
     SpriteRenderer spriterenderer;
     ParticleSystem poison;
     public int maxHealth;
-    public int currentHealth;
+    public int currentHealth = 1;
     private int damageDoneToMeMax;
     private int damageDoneToMeMin;
     public int damageDoneToMe;

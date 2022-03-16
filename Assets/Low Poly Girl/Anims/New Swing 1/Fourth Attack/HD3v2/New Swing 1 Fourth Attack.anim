@@ -1673,4 +1673,46 @@ AnimationClip:
     script: {fileID: 0}
   m_HasGenericRootTransform: 0
   m_HasMotionFloatCurves: 0
-  m_Events: []
+  m_Events:
+  - time: 0.054545455
+    functionName: onAddAttackForceHorizontal
+    data: 
+    objectReferenceParameter: {fileID: 0}
+    floatParameter: 0
+    intParameter: -10
+    messageOptions: 0
+  - time: 0.10909091
+    functionName: onAddAttackForceHorizontal
+    data: 
+    objectReferenceParameter: {fileID: 0}
+    floatParameter: 0
+    intParameter: -10
+    messageOptions: 0
+  - time: 0.16363636
+    functionName: onAddAttackForceHorizontal
+    data: 
+    objectReferenceParameter: {fileID: 0}
+    floatParameter: 0
+    intParameter: -10
+    messageOptions: 0
+  - time: 0.21818182
+    functionName: onAddAttackForceHorizontal
+    data: 
+    objectReferenceParameter: {fileID: 0}
+    floatParameter: 0
+    intParameter: -10
+    messageOptions: 0
+  - time: 0.4
+    functionName: onAddAttackForceHorizontal
+    data: 
+    objectReferenceParameter: {fileID: 0}
+    floatParameter: 0
+    intParameter: 300
+    messageOptions: 0
+  - time: 0.4181818
+    functionName: onAddAttackForceVertical
+    data: 
+    objectReferenceParameter: {fileID: 0}
+    floatParameter: 0
+    intParameter: 150
+    messageOptions: 0

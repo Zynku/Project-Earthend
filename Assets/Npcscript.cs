@@ -49,7 +49,7 @@ public class Npcscript : MonoBehaviour
         if (playerInRange && !inConversation)
         {
             animator.SetBool("Player In Range", true);
-            dialogueManager.ShowAboveHeadDialogue(aboveHeadDialogue);
+            dialogueManager.ShowAboveHeadDialogue(aboveHeadDialogue);   //This doesn't work right now, fix in dialogueManager
         }
 
         //Out of range and this is the closest NPC

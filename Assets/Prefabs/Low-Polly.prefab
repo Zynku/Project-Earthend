@@ -4899,6 +4899,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1672264349}
   - component: {fileID: 1672264348}
+  - component: {fileID: 1256102151}
   m_Layer: 14
   m_Name: Melee Hitbox
   m_TagString: player_attackhitbox
@@ -4946,6 +4947,20 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 0.48726296, y: 0.47810164}
   m_EdgeRadius: 0
+--- !u!114 &1256102151
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1672264347}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ac37dec68c2630b4cbcfac7a479ebf68, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Player: {fileID: 0}
+  myCollider: {fileID: 0}
 --- !u!1 &5197249649789971002
 GameObject:
   m_ObjectHideFlags: 0
@@ -4971,7 +4986,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5197249649789971002}
   m_LocalRotation: {x: -0, y: -0, z: -0.87837267, w: 0.4779765}
-  m_LocalPosition: {x: -0.162, y: 0.032, z: 1}
+  m_LocalPosition: {x: -0.073, y: -0.016, z: 1}
   m_LocalScale: {x: 0.65, y: 0.65, z: 0.65}
   m_Children:
   - {fileID: 355886142}
@@ -5072,7 +5087,7 @@ Transform:
   m_GameObject: {fileID: 7522717077318348675}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: -13.877, y: -2.986, z: -0.158}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 5, y: 5, z: 5}
   m_Children:
   - {fileID: 1129123361746162897}
   - {fileID: 1005107930}
@@ -5184,13 +5199,16 @@ MonoBehaviour:
     moveName: 
     animationName: 
     comboChainTimeLocation: 0
+    canChangeState: 0
+    stateChangeTimeLocation: 0
+    stateChange: 0
     endOfComboChain: 0
     attackList: []
   currentAnimName: 
   currentAnimLength: 0
   currentStateNormalizedTime: 0
   comboBuffer: []
-  comboBufferSize: 1
+  comboBufferSize: 2
   currentlyComboing: 0
   inCombat: 0
   currentComboAnimName: 
@@ -5267,6 +5285,9 @@ MonoBehaviour:
     moveName: Light x 2
     animationName: 
     comboChainTimeLocation: 0
+    canChangeState: 0
+    stateChangeTimeLocation: 0
+    stateChange: 0
     endOfComboChain: 0
     attackList:
     - attackName: 
@@ -5279,6 +5300,9 @@ MonoBehaviour:
     moveName: Light x 3
     animationName: 
     comboChainTimeLocation: 0
+    canChangeState: 0
+    stateChangeTimeLocation: 0
+    stateChange: 0
     endOfComboChain: 0
     attackList:
     - attackName: 
@@ -5294,6 +5318,9 @@ MonoBehaviour:
     moveName: Light then Heavy
     animationName: 
     comboChainTimeLocation: 0
+    canChangeState: 0
+    stateChangeTimeLocation: 0
+    stateChange: 0
     endOfComboChain: 0
     attackList:
     - attackName: 
@@ -5304,6 +5331,9 @@ MonoBehaviour:
     moveName: Heavy x 5
     animationName: 
     comboChainTimeLocation: 0
+    canChangeState: 0
+    stateChangeTimeLocation: 0
+    stateChange: 0
     endOfComboChain: 0
     attackList:
     - attackName: 
@@ -5328,8 +5358,11 @@ MonoBehaviour:
   currentPossibleCombos:
   - comboName: Single Swing
     moveName: Light x1
-    animationName: L_P_C Standing Attack Double Swing First Half
-    comboChainTimeLocation: 0.38
+    animationName: New Swing 1 First Attack
+    comboChainTimeLocation: 0.584
+    canChangeState: 0
+    stateChangeTimeLocation: 0
+    stateChange: 0
     endOfComboChain: 0
     attackList:
     - attackName: 
@@ -5337,10 +5370,52 @@ MonoBehaviour:
       attackType: 0
   - comboName: Double Swing
     moveName: Light x2
-    animationName: L_P_C Standing Attack Double Swing Second Half
-    comboChainTimeLocation: 0.68
+    animationName: New Swing 1 Second Attack
+    comboChainTimeLocation: 0.569
+    canChangeState: 0
+    stateChangeTimeLocation: 0
+    stateChange: 0
     endOfComboChain: 0
     attackList:
+    - attackName: 
+      attackDamage: 0
+      attackType: 0
+    - attackName: 
+      attackDamage: 0
+      attackType: 0
+  - comboName: Triple Swing
+    moveName: Light x3
+    animationName: New Swing 1 Third Attack
+    comboChainTimeLocation: 0.493
+    canChangeState: 0
+    stateChangeTimeLocation: 0.337
+    stateChange: 9
+    endOfComboChain: 0
+    attackList:
+    - attackName: 
+      attackDamage: 0
+      attackType: 0
+    - attackName: 
+      attackDamage: 0
+      attackType: 0
+    - attackName: 
+      attackDamage: 0
+      attackType: 0
+  - comboName: Quad Swing
+    moveName: Light x4
+    animationName: New Swing 1 Fourth Attack
+    comboChainTimeLocation: 0
+    canChangeState: 0
+    stateChangeTimeLocation: 0.337
+    stateChange: 9
+    endOfComboChain: 1
+    attackList:
+    - attackName: 
+      attackDamage: 0
+      attackType: 0
+    - attackName: 
+      attackDamage: 0
+      attackType: 0
     - attackName: 
       attackDamage: 0
       attackType: 0
@@ -5351,6 +5426,9 @@ MonoBehaviour:
     moveName: Light - Light - Heavy
     animationName: L_P Roundhouse Kick into Combat Idle
     comboChainTimeLocation: 0.8
+    canChangeState: 0
+    stateChangeTimeLocation: 0
+    stateChange: 0
     endOfComboChain: 1
     attackList:
     - attackName: 
@@ -5361,31 +5439,52 @@ MonoBehaviour:
       attackType: 0
     - attackName: 
       attackDamage: 0
-      attackType: 1
+      attackType: 2
   - comboName: Heavy
     moveName: Heavy
     animationName: L_P Armada Kick
     comboChainTimeLocation: 0.753
+    canChangeState: 0
+    stateChangeTimeLocation: 0
+    stateChange: 0
     endOfComboChain: 1
     attackList:
     - attackName: L_P Roundhouse Kick into Combat Idle
       attackDamage: 10
-      attackType: 1
+      attackType: 2
   - comboName: Ranged Shot
     moveName: Ranged x 1
     animationName: null
     comboChainTimeLocation: 0
+    canChangeState: 0
+    stateChangeTimeLocation: 0
+    stateChange: 0
     endOfComboChain: 1
     attackList:
     - attackName: 
       attackDamage: 0
-      attackType: 2
+      attackType: 4
+  - comboName: Light Held
+    moveName: Air Launch
+    animationName: L_P Air Launch
+    comboChainTimeLocation: 0
+    canChangeState: 1
+    stateChangeTimeLocation: 0.337
+    stateChange: 9
+    endOfComboChain: 1
+    attackList:
+    - attackName: 
+      attackDamage: 0
+      attackType: 1
   currentAttacks: []
   currentCombo:
     comboName: null
     moveName: 
     animationName: 
     comboChainTimeLocation: 0
+    canChangeState: 0
+    stateChangeTimeLocation: 0
+    stateChange: 0
     endOfComboChain: 0
     attackList: []
   currentlyComboing: 0
@@ -5393,16 +5492,23 @@ MonoBehaviour:
   comboSustainTime: 0
   comboExecuteTargetTime: 0.3
   comboExecuteTime: 0
+  inputTargetTime: 0.155
+  inputTime: 0
   longestComboLength: 0
+  buttonHeldThreshold: 0.3
   longestCombo:
     comboName: null
     moveName: 
     animationName: 
     comboChainTimeLocation: 0
+    canChangeState: 0
+    stateChangeTimeLocation: 0
+    stateChange: 0
     endOfComboChain: 0
     attackList: []
   onScreenComboSustainTimer: {fileID: 0}
   onScreenComboExecuteTimer: {fileID: 0}
+  inputTimer: {fileID: 0}
   lightDamageMax: 0
   lightDamageMin: 0
   heavyDamageMax: 0
@@ -5416,7 +5522,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7522717077318348675}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 6332b6a5058e71342a6da934bd11cf7e, type: 3}
   m_Name: 
@@ -5437,7 +5543,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   maxHealth: 200
-  currentHealth: 0
+  currentHealth: 1
   damageDoneToMe: 0
   collisionDir: 0
   dmgCooldownTargetTime: 0.1
@@ -5461,7 +5567,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7522717077318348675}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: e3daf068d7f23e2449050964f8bf160c, type: 3}
   m_Name: 

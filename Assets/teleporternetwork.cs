@@ -25,13 +25,6 @@ public class teleporternetwork : MonoBehaviour
     //public int pageNumber = 0;
     //public int startTeleporterNumber;
 
-    private void Awake()
-    {
-        Player = GameObject.FindWithTag("Player");                      //Finds player automatically
-        teleporters = GameObject.FindGameObjectsWithTag("teleporter");  //Finds all teleporters in scene and assigns them to the array
-        teleportNetwork = GetComponentInChildren<teleporternetwork>();
-    }
-
     private void OnEnable()
     {
         foreach (var tp in teleporters)             //Make sure all child teleporters' scripts are awake
@@ -42,6 +35,10 @@ public class teleporternetwork : MonoBehaviour
 
     private void Start()
     {
+        Player = GameManager.instance.Player;                      //Finds player automatically
+        teleporters = GameObject.FindGameObjectsWithTag("teleporter");  //Finds all teleporters in scene and assigns them to the array
+        teleportNetwork = GetComponentInChildren<teleporternetwork>();
+
         foreach (GameObject teleporter in teleporters)
         {
             teleporter.GetComponent<teleporterscript>().Network = teleportNetwork;

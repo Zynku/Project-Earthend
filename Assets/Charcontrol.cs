@@ -726,17 +726,20 @@ public class Charcontrol : MonoBehaviour
         rb2d.drag = rollDrag;
     }
 
+    private Vector3 scale;
+    private bool scaleSet = false;
     public void canFlipXDir()
     {
+        if (scaleSet == false) { scale = transform.localScale; scaleSet = true; }
         //FLIP THOSE ANIMS BABY
         if (Input.GetAxisRaw("Horizontal") > 0)
         {
-            transform.localScale = new Vector3(1f, 1f, 1f);
+            transform.localScale = scale;
         }
 
         if (Input.GetAxisRaw("Horizontal") < 0)
         {
-            transform.localScale = new Vector3(-1f, 1f, 1f);
+            transform.localScale = new Vector3(-Mathf.Abs(scale.x), scale.y, scale.z);
         }
     }
 

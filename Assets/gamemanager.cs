@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.SceneManagement;
+using Cinemachine;
 using MyBox;
 
 public class GameManager : MonoBehaviour
@@ -52,6 +53,7 @@ public class GameManager : MonoBehaviour
     public global_script Global_Script;
     public teleporternetwork teleporternetwork;
     public TimerManager timerManager;
+    public Player_Manager playerManager;
 
     public InventoryUI inventoryui;
     public InventoryUIHelper inventoryUIHelper;
@@ -84,14 +86,19 @@ public class GameManager : MonoBehaviour
         {
             instance = this;
         }
-        
+        AssignPlayerReferences();
         AssignAllReferences();
         AddAllReferencesToModuleList();
         DontDestroyOnLoad(this);
         SceneManager.activeSceneChanged += ChangedActiveScene;
     }
     #endregion
-    
+
+    private void Start()
+    {
+        
+    }
+
     private void AddAllReferencesToModuleList()
     {
         allModules.Add(dialogueManager);
@@ -103,6 +110,7 @@ public class GameManager : MonoBehaviour
         allModules.Add(Global_Script);
         allModules.Add(teleporternetwork);
         allModules.Add(timerManager);
+        allModules.Add(playerManager);
         allModules.Add(inventoryui);
         allModules.Add(inventoryUIHelper);
         allModules.Add(ingame_UI);
@@ -122,6 +130,7 @@ public class GameManager : MonoBehaviour
         Global_Script = GetComponentInChildren<global_script>();
         teleporternetwork = GetComponentInChildren<teleporternetwork>();
         timerManager = GetComponentInChildren<TimerManager>();
+        playerManager = GetComponentInChildren<Player_Manager>();
         inventoryui = GetComponentInChildren<InventoryUI>();
         inventoryUIHelper = GetComponentInChildren<InventoryUIHelper>();
         ingame_UI = GetComponentInChildren<InGameUi>();
@@ -136,9 +145,10 @@ public class GameManager : MonoBehaviour
     [ButtonMethod]
     public void AssignPlayerReferences()
     {
-        try { Player = GameObject.FindWithTag("Player"); } catch { }
+        playerManager = GetComponentInChildren<Player_Manager>();
+        playerRespawnPoint = GameObject.FindWithTag("player_respawn");
+        Player = playerManager.SpawnPlayer();
         if (Player != null) PlayerAnim = Player.GetComponent<Animator>();
-        if (Player != null) playerRespawnPoint = GameObject.FindWithTag("player_respawn");
     }
 
     private void Update()
@@ -183,6 +193,7 @@ public class GameManager : MonoBehaviour
         switch (SceneManager.GetActiveScene().name)
         {
             case "Game Test Scene":
+                
                 OnSceneChangedEnableThese(
                     dialogueManager,
                     questManager,
@@ -193,14 +204,14 @@ public class GameManager : MonoBehaviour
                     Global_Script,
                     teleporternetwork,
                     timerManager,
+                    playerManager,
                     inventoryui,
                     inventoryUIHelper,
                     ingame_UI,
                     respawn_Menu_Manager
                                              ) ;
-
+                SetupCameras();
                 OnSceneChangedDisableThese();
-                AssignPlayerReferences();
                 break;
 
             case "Main Menu Scene":
@@ -214,6 +225,7 @@ public class GameManager : MonoBehaviour
                     Global_Script,
                     teleporternetwork,
                     timerManager,
+                    playerManager,
                     inventoryui,
                     inventoryUIHelper,
                     ingame_UI,
@@ -284,6 +296,12 @@ public class GameManager : MonoBehaviour
         {
             item.gameObject.SetActive(true);
         }
+    }
+
+    public void SetupCameras()
+    {
+        CinemachineVirtualCameraBase camera = CinemachineCore.Instance.GetVirtualCamera(0);
+        camera.Follow = Player.transform;
     }
 
     public void PauseGame()

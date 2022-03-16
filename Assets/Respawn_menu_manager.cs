@@ -8,6 +8,7 @@ public class Respawn_menu_manager : MonoBehaviour
 {
     public GameObject RespawnScreenUI;
     public GameObject Player;
+    public Charhealth healthScript;
     private Animator PlayerAnim;
     public GameObject playerRespawnPoint;
 
@@ -18,6 +19,7 @@ public class Respawn_menu_manager : MonoBehaviour
     void Start()
     {
         Player = GameManager.instance.Player;
+        healthScript = Player.GetComponent<Charhealth>();
         PlayerAnim = Player.GetComponent<Animator>();
         playerRespawnPoint = GameObject.FindWithTag("player_respawn");
         RespawnScreenUI.SetActive(false);
@@ -26,7 +28,7 @@ public class Respawn_menu_manager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (Player.gameObject.GetComponent<Charhealth>().currentHealth <= 0)
+        if (healthScript.currentHealth <= 0)
         {
             float showRespawnOptionsDelay = 3.5f;
             Invoke("ShowRespawnOptions", showRespawnOptionsDelay);
