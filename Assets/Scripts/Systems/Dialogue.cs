@@ -42,6 +42,8 @@ public class DialogueLine
     public string lineOwner;                //Who said the line?
     public int lettersPerSecond = 100;      //How fast is the text said?
     public AudioClip audio;                 //TODO: Audio that says the line
+    [Range(0f, 1f)]
+    public float audioVol = 1;
 }
 
 [System.Serializable]

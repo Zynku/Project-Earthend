@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 70258635a1361e6439261070d8ed14fd, type: 3}
   m_Name: Dialogue - Find Cat Quest
   m_EditorClassIdentifier: 
-  defaultTreeId: 7
+  defaultTreeId: 1
   dialogueTrees:
   - treeName: Default
     treeID: 1
@@ -27,7 +27,8 @@ MonoBehaviour:
       myQuest: {fileID: 0}
       lineOwner: 
       lettersPerSecond: 0
-      audio: {fileID: 0}
+      audio: {fileID: 8300000, guid: af19132d086682a4387c41f9c90294ad, type: 3}
+      audioVol: 1
     - lineString: I uh....lost my cat...
       hasChoice: 0
       choiceTreeID: 
@@ -37,7 +38,8 @@ MonoBehaviour:
       myQuest: {fileID: 0}
       lineOwner: 
       lettersPerSecond: 100
-      audio: {fileID: 0}
+      audio: {fileID: 8300000, guid: 14dee8e599c6414499495f86902be62d, type: 3}
+      audioVol: 1
     - lineString: He was here a second ago...
       hasChoice: 0
       choiceTreeID: 
@@ -47,7 +49,8 @@ MonoBehaviour:
       myQuest: {fileID: 0}
       lineOwner: 
       lettersPerSecond: 100
-      audio: {fileID: 0}
+      audio: {fileID: 8300000, guid: c05abea807c9c3f47b24f7c90ed01b57, type: 3}
+      audioVol: 1
     - lineString: Anyways, I would really appreciate it if you could help me look
         for him...
       hasChoice: 0
@@ -58,7 +61,8 @@ MonoBehaviour:
       myQuest: {fileID: 0}
       lineOwner: 
       lettersPerSecond: 100
-      audio: {fileID: 0}
+      audio: {fileID: 8300000, guid: dd39ffe45662efa4681065883483dce8, type: 3}
+      audioVol: 1
     - lineString: Please?
       hasChoice: 1
       choiceTreeID: 1
@@ -68,7 +72,8 @@ MonoBehaviour:
       myQuest: {fileID: 0}
       lineOwner: 
       lettersPerSecond: 100
-      audio: {fileID: 0}
+      audio: {fileID: 8300000, guid: 70554b970d0c7f143ab2aac2a325f755, type: 3}
+      audioVol: 1
   - treeName: Find Cat Quest Accepted
     treeID: 2
     pauseGameOnOpen: 0
@@ -83,6 +88,7 @@ MonoBehaviour:
       lineOwner: 
       lettersPerSecond: 0
       audio: {fileID: 0}
+      audioVol: 1
     - lineString: Wow, I thought you'd say no for sure, since you look so busy and
         all...
       hasChoice: 0
@@ -94,6 +100,7 @@ MonoBehaviour:
       lineOwner: 
       lettersPerSecond: 0
       audio: {fileID: 0}
+      audioVol: 1
     - lineString: I'll be here waiting, please bring him back safely.
       hasChoice: 0
       choiceTreeID: 
@@ -104,6 +111,7 @@ MonoBehaviour:
       lineOwner: 
       lettersPerSecond: 0
       audio: {fileID: 0}
+      audioVol: 1
     - lineString: Thanks a bunch!
       hasChoice: 0
       choiceTreeID: 
@@ -114,6 +122,7 @@ MonoBehaviour:
       lineOwner: 
       lettersPerSecond: 0
       audio: {fileID: 0}
+      audioVol: 1
   - treeName: Find Cat Quest Rejected
     treeID: 3
     pauseGameOnOpen: 0
@@ -128,6 +137,7 @@ MonoBehaviour:
       lineOwner: 
       lettersPerSecond: 10
       audio: {fileID: 0}
+      audioVol: 1
     - lineString: Yeah that makes sense...I suppose...
       hasChoice: 0
       choiceTreeID: 
@@ -138,6 +148,7 @@ MonoBehaviour:
       lineOwner: 
       lettersPerSecond: 10
       audio: {fileID: 0}
+      audioVol: 1
     - lineString: <sigh>
       hasChoice: 0
       choiceTreeID: 
@@ -148,6 +159,7 @@ MonoBehaviour:
       lineOwner: 
       lettersPerSecond: 100
       audio: {fileID: 0}
+      audioVol: 1
     - lineString: I'll find him on my own I guess...
       hasChoice: 0
       choiceTreeID: 
@@ -158,6 +170,7 @@ MonoBehaviour:
       lineOwner: 
       lettersPerSecond: 100
       audio: {fileID: 0}
+      audioVol: 1
   - treeName: After Find Cat Quest Accepted
     treeID: 4
     pauseGameOnOpen: 0
@@ -172,6 +185,7 @@ MonoBehaviour:
       lineOwner: 
       lettersPerSecond: 0
       audio: {fileID: 0}
+      audioVol: 1
   - treeName: After Find Cat Accepted - Upstairs Checked
     treeID: 7
     pauseGameOnOpen: 0
@@ -186,6 +200,7 @@ MonoBehaviour:
       lineOwner: 
       lettersPerSecond: 0
       audio: {fileID: 0}
+      audioVol: 1
     - lineString: Let me guess, you didn't find him...
       hasChoice: 0
       choiceTreeID: 
@@ -196,6 +211,7 @@ MonoBehaviour:
       lineOwner: 
       lettersPerSecond: 0
       audio: {fileID: 0}
+      audioVol: 1
     - lineString: <sigh> Makes sense
       hasChoice: 0
       choiceTreeID: 
@@ -206,6 +222,7 @@ MonoBehaviour:
       lineOwner: 
       lettersPerSecond: 0
       audio: {fileID: 0}
+      audioVol: 1
     - lineString: He never really liked the noise up there
       hasChoice: 0
       choiceTreeID: 
@@ -216,6 +233,7 @@ MonoBehaviour:
       lineOwner: 
       lettersPerSecond: 0
       audio: {fileID: 0}
+      audioVol: 1
     - lineString: Well keep up the search, thanks for your help so far
       hasChoice: 0
       choiceTreeID: 
@@ -226,6 +244,7 @@ MonoBehaviour:
       lineOwner: 
       lettersPerSecond: 0
       audio: {fileID: 0}
+      audioVol: 1
   - treeName: After Find Cat Quest Rejected
     treeID: 5
     pauseGameOnOpen: 0
@@ -240,6 +259,7 @@ MonoBehaviour:
       lineOwner: 
       lettersPerSecond: 0
       audio: {fileID: 0}
+      audioVol: 1
     - lineString: Oh
       hasChoice: 0
       choiceTreeID: 
@@ -250,6 +270,7 @@ MonoBehaviour:
       lineOwner: 
       lettersPerSecond: 0
       audio: {fileID: 0}
+      audioVol: 1
     - lineString: It's you
       hasChoice: 0
       choiceTreeID: 
@@ -260,6 +281,7 @@ MonoBehaviour:
       lineOwner: 
       lettersPerSecond: 5
       audio: {fileID: 0}
+      audioVol: 1
     - lineString: I'm kinda busy if you don't mind...
       hasChoice: 0
       choiceTreeID: 
@@ -270,6 +292,7 @@ MonoBehaviour:
       lineOwner: 
       lettersPerSecond: 0
       audio: {fileID: 0}
+      audioVol: 1
   - treeName: After Find Cat Rejected (Annoyed)
     treeID: 5b
     pauseGameOnOpen: 0
@@ -284,6 +307,7 @@ MonoBehaviour:
       lineOwner: 
       lettersPerSecond: 0
       audio: {fileID: 0}
+      audioVol: 1
   - treeName: CAT FOUND
     treeID: 6
     pauseGameOnOpen: 0

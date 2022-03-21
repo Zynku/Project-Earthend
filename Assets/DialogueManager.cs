@@ -6,6 +6,8 @@ using TMPro;
 
 public class DialogueManager : MonoBehaviour
 {
+    public float timeConstant;
+
     [Header("Variables to be Assgined")]
     public static DialogueManager instance;
     public GameObject aboveheaddialogueBox;
@@ -20,7 +22,7 @@ public class DialogueManager : MonoBehaviour
     public Vector2 AboveHeadDialogueBoxOffset;
 
     [Header("Typing Variables")]
-    public int defaultLettersPerSecond = 100;
+    public int defaultLettersPerSecond = 10000;
 
     public bool playerInConversation;
     public bool isTyping = false;
@@ -36,6 +38,7 @@ public class DialogueManager : MonoBehaviour
     public Dialogue dialogue;
     public DialogueTree currentDialogueTree;
     public DialogueLine currentDialogueLine;
+    public bool lineHasAudio = false;
 
     [Header("Dialogue Choice Variables")]
     public TextMeshProUGUI dialogueOnChoiceText;    //TextMesh component of the text that is shown on screen before a choice
@@ -95,6 +98,8 @@ public class DialogueManager : MonoBehaviour
         else { continueText.enabled = true; }
 
         ManageQuestsToGive();
+
+        timeConstant = Time.deltaTime;
     }
 
     public void LateUpdate()
@@ -174,10 +179,35 @@ public class DialogueManager : MonoBehaviour
                 currentLine = 1;
 
                 //Passes the first line to the Coroutine so its starts typing
-                StartCoroutine(TypeDialogue(currentDialogueTree.dialogueLines[0].lineString, this.currentDialogueTree.dialogueLines[0].lettersPerSecond));
+                DialogueLine firstLine = currentDialogueTree.dialogueLines[0];
+                StartCoroutine(TypeDialogue(firstLine.lineString, firstLine.lettersPerSecond));
+
+                //Passes the audio to the below function to play audio clip
+                if(firstLine.audio != null)
+                {
+                    lineHasAudio = true;
+                    PlayDialogueLine(firstLine.audio, firstLine.audioVol, dialogueSource.GetComponent<AudioSource>());
+                }
+                else
+                {
+                    lineHasAudio = false;
+                }
                 endOfConversation = false;
                 playerInConversation = true;
             }
+        }
+    }
+
+    public void PlayDialogueLine(AudioClip audio, float audioVol, AudioSource audioSource)
+    {
+        Debug.Log($"Playing {audio}");
+        if (audio != null)
+        {
+            audioSource.loop = false;
+            audioSource.volume = audioVol;
+            audioSource.pitch = 1;
+            audioSource.clip = audio;
+            audioSource.Play();
         }
     }
 
@@ -228,6 +258,19 @@ public class DialogueManager : MonoBehaviour
             DialogueTree dialogueTree = this.currentDialogueTree;
             this.currentDialogueLine = dialogueTree.dialogueLines[currentLineArray];
             StartCoroutine(TypeDialogue(currentDialogueTree.dialogueLines[currentLineArray].lineString, currentDialogueTree.dialogueLines[currentLineArray].lettersPerSecond));
+
+            //Passes the audio to the below function to play audio clip
+            if (currentDialogueLine.audio != null)
+            {
+                lineHasAudio = true;
+                PlayDialogueLine(currentDialogueLine.audio, currentDialogueLine.audioVol, dialogueSource.GetComponent<AudioSource>());
+            }
+            else
+            {
+                lineHasAudio = false;
+            }
+            endOfConversation = false;
+            playerInConversation = true;
         }
     }
 
@@ -278,7 +321,9 @@ public class DialogueManager : MonoBehaviour
                 yield break;
             }
 
-            yield return new WaitForSecondsRealtime(1f / lettersPerSecond);
+            float yieldTime = 1/((lettersPerSecond * Time.deltaTime)/10000);    //Fuck I broke this
+            //Debug.Log($"Yielding for {yieldTime} seconds");
+            yield return new WaitForSecondsRealtime(1 / lettersPerSecond);
         }
         isTyping = false;
     }

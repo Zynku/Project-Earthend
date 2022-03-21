@@ -180,10 +180,17 @@ public class Npcscript : MonoBehaviour
         animator.SetBool("Talking", true);
         animator.SetBool("Been Talked To", true);
 
-        audiosource.loop = true;
-        audiosource.volume = talkingVolume;
-        audiosource.clip = talkingClip;
-        audiosource.Play();
+        if (dialogueManager.lineHasAudio)
+        {
+            return;
+        }
+        else
+        {
+            audiosource.loop = true;
+            audiosource.volume = talkingVolume;
+            audiosource.clip = talkingClip;
+            audiosource.Play();
+        }
     }
 
     public void StartSpecialDialogue()
@@ -201,5 +208,20 @@ public class Npcscript : MonoBehaviour
         audiosource.volume = talkingVolume;
         audiosource.clip = talkingClip;
         audiosource.Play();
+    }
+
+    public bool CheckForAudio()
+    {
+        foreach (DialogueTree DT in myDialogue.dialogueTrees)
+        {
+            foreach (DialogueLine DL in DT.dialogueLines)
+            {
+                if (DL.audio != null)
+                {
+                    return true;
+                }
+            }
+        }
+        return false;
     }
 }
