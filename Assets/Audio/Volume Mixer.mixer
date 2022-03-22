@@ -14,6 +14,39 @@ AudioMixerEffectController:
   m_SendTarget: {fileID: 0}
   m_EnableWetMix: 0
   m_Bypass: 0
+--- !u!243 &-3752508556612933893
+AudioMixerGroupController:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: Voices
+  m_AudioMixer: {fileID: 24100000}
+  m_GroupID: f29fcf2c34d609c4688dcf5bb1801f82
+  m_Children: []
+  m_Volume: ea2e8ccfe7926e54ba0cec6cbfc95435
+  m_Pitch: 9944e723efe4ddc4187a316a0dd861e1
+  m_Send: 00000000000000000000000000000000
+  m_Effects:
+  - {fileID: -978824880982117049}
+  m_UserColorIndex: 0
+  m_Mute: 0
+  m_Solo: 0
+  m_BypassEffects: 0
+--- !u!244 &-978824880982117049
+AudioMixerEffectController:
+  m_ObjectHideFlags: 3
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: 
+  m_EffectID: 18af05a3bdab1e84d8c4a9b305ad3f64
+  m_EffectName: Attenuation
+  m_MixLevel: 6421d0ee63451ee4189b8a65074c4af2
+  m_Parameters: []
+  m_SendTarget: {fileID: 0}
+  m_EnableWetMix: 0
+  m_Bypass: 0
 --- !u!241 &24100000
 AudioMixerController:
   m_ObjectHideFlags: 0
@@ -46,6 +79,7 @@ AudioMixerController:
     - aac21ded3e8ddc7408efa35700802004
     - 065b616dab238b2419ed77063101e765
     - 67e5ef4c6a156fa42822a2071a427d9a
+    - f29fcf2c34d609c4688dcf5bb1801f82
     name: View - Copy
   m_CurrentViewIndex: 1
   m_TargetSnapshot: {fileID: 24500006}
@@ -61,6 +95,7 @@ AudioMixerGroupController:
   m_Children:
   - {fileID: 8775981145268342865}
   - {fileID: 8389895195087378700}
+  - {fileID: -3752508556612933893}
   m_Volume: cc71e8896ed8f944bb6152aacaa9d44a
   m_Pitch: c65e39d9211189b47ba5d655fa2bb254
   m_Send: 00000000000000000000000000000000
@@ -97,6 +132,7 @@ AudioMixerSnapshotController:
     cc71e8896ed8f944bb6152aacaa9d44a: -15.421314
     81cd0acb6a52bc944a4d8f27d90dd798: 6.7923827
     1ff6ce7d0f031144dace66a5f86a1d38: 2.090601
+    ea2e8ccfe7926e54ba0cec6cbfc95435: -2.8722944
   m_TransitionOverrides: {}
 --- !u!244 &7102149574282365539
 AudioMixerEffectController:

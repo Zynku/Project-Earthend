@@ -16,8 +16,8 @@ public class Dialogue : ScriptableObject
 [System.Serializable]
 public class DialogueTree
 {
-    public string treeName;
-    public string treeID;
+    public string DialogueTreeName;
+    public string DialogueTreeId;
     public bool pauseGameOnOpen;            //TODO: Pause Game if this is true
     [SerializeField] public List<DialogueLine> dialogueLines;
 }
@@ -41,7 +41,7 @@ public class DialogueLine
     [Header("Default Variables")]
     public string lineOwner;                //Who said the line?
     public int lettersPerSecond = 100;      //How fast is the text said?
-    public AudioClip audio;                 //TODO: Audio that says the line
+    public List<AudioClip> audio;           //List of Audio that says the line
     [Range(0f, 1f)]
     public float audioVol = 1;
 }

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
+using System.Linq;
 
 public class DialogueManager : MonoBehaviour
 {
@@ -26,6 +27,7 @@ public class DialogueManager : MonoBehaviour
 
     public bool playerInConversation;
     public bool isTyping = false;
+    public bool isParsingTag = false;
     public bool endOfConversation = false;
 
     [Header("Current Dialogue Variables")]
@@ -141,12 +143,12 @@ public class DialogueManager : MonoBehaviour
     }
 
     //Takes dialogue and passes it to coroutine, also sets text box to be active. Is only called at the START of every conversation
-    public void ShowDialogue(Dialogue dialogue, string treeId, GameObject dialogueSource)
+    public void StartConversation(Dialogue dialogue, string treeId, GameObject dialogueSource)
     {
         this.dialogue = dialogue;
         this.dialogueSource = dialogueSource;
 
-        var dialogueTree = dialogue.dialogueTrees.Find(i => i.treeID == treeId);    //Finds the dialogue tree in the list by ID
+        var dialogueTree = dialogue.dialogueTrees.Find(i => i.DialogueTreeId == treeId);    //Finds the dialogue tree in the list by ID
         if (dialogueTree == null)
         {
             Debug.LogWarning("Cannot find correct Dialogue Tree via ID! Are your IDs correct?");
@@ -154,7 +156,7 @@ public class DialogueManager : MonoBehaviour
         }
         else
         {
-            currentTreeId = dialogueTree.treeID;
+            currentTreeId = dialogueTree.DialogueTreeId;
             this.currentDialogueTree = dialogueTree;
             this.currentDialogueLine = dialogueTree.dialogueLines[currentLineArray];
         }
@@ -163,8 +165,8 @@ public class DialogueManager : MonoBehaviour
         choicesBox.SetActive(false);
         aboveheaddialogueBox.SetActive(false);
         aboveheaddialogue.enabled = false;
-        
 
+        DialogueLine firstLine = currentDialogueTree.dialogueLines[0];
         if (!isTyping)
         {
             //If the character somehow has no lines, say so
@@ -179,61 +181,26 @@ public class DialogueManager : MonoBehaviour
                 currentLine = 1;
 
                 //Passes the first line to the Coroutine so its starts typing
-                DialogueLine firstLine = currentDialogueTree.dialogueLines[0];
+                StopCoroutine(TypeDialogue(firstLine.lineString, firstLine.lettersPerSecond));
                 StartCoroutine(TypeDialogue(firstLine.lineString, firstLine.lettersPerSecond));
 
                 //Passes the audio to the below function to play audio clip
-                if(firstLine.audio != null)
-                {
-                    lineHasAudio = true;
-                    PlayDialogueLine(firstLine.audio, firstLine.audioVol, dialogueSource.GetComponent<AudioSource>());
-                }
-                else
-                {
-                    lineHasAudio = false;
-                }
                 endOfConversation = false;
                 playerInConversation = true;
             }
         }
-    }
 
-    public void PlayDialogueLine(AudioClip audio, float audioVol, AudioSource audioSource)
-    {
-        Debug.Log($"Playing {audio}");
-        if (audio != null)
+        if (currentDialogueLine.audio.Count > 0)
         {
-            audioSource.loop = false;
-            audioSource.volume = audioVol;
-            audioSource.pitch = 1;
-            audioSource.clip = audio;
-            audioSource.Play();
-        }
-    }
-
-    public void ShowDialogueCharacterAnim(Animation animation)
-    {
-
-    }
-
-    //Is called at the end of a dialogue. Ends everything and disables what it needs to so it's ready for the next conversation
-    public void HideDialogue()
-    {
-        if (currentDialogueLine.hasChoice)
-        {
-            Debug.LogWarning("Can't exit out of a line that has a choice!");
+            lineHasAudio = true;
+            int randomNum = Random.Range(0, currentDialogueLine.audio.Count);
+            AudioClip clip = currentDialogueLine.audio[randomNum];
+            PlayDialogueLine(clip, currentDialogueLine.audioVol, dialogueSource.GetComponent<AudioSource>());
         }
         else
         {
-            dialogueBox.SetActive(false);
-            choicesBox.SetActive(false);
-            aboveheaddialogueBox.SetActive(false);
-            aboveheaddialogue.enabled = false;
-            endOfConversation = true;
-            currentLineArray = 0;
-            currentLine = 1;
-            playerInConversation = false;
-            isTyping = false;
+            lineHasAudio = false;
+            MakeConversationBeeps();
         }
     }
 
@@ -260,27 +227,84 @@ public class DialogueManager : MonoBehaviour
             StartCoroutine(TypeDialogue(currentDialogueTree.dialogueLines[currentLineArray].lineString, currentDialogueTree.dialogueLines[currentLineArray].lettersPerSecond));
 
             //Passes the audio to the below function to play audio clip
-            if (currentDialogueLine.audio != null)
+            if (currentDialogueLine.audio.Count > 0)
             {
                 lineHasAudio = true;
-                PlayDialogueLine(currentDialogueLine.audio, currentDialogueLine.audioVol, dialogueSource.GetComponent<AudioSource>());
+                int randomNum = Random.Range(0, currentDialogueLine.audio.Count);
+                AudioClip clip = currentDialogueLine.audio[randomNum];
+                PlayDialogueLine(clip, currentDialogueLine.audioVol, dialogueSource.GetComponent<AudioSource>());
             }
             else
             {
                 lineHasAudio = false;
+                MakeConversationBeeps();
             }
             endOfConversation = false;
             playerInConversation = true;
         }
     }
 
+    public void PlayDialogueLine(AudioClip audio, float audioVol, AudioSource audioSource)
+    {
+        Debug.Log($"Playing {audio}");
+        if (audio != null)
+        {
+            audioSource.loop = false;
+            audioSource.volume = audioVol;
+            audioSource.pitch = 1;
+            audioSource.clip = audio;
+            audioSource.Play();
+        }
+    }
+
+    public void MakeConversationBeeps() //This is a mess but I am lazy
+    {
+        Npcscript npcScript = dialogueSource.GetComponent<Npcscript>();
+        StartCoroutine(npcScript.TalkCoolDown());
+        npcScript.beenTalkedTo = true;
+        npcScript.inConversation = true;
+
+        npcScript.animator.SetBool("Talking", true);
+        npcScript.animator.SetBool("Been Talked To", true);
+
+        npcScript.audiosource.loop = true;
+        npcScript.audiosource.volume = npcScript.talkingVolume;
+        npcScript.audiosource.clip = npcScript.talkingClip;
+        npcScript.audiosource.Play();
+    }
+
+    //Is called at the end of a dialogue. Ends everything and disables what it needs to so it's ready for the next conversation
+    public void HideDialogue()
+    {
+        if (currentDialogueLine.hasChoice)
+        {
+            Debug.LogWarning("Can't exit out of a line that has a choice!");
+        }
+        else
+        {
+            dialogueBox.SetActive(false);
+            choicesBox.SetActive(false);
+            aboveheaddialogueBox.SetActive(false);
+            aboveheaddialogue.enabled = false;
+            endOfConversation = true;
+            currentLineArray = 0;
+            currentLine = 1;
+            playerInConversation = false;
+            isTyping = false;
+
+            Npcscript npcScript = dialogueSource.GetComponent<Npcscript>();
+            npcScript.audiosource.Stop();
+        }
+    }
+
     //Takes dialogue and shows it letter by letter
     public IEnumerator TypeDialogue(string line, int lettersPerSecond)
-    {        
+    {
         isTyping = true;
         dialogueText.text = "";
+        int currentLetterIndex = 0;
 
-        if(lettersPerSecond == 0)
+        if (lettersPerSecond == 0)
         {
             lettersPerSecond = defaultLettersPerSecond; //Only changes lettersPerSecond if it's changed in the Dialogue Scriptable Object
         }
@@ -288,7 +312,7 @@ public class DialogueManager : MonoBehaviour
         //If the line has choices, switch to the choices layout so player can choose
         if (currentDialogueTree.dialogueLines[currentLineArray].hasChoice)
         {
-            StartCoroutine(GivePlayerChoices(line, lettersPerSecond));  
+            StartCoroutine(GivePlayerChoices(line, lettersPerSecond));
             yield break;
         }
 
@@ -306,10 +330,27 @@ public class DialogueManager : MonoBehaviour
 
         yield return new WaitForSeconds(0.2f);
 
-        //Actually types the line, letter by letter
+        //TODO: Finish Tag Parser
         foreach (var letter in line.ToCharArray())
         {
-            dialogueText.text += letter;
+            if (letter.ToString() == "<")
+            {
+                int openTagIndex = dialogueText.text.Length;
+                Debug.Log($"In tag at {openTagIndex}");
+                isParsingTag = true;
+                ParseTags(line.ToCharArray());
+            }
+            else if(letter.ToString() == ">")
+            {
+                Debug.Log($"Exiting tag at {dialogueText.text.Length}");
+                isParsingTag = false;
+            }
+            else
+            {
+                dialogueText.text += line[currentLetterIndex];  //Actually types the line, letter by letter
+                currentLetterIndex++;
+                //dialogueText.text += letter;
+            }
 
             //Allows player to interrupt if they press interact key during typing. Prints whole line and stops letter by letter typing
             if (isTyping && Input.GetButtonDown("Interact"))
@@ -321,7 +362,7 @@ public class DialogueManager : MonoBehaviour
                 yield break;
             }
 
-            float yieldTime = 1/((lettersPerSecond * Time.deltaTime)/10000);    //Fuck I broke this
+            //float yieldTime = 1/((lettersPerSecond * Time.deltaTime)/10000);    //Fuck I broke this
             //Debug.Log($"Yielding for {yieldTime} seconds");
             yield return new WaitForSecondsRealtime(1 / lettersPerSecond);
         }
@@ -381,9 +422,18 @@ public class DialogueManager : MonoBehaviour
         dialogue.defaultTreeId = choiceOne.newDefaultTreeId;    //Switches default tree ID so character says different things based on what you chose
         currentLineArray = 0;
         currentLine = 1;
-        ShowDialogue(this.dialogue, choiceOne.treeIdToSwitchTo, dialogueSource);
-        dialogueSource.GetComponent<Npcscript>().MakeConversationBeeps();
-
+        StartConversation(this.dialogue, choiceOne.treeIdToSwitchTo, dialogueSource);
+        /*        if (currentDialogueLine.audio != null)
+                {
+                    lineHasAudio = true;
+                    PlayDialogueLine(currentDialogueLine.audio, currentDialogueLine.audioVol, dialogueSource.GetComponent<AudioSource>());
+                }
+                else
+                {
+                    lineHasAudio = false;
+                    MakeConversationBeeps();
+                }
+        */
         if (choiceOne.canTriggerQuest)
         {
             //QuestGiver questScript = dialogueSource.GetComponent<QuestGiver>();
@@ -404,8 +454,17 @@ public class DialogueManager : MonoBehaviour
         dialogue.defaultTreeId = choiceTwo.newDefaultTreeId;
         currentLineArray = 0;
         currentLine = 1;
-        ShowDialogue(this.dialogue, choiceTwo.treeIdToSwitchTo, dialogueSource);
-        dialogueSource.GetComponent<Npcscript>().MakeConversationBeeps();
+        StartConversation(this.dialogue, choiceTwo.treeIdToSwitchTo, dialogueSource);
+        /*        if (currentDialogueLine.audio != null)
+                {
+                    lineHasAudio = true;
+                    PlayDialogueLine(currentDialogueLine.audio, currentDialogueLine.audioVol, dialogueSource.GetComponent<AudioSource>());
+                }
+                else
+                {
+                    lineHasAudio = false;
+                    MakeConversationBeeps();
+                }*/
 
         if (choiceTwo.canTriggerQuest)
         {
@@ -413,6 +472,30 @@ public class DialogueManager : MonoBehaviour
             //Quest questToGive = questScript.myQuest;
             Quest questToGive = choiceTwo.myQuest;
             questsToGive.Add(questToGive);
+        }
+    }
+
+    public void ShowDialogueCharacterAnim(Animation animation)
+    {
+
+    }
+
+    public void ParseTags(char[] lineArray) //Man fuck this
+    {
+        int openTagIndex = dialogueText.text.Length;
+        Debug.Log(openTagIndex);
+
+        char nextChar = lineArray[openTagIndex + 1];
+        char nextChar2 = lineArray[openTagIndex + 2];
+        char nextChar3 = lineArray[openTagIndex + 3];
+
+        if (nextChar == 'l' && nextChar2 == 'p' && nextChar3 == 's')
+        {
+            //Tag for Letters per second
+            Debug.Log("$Found a tag for a change in LPS");
+            foreach (char letter in lineArray)
+            {
+            }
         }
     }
 }

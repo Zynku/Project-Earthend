@@ -173,7 +173,7 @@ public class QuestGiver : MonoBehaviour
         if (changeDialogueOnQuestUpdate)
         {
             var firstDialogueTree = npcscript.myDialogue.dialogueTrees.First(); //Find the first Dialogue Tree in this character's dialogue
-            if (npcscript.myDialogue.defaultTreeId == firstDialogueTree.treeID) //Allows this value to be reset if the dialogue is reset to its first tree
+            if (npcscript.myDialogue.defaultTreeId == firstDialogueTree.DialogueTreeId) //Allows this value to be reset if the dialogue is reset to its first tree
             {
                 foreach (var dialogueSwitcher in dialogueSwitchInstances)
                 {
