@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
+using TMPro;
 
 public class Respawn_menu_manager : MonoBehaviour
 {
@@ -11,6 +12,7 @@ public class Respawn_menu_manager : MonoBehaviour
     public Charhealth healthScript;
     private Animator PlayerAnim;
     public GameObject playerRespawnPoint;
+    public TextMeshPro playerRespawnPointText;
 
     public GameObject LoadingScreen;
     public Slider loadingSlider;
@@ -23,6 +25,8 @@ public class Respawn_menu_manager : MonoBehaviour
         PlayerAnim = Player.GetComponent<Animator>();
         playerRespawnPoint = GameObject.FindWithTag("player_respawn");
         RespawnScreenUI.SetActive(false);
+        playerRespawnPoint.GetComponent<SpriteRenderer>().enabled = false;
+        playerRespawnPointText.GetComponent<MeshRenderer>().enabled = false;
     }
 
     // Update is called once per frame

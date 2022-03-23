@@ -24,71 +24,76 @@ public class InfoHubManager : MonoBehaviour
 
     private void Start()
     {
+        if (pages.Length > 0)
+        {
+            pages = GetComponentsInChildren<IHPageScript>();
+            currentPageNumber = 0;
+            currentPage = pages[0].gameObject;
+
+            for (int i = 0; i < pages.Length; i++)//Sets each page to its appropriate page number
+            {
+                pages[i].pageNumber = i;
+            }
+
+            for (int i = pages.Length; i-- > 0;)              //Creates a new button at the top of the IHUI for each page
+            {
+                var newButton = Instantiate(iHPageButtonPrefab, iHPageButtonHolder.transform);
+                newButton.GetComponent<IHUIPageButton>().myPage = pages[i];
+                newButton.GetComponent<IHUIPageButton>().myPageName.text = pages[i].pageName;
+                newButton.GetComponent<IHUIPageButton>().shownSprite.GetComponent<Image>().sprite = pages[i].pageSprite;
+            }
+
+            previousPageNumber = -1;
+            pageToLeft = null;
+
+            nextPageNumber = 1;
+            if (pages[1].gameObject != null)
+            {
+                pageToRight = pages[1].gameObject;
+            }
+        }
         this.gameObject.SetActive(false);
-        pages = GetComponentsInChildren<IHPageScript>();
-        currentPageNumber = 0;
-        currentPage = pages[0].gameObject;
-
-        for (int i = 0; i < pages.Length; i++)//Sets each page to its appropriate page number
-        {
-            pages[i].pageNumber = i;
-        }
-
-        for (int i = pages.Length; i-- > 0;)              //Creates a new button at the top of the IHUI for each page
-        {
-            var newButton = Instantiate(iHPageButtonPrefab, iHPageButtonHolder.transform);
-            newButton.GetComponent<IHUIPageButton>().myPage = pages[i];
-            newButton.GetComponent<IHUIPageButton>().myPageName.text = pages[i].pageName;
-            newButton.GetComponent<IHUIPageButton>().shownSprite.GetComponent<Image>().sprite = pages[i].pageSprite;
-        }
-
-        previousPageNumber = -1;
-        pageToLeft = null;
-
-        nextPageNumber = 1;
-        if (pages[1].gameObject != null)
-        {
-            pageToRight = pages[1].gameObject;
-        } 
-        
     }
 
     private void Update()
     {
-        //if (Input.GetKeyDown(KeyCode.RightArrow)) { ScrollRight(); }  //TODO; Implement arrow scrolling
-
-        currentPage = pages[currentPageNumber].gameObject;
-        whatPageIsThis.text = currentPage.GetComponent<IHPageScript>().pageName;
-
-        if (currentPageNumber > 0)
+        if (pages.Length > 0)
         {
-            previousPageNumber = currentPageNumber - 1;
-            pageToLeft = pages[previousPageNumber].gameObject;
-        }
-        else
-        {
-            previousPageNumber = 0;
-            pageToLeft = null;
-        }
+            //if (Input.GetKeyDown(KeyCode.RightArrow)) { ScrollRight(); }  //TODO; Implement arrow scrolling
 
-        if (currentPageNumber < pages.Length - 1)
-        {
-            nextPageNumber = currentPageNumber + 1;
-            pageToRight = pages[nextPageNumber].gameObject;
-        }
-        else
-        {
-            nextPageNumber = pages.Length -1;
-            pageToRight = null;
-        }
-
-        pages[currentPageNumber].isCurrentPage = true;
-
-        if (!firstPageShown)
-        {
-            currentPage.GetComponent<IHPageScript>().pagePanel.GetComponentInChildren<Animator>().Play("IH Page Idle");
+            currentPage = pages[currentPageNumber].gameObject;
             whatPageIsThis.text = currentPage.GetComponent<IHPageScript>().pageName;
-            firstPageShown = true;
+
+            if (currentPageNumber > 0)
+            {
+                previousPageNumber = currentPageNumber - 1;
+                pageToLeft = pages[previousPageNumber].gameObject;
+            }
+            else
+            {
+                previousPageNumber = 0;
+                pageToLeft = null;
+            }
+
+            if (currentPageNumber < pages.Length - 1)
+            {
+                nextPageNumber = currentPageNumber + 1;
+                pageToRight = pages[nextPageNumber].gameObject;
+            }
+            else
+            {
+                nextPageNumber = pages.Length - 1;
+                pageToRight = null;
+            }
+
+            pages[currentPageNumber].isCurrentPage = true;
+
+            if (!firstPageShown)
+            {
+                currentPage.GetComponent<IHPageScript>().pagePanel.GetComponentInChildren<Animator>().Play("IH Page Idle");
+                whatPageIsThis.text = currentPage.GetComponent<IHPageScript>().pageName;
+                firstPageShown = true;
+            }
         }
     }
 

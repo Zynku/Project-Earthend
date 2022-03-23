@@ -11,6 +11,9 @@ public class DialogueManager : MonoBehaviour
 
     [Header("Variables to be Assgined")]
     public static DialogueManager instance;
+    public GameObject aboveHeadTextPrefab;
+    public Vector3 AboveHeadDialogueOffset;
+    public List<GameObject> aboveHeadTexts;
     public GameObject aboveheaddialogueBox;
     public TextMeshPro aboveheaddialogue;
     public GameObject dialogueBox;
@@ -18,14 +21,11 @@ public class DialogueManager : MonoBehaviour
     //public GameObject dialogueCharacter;          //Sprite / Animation of character doing the talking
     public TextMeshProUGUI continueText;            //Text that says press [Interactor] to continue
 
-    private Vector2 NPCPos;
-    public Vector2 AboveHeadDialogueOffset;
-    public Vector2 AboveHeadDialogueBoxOffset;
-
     [Header("Typing Variables")]
-    public int defaultLettersPerSecond = 10000;
+    public int defaultTypeSpeed = 10000;
 
     public bool playerInConversation;
+    public bool playerInChoice;
     public bool isTyping = false;
     public bool isParsingTag = false;
     public bool endOfConversation = false;
@@ -112,7 +112,7 @@ public class DialogueManager : MonoBehaviour
         if (charcontrol.closestNPC.gameObject != null)
         {
             GameObject closestNPC = charcontrol.closestNPC.gameObject;
-            NPCPos = new Vector2(closestNPC.transform.position.x, closestNPC.transform.position.y);
+            //NPCPos = new Vector2(closestNPC.transform.position.x, closestNPC.transform.position.y);
         }
     }
 
@@ -129,17 +129,56 @@ public class DialogueManager : MonoBehaviour
         }
     }
 
-    public void ShowAboveHeadDialogue(Dialogue dialogue)            //TODO: fix this
+    public void ShowAboveHeadDialogue(AboveHeadDialogueLine npcahd, GameObject origin)            //TODO: fix this
     {
-        aboveheaddialogue.enabled = true;
+        if (aboveHeadTexts.Count == 0)
+        {
+            Vector3 spawnPos = origin.transform.position + AboveHeadDialogueOffset;
+            GameObject aHDialogue = Instantiate(aboveHeadTextPrefab, spawnPos, Quaternion.identity);
+            aboveHeadTexts.Add(aHDialogue);
+            aHDialogue.GetComponent<AboveHeadDialogue>().myNPC = origin;
+            aHDialogue.GetComponent<AboveHeadDialogue>().myText.text = npcahd.lineString;
+        }
+        else
+        {
+            foreach (var item in aboveHeadTexts)
+            {
+                if (!item.GetComponent<AboveHeadDialogue>().myNPC == origin)
+                {
+                    Vector3 spawnPos = origin.transform.position + AboveHeadDialogueOffset;
+                    GameObject aHDialogue = Instantiate(aboveHeadTextPrefab, spawnPos, Quaternion.identity);
+                    aboveHeadTexts.Add(aHDialogue);
+                    aHDialogue.GetComponent<AboveHeadDialogue>().myNPC = origin;
+                    aHDialogue.GetComponentInChildren<TextMeshPro>().text = dialogue.ToString();
+                }
+            }
+        }
+        
+       /* aboveheaddialogue.enabled = true;
         aboveheaddialogueBox.SetActive(true);
 
         aboveheaddialogue.transform.position = NPCPos + AboveHeadDialogueOffset;
-        aboveheaddialogueBox.transform.position = NPCPos + AboveHeadDialogueBoxOffset;
+        aboveheaddialogueBox.transform.position = NPCPos + AboveHeadDialogueBoxOffset;*/
 
         //aboveheaddialogueBox.transform.localScale = new Vector2((dialogue.Lines[0].Length * 0.21f), 1f);
 
         //aboveheaddialogue.text = dialogue.Lines[0].ToString();
+    }
+
+    public void HideAboveHeadDialogue(GameObject origin)
+    {
+        if (aboveHeadTexts.Count != 0)
+        {
+            foreach (var item in aboveHeadTexts)
+            {
+                if (item.GetComponent<AboveHeadDialogue>().myNPC == origin)
+                {
+                    aboveHeadTexts.Remove(item);
+                    Destroy(item);
+                    return;
+                }
+            }
+        }
     }
 
     //Takes dialogue and passes it to coroutine, also sets text box to be active. Is only called at the START of every conversation
@@ -181,8 +220,8 @@ public class DialogueManager : MonoBehaviour
                 currentLine = 1;
 
                 //Passes the first line to the Coroutine so its starts typing
-                StopCoroutine(TypeDialogue(firstLine.lineString, firstLine.lettersPerSecond));
-                StartCoroutine(TypeDialogue(firstLine.lineString, firstLine.lettersPerSecond));
+                StopCoroutine(TypeDialogue(firstLine.lineString, firstLine.typeSpeed));
+                StartCoroutine(TypeDialogue(firstLine.lineString, firstLine.typeSpeed));
 
                 //Passes the audio to the below function to play audio clip
                 endOfConversation = false;
@@ -224,7 +263,7 @@ public class DialogueManager : MonoBehaviour
 
             DialogueTree dialogueTree = this.currentDialogueTree;
             this.currentDialogueLine = dialogueTree.dialogueLines[currentLineArray];
-            StartCoroutine(TypeDialogue(currentDialogueTree.dialogueLines[currentLineArray].lineString, currentDialogueTree.dialogueLines[currentLineArray].lettersPerSecond));
+            StartCoroutine(TypeDialogue(currentDialogueLine.lineString, currentDialogueLine.typeSpeed));
 
             //Passes the audio to the below function to play audio clip
             if (currentDialogueLine.audio.Count > 0)
@@ -278,9 +317,23 @@ public class DialogueManager : MonoBehaviour
     {
         if (currentDialogueLine.hasChoice)
         {
-            Debug.LogWarning("Can't exit out of a line that has a choice!");
+            //Debug.LogWarning("Can't exit out of a line that has a choice!");
+            dialogueBox.SetActive(false);
+            choicesBox.SetActive(false);
+            aboveheaddialogueBox.SetActive(false);
+            aboveheaddialogue.enabled = false;
+            //endOfConversation = true;
+            //currentLineArray = 0;
+            //currentLine = 1;
+            playerInConversation = false;
+            isTyping = false;
+
+            Npcscript npcScript = dialogueSource.GetComponent<Npcscript>();
+            npcScript.audiosource.Stop();
+
+            StopAllCoroutines();
         }
-        else
+        else if (dialogueBox.activeInHierarchy)
         {
             dialogueBox.SetActive(false);
             choicesBox.SetActive(false);
@@ -294,9 +347,10 @@ public class DialogueManager : MonoBehaviour
 
             Npcscript npcScript = dialogueSource.GetComponent<Npcscript>();
             npcScript.audiosource.Stop();
+
+            StopAllCoroutines();
         }
     }
-
     //Takes dialogue and shows it letter by letter
     public IEnumerator TypeDialogue(string line, int lettersPerSecond)
     {
@@ -306,7 +360,7 @@ public class DialogueManager : MonoBehaviour
 
         if (lettersPerSecond == 0)
         {
-            lettersPerSecond = defaultLettersPerSecond; //Only changes lettersPerSecond if it's changed in the Dialogue Scriptable Object
+            lettersPerSecond = defaultTypeSpeed; //Only changes typeSpeed if it's changed in the Dialogue Scriptable Object
         }
 
         //If the line has choices, switch to the choices layout so player can choose
@@ -333,7 +387,7 @@ public class DialogueManager : MonoBehaviour
         //TODO: Finish Tag Parser
         foreach (var letter in line.ToCharArray())
         {
-            if (letter.ToString() == "<")
+            if (letter.ToString() == "<")   //If an opening tag is found, send it to the tag parser (Currently broken lol)
             {
                 int openTagIndex = dialogueText.text.Length;
                 Debug.Log($"In tag at {openTagIndex}");
@@ -362,9 +416,10 @@ public class DialogueManager : MonoBehaviour
                 yield break;
             }
 
-            //float yieldTime = 1/((lettersPerSecond * Time.deltaTime)/10000);    //Fuck I broke this
+            float yieldTime = (1 / (lettersPerSecond * Time.deltaTime))/10;
             //Debug.Log($"Yielding for {yieldTime} seconds");
-            yield return new WaitForSecondsRealtime(1 / lettersPerSecond);
+            //yield return new WaitForSecondsRealtime(1 / typeSpeed);
+            yield return new WaitForSeconds(yieldTime);
         }
         isTyping = false;
     }
@@ -390,6 +445,7 @@ public class DialogueManager : MonoBehaviour
         choiceOneText.text = "";
         choiceTwoText.text = "";
 
+        playerInChoice = true;
         isTyping = true;
         dialogueOnChoiceText.text = "";
 
@@ -397,7 +453,7 @@ public class DialogueManager : MonoBehaviour
 
         if (lettersPerSecond == 0)
         {
-            lettersPerSecond = defaultLettersPerSecond;
+            lettersPerSecond = defaultTypeSpeed;
         }
 
         foreach (var letter in line.ToCharArray())
@@ -441,6 +497,7 @@ public class DialogueManager : MonoBehaviour
             Quest questToGive = choiceOne.myQuest;
             questsToGive.Add(questToGive);
         }
+        playerInChoice = false;
     }
 
     public void ChoiceTwoSelected()
@@ -473,6 +530,7 @@ public class DialogueManager : MonoBehaviour
             Quest questToGive = choiceTwo.myQuest;
             questsToGive.Add(questToGive);
         }
+        playerInChoice = false;
     }
 
     public void ShowDialogueCharacterAnim(Animation animation)

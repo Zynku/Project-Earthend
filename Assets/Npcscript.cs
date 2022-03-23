@@ -19,7 +19,8 @@ public class Npcscript : MonoBehaviour
 
     [Header("Dialogue & Conversation Variables")]
     [SerializeField] public Dialogue myDialogue;                         //Dialogue is a function of the dialogue class. Check Systems folder in Assets
-    [SerializeField] public Dialogue aboveHeadDialogue;
+    [SerializeField] public AboveHeadDialogueLine[] ahDialogue;
+    [SerializeField] public int currentAHD;                  //The Above Head Dialogue that will show currently above the NPC
     [SerializeField] public Dialogue specialDialogue;
 
 
@@ -57,13 +58,14 @@ public class Npcscript : MonoBehaviour
         if (playerInRange && !inConversation)
         {
             animator.SetBool("Player In Range", true);
-            dialogueManager.ShowAboveHeadDialogue(aboveHeadDialogue);   //This doesn't work right now, fix in dialogueManager
+            dialogueManager.ShowAboveHeadDialogue(ahDialogue[currentAHD], gameObject);   //This doesn't work right now, fix in dialogueManager
         }
 
         //Out of range and this is the closest NPC
         if (!playerInRange && Player.GetComponent<Charcontrol>().closestNPC == this.gameObject)
         {
             dialogueManager.HideDialogue();
+            dialogueManager.HideAboveHeadDialogue(gameObject);
             audiosource.Stop();
         }
 
@@ -91,6 +93,11 @@ public class Npcscript : MonoBehaviour
             animator.SetBool("Player In Range", false);
             audiosource.Stop(); //Has no voice lines, and is using voice beeps
             ++talkedToTimes;
+        }
+
+        if (inConversation)
+        {
+            dialogueManager.HideAboveHeadDialogue(gameObject);
         }
 
         //If the end of the conversation is reached
@@ -121,19 +128,11 @@ public class Npcscript : MonoBehaviour
         }
         else if (!dialogueManager.isTyping && dialogueManager.playerInConversation)
         {
-                        dialogueManager.ContinueConversation();
-            /*
-                        StartCoroutine(TalkCoolDown());
-                        beenTalkedTo = true;
-                        inConversation = true;
-
-                        animator.SetBool("Talking", true);
-                        animator.SetBool("Been Talked To", true);
-
-                        audiosource.loop = true;
-                        audiosource.volume = talkingVolume;
-                        audiosource.clip = talkingClip;
-                        audiosource.Play();*/
+            dialogueManager.ContinueConversation();
+        }
+        else if (dialogueManager.currentDialogueLine.hasChoice)
+        {
+            dialogueManager.ContinueConversation();
         }
     }
 

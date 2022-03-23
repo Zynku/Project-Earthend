@@ -29,18 +29,18 @@ public class DialogueLine
     public string lineString;               //Actual string of words to be said
     [Separator("Dynamic Variables")]
     public bool hasChoice;
-    [ConditionalField(nameof(hasChoice))] 
+    [ConditionalField(nameof(hasChoice))]
     public string choiceTreeID;             //The ID of the choice tree it'll show if it has a choice
     public bool canChangeDefaultTreeId;     //Can reading this line change default tree ID to another?
     [ConditionalField(nameof(canChangeDefaultTreeId))]
     public string treeIdToSwitchTo;         //If it can, which tree?
     public bool canTriggerQuest;
-    [ConditionalField(nameof(canTriggerQuest))] 
+    [ConditionalField(nameof(canTriggerQuest))]
     public Quest myQuest;                   //Quest that can be triggered by reading this line
 
     [Header("Default Variables")]
     public string lineOwner;                //Who said the line?
-    public int lettersPerSecond = 100;      //How fast is the text said?
+    public int typeSpeed = 0;               //How fast is the text said?
     public List<AudioClip> audio;           //List of Audio that says the line
     [Range(0f, 1f)]
     public float audioVol = 1;

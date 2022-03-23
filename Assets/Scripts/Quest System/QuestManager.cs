@@ -194,7 +194,7 @@ public class QuestManager : MonoBehaviour
                     //ClearOldQuest();
                     ihuiquestmanager.AddAnotherQuest(quest);    //We don't have to add a quest for the first time again, just add another one
                 }
-                else
+                else if (ihuiquestmanager)
                 {
                     ihuiquestmanager.SetupNewQuest(quest);      //However if you don't already have a quest, add this one for the first time
                 }

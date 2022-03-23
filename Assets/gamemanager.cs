@@ -131,8 +131,8 @@ public class GameManager : MonoBehaviour
         teleporternetwork = GetComponentInChildren<teleporternetwork>();
         timerManager = GetComponentInChildren<TimerManager>();
         playerManager = GetComponentInChildren<Player_Manager>();
-        inventoryui = GetComponentInChildren<InventoryUI>();
-        inventoryUIHelper = GetComponentInChildren<InventoryUIHelper>();
+        if (infoHub.pages.Length > 0) { inventoryui = GetComponentInChildren<InventoryUI>(); }
+        if (infoHub.pages.Length > 0) { inventoryUIHelper = GetComponentInChildren<InventoryUIHelper>(); }
         ingame_UI = GetComponentInChildren<InGameUi>();
         respawn_Menu_Manager = GetComponentInChildren<Respawn_menu_manager>();
         theEventSystem = GetComponentInChildren<EventSystem>();
@@ -251,12 +251,15 @@ public class GameManager : MonoBehaviour
         {
             foreach (var item in list)
             {
-                item.enabled = false;
-                Debug.Log($"{item.name} was disabled");
-
-                if (item == list[list.Length - 1])
+                if (item)
                 {
-                    Debug.Log($"----------------------------------All {list.Length} modules in list successfully updated!-------------------------------------------");
+                    item.enabled = false;
+                    Debug.Log($"{item.name} was disabled");
+
+                    if (item == list[list.Length - 1])
+                    {
+                        Debug.Log($"----------------------------------All {list.Length} modules in list successfully updated!-------------------------------------------");
+                    }
                 }
             }
         }
@@ -269,12 +272,15 @@ public class GameManager : MonoBehaviour
         {
             foreach (var item in list)
             {
-                item.enabled = true;
-                Debug.Log($"{item.name} was enabled");
-
-                if (item == list[list.Length - 1])
+                if (item)
                 {
-                    Debug.Log($"----------------------------------All {list.Length} modules in list successfully updated!-------------------------------------------");
+                    item.enabled = true;
+                    Debug.Log($"{item.name} was enabled");
+
+                    if (item == list[list.Length - 1])
+                    {
+                        Debug.Log($"----------------------------------All {list.Length} modules in list successfully updated!-------------------------------------------");
+                    }
                 }
             }
         }
