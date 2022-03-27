@@ -28,6 +28,9 @@ public class DialogueLine
     [TextArea(2, 10)]
     public string lineString;               //Actual string of words to be said
     [Separator("Dynamic Variables")]
+    public bool canChangeAboveHeadDialogue;
+    [ConditionalField(nameof(canChangeAboveHeadDialogue))]
+    public int AHDialogueToSwitchTo;
     public bool hasChoice;
     [ConditionalField(nameof(hasChoice))]
     public string choiceTreeID;             //The ID of the choice tree it'll show if it has a choice
