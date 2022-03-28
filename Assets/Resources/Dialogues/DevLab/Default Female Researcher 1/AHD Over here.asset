@@ -12,6 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 256e57a92c4b2cf499356e9243ce349e, type: 3}
   m_Name: AHD Over here
   m_EditorClassIdentifier: 
+  ahID: 0
   lineString: Hey! Over here a minute!
   lineOwner: 
   typeSpeed: 0

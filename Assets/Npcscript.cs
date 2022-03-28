@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using MyBox;
+using System.Linq;
 
 public class Npcscript : MonoBehaviour
 {
@@ -19,8 +20,9 @@ public class Npcscript : MonoBehaviour
 
     [Header("Dialogue & Conversation Variables")]
     [SerializeField] public Dialogue myDialogue;                         //Dialogue is a function of the dialogue class. Check Systems folder in Assets
-    [SerializeField] public AboveHeadDialogueLine[] ahDialogue;
-    [SerializeField] public int currentAHD;                  //The Above Head Dialogue that will show currently above the NPC
+    [SerializeField] public AboveHeadDialogueLine[] ahDialogueList;
+    [SerializeField] public int currentAHD;                     //The Above Head Dialogue that will show currently above the NPC
+    [SerializeField] public bool showingAHD;                    //Has an AHD been instantiated from the dialogue manager and is currently live?
     [SerializeField] public Dialogue specialDialogue;
 
 
@@ -58,17 +60,29 @@ public class Npcscript : MonoBehaviour
         if (playerInRange && !inConversation)
         {
             animator.SetBool("Player In Range", true);
-            if( ahDialogue.Length > 0)
+            if( ahDialogueList.Length > 0 && !showingAHD)
             {
-                dialogueManager.ShowAboveHeadDialogue(ahDialogue[currentAHD], gameObject);   //This doesn't work right now, fix in dialogueManager
+                for (int i = 0; i < ahDialogueList.Length; i++)     //Look through AHDialogue List for the AHDialogue that has the corresponding ID
+                {
+                    if (ahDialogueList[i].ahID == currentAHD)
+                    {
+                        dialogueManager.ShowAboveHeadDialogue(ahDialogueList[i], gameObject);   //If found, display it
+                        return;
+                    }
+
+                    if (ahDialogueList[i].ahID != currentAHD && i == ahDialogueList.Length - 1)     //If we come to the last item, and there's still no match, something's wrong
+                    {
+                        Debug.LogWarning($"{gameObject} tried to show an Above Head Dialogue with an ID that doesn't exist! Please check AHIDs in Dialogue");
+                    }
+                }
             }
         }
 
         //Out of range and this is the closest NPC
-        if (!playerInRange && Player.GetComponent<Charcontrol>().closestNPC == this.gameObject)
+        if (!playerInRange && Player.GetComponent<Charcontrol>().closestNPC == this.gameObject && showingAHD)
         {
             dialogueManager.HideDialogue();
-            dialogueManager.HideAboveHeadDialogue(gameObject);
+            StartCoroutine(dialogueManager.HideAboveHeadDialogue(gameObject));
             audiosource.Stop();
         }
 
@@ -98,9 +112,9 @@ public class Npcscript : MonoBehaviour
             ++talkedToTimes;
         }
 
-        if (inConversation)
+        if (inConversation && showingAHD)
         {
-            dialogueManager.HideAboveHeadDialogue(gameObject);
+            StartCoroutine(dialogueManager.HideAboveHeadDialogue(gameObject));
         }
 
         //If the end of the conversation is reached

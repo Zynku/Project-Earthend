@@ -7,12 +7,11 @@ using System.Linq;
 
 public class DialogueManager : MonoBehaviour
 {
-    public float timeConstant;
-
     [Header("Variables to be Assgined")]
     public static DialogueManager instance;
     public GameObject aboveHeadTextPrefab;
     public Vector3 AboveHeadDialogueOffset;
+    public float AHDFadeOutTime;
     public List<GameObject> aboveHeadTexts;
     public GameObject aboveheaddialogueBox;
     public TextMeshPro aboveheaddialogue;
@@ -100,8 +99,6 @@ public class DialogueManager : MonoBehaviour
         else { continueText.enabled = true; }
 
         ManageQuestsToGive();
-
-        timeConstant = Time.deltaTime;
     }
 
     public void LateUpdate()
@@ -129,56 +126,78 @@ public class DialogueManager : MonoBehaviour
         }
     }
 
-    public void ShowAboveHeadDialogue(AboveHeadDialogueLine npcahd, GameObject origin)            //TODO: fix this
+    public void ShowAboveHeadDialogue(AboveHeadDialogueLine npcahd, GameObject origin)       
     {
-        if (aboveHeadTexts.Count == 0)
+        if (aboveHeadTexts.Count == 0)  //If there are no above head texts, we show a new one corresponding to this NPC
         {
             Vector3 spawnPos = origin.transform.position + AboveHeadDialogueOffset;
             GameObject aHDialogue = Instantiate(aboveHeadTextPrefab, spawnPos, Quaternion.identity);
             aboveHeadTexts.Add(aHDialogue);
             aHDialogue.GetComponent<AboveHeadDialogue>().myNPC = origin;
             aHDialogue.GetComponent<AboveHeadDialogue>().myText.text = npcahd.lineString;
+
+            Color transpcolor = new Color32(255, 255, 255, 0);
+            Color opaquecolor = new Color32(255, 255, 255, 255);
+
+            aHDialogue.GetComponentInChildren<TextMeshPro>().color = transpcolor;
+            StartCoroutine(FadeAHD(transpcolor, opaquecolor, AHDFadeOutTime, aHDialogue));
         }
-        else
+        else            //If there are above head texts, we check to make sure the one we're trying to show isnt already shown (by checking its NPC). If not, we show it.
         {
             foreach (var item in aboveHeadTexts)
             {
-                if (!item.GetComponent<AboveHeadDialogue>().myNPC == origin)
+                if (item.GetComponent<AboveHeadDialogue>().myNPC != origin)
                 {
                     Vector3 spawnPos = origin.transform.position + AboveHeadDialogueOffset;
                     GameObject aHDialogue = Instantiate(aboveHeadTextPrefab, spawnPos, Quaternion.identity);
                     aboveHeadTexts.Add(aHDialogue);
                     aHDialogue.GetComponent<AboveHeadDialogue>().myNPC = origin;
-                    aHDialogue.GetComponentInChildren<TextMeshPro>().text = dialogue.ToString();
+
+                    aHDialogue.GetComponent<AboveHeadDialogue>().myText.text = npcahd.lineString;
+
+                    Color transpcolor = new Color32(255, 255, 255, 0);
+                    Color opaquecolor = new Color32(255, 255, 255, 255);
+
+                    aHDialogue.GetComponentInChildren<TextMeshPro>().color = transpcolor;
+                    StartCoroutine(FadeAHD(transpcolor, opaquecolor, AHDFadeOutTime, aHDialogue));
                 }
             }
         }
-        
-       /* aboveheaddialogue.enabled = true;
-        aboveheaddialogueBox.SetActive(true);
-
-        aboveheaddialogue.transform.position = NPCPos + AboveHeadDialogueOffset;
-        aboveheaddialogueBox.transform.position = NPCPos + AboveHeadDialogueBoxOffset;*/
-
-        //aboveheaddialogueBox.transform.localScale = new Vector2((dialogue.Lines[0].Length * 0.21f), 1f);
-
-        //aboveheaddialogue.text = dialogue.Lines[0].ToString();
     }
 
-    public void HideAboveHeadDialogue(GameObject origin)
+    public IEnumerator HideAboveHeadDialogue(GameObject origin)
     {
+        origin.GetComponent<Npcscript>().showingAHD = false;
         if (aboveHeadTexts.Count != 0)
         {
             foreach (var item in aboveHeadTexts)
             {
                 if (item.GetComponent<AboveHeadDialogue>().myNPC == origin)
                 {
+                    Color transpcolor = new Color32(255, 255, 255, 0);
+                    Color opaquecolor = new Color32(255, 255, 255, 255);
+
+                    StartCoroutine(FadeAHD(opaquecolor, transpcolor, AHDFadeOutTime, item));
+                    yield return new WaitForSeconds(0.7f);
                     aboveHeadTexts.Remove(item);
                     Destroy(item);
-                    return;
+                    break;
                 }
             }
         }
+    }
+
+    public IEnumerator FadeAHD(Color start, Color end, float duration, GameObject target)
+    {
+        TextMeshPro TMComponent = target.GetComponentInChildren<TextMeshPro>();
+        for (float t = 0f; t < duration; t += Time.deltaTime)
+        {
+            float normalizedTime = t / duration;
+            //right here, you can now use normalizedTime as the third parameter in any Lerp from start to end
+            TMComponent.color = Color.Lerp(start, end, normalizedTime);
+            yield return null;
+        }
+        TMComponent.color = end; //without this, the value will end at something like 0.9992367
     }
 
     //Takes dialogue and passes it to coroutine, also sets text box to be active. Is only called at the START of every conversation
@@ -220,8 +239,9 @@ public class DialogueManager : MonoBehaviour
                 currentLine = 1;
 
                 //Passes the first line to the Coroutine so its starts typing
-                StopCoroutine(TypeDialogue(firstLine.lineString, firstLine.typeSpeed));
-                StartCoroutine(TypeDialogue(firstLine.lineString, firstLine.typeSpeed));
+                //StopCoroutine(TypeDialogue(firstLine.lineString, firstLine.typeSpeed));
+                if (TypeCO != null) { StopCoroutine(TypeCO); }
+                TypeCO = StartCoroutine(TypeDialogue(firstLine.lineString, firstLine.typeSpeed));
 
                 //Passes the audio to the below function to play audio clip
                 endOfConversation = false;
@@ -285,9 +305,9 @@ public class DialogueManager : MonoBehaviour
 
     public void PlayDialogueLine(AudioClip audio, float audioVol, AudioSource audioSource)
     {
-        Debug.Log($"Playing {audio}");
         if (audio != null)
         {
+            //Debug.Log($"Playing {audio}");
             audioSource.loop = false;
             audioSource.volume = audioVol;
             audioSource.pitch = 1;
@@ -351,6 +371,8 @@ public class DialogueManager : MonoBehaviour
             StopAllCoroutines();
         }
     }
+
+    private Coroutine TypeCO;
     //Takes dialogue and shows it letter by letter
     public IEnumerator TypeDialogue(string line, int lettersPerSecond)
     {
@@ -370,6 +392,15 @@ public class DialogueManager : MonoBehaviour
             yield break;
         }
 
+        //If the line can change what dialogue the NPC displays above its head when not in conversation, do it
+        if (currentDialogueLine.canChangeAboveHeadDialogue)
+        {
+            Npcscript currentNPCScript = dialogueSource.GetComponent<Npcscript>();
+            currentNPCScript.currentAHD = currentDialogueLine.AHDialogueToSwitchTo;
+        }
+
+
+        //If the line can give the player a quest, do it
         if (currentDialogueTree.dialogueLines[currentLineArray].canTriggerQuest)
         {
             QuestGiver questScript = dialogueSource.GetComponent<QuestGiver>();
@@ -405,10 +436,9 @@ public class DialogueManager : MonoBehaviour
                 currentLetterIndex++;
                 //dialogueText.text += letter;
             }
-
-            //Allows player to interrupt if they press interact key during typing. Prints whole line and stops letter by letter typing
-            if (isTyping && Input.GetButtonDown("Interact"))
+            if (isTyping && Input.GetButton("Interact"))
             {
+                if (TypeCO != null) { StopCoroutine(TypeCO); }
                 dialogueText.text = "";
                 dialogueText.text = line.ToString();
                 yield return new WaitForSecondsRealtime(0.2f);
