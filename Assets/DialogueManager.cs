@@ -396,7 +396,7 @@ public class DialogueManager : MonoBehaviour
         if (currentDialogueLine.canChangeAboveHeadDialogue)
         {
             Npcscript currentNPCScript = dialogueSource.GetComponent<Npcscript>();
-            currentNPCScript.currentAHD = currentDialogueLine.AHDialogueToSwitchTo;
+            currentNPCScript.currentAHD = currentDialogueLine.AHDialogueIndexToSwitchTo;
         }
 
 
@@ -418,6 +418,7 @@ public class DialogueManager : MonoBehaviour
         //TODO: Finish Tag Parser
         foreach (var letter in line.ToCharArray())
         {
+            //Debug.Log($"Full line is {line}");
             if (letter.ToString() == "<")   //If an opening tag is found, send it to the tag parser (Currently broken lol)
             {
                 int openTagIndex = dialogueText.text.Length;
@@ -438,11 +439,11 @@ public class DialogueManager : MonoBehaviour
             }
             if (isTyping && Input.GetButton("Interact"))
             {
+                isTyping = false;
                 if (TypeCO != null) { StopCoroutine(TypeCO); }
                 dialogueText.text = "";
                 dialogueText.text = line.ToString();
                 yield return new WaitForSecondsRealtime(0.2f);
-                isTyping = false;
                 yield break;
             }
 
@@ -522,8 +523,6 @@ public class DialogueManager : MonoBehaviour
         */
         if (choiceOne.canTriggerQuest)
         {
-            //QuestGiver questScript = dialogueSource.GetComponent<QuestGiver>();
-            //Quest questToGive = questScript.myQuest;
             Quest questToGive = choiceOne.myQuest;
             questsToGive.Add(questToGive);
         }
@@ -555,8 +554,6 @@ public class DialogueManager : MonoBehaviour
 
         if (choiceTwo.canTriggerQuest)
         {
-            //QuestGiver questScript = dialogueSource.GetComponent<QuestGiver>();
-            //Quest questToGive = questScript.myQuest;
             Quest questToGive = choiceTwo.myQuest;
             questsToGive.Add(questToGive);
         }

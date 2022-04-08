@@ -90,7 +90,7 @@ public class Charaudio : MonoBehaviour
 
     public void AudVoiceonJump()
     {
-        if (voice_jump != null)
+        if (voice_jump.Length > 0)
         {
             audiosource.volume = voiceJumpVolume;
             audiosource.pitch = 1;

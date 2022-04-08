@@ -12,15 +12,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 70258635a1361e6439261070d8ed14fd, type: 3}
   m_Name: Dialogue - Find Cat Quest
   m_EditorClassIdentifier: 
-  defaultTreeId: 7
+  defaultTreeId: 4
   dialogueTrees:
   - DialogueTreeName: Default
     DialogueTreeId: 1
     pauseGameOnOpen: 0
     dialogueLines:
     - lineString: Hey, I need some help
-      canChangeAboveHeadDialogue: 0
-      AHDialogueToSwitchTo: 0
+      canChangeAboveHeadDialogue: 1
+      AHDialogueIndexToSwitchTo: 1
       hasChoice: 0
       choiceTreeID: 
       canChangeDefaultTreeId: 0
@@ -34,7 +34,7 @@ MonoBehaviour:
       audioVol: 0.7
     - lineString: I uh....lost my cat...
       canChangeAboveHeadDialogue: 0
-      AHDialogueToSwitchTo: 0
+      AHDialogueIndexToSwitchTo: 0
       hasChoice: 0
       choiceTreeID: 
       canChangeDefaultTreeId: 0
@@ -48,7 +48,7 @@ MonoBehaviour:
       audioVol: 0.7
     - lineString: He was here a second ago...
       canChangeAboveHeadDialogue: 0
-      AHDialogueToSwitchTo: 0
+      AHDialogueIndexToSwitchTo: 0
       hasChoice: 0
       choiceTreeID: 
       canChangeDefaultTreeId: 0
@@ -63,7 +63,7 @@ MonoBehaviour:
     - lineString: Anyways, I would really appreciate it if you could help me look
         for him...
       canChangeAboveHeadDialogue: 0
-      AHDialogueToSwitchTo: 0
+      AHDialogueIndexToSwitchTo: 0
       hasChoice: 0
       choiceTreeID: 
       canChangeDefaultTreeId: 0
@@ -77,7 +77,7 @@ MonoBehaviour:
       audioVol: 0.7
     - lineString: Please?
       canChangeAboveHeadDialogue: 0
-      AHDialogueToSwitchTo: 0
+      AHDialogueIndexToSwitchTo: 0
       hasChoice: 1
       choiceTreeID: 1
       canChangeDefaultTreeId: 0
@@ -95,7 +95,7 @@ MonoBehaviour:
     dialogueLines:
     - lineString: Really?
       canChangeAboveHeadDialogue: 1
-      AHDialogueToSwitchTo: 1
+      AHDialogueIndexToSwitchTo: 2
       hasChoice: 0
       choiceTreeID: 
       canChangeDefaultTreeId: 0
@@ -110,7 +110,7 @@ MonoBehaviour:
     - lineString: Wow, I thought you'd say no for sure, since you look so busy and
         all...
       canChangeAboveHeadDialogue: 0
-      AHDialogueToSwitchTo: 0
+      AHDialogueIndexToSwitchTo: 0
       hasChoice: 0
       choiceTreeID: 
       canChangeDefaultTreeId: 0
@@ -124,7 +124,7 @@ MonoBehaviour:
       audioVol: 1
     - lineString: I'll be here waiting, please bring him back safely.
       canChangeAboveHeadDialogue: 0
-      AHDialogueToSwitchTo: 0
+      AHDialogueIndexToSwitchTo: 0
       hasChoice: 0
       choiceTreeID: 
       canChangeDefaultTreeId: 0
@@ -138,7 +138,7 @@ MonoBehaviour:
       audioVol: 1
     - lineString: Thanks a bunch!
       canChangeAboveHeadDialogue: 0
-      AHDialogueToSwitchTo: 0
+      AHDialogueIndexToSwitchTo: 0
       hasChoice: 0
       choiceTreeID: 
       canChangeDefaultTreeId: 0
@@ -155,8 +155,8 @@ MonoBehaviour:
     pauseGameOnOpen: 0
     dialogueLines:
     - lineString: Oh...
-      canChangeAboveHeadDialogue: 0
-      AHDialogueToSwitchTo: 0
+      canChangeAboveHeadDialogue: 1
+      AHDialogueIndexToSwitchTo: 2
       hasChoice: 0
       choiceTreeID: 
       canChangeDefaultTreeId: 0
@@ -170,7 +170,7 @@ MonoBehaviour:
       audioVol: 1
     - lineString: Yeah that makes sense...I suppose...
       canChangeAboveHeadDialogue: 0
-      AHDialogueToSwitchTo: 0
+      AHDialogueIndexToSwitchTo: 0
       hasChoice: 0
       choiceTreeID: 
       canChangeDefaultTreeId: 0
@@ -184,7 +184,7 @@ MonoBehaviour:
       audioVol: 1
     - lineString: sigh...
       canChangeAboveHeadDialogue: 0
-      AHDialogueToSwitchTo: 0
+      AHDialogueIndexToSwitchTo: 0
       hasChoice: 0
       choiceTreeID: 
       canChangeDefaultTreeId: 0
@@ -199,7 +199,7 @@ MonoBehaviour:
       audioVol: 1
     - lineString: I'll find him on my own I guess...
       canChangeAboveHeadDialogue: 0
-      AHDialogueToSwitchTo: 0
+      AHDialogueIndexToSwitchTo: 0
       hasChoice: 0
       choiceTreeID: 
       canChangeDefaultTreeId: 1
@@ -218,7 +218,7 @@ MonoBehaviour:
     dialogueLines:
     - lineString: I sure hope you find him...
       canChangeAboveHeadDialogue: 1
-      AHDialogueToSwitchTo: 2
+      AHDialogueIndexToSwitchTo: 0
       hasChoice: 0
       choiceTreeID: 
       canChangeDefaultTreeId: 0
@@ -238,7 +238,7 @@ MonoBehaviour:
     dialogueLines:
     - lineString: Oh you checked upstairs eh?
       canChangeAboveHeadDialogue: 0
-      AHDialogueToSwitchTo: 0
+      AHDialogueIndexToSwitchTo: 0
       hasChoice: 0
       choiceTreeID: 
       canChangeDefaultTreeId: 0
@@ -252,7 +252,7 @@ MonoBehaviour:
       audioVol: 1
     - lineString: Let me guess, you didn't find him...
       canChangeAboveHeadDialogue: 0
-      AHDialogueToSwitchTo: 0
+      AHDialogueIndexToSwitchTo: 0
       hasChoice: 0
       choiceTreeID: 
       canChangeDefaultTreeId: 0
@@ -266,7 +266,7 @@ MonoBehaviour:
       audioVol: 1
     - lineString: <sigh> Makes sense
       canChangeAboveHeadDialogue: 0
-      AHDialogueToSwitchTo: 0
+      AHDialogueIndexToSwitchTo: 0
       hasChoice: 0
       choiceTreeID: 
       canChangeDefaultTreeId: 0
@@ -280,7 +280,7 @@ MonoBehaviour:
       audioVol: 1
     - lineString: He never really liked the noise up there
       canChangeAboveHeadDialogue: 0
-      AHDialogueToSwitchTo: 0
+      AHDialogueIndexToSwitchTo: 0
       hasChoice: 0
       choiceTreeID: 
       canChangeDefaultTreeId: 1
@@ -294,7 +294,7 @@ MonoBehaviour:
       audioVol: 1
     - lineString: Well keep up the search, thanks for your help so far
       canChangeAboveHeadDialogue: 0
-      AHDialogueToSwitchTo: 0
+      AHDialogueIndexToSwitchTo: 0
       hasChoice: 0
       choiceTreeID: 
       canChangeDefaultTreeId: 1
@@ -312,7 +312,7 @@ MonoBehaviour:
     dialogueLines:
     - lineString: Here pspspspsps...
       canChangeAboveHeadDialogue: 0
-      AHDialogueToSwitchTo: 0
+      AHDialogueIndexToSwitchTo: 0
       hasChoice: 0
       choiceTreeID: 
       canChangeDefaultTreeId: 0
@@ -326,7 +326,7 @@ MonoBehaviour:
       audioVol: 1
     - lineString: Oh
       canChangeAboveHeadDialogue: 0
-      AHDialogueToSwitchTo: 0
+      AHDialogueIndexToSwitchTo: 0
       hasChoice: 0
       choiceTreeID: 
       canChangeDefaultTreeId: 0
@@ -340,7 +340,7 @@ MonoBehaviour:
       audioVol: 1
     - lineString: It's you
       canChangeAboveHeadDialogue: 0
-      AHDialogueToSwitchTo: 0
+      AHDialogueIndexToSwitchTo: 0
       hasChoice: 0
       choiceTreeID: 
       canChangeDefaultTreeId: 0
@@ -354,7 +354,7 @@ MonoBehaviour:
       audioVol: 1
     - lineString: I'm kinda busy if you don't mind...
       canChangeAboveHeadDialogue: 0
-      AHDialogueToSwitchTo: 0
+      AHDialogueIndexToSwitchTo: 0
       hasChoice: 0
       choiceTreeID: 
       canChangeDefaultTreeId: 1
@@ -372,7 +372,7 @@ MonoBehaviour:
     dialogueLines:
     - lineString: Go away
       canChangeAboveHeadDialogue: 0
-      AHDialogueToSwitchTo: 0
+      AHDialogueIndexToSwitchTo: 0
       hasChoice: 0
       choiceTreeID: 
       canChangeDefaultTreeId: 0

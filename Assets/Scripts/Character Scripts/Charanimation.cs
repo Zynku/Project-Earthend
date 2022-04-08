@@ -124,6 +124,10 @@ public class Charanimation : MonoBehaviour
             case Charcontrol.State.Landing:
                 break;
 
+            case Charcontrol.State.Switching_to_Crouching:
+                animator.SetTrigger("Crouching");
+                break;
+
             case Charcontrol.State.CrouchWalking:
                 break;
 

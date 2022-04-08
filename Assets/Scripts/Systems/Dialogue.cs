@@ -30,7 +30,7 @@ public class DialogueLine
     [Separator("Dynamic Variables")]
     public bool canChangeAboveHeadDialogue;
     [ConditionalField(nameof(canChangeAboveHeadDialogue))]
-    public int AHDialogueToSwitchTo;
+    public int AHDialogueIndexToSwitchTo;
     public bool hasChoice;
     [ConditionalField(nameof(hasChoice))]
     public string choiceTreeID;             //The ID of the choice tree it'll show if it has a choice

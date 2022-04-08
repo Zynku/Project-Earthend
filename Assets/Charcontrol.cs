@@ -28,6 +28,10 @@ public class Charcontrol : MonoBehaviour
     public float runThreshold;
     public float facingDir = 1;
 
+    [Header("Crouching Variables")]
+    public bool inCrouchingTrigger;
+    public float crouchWalkingSpeed;
+
     [Header("Walking Variables")]
     public float walkSpeed = 9.5f;
     //[SerializeField] private float maxWalkSpeed = 1.6f;
@@ -107,7 +111,9 @@ public class Charcontrol : MonoBehaviour
         AirJumping,
         Falling,
         Landing,
-        Crouching,
+        Switching_to_Crouching,
+        Crouching_Idle,
+        Crouching_Walking,
         CrouchWalking,
         Attacking,
         Air_Attacking,
@@ -150,6 +156,11 @@ public class Charcontrol : MonoBehaviour
         onscreenTimer.GetComponent<SimpleTimerScript>().timerTime = combatStateTime;
         playerInConversation = DialogueManager.instance.playerInConversation;
         //switchedDirOnscreenTimer.GetComponent<SimpleTimerScript>().timerTime = switchingDirTime;
+
+        if (inCrouchingTrigger && Input.GetButton("Interact"))
+        {
+            currentState = State.Switching_to_Crouching;
+        }
 
         if (inCombat) { combatStateTime -= Time.deltaTime; }
         else { combatStateTime = combatStateTargetTime; }
@@ -401,15 +412,6 @@ public class Charcontrol : MonoBehaviour
                 {
                     currentState = State.Dodging;
                 }
-                //Transition to Swithing_Dir
-                /*if (xVel > 0 && Input.GetAxis("Horizontal") < 0)        //If you're running right, and you press the left key, start switching direction
-                {
-                    currentState = State.Switching_Dir;
-                }
-                if (xVel < 0 && Input.GetAxis("Horizontal") > 0)        //If you're running left, and you press the right key, start switching direction
-                {
-                    currentState = State.Switching_Dir;
-                }*/
                 break;
 
             case State.Switching_Dir:
@@ -447,23 +449,6 @@ public class Charcontrol : MonoBehaviour
                 {
                     currentState = State.Jumping;
                 }
-                //Transition to Swithing_Dir
-/*                if (!timerMade)
-                {
-                    GameObject timer;
-                    timer = TimerManager.instance.CreateAutoTimer(switchingDirTargetTime, "Test Timer", true, true);
-                    timerMade = true;
-                }*/
-     /*           if (xVel > 0 && Input.GetAxis("Horizontal") < 0)        //If you're running right, and you press the left key, start switching direction
-                {
-                    currentState = State.Switching_Dir;
-                }
-                if (xVel < 0 && Input.GetAxis("Horizontal") > 0)        //If you're running left, and you press the right key, start switching direction
-                {
-                    currentState = State.Switching_Dir;
-                }
-                switchingDirTime -= Time.deltaTime;*/
-                
                 break;
 
             case State.Jumping:
@@ -511,7 +496,11 @@ public class Charcontrol : MonoBehaviour
                 inCombat = false;
                 break;
 
-            case State.Crouching:
+            case State.Switching_to_Crouching:
+
+                break;
+
+            case State.Crouching_Idle:
                 inCombat = false;
                 //boxCol.size = boxColSize;
                 //boxCol.offset = boxColOffset;
@@ -758,6 +747,22 @@ public class Charcontrol : MonoBehaviour
     public void onDodgeTransitionCombat()
     {
         currentState = State.COMBAT_Idle;
+    }
+
+    private void OnTriggerStay2D(Collider2D collision)
+    {
+        if (collision.CompareTag("crouching_trigger_area"))
+        {
+            inCrouchingTrigger = true;
+        }
+    }
+
+    private void OnTriggerExit2D(Collider2D collision)
+    {
+        if (collision.CompareTag("crouching_trigger_area"))
+        {
+            inCrouchingTrigger = false;
+        }
     }
 
     private void OnDrawGizmos()

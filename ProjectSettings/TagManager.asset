@@ -23,6 +23,7 @@ TagManager:
   - item_collectable
   - QuestManager
   - QuestObject
+  - crouching_trigger_area
   layers:
   - Default
   - TransparentFX

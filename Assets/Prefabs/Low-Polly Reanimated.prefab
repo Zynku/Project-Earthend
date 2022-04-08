@@ -5153,11 +5153,13 @@ MonoBehaviour:
   currentDrag: 3
   runThreshold: 1.2
   facingDir: 1
+  inCrouchingTrigger: 0
+  crouchWalkingSpeed: 0
   walkSpeed: 2
   runSpeed: 3
   rolled: 0
   rollDrag: 0.2
-  jumpForce: 3
+  jumpForce: 4
   airLinearDrag: 1
   groundLinearDrag: 3
   HorizontalDirection: 0
@@ -5483,7 +5485,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4714260749208962275}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: e3daf068d7f23e2449050964f8bf160c, type: 3}
   m_Name: 
