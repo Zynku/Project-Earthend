@@ -29,7 +29,8 @@ public class Charcontrol : MonoBehaviour
     public float facingDir = 1;
 
     [Header("Crouching Variables")]
-    public bool inCrouchingTrigger;
+    public bool inCrouchingTrigger;             //This is the area the player can press interact in to crouch
+    public bool inCrouchingTriggerStayZone;     //This is the area the player must stay in to stay crouched. If they leave it they are automatically uncrouched
     public float crouchWalkingSpeed;
 
     [Header("Walking Variables")]
@@ -112,6 +113,7 @@ public class Charcontrol : MonoBehaviour
         Falling,
         Landing,
         Switching_to_Crouching,
+        Switching_from_Crouching,
         Crouching_Idle,
         Crouching_Walking,
         CrouchWalking,
@@ -157,10 +159,28 @@ public class Charcontrol : MonoBehaviour
         playerInConversation = DialogueManager.instance.playerInConversation;
         //switchedDirOnscreenTimer.GetComponent<SimpleTimerScript>().timerTime = switchingDirTime;
 
-        if (inCrouchingTrigger && Input.GetButton("Interact"))
+        //Crouching Stuff---------------------------------------------------------------------------------------------------------------------------------------
+        if (inCrouchingTrigger && Input.GetButtonDown("Interact"))
         {
-            currentState = State.Switching_to_Crouching;
+            if (currentState != State.Crouching_Idle)
+            {
+                currentState = State.Switching_to_Crouching;
+            }
+            else
+            {
+                currentState = State.Switching_from_Crouching;
+            }
         }
+
+        if (!inCrouchingTriggerStayZone)
+        {
+            if(currentState == State.Crouching_Idle || currentState == State.Crouching_Walking)
+            {
+                currentState = State.Switching_from_Crouching;
+            }
+        }
+        //Crouching Stuff---------------------------------------------------------------------------------------------------------------------------------------
+
 
         if (inCombat) { combatStateTime -= Time.deltaTime; }
         else { combatStateTime = combatStateTargetTime; }
@@ -185,39 +205,19 @@ public class Charcontrol : MonoBehaviour
                 charattacks.Combat_Idle();
                 inCombat = true;
 
-                if (combatStateTime == 0)
-                {
-                    currentState = State.Idle;
-                }
+                if (combatStateTime == 0) { currentState = State.Idle; }
 
-                if (Input.GetAxisRaw("Vertical") > 0)
-                {
-                    currentState = State.COMBAT_Jumping;
-                }
-
-                if (Input.GetAxisRaw("Horizontal") != 0)
-                {
-                    currentState = State.COMBAT_Running;
-                }
-
-                if (Input.GetButtonDown("Dodge"))
-                {
-                    currentState = State.COMBAT_Dodging;
-                }
+                if (Input.GetAxisRaw("Vertical") > 0) { currentState = State.COMBAT_Jumping; }
+                if (Input.GetAxisRaw("Horizontal") != 0) { currentState = State.COMBAT_Running; }
+                if (Input.GetButtonDown("Dodge")) { currentState = State.COMBAT_Dodging; }
                 break;
 
             case State.COMBAT_Walking:
                 inCombat = true;
                 combatStateTime = combatStateTargetTime;
-                if (Input.GetAxisRaw("Vertical") > 0)
-                {
-                    currentState = State.COMBAT_Jumping;
-                }
 
-                if (Input.GetButtonDown("Dodge"))
-                {
-                    currentState = State.COMBAT_Dodging;
-                }
+                if (Input.GetAxisRaw("Vertical") > 0) { currentState = State.COMBAT_Jumping; }
+                if (Input.GetButtonDown("Dodge")) { currentState = State.COMBAT_Dodging; }
                 break;
 
             case State.COMBAT_Running:
@@ -226,37 +226,11 @@ public class Charcontrol : MonoBehaviour
                 combatStateTime = combatStateTargetTime;
                 checkforSwitchingDir();
 
-                if (Input.GetAxisRaw("Vertical") > 0)
-                {
-                    currentState = State.COMBAT_Jumping;
-                }
-
-                if (Mathf.Abs(Mathf.Ceil(rb2d.velocity.x)) == 0)
-                {
-                    currentState = State.COMBAT_Idle;
-                }
-
-                if (Input.GetButtonDown("Dodge"))
-                {
-                    currentState = State.COMBAT_Dodging;
-                }
+                if (Input.GetAxisRaw("Vertical") > 0) { currentState = State.COMBAT_Jumping; }
+                if (Mathf.Abs(Mathf.Ceil(rb2d.velocity.x)) == 0) { currentState = State.COMBAT_Idle; }
+                if (Input.GetButtonDown("Dodge")) { currentState = State.COMBAT_Dodging; }
                 //Transition back to Walk
                 //Nothing haha fuck you
-                //Transition to Sliding
-                /*                if (Input.GetButtonDown("Dodge"))
-                                {
-                                    currentState = State.Dodging;
-                                }*/
-                //Transition to Attacking
-                /*if (Input.GetAxisRaw("Light Attack") != 0 || Input.GetAxisRaw("Heavy Attack") != 0 || Input.GetAxisRaw("Ranged Attack") != 0)
-                {
-                    currentState = State.Attacking;
-                }*/
-                //Transition to Jumping
-                /*                if (Input.GetAxisRaw("Vertical") > 0)
-                                {
-                                    currentState = State.Jumping;
-                                }*/
                 break;
 
             case State.COMBAT_Jumping:
@@ -360,10 +334,7 @@ public class Charcontrol : MonoBehaviour
                 inCombat = false;
                 Idle();
                 //Transition to Walking
-                if (Input.GetAxisRaw("Horizontal") != 0)
-                {
-                    currentState = State.Walking;
-                }
+                if (Input.GetAxisRaw("Horizontal") != 0) { currentState = State.Walking; }
 
 /*                if (Input.GetButtonDown("Light Attack"))
                 {
@@ -497,18 +468,31 @@ public class Charcontrol : MonoBehaviour
                 break;
 
             case State.Switching_to_Crouching:
+                //Actual switching to Crouching_Idle is handled in Charanimation
+                rb2d.velocity = rb2d.velocity;
+                break;
 
+            case State.Switching_from_Crouching:
+                //Actual switching from Crouching_Idle is handled in Charanimation
+                rb2d.velocity = rb2d.velocity;
                 break;
 
             case State.Crouching_Idle:
                 inCombat = false;
+                if (Input.GetAxisRaw("Horizontal") != 0) { currentState = State.CrouchWalking; }
                 //boxCol.size = boxColSize;
                 //boxCol.offset = boxColOffset;
                 rb2d.velocity = rb2d.velocity;
                 break;
 
             case State.CrouchWalking:
+                CrouchingWalking();
                 inCombat = false;
+
+                if (Input.GetAxisRaw("Horizontal") == 0)
+                {
+                    currentState = State.Crouching_Idle;
+                }
                 break;
 
             case State.Attacking:
@@ -620,6 +604,12 @@ public class Charcontrol : MonoBehaviour
                         Debug.Log("Switching direction right");
                     }
                 }*/
+        canFlipXDir();
+    }
+
+    public void CrouchingWalking()
+    {
+        rb2d.velocity = new Vector2(walkSpeed * Input.GetAxis("Horizontal"), rb2d.velocity.y);
         canFlipXDir();
     }
 
@@ -751,9 +741,16 @@ public class Charcontrol : MonoBehaviour
 
     private void OnTriggerStay2D(Collider2D collision)
     {
+        //This is the area the player can press interact in to crouch
         if (collision.CompareTag("crouching_trigger_area"))
         {
             inCrouchingTrigger = true;
+        }
+
+        //This is the area the player must stay in to stay crouched. If they leave it they are automatically uncrouched
+        if (collision.CompareTag("crouching_trigger_stay_zone"))
+        {
+            inCrouchingTriggerStayZone = true;
         }
     }
 
@@ -762,6 +759,11 @@ public class Charcontrol : MonoBehaviour
         if (collision.CompareTag("crouching_trigger_area"))
         {
             inCrouchingTrigger = false;
+        }
+
+        if (collision.CompareTag("crouching_trigger_stay_zone"))
+        {
+            inCrouchingTriggerStayZone = false;
         }
     }
 

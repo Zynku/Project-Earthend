@@ -24,6 +24,7 @@ TagManager:
   - QuestManager
   - QuestObject
   - crouching_trigger_area
+  - crouching_trigger_stay_zone
   layers:
   - Default
   - TransparentFX

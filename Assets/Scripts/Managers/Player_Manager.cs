@@ -27,10 +27,19 @@ public class Player_Manager : MonoBehaviour
 
     public GameObject SpawnPlayer()
     {
-        playerRespawnPoint = GameManager.instance.playerRespawnPoint;
-        playerLiveRef = Instantiate(playerPrefab, playerRespawnPoint.transform.position, Quaternion.identity,gameObject.transform);
-        playerLiveRef.SetActive(true);
-        return playerLiveRef;
+        var player = GameObject.FindGameObjectWithTag("Player");
+        if (player != null)
+        {
+            return player;
+            
+        }
+        else
+        {
+            playerRespawnPoint = GameManager.instance.playerRespawnPoint;
+            playerLiveRef = Instantiate(playerPrefab, playerRespawnPoint.transform.position, Quaternion.identity, gameObject.transform);
+            playerLiveRef.SetActive(true);
+            return playerLiveRef;
+        }
     }
 
     public void DespawnPlayer()

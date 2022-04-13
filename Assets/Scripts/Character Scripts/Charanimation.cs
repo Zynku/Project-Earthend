@@ -41,6 +41,8 @@ public class Charanimation : MonoBehaviour
 
     private void FixedUpdate()
     {
+        AnimatorStateInfo currentAnimSInfo = animator.GetCurrentAnimatorStateInfo(0);
+        AnimatorClipInfo[] currentAnimCInfo = animator.GetCurrentAnimatorClipInfo(0);
         switch (charcontrol.currentState)
         {
             case Charcontrol.State.COMBAT_Idle:
@@ -125,10 +127,37 @@ public class Charanimation : MonoBehaviour
                 break;
 
             case Charcontrol.State.Switching_to_Crouching:
-                animator.SetTrigger("Crouching");
+                if (currentAnimCInfo[0].clip.name != "Idle into Crouch")
+                {
+                    Debug.Log($"Not already playing {currentAnimCInfo[0].clip.name}, so ima play it");
+                    animator.Play("Idle into Crouch");
+                }
+                
+                animator.SetBool("Crouching", true);
+                animator.SetBool("Crouchwalking", false);
+
+                if (currentAnimSInfo.normalizedTime >= 0.9f)
+                {
+                    charcontrol.currentState = Charcontrol.State.Crouching_Idle;
+                }
+                break;
+
+            case Charcontrol.State.Switching_from_Crouching:
+                animator.SetBool("Crouching", false);
+                animator.SetBool("Crouchwalking", false);
+
+                if (currentAnimSInfo.normalizedTime >= 0.9f)
+                {
+                    charcontrol.currentState = Charcontrol.State.Idle;
+                }
+                break;
+
+            case Charcontrol.State.Crouching_Idle:
+                animator.SetBool("Crouchwalking", false);
                 break;
 
             case Charcontrol.State.CrouchWalking:
+                animator.SetBool("Crouchwalking", true);
                 break;
 
             case Charcontrol.State.Attacking:
