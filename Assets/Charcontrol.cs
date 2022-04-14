@@ -31,7 +31,7 @@ public class Charcontrol : MonoBehaviour
     [Header("Crouching Variables")]
     public bool inCrouchingTrigger;             //This is the area the player can press interact in to crouch
     public bool inCrouchingTriggerStayZone;     //This is the area the player must stay in to stay crouched. If they leave it they are automatically uncrouched
-    public float crouchWalkingSpeed;
+    public float crouchWalkingSpeed = 4.75f;
 
     [Header("Walking Variables")]
     public float walkSpeed = 9.5f;
@@ -51,13 +51,26 @@ public class Charcontrol : MonoBehaviour
     [SerializeField] private float groundLinearDrag = 4.67f;
     public float HorizontalDirection;
     public float airHorizontalAcc;
-    public bool isGrounded;
     [HideInInspector] public bool jumped = false;
     [HideInInspector] public float fallThreshold;
-    [HideInInspector] public float checkdistances = 0.05f;
-    [HideInInspector] public float ycheckOffset = -0.26f;
     [HideInInspector] public int airJumps = 2;
     [HideInInspector] public int airJumpsHas;
+
+    [Header("Ground and Wall Checks")]
+    public bool isGrounded;
+    [HideInInspector] public float groundCheckDistances = 0.05f;
+    [HideInInspector] public float groundYCheckOffset = -0.26f;
+
+    public bool isAgainstWallLeft;
+    public float wallLeftCheckDistances;
+    public float wallLeftYCheckOffset;
+    public float wallLeftXCheckOffset;
+
+    public bool isAgainstWallRight;
+    public float wallRightCheckDistances;
+    public float wallRightYCheckOffset;
+    public float wallRightXCheckOffset;
+
 
     [Header("Combat State Variables")]
     public bool inCombat;   
@@ -528,19 +541,26 @@ public class Charcontrol : MonoBehaviour
 
         FindClosestNPC();
         checkforGrounded();
+        checkforWalls();
     }
 
     void checkforGrounded()
     {
         //Grounded Check
-        if (Physics2D.OverlapCircle(new Vector2(transform.position.x, transform.position.y + ycheckOffset), checkdistances, 1 << LayerMask.NameToLayer("Ground")))
-        {
-            isGrounded = true;
-        }
-        else
-        {
-            isGrounded = false;
-        }
+        if (Physics2D.OverlapCircle(new Vector2(transform.position.x, transform.position.y + groundYCheckOffset), groundCheckDistances, 1 << LayerMask.NameToLayer("Ground")))
+        { isGrounded = true; }
+        else { isGrounded = false; }
+    }
+
+    void checkforWalls()
+    {
+        if (Physics2D.OverlapCircle(new Vector2(transform.position.x + wallLeftXCheckOffset, transform.position.y + wallLeftYCheckOffset), wallLeftCheckDistances, 1 << LayerMask.NameToLayer("Walls")))
+        { isAgainstWallLeft = true; }
+        else { isAgainstWallLeft = false; }
+
+        if (Physics2D.OverlapCircle(new Vector2(transform.position.x + wallRightXCheckOffset, transform.position.y + wallRightYCheckOffset), wallRightCheckDistances, 1 << LayerMask.NameToLayer("Walls")))
+        { isAgainstWallRight = true; }
+        else { isAgainstWallRight = false; }
     }
 
     void checkforSwitchingDir()
@@ -609,7 +629,7 @@ public class Charcontrol : MonoBehaviour
 
     public void CrouchingWalking()
     {
-        rb2d.velocity = new Vector2(walkSpeed * Input.GetAxis("Horizontal"), rb2d.velocity.y);
+        rb2d.velocity = new Vector2(crouchWalkingSpeed * Input.GetAxis("Horizontal"), rb2d.velocity.y);
         canFlipXDir();
     }
 
@@ -646,9 +666,10 @@ public class Charcontrol : MonoBehaviour
     {
         if (airJumpsHas != 0)
         {
-            rb2d.velocity = new Vector2(rb2d.velocity.x, 0);
-            rb2d.AddForce(Vector2.up * jumpForce, ForceMode2D.Impulse);
-            rb2d.AddForce(new Vector2(Input.GetAxisRaw("Horizontal") * runSpeed * airHorizontalAcc, 0f));
+            rb2d.velocity = new Vector2(rb2d.velocity.x, 0);                                           //Sets Y velocity to 0 so calculations are consistent
+            rb2d.AddForce(Vector2.up * jumpForce, ForceMode2D.Impulse);                                //Adds a force upwards
+            //rb2d.AddForce(new Vector2(Input.GetAxisRaw("Horizontal") * runSpeed * airHorizontalAcc, 0f));
+            rb2d.velocity = new Vector2((Input.GetAxisRaw("Horizontal") * airHorizontalAcc), rb2d.velocity.y);  //Allows horizontal movement
             jumped = true;
             --airJumpsHas;
             currentState = State.Jumping;
@@ -659,7 +680,10 @@ public class Charcontrol : MonoBehaviour
     public void Falling()
     {
         //rb2d.AddForce(new Vector2(Input.GetAxisRaw("Horizontal") * airHorizontalAcc, 0f));
-        rb2d.velocity = new Vector2((Input.GetAxisRaw("Horizontal") * airHorizontalAcc), rb2d.velocity.y);
+        if (!isAgainstWallLeft && !isAgainstWallRight)
+        {
+            rb2d.velocity = new Vector2((Input.GetAxisRaw("Horizontal") * airHorizontalAcc), rb2d.velocity.y);
+        }
         canFlipXDir();
     }
 
@@ -769,7 +793,14 @@ public class Charcontrol : MonoBehaviour
 
     private void OnDrawGizmos()
     {
-        Gizmos.DrawWireSphere(new Vector2(transform.position.x, transform.position.y + ycheckOffset), checkdistances);
+        Gizmos.color = Color.white;
+        Gizmos.DrawWireSphere(new Vector2(transform.position.x, transform.position.y + groundYCheckOffset), groundCheckDistances);
+
+        if (isAgainstWallLeft) { Gizmos.color = Color.green; } else { Gizmos.color = Color.red; }
+        Gizmos.DrawWireSphere(new Vector2(transform.position.x + wallLeftXCheckOffset, transform.position.y + wallLeftYCheckOffset), wallLeftCheckDistances);
+
+        if (isAgainstWallRight) { Gizmos.color = Color.green; } else { Gizmos.color = Color.red; }
+        Gizmos.DrawWireSphere(new Vector2(transform.position.x + wallRightXCheckOffset, transform.position.y + wallRightYCheckOffset), wallRightCheckDistances);
     }
 
 }

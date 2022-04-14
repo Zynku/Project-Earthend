@@ -129,7 +129,7 @@ public class Charanimation : MonoBehaviour
             case Charcontrol.State.Switching_to_Crouching:
                 if (currentAnimCInfo[0].clip.name != "Idle into Crouch")
                 {
-                    Debug.Log($"Not already playing {currentAnimCInfo[0].clip.name}, so ima play it");
+                    //Debug.Log($"Not already playing {currentAnimCInfo[0].clip.name}, so ima play it");
                     animator.Play("Idle into Crouch");
                 }
                 

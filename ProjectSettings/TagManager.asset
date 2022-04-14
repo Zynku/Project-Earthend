@@ -25,6 +25,7 @@ TagManager:
   - QuestObject
   - crouching_trigger_area
   - crouching_trigger_stay_zone
+  - Walls
   layers:
   - Default
   - TransparentFX
@@ -46,7 +47,7 @@ TagManager:
   - Player Ignore
   - Dropped Weapons
   - NPC
-  - 
+  - Walls
   - 
   - 
   - 

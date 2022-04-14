@@ -5154,7 +5154,8 @@ MonoBehaviour:
   runThreshold: 1.2
   facingDir: 1
   inCrouchingTrigger: 0
-  crouchWalkingSpeed: 0
+  inCrouchingTriggerStayZone: 0
+  crouchWalkingSpeed: 1
   walkSpeed: 2
   runSpeed: 3
   rolled: 0
