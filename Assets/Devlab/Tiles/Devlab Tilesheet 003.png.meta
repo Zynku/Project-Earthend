@@ -194,6 +194,12 @@ TextureImporter:
   - first:
       213: 3164756288111913526
     second: Devlab Tilesheet 003_63
+  - first:
+      213: 5239771524116600164
+    second: Devlab Tilesheet 003_64
+  - first:
+      213: 6484662021858382369
+    second: Devlab Tilesheet 003_65
   externalObjects: {}
   serializedVersion: 11
   mipmaps:
@@ -225,8 +231,8 @@ TextureImporter:
   textureSettings:
     serializedVersion: 2
     filterMode: 0
-    aniso: -1
-    mipBias: -100
+    aniso: 1
+    mipBias: 0
     wrapU: 1
     wrapV: 1
     wrapW: 1
@@ -1650,7 +1656,7 @@ TextureImporter:
         width: 16
         height: 16
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -1658,6 +1664,48 @@ TextureImporter:
       bones: []
       spriteID: 63a289193197beb20800000000000000
       internalID: 3164756288111913526
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Devlab Tilesheet 003_64
+      rect:
+        serializedVersion: 2
+        x: 128
+        y: 362
+        width: 16
+        height: 16
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 4655d2f807867b840800000000000000
+      internalID: 5239771524116600164
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Devlab Tilesheet 003_65
+      rect:
+        serializedVersion: 2
+        x: 150
+        y: 362
+        width: 16
+        height: 16
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 122d55d60c52ef950800000000000000
+      internalID: 6484662021858382369
       vertices: []
       indices: 
       edges: []

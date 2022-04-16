@@ -121,6 +121,7 @@ public class Charanimation : MonoBehaviour
                 break;
 
             case Charcontrol.State.Falling:
+                animator.Play("Low Poly Girl Whole Fall HD3");
                 break;
 
             case Charcontrol.State.Landing:

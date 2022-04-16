@@ -71,6 +71,11 @@ public class Charcontrol : MonoBehaviour
     public float wallRightYCheckOffset;
     public float wallRightXCheckOffset;
 
+    public bool hasEnoughSpaceToStand;
+    public float standSpaceCheckDistances;
+    public float standSpaceYCheckOffset;
+    public float standSpaceXCheckOffset;
+
 
     [Header("Combat State Variables")]
     public bool inCombat;   
@@ -181,7 +186,14 @@ public class Charcontrol : MonoBehaviour
             }
             else
             {
-                currentState = State.Switching_from_Crouching;
+                if (!hasEnoughSpaceToStand)
+                {
+                    Debug.LogWarning($"Player does not have enough space to stand!");
+                }
+                else
+                {
+                    currentState = State.Switching_from_Crouching;
+                }
             }
         }
 
@@ -212,6 +224,7 @@ public class Charcontrol : MonoBehaviour
             else { ApplyAirLinearDrag(); }
         }
 
+        //The great state machine ------------------------------------------------------------------------------------------------------------------------------
         switch (currentState)
         {
             case State.COMBAT_Idle:
@@ -506,6 +519,11 @@ public class Charcontrol : MonoBehaviour
                 {
                     currentState = State.Crouching_Idle;
                 }
+
+                if (!isGrounded)
+                {
+                    currentState = State.Falling;
+                }
                 break;
 
             case State.Attacking:
@@ -541,7 +559,7 @@ public class Charcontrol : MonoBehaviour
 
         FindClosestNPC();
         checkforGrounded();
-        checkforWalls();
+        checkforWallsAndStandingSpace();
     }
 
     void checkforGrounded()
@@ -552,7 +570,7 @@ public class Charcontrol : MonoBehaviour
         else { isGrounded = false; }
     }
 
-    void checkforWalls()
+    void checkforWallsAndStandingSpace()
     {
         if (Physics2D.OverlapCircle(new Vector2(transform.position.x + wallLeftXCheckOffset, transform.position.y + wallLeftYCheckOffset), wallLeftCheckDistances, 1 << LayerMask.NameToLayer("Walls")))
         { isAgainstWallLeft = true; }
@@ -561,6 +579,10 @@ public class Charcontrol : MonoBehaviour
         if (Physics2D.OverlapCircle(new Vector2(transform.position.x + wallRightXCheckOffset, transform.position.y + wallRightYCheckOffset), wallRightCheckDistances, 1 << LayerMask.NameToLayer("Walls")))
         { isAgainstWallRight = true; }
         else { isAgainstWallRight = false; }
+
+        if (Physics2D.OverlapCircle(new Vector2(transform.position.x + standSpaceXCheckOffset, transform.position.y + standSpaceYCheckOffset), standSpaceCheckDistances, 1 << LayerMask.NameToLayer("Ground")))
+        { hasEnoughSpaceToStand = false; }
+        else { hasEnoughSpaceToStand = true; }
     }
 
     void checkforSwitchingDir()
@@ -796,11 +818,17 @@ public class Charcontrol : MonoBehaviour
         Gizmos.color = Color.white;
         Gizmos.DrawWireSphere(new Vector2(transform.position.x, transform.position.y + groundYCheckOffset), groundCheckDistances);
 
+        //Wall left check Gizmo
         if (isAgainstWallLeft) { Gizmos.color = Color.green; } else { Gizmos.color = Color.red; }
         Gizmos.DrawWireSphere(new Vector2(transform.position.x + wallLeftXCheckOffset, transform.position.y + wallLeftYCheckOffset), wallLeftCheckDistances);
 
+        //Wall right check Gizmo
         if (isAgainstWallRight) { Gizmos.color = Color.green; } else { Gizmos.color = Color.red; }
         Gizmos.DrawWireSphere(new Vector2(transform.position.x + wallRightXCheckOffset, transform.position.y + wallRightYCheckOffset), wallRightCheckDistances);
+
+        //Standing space check Gizmo
+        if (hasEnoughSpaceToStand) { Gizmos.color = Color.green; } else { Gizmos.color = Color.red; }
+        Gizmos.DrawWireSphere(new Vector2(transform.position.x + standSpaceXCheckOffset, transform.position.y + standSpaceYCheckOffset), standSpaceCheckDistances);
     }
 
 }
