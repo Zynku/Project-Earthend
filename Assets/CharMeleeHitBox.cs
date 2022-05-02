@@ -6,14 +6,16 @@ public class CharMeleeHitBox : MonoBehaviour
 {
     public GameObject Player;
     public Collider2D myCollider;
+    Charattacks charattacks;
 
     private void Start()
     {
         Player = GetComponentInParent<Charcontrol>().gameObject;
         myCollider = GetComponent<BoxCollider2D>();
+        charattacks = Player.GetComponent<Charattacks>();
     }
 
-    public void OnTriggerEnter2D(Collider2D collision)
+    public void OnTriggerEnter2D(Collider2D collision)  //Please put this somewhere that makes sense
     {
         if (collision.CompareTag("target_dummy"))
         {
@@ -36,6 +38,7 @@ public class CharMeleeHitBox : MonoBehaviour
 
             GameManager.instance.Particle_Manager.PlayHitParticles(collision.gameObject.GetComponent<Collider2D>().ClosestPoint(transform.position));
             StartCoroutine(GameManager.instance.MeleeHitStop());
+            StartCoroutine(GameManager.instance.DoScreenShake(charattacks.screenShakeIntensity,charattacks.screenShakeTime));
         }
     }
 }

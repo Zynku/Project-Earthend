@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using MyBox;
 
 public class Charattacks : MonoBehaviour
 {
@@ -38,6 +39,10 @@ public class Charattacks : MonoBehaviour
     public int heavyDamageMax, heavyDamageMin;
     public int rangedDamageMax, rangedDamageMin;
 
+    [Header("Effects Variables")]
+    public float screenShakeIntensity;
+    public float screenShakeTime;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -57,6 +62,12 @@ public class Charattacks : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if (Input.GetKeyDown(KeyCode.T))
+        {
+            string RandomComboName = currentPossibleCombos[Random.Range(0, (allLightCombosEver.Count - 1))].comboName;
+            RemoveCombo(RandomComboName);
+        }
+
         currentState = charcontrol.currentState.ToString();
         inputTime -= Time.deltaTime;
         if (inputTime < 0) { inputTime = 0; }
@@ -245,16 +256,91 @@ public class Charattacks : MonoBehaviour
 
     }
 
-    //TODO
-    public void AddCombo()  //Moves a combo from all combos to possible combos
+    //Moves a combo from all light, heavy, or ranged combo lists to current possible combos
+    public void AddCombo(string ComboName)  //Moves a combo from all combos to possible combos
     {
+        bool comboFound = false;
+        Combo foundCombo;
+        for (int i = 0; i < allLightCombosEver.Count; i++)
+        {
+            if (allLightCombosEver[i].comboName == ComboName)
+            {
+                foundCombo = allLightCombosEver[i];
+                allLightCombosEver.RemoveAt(i);
+                currentPossibleCombos.Add(foundCombo);
+                comboFound = true;
+                return;
+            }
+        }
 
+        if (!comboFound)
+        {
+            for (int i = 0; i < allHeavyCombosEver.Count; i++)
+            {
+                if (allHeavyCombosEver[i].comboName == ComboName)
+                {
+                    foundCombo = allHeavyCombosEver[i];
+                    allHeavyCombosEver.RemoveAt(i);
+                    currentPossibleCombos.Add(foundCombo);
+                    comboFound=true;
+                    return;
+                }
+            }
+        }
+        
+        if (!comboFound)
+        {
+            for (int i = 0; i < allRangedCombosEver.Count; i++)
+            {
+                if (allRangedCombosEver[i].comboName == ComboName)
+                {
+                    foundCombo = allRangedCombosEver[i];
+                    allRangedCombosEver.RemoveAt(i);
+                    currentPossibleCombos.Add(foundCombo);
+                    comboFound = true;
+                    return;
+                }
+            }
+        }
     }
 
     //TODO
-    public void RemoveCombo()   //Moves a combo from possible combos to all combos
+    public void RemoveCombo(string ComboName)   //Moves a combo from possible combos to all combos
     {
+        for (int i = 0; i < currentPossibleCombos.Count; i++)
+        {
+            Combo foundCombo;
+            if (currentPossibleCombos[i].comboName == ComboName)
+            {
+                foundCombo = currentPossibleCombos[i];
+                currentPossibleCombos.RemoveAt(i);
 
+                Attack firstAttack = foundCombo.attackList[0];
+                switch (firstAttack.attackType)
+                {
+                    case Attack.AttackType.LIGHT:
+                        allLightCombosEver.Add(foundCombo);
+                        break;
+                    case Attack.AttackType.LIGHT_HELD:
+                        allLightCombosEver.Add(foundCombo);
+                        break;
+                    case Attack.AttackType.HEAVY:
+                        allHeavyCombosEver.Add(foundCombo);
+                        break;
+                    case Attack.AttackType.HEAVY_HELD:
+                        allHeavyCombosEver.Add(foundCombo);
+                        break;
+                    case Attack.AttackType.RANGED:
+                        allRangedCombosEver.Add(foundCombo);
+                        break;
+                    case Attack.AttackType.RANGED_HELD:
+                        allRangedCombosEver.Add(foundCombo);
+                        break;
+                    default:
+                        break;
+                }
+            }
+        }
     }
 
     public void onAddAttackForceHorizontal(int force)  //This function called on the last frame of the dodge animation via AnimationEvent

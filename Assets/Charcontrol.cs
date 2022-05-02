@@ -35,6 +35,7 @@ public class Charcontrol : MonoBehaviour
 
     [Header("Walking Variables")]
     public float walkSpeed = 9.5f;
+    public bool allowWalking;
     //[SerializeField] private float maxWalkSpeed = 1.6f;
 
     [Header("Running Variables")]
@@ -61,13 +62,13 @@ public class Charcontrol : MonoBehaviour
     [HideInInspector] public float groundCheckDistances = 0.05f;
     [HideInInspector] public float groundYCheckOffset = -0.26f;
 
-    public bool isAgainstWallLeft;
+    public bool isAgainstWallLeft, isAgainstWallLeftBottom, isAgainstWallLeftTop, isAgainstWallLeftMid;
     public float wallLeftCheckDistances;        //How large is the circle to check for?
     public float wallLeftYCheckOffset;          //How far from center is the circle vertically?
     public float wallLeftXCheckOffset;          //How far from center is the circle horizontally?
     public float wallLeftDuplicatesYOffset;     //How far from the middle circle are the two circles spaced out vertically?
 
-    public bool isAgainstWallRight;
+    public bool isAgainstWallRight, isAgainstWallRightBottom, isAgainstWallRightTop, isAgainstWallRightMid;
     public float wallRightCheckDistances;
     public float wallRightYCheckOffset;
     public float wallRightXCheckOffset;
@@ -354,7 +355,17 @@ public class Charcontrol : MonoBehaviour
                 inCombat = false;
                 Idle();
                 //Transition to Walking
-                if (Input.GetAxisRaw("Horizontal") != 0) { currentState = State.Walking; }
+                if (Input.GetAxisRaw("Horizontal") != 0)
+                {
+                    if (allowWalking) 
+                    { 
+                        currentState = State.Walking;
+                    }
+                    else
+                    {
+                        currentState = State.Running;
+                    }
+                }
 
 /*                if (Input.GetButtonDown("Light Attack"))
                 {
@@ -564,6 +575,7 @@ public class Charcontrol : MonoBehaviour
 
     void checkforGrounded()
     {
+        
         //Grounded Check
         if (Physics2D.OverlapCircle(new Vector2(transform.position.x, transform.position.y + groundYCheckOffset), groundCheckDistances, 1 << LayerMask.NameToLayer("Ground")))
         { isGrounded = true; }
@@ -572,42 +584,61 @@ public class Charcontrol : MonoBehaviour
 
     void checkforWallsAndStandingSpace()
     {
+        LayerMask groundAndWalls = LayerMask.GetMask("Ground", "Walls");
         //Check for left wall main circle
-        if (Physics2D.OverlapCircle(new Vector2(transform.position.x + wallLeftXCheckOffset, transform.position.y + wallLeftYCheckOffset), wallLeftCheckDistances, 1 << LayerMask.NameToLayer("Walls")))
-        { isAgainstWallLeft = true; }
-        else { isAgainstWallLeft = false; }
+        if (Physics2D.OverlapCircle(new Vector2(transform.position.x + wallLeftXCheckOffset, transform.position.y + wallLeftYCheckOffset), wallLeftCheckDistances, groundAndWalls))
+        { isAgainstWallLeftMid = true; }
+        else { isAgainstWallLeftMid = false; }
 
         //Check for left wall duplicates
         //Duplicate 1
-        if (Physics2D.OverlapCircle(new Vector2(transform.position.x + wallLeftXCheckOffset, transform.position.y + wallLeftYCheckOffset + wallLeftDuplicatesYOffset), wallLeftCheckDistances, 1 << LayerMask.NameToLayer("Walls")))
-        { isAgainstWallLeft = true; Debug.Log("Collided at top"); }
-        else { isAgainstWallLeft = false; }
+        if (Physics2D.OverlapCircle(new Vector2(transform.position.x + wallLeftXCheckOffset, transform.position.y + wallLeftYCheckOffset + wallLeftDuplicatesYOffset), wallLeftCheckDistances, groundAndWalls))
+        { isAgainstWallLeftTop = true; Debug.Log("Collided at top"); }
+        else { isAgainstWallLeftTop = false; }
         //Duplicate 2
-        if (Physics2D.OverlapCircle(new Vector2(transform.position.x + wallLeftXCheckOffset, transform.position.y + wallLeftYCheckOffset - wallLeftDuplicatesYOffset), wallLeftCheckDistances, 1 << LayerMask.NameToLayer("Walls")))
-        { isAgainstWallLeft = true; Debug.Log("Collided at bottom"); }
-        else { isAgainstWallLeft = false; }
+        if (Physics2D.OverlapCircle(new Vector2(transform.position.x + wallLeftXCheckOffset, transform.position.y + wallLeftYCheckOffset - wallLeftDuplicatesYOffset), wallLeftCheckDistances, groundAndWalls))
+        { isAgainstWallLeftBottom = true; Debug.Log("Collided at bottom"); }
+        else { isAgainstWallLeftBottom = false; }
 
 
         //Check for right wall main circle
-        if (Physics2D.OverlapCircle(new Vector2(transform.position.x + wallRightXCheckOffset, transform.position.y + wallRightYCheckOffset), wallRightCheckDistances, 1 << LayerMask.NameToLayer("Walls")))
-        { isAgainstWallRight = true; }
-        else { isAgainstWallRight = false; }
+        if (Physics2D.OverlapCircle(new Vector2(transform.position.x + wallRightXCheckOffset, transform.position.y + wallRightYCheckOffset), wallRightCheckDistances, groundAndWalls))
+        { isAgainstWallRightMid = true; }
+        else { isAgainstWallRightMid = false; }
 
         //Check for right wall duplicates
         //Duplicate1
-        if (Physics2D.OverlapCircle(new Vector2(transform.position.x + wallRightXCheckOffset, transform.position.y + wallRightYCheckOffset + wallRightDuplicatesYOffset), wallRightCheckDistances, 1 << LayerMask.NameToLayer("Walls")))
-        { isAgainstWallRight = true; Debug.Log("Collided at top"); }
-        else { isAgainstWallRight = false; }
+        if (Physics2D.OverlapCircle(new Vector2(transform.position.x + wallRightXCheckOffset, transform.position.y + wallRightYCheckOffset + wallRightDuplicatesYOffset), wallRightCheckDistances, groundAndWalls))
+        { isAgainstWallRightTop = true; Debug.Log("Collided at top"); }
+        else { isAgainstWallRightTop = false; }
         //Duplicate2
-        if (Physics2D.OverlapCircle(new Vector2(transform.position.x + wallRightXCheckOffset, transform.position.y + wallRightYCheckOffset - wallRightDuplicatesYOffset), wallRightCheckDistances, 1 << LayerMask.NameToLayer("Walls")))
-        { isAgainstWallRight = true; Debug.Log("Collided at bottom"); }
-        else { isAgainstWallRight = false;
+        if (Physics2D.OverlapCircle(new Vector2(transform.position.x + wallRightXCheckOffset, transform.position.y + wallRightYCheckOffset - wallRightDuplicatesYOffset), wallRightCheckDistances, groundAndWalls))
+        { isAgainstWallRightBottom = true; Debug.Log("Collided at bottom"); }
+        else { isAgainstWallRightBottom = false;
         }
 
         //Check for a ceiling
-        if (Physics2D.OverlapCircle(new Vector2(transform.position.x + standSpaceXCheckOffset, transform.position.y + standSpaceYCheckOffset), standSpaceCheckDistances, 1 << LayerMask.NameToLayer("Ground")))
+        if (Physics2D.OverlapCircle(new Vector2(transform.position.x + standSpaceXCheckOffset, transform.position.y + standSpaceYCheckOffset), standSpaceCheckDistances, groundAndWalls))
         { hasEnoughSpaceToStand = false; }
         else { hasEnoughSpaceToStand = true; }
+
+        if (isAgainstWallLeftBottom || isAgainstWallLeftTop || isAgainstWallLeftMid)
+        {
+            isAgainstWallLeft = true;
+        }
+        else
+        {
+            isAgainstWallLeft = false;
+        }
+
+        if (isAgainstWallRightBottom || isAgainstWallRightTop || isAgainstWallRightMid)
+        {
+            isAgainstWallRight = true;
+        }
+        else
+        {
+            isAgainstWallRight = false;
+        }
     }
 
     void checkforSwitchingDir()
@@ -696,13 +727,13 @@ public class Charcontrol : MonoBehaviour
         //Against a right wall, only allows left movement
         if (!isAgainstWallLeft && isAgainstWallRight)
         {
-            rb2d.velocity = new Vector2(-Mathf.Abs((Input.GetAxisRaw("Horizontal")) * airHorizontalAcc), rb2d.velocity.y);  //Allows horizontal movement
+            rb2d.velocity = new Vector2((Input.GetAxisRaw("Horizontal") * airHorizontalAcc), rb2d.velocity.y);  //Allows horizontal movement
         }
 
         //Against a left wall, only allows right movement
         if (!isAgainstWallRight && isAgainstWallLeft)
         {
-            
+            rb2d.velocity = new Vector2((Input.GetAxisRaw("Horizontal") * airHorizontalAcc), rb2d.velocity.y);  //Allows horizontal movement
         }
 
 
@@ -875,27 +906,27 @@ public class Charcontrol : MonoBehaviour
     private void OnDrawGizmos()
     {
         //GroundCheck check
-        Gizmos.color = Color.white;
+        if (isGrounded) { Gizmos.color = Color.green; } else { Gizmos.color = Color.white; }
         Gizmos.DrawWireSphere(new Vector2(transform.position.x, transform.position.y + groundYCheckOffset), groundCheckDistances);
 
         //Wall left check Gizmo
-        if (isAgainstWallLeft) { Gizmos.color = Color.green; } else { Gizmos.color = Color.red; }
+        if (isAgainstWallLeftMid) { Gizmos.color = Color.green; } else { Gizmos.color = Color.red; }
         Gizmos.DrawWireSphere(new Vector2(transform.position.x + wallLeftXCheckOffset, transform.position.y + wallLeftYCheckOffset), wallLeftCheckDistances);
         //Wall left check Dupe 1
-        if (isAgainstWallLeft) { Gizmos.color = Color.green; } else { Gizmos.color = Color.red; }
+        if (isAgainstWallLeftTop) { Gizmos.color = Color.green; } else { Gizmos.color = Color.red; }
         Gizmos.DrawWireSphere(new Vector2(transform.position.x + wallLeftXCheckOffset, transform.position.y + wallLeftYCheckOffset + wallLeftDuplicatesYOffset), wallLeftCheckDistances);
         //Wall left check Dupe 2
-        if (isAgainstWallLeft) { Gizmos.color = Color.green; } else { Gizmos.color = Color.red; }
+        if (isAgainstWallLeftBottom) { Gizmos.color = Color.green; } else { Gizmos.color = Color.red; }
         Gizmos.DrawWireSphere(new Vector2(transform.position.x + wallLeftXCheckOffset, transform.position.y + wallLeftYCheckOffset - wallLeftDuplicatesYOffset), wallLeftCheckDistances);
 
         //Wall right check Gizmo
-        if (isAgainstWallRight) { Gizmos.color = Color.green; } else { Gizmos.color = Color.red; }
+        if (isAgainstWallRightMid) { Gizmos.color = Color.green; } else { Gizmos.color = Color.red; }
         Gizmos.DrawWireSphere(new Vector2(transform.position.x + wallRightXCheckOffset, transform.position.y + wallRightYCheckOffset), wallRightCheckDistances);
         //Wall right check Dupe 1
-        if (isAgainstWallRight) { Gizmos.color = Color.green; } else { Gizmos.color = Color.red; }
+        if (isAgainstWallRightTop) { Gizmos.color = Color.green; } else { Gizmos.color = Color.red; }
         Gizmos.DrawWireSphere(new Vector2(transform.position.x + wallRightXCheckOffset, transform.position.y + wallRightYCheckOffset + wallRightDuplicatesYOffset), wallRightCheckDistances);
         //Wall right check Dupe 2
-        if (isAgainstWallRight) { Gizmos.color = Color.green; } else { Gizmos.color = Color.red; }
+        if (isAgainstWallRightBottom) { Gizmos.color = Color.green; } else { Gizmos.color = Color.red; }
         Gizmos.DrawWireSphere(new Vector2(transform.position.x + wallRightXCheckOffset, transform.position.y + wallRightYCheckOffset - wallRightDuplicatesYOffset), wallRightCheckDistances);
 
 

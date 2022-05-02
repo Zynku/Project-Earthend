@@ -25,6 +25,9 @@ public class GameManager : MonoBehaviour
     public GameObject hurtScreen;
     private Animator hurtScreenAnimator;
 
+    CinemachineVirtualCamera CinemachineCam;
+    CinemachineBasicMultiChannelPerlin perlin;
+
     public GameObject Player;
     private Animator PlayerAnim;
     public GameObject playerRespawnPoint;
@@ -91,12 +94,15 @@ public class GameManager : MonoBehaviour
         AddAllReferencesToModuleList();
         DontDestroyOnLoad(this);
         SceneManager.activeSceneChanged += ChangedActiveScene;
+
+
     }
     #endregion
 
     private void Start()
     {
-        
+        CinemachineCam = GetComponent<CinemachineVirtualCamera>();
+        perlin = CinemachineCam.GetCinemachineComponent<CinemachineBasicMultiChannelPerlin>();
     }
 
     private void AddAllReferencesToModuleList()
@@ -387,6 +393,13 @@ public class GameManager : MonoBehaviour
             Time.timeScale = 1f;
             hitStopped = false;
         }
+    }
+
+    public IEnumerator DoScreenShake(float intensity, float time)
+    {
+        perlin.m_AmplitudeGain = intensity;
+        yield return new WaitForSeconds(time);
+        perlin.m_AmplitudeGain = 0;
     }
 
     void HurtFlash()

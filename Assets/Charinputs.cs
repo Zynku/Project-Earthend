@@ -23,4 +23,6 @@ public class Charinputs : MonoBehaviour
     {
         //AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA FUCK
     }
+
+    // Y adds a combo from Light combos to all possible combos
 }
