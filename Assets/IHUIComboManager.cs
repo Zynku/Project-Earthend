@@ -36,10 +36,7 @@ public class IHUIComboManager : MonoBehaviour
         charattacks = Player.GetComponent<Charattacks>();
         contentScreen = GameObject.Find("Combolist Content");
 
-        allLightCombosEver = charattacks.allLightCombosEver;
-        allHeavyCombosEver = charattacks.allHeavyCombosEver;
-        allRangedCombosEver = charattacks.allRangedCombosEver;
-        currentPossibleCombos = charattacks.currentPossibleCombos;
+        
 
         cPType = comboPageType.lightCombos;
         StartCoroutine(AssignAllCombos());
@@ -48,7 +45,10 @@ public class IHUIComboManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+        allLightCombosEver = charattacks.allLightCombosEver;
+        allHeavyCombosEver = charattacks.allHeavyCombosEver;
+        allRangedCombosEver = charattacks.allRangedCombosEver;
+        currentPossibleCombos = charattacks.currentPossibleCombos;
     }
 
     public void SwitchToLightCombosPage()
@@ -95,75 +95,69 @@ public class IHUIComboManager : MonoBehaviour
 
     public void SwitchToCurrentPossibleCombosPage()
     {
-        if (cPType == comboPageType.currentPossibleCombos)
-        {
-            return;
-        }
-        else
-        {
-            cPType = comboPageType.currentPossibleCombos;
-            whatKindOfCombosTEXT.text = "Current Combos";
-            StartCoroutine(AssignAllCombos());
-        }
+
+        cPType = comboPageType.currentPossibleCombos;
+        whatKindOfCombosTEXT.text = "Current Combos";
+        StartCoroutine(AssignAllCombos());
+
     }
 
     public IEnumerator AssignAllCombos()
     {
-        if (comboListsList.Count > 0)
+        if (comboListsList.Count > 0)   //If there are left over combos being shown from the last time this function was called, clear them first
         {
             foreach (var item in comboListsList)
             {
                 Destroy(item);
             }
             comboListsList.Clear();
-            yield return new WaitForSeconds(0.05f);
+            //yield return new WaitForSeconds(0.5f);
         }
-        
 
-        switch (cPType)
-        {
-            case comboPageType.lightCombos:
-                foreach (var item in allLightCombosEver)
-                {
-                    GameObject comboList = Instantiate(comboListPrefab, contentScreen.transform);
-                    comboList.GetComponent<IHUIComboListDesc>().myCombo = item;
-                    comboList.GetComponent<IHUIComboListDesc>().AssignMyCombo();
-                    comboListsList.Add(comboList);
-                    yield return new WaitForSeconds(0.05f);
-                }
-                break;
-            case comboPageType.heavyCombos:
-                foreach (var item in allHeavyCombosEver)
-                {
-                    GameObject comboList = Instantiate(comboListPrefab, contentScreen.transform);
-                    comboList.GetComponent<IHUIComboListDesc>().myCombo = item;
-                    comboList.GetComponent<IHUIComboListDesc>().AssignMyCombo();
-                    comboListsList.Add(comboList);
-                    yield return new WaitForSeconds(0.05f);
-                }
-                break;
-            case comboPageType.rangedCombos:
-                foreach (var item in allHeavyCombosEver)
-                {
-                    GameObject comboList = Instantiate(comboListPrefab, contentScreen.transform);
-                    comboList.GetComponent<IHUIComboListDesc>().myCombo = item;
-                    comboList.GetComponent<IHUIComboListDesc>().AssignMyCombo();
-                    comboListsList.Add(comboList);
-                    yield return new WaitForSeconds(0.05f);
-                }
-                break;
-            case comboPageType.currentPossibleCombos:
-                foreach (var item in currentPossibleCombos)
-                {
-                    GameObject comboList = Instantiate(comboListPrefab, contentScreen.transform);
-                    comboList.GetComponent<IHUIComboListDesc>().myCombo = item;
-                    comboList.GetComponent<IHUIComboListDesc>().AssignMyCombo();
-                    comboListsList.Add(comboList);
-                    yield return new WaitForSeconds(0.05f);
-                }
-                break;
-            default:
-                break;
-        }
+        
+         switch (cPType)
+         {
+             case comboPageType.lightCombos:
+                 foreach (var item in allLightCombosEver)
+                 {
+                     GameObject comboList = Instantiate(comboListPrefab, contentScreen.transform);
+                     comboList.GetComponent<IHUIComboListDesc>().myCombo = item;
+                     comboList.GetComponent<IHUIComboListDesc>().AssignMyCombo();
+                     comboListsList.Add(comboList);
+                     //yield return new WaitForSecondsRealtime(0.1f);
+                 }
+                 break;
+             case comboPageType.heavyCombos:
+                 foreach (var item in allHeavyCombosEver)
+                 {
+                     GameObject comboList = Instantiate(comboListPrefab, contentScreen.transform);
+                     comboList.GetComponent<IHUIComboListDesc>().myCombo = item;
+                     comboList.GetComponent<IHUIComboListDesc>().AssignMyCombo();
+                     comboListsList.Add(comboList);
+                     //yield return new WaitForSeconds(0.2f);
+                 }
+                 break;
+             case comboPageType.rangedCombos:
+                 foreach (var item in allRangedCombosEver)
+                 {
+                     GameObject comboList = Instantiate(comboListPrefab, contentScreen.transform);
+                     comboList.GetComponent<IHUIComboListDesc>().myCombo = item;
+                     comboList.GetComponent<IHUIComboListDesc>().AssignMyCombo();
+                     comboListsList.Add(comboList);
+                     //yield return new WaitForSeconds(0.3f);
+                 }
+                 break;
+             case comboPageType.currentPossibleCombos:
+                 foreach (var item in currentPossibleCombos)
+                 {
+                     GameObject comboList = Instantiate(comboListPrefab, contentScreen.transform);
+                     comboList.GetComponent<IHUIComboListDesc>().myCombo = item;
+                     comboList.GetComponent<IHUIComboListDesc>().AssignMyCombo();
+                     comboListsList.Add(comboList);
+                     //yield return new WaitForSeconds(0.05f);
+                 }
+                 break;
+         }
+        yield return new WaitForSeconds(0.1f);
     }
 }

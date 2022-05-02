@@ -22,11 +22,12 @@ public class InfoHubManager : MonoBehaviour
     public GameObject iHPageButtonHolder;
     [HideInInspector] public bool firstPageShown = false;
 
-    private void Start()
+    public void Start()
     {
+        pages = GetComponentsInChildren<IHPageScript>();
+        this.gameObject.SetActive(false);
         if (pages.Length > 0)
         {
-            pages = GetComponentsInChildren<IHPageScript>();
             currentPageNumber = 0;
             currentPage = pages[0].gameObject;
 
@@ -52,7 +53,6 @@ public class InfoHubManager : MonoBehaviour
                 pageToRight = pages[1].gameObject;
             }
         }
-        this.gameObject.SetActive(false);
     }
 
     private void Update()
@@ -107,6 +107,7 @@ public class InfoHubManager : MonoBehaviour
         else
         {
             currentPage.GetComponent<IHPageScript>().pagePanel.GetComponentInChildren<Animator>().Play("IH Page Slide to the right offscreen");
+            currentPage.GetComponent<IHPageScript>().isCurrentPage = false;
             pageToLeft.GetComponent<IHPageScript>().pagePanel.GetComponentInChildren<Animator>().Play("IH Page Slide to the right onscreen");
             currentPageNumber--;
         }
@@ -123,6 +124,7 @@ public class InfoHubManager : MonoBehaviour
         else
         {
             currentPage.GetComponent<IHPageScript>().pagePanel.GetComponentInChildren<Animator>().Play("IH Page Slide to the left offscreen");
+            currentPage.GetComponent<IHPageScript>().isCurrentPage = false;
             pageToRight.GetComponent<IHPageScript>().pagePanel.GetComponentInChildren<Animator>().Play("IH Page Slide to the left onscreen");
             currentPageNumber++;
         }
@@ -139,6 +141,7 @@ public class InfoHubManager : MonoBehaviour
         if (randomNumber == 0)
         {
             currentPage.GetComponent<IHPageScript>().pagePanel.GetComponentInChildren<Animator>().Play("IH Page Slide to the left offscreen");
+            currentPage.GetComponent<IHPageScript>().isCurrentPage = false;
             currentPageNumber = pageNumber;
             currentPage = pages[pageNumber].gameObject;
             currentPage.GetComponent<IHPageScript>().pagePanel.GetComponentInChildren<Animator>().Play("IH Page Slide to the right onscreen");
@@ -146,6 +149,7 @@ public class InfoHubManager : MonoBehaviour
         else
         {
             currentPage.GetComponent<IHPageScript>().pagePanel.GetComponentInChildren<Animator>().Play("IH Page Slide to the right offscreen");
+            currentPage.GetComponent<IHPageScript>().isCurrentPage = false;
             currentPageNumber = pageNumber;
             currentPage = pages[pageNumber].gameObject;
             currentPage.GetComponent<IHPageScript>().pagePanel.GetComponentInChildren<Animator>().Play("IH Page Slide to the left onscreen");

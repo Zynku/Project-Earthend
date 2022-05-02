@@ -58,21 +58,23 @@ public class IHUIComboListDesc : MonoBehaviour
 
     public IEnumerator InstantiateStuff()
     {
+        Debug.Log("Running Instantiating block coroutine");
         List<Attack> thisAttackList = myCombo.attackList;
         for (int i = 0; i < thisAttackList.Count; i++)  //Loops through each attack and makes a name for each one
         {
             GameObject block = Instantiate(comboBlockPrefab, transform);
             block.GetComponentInChildren<TextMeshProUGUI>().text = ConvertAttackType(thisAttackList[i]);
             Debug.Log($"Instantiated a block for a {ConvertAttackType(thisAttackList[i])}");
-            yield return new WaitForSeconds(0.01f);
+            //yield return new WaitForSeconds(0.01f);
 
             if (i != thisAttackList.Count - 1)  //If there's more attacks to come after this one, make an arrow so they flow
             {
                 Instantiate(comboContinuePrefab, transform);
                 Debug.Log("$Instantiated an arrow");
-                yield return new WaitForSeconds(0.01f);
+                //yield return new WaitForSeconds(0.01f);
             }
         }
+        yield return null;
     }
 
     public string ConvertAttackType(Attack attack)  //Converts attack type to a string

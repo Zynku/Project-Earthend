@@ -3,9 +3,10 @@ using System.Collections.Generic;
 using UnityEngine;
 using MyBox;
 
+[ExecuteAlways]
 public class Debugscript : MonoBehaviour
 {
-    [ExecuteAlways]
+    
     public GameObject Player;
 
     
@@ -19,6 +20,8 @@ public class Debugscript : MonoBehaviour
     }
     
     public int comboArrayNum;
+    public Combo comboBeingMovedFromPossible;
+    public Combo comboBeingMovedToPossible;
     // Start is called before the first frame update
     public void Start()
     {
@@ -28,7 +31,60 @@ public class Debugscript : MonoBehaviour
     // Update is called once per frame
     public void Update()
     {
-        //DOES NOT WORK
+        if (comboArrayNum < currentPossibleCombos.Count - 1)
+        {
+            comboBeingMovedFromPossible = currentPossibleCombos[comboArrayNum];
+        }
+        else
+        {
+            comboBeingMovedFromPossible = null;
+        }
+        
+        switch (theComboList)
+        {
+            case comboList.allLightCombosEver:
+                if (allLightCombosEver.Count > 0)
+                {
+                    comboBeingMovedToPossible = allLightCombosEver[comboArrayNum];
+                }
+                else
+                {
+                    comboBeingMovedToPossible = null;
+                }
+                break;
+            case comboList.allHeavyCombosEver:
+                if (allHeavyCombosEver.Count > 0)
+                {
+                    comboBeingMovedToPossible = allHeavyCombosEver[comboArrayNum];
+                }
+                else
+                {
+                    comboBeingMovedToPossible = null;
+                }
+                break;
+            case comboList.allRangedCombosEver:
+                if (allRangedCombosEver.Count > 0)
+                {
+                    comboBeingMovedToPossible = allRangedCombosEver[comboArrayNum];
+                }
+                else
+                {
+                    comboBeingMovedToPossible = null;
+                }
+                
+                break;
+            default:
+                break;
+        }
+        ReassignToPlayer();     //This is needed as when references are assigned, it makes it local. By reassigning, this makes sure all changes made here are reflected in player
+    }
+
+    public void ReassignToPlayer()
+    {
+        Player = GameObject.FindGameObjectWithTag("Player");
+        Player.GetComponent<Charattacks>().allHeavyCombosEver = allHeavyCombosEver;
+        Player.GetComponent<Charattacks>().allRangedCombosEver = allRangedCombosEver;
+        Player.GetComponent<Charattacks>().currentPossibleCombos = currentPossibleCombos;
     }
 
     [ButtonMethod]

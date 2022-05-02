@@ -25,7 +25,7 @@ public class GameManager : MonoBehaviour
     public GameObject hurtScreen;
     private Animator hurtScreenAnimator;
 
-    CinemachineVirtualCamera CinemachineCam;
+    CinemachineVirtualCamera CinemachineCam;    //Needs to be assigned in Editor...you should probably change that...
     CinemachineBasicMultiChannelPerlin perlin;
 
     public GameObject Player;
@@ -101,7 +101,7 @@ public class GameManager : MonoBehaviour
 
     private void Start()
     {
-        CinemachineCam = GetComponent<CinemachineVirtualCamera>();
+        CinemachineCam = GameObject.Find("Cameras n' shit").GetComponent<CinemachineVirtualCamera>();
         perlin = CinemachineCam.GetCinemachineComponent<CinemachineBasicMultiChannelPerlin>();
     }
 
