@@ -14,18 +14,21 @@ public class IHUIComboListDesc : MonoBehaviour
     [ReadOnly] public List<Combo> allHeavyCombosEver;
     [ReadOnly] public List<Combo> allRangedCombosEver;
     [ReadOnly] public List<Combo> currentPossibleCombos;
+    private Transform[] children;
 
     public TextMeshProUGUI comboNameTEXT;
     public GameObject comboBlockPrefab;
     public GameObject comboContinuePrefab;
+    public GameObject comboNamePrefab;
     public Combo myCombo;
     public int amountOfAttacks = -1;
+    public int amountofArrows = -1;
+    public List<GameObject> blocksAndArrows ;
     // Start is called before the first frame update
     void Start()
     {
         Player = GameManager.instance.Player;
-        charattacks = Player.GetComponent<Charattacks>();
-        comboManager = GetComponentInParent<IHUIComboManager>();
+        charattacks = Player.GetComponent<Charattacks>();  
     }
 
     // Update is called once per frame
@@ -59,22 +62,48 @@ public class IHUIComboListDesc : MonoBehaviour
     public IEnumerator InstantiateStuff()
     {
         Debug.Log("Running Instantiating block coroutine");
+/*
+        children = GetComponentsInChildren<Transform>();
+
+        foreach (var item in children)
+        {
+            Debug.Log($"Destroyed {item.gameObject.name}");
+            Destroy(item.gameObject);  //Makes sure this ish is a clean slate
+        }
+
+        yield return new WaitForEndOfFrame();
+*/
         List<Attack> thisAttackList = myCombo.attackList;
+
+        //GameObject name = Instantiate(comboNamePrefab, transform);  //Instantiates one name
         for (int i = 0; i < thisAttackList.Count; i++)  //Loops through each attack and makes a name for each one
         {
             GameObject block = Instantiate(comboBlockPrefab, transform);
             block.GetComponentInChildren<TextMeshProUGUI>().text = ConvertAttackType(thisAttackList[i]);
+            amountOfAttacks++;
+            blocksAndArrows.Add(block);
             Debug.Log($"Instantiated a block for a {ConvertAttackType(thisAttackList[i])}");
             //yield return new WaitForSeconds(0.01f);
 
             if (i != thisAttackList.Count - 1)  //If there's more attacks to come after this one, make an arrow so they flow
             {
-                Instantiate(comboContinuePrefab, transform);
-                Debug.Log("$Instantiated an arrow");
+                GameObject arrow = Instantiate(comboContinuePrefab, transform);
+                blocksAndArrows.Add(arrow);
+                amountofArrows++;
+                Debug.Log($"Instantiated an arrow");
                 //yield return new WaitForSeconds(0.01f);
             }
         }
         yield return null;
+    }
+
+    public void ClearListOfBlocks()
+    {
+        foreach (var item in blocksAndArrows)
+        {
+            Destroy(item);
+        }
+        blocksAndArrows.Clear();
     }
 
     public string ConvertAttackType(Attack attack)  //Converts attack type to a string

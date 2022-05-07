@@ -1,10 +1,12 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using MyBox;
 
 public class Charaudio : MonoBehaviour
 {
-
+    [Foldout("Variables", true)]
+    Charanimation charanimation;
     //Check some Animation States for sound initialization
     [Header("Object audio")]
     [SerializeField] private AudioClip Footstep;
@@ -49,6 +51,7 @@ public class Charaudio : MonoBehaviour
     private void Start()
     {
         audiosource = GetComponent<AudioSource>();
+        charanimation = GetComponent<Charanimation>();
     }
 
     private void Update()
@@ -121,6 +124,16 @@ public class Charaudio : MonoBehaviour
             audiosource.clip = voice_get_hit[Random.Range(0, voice_get_hit.Length)];
             audiosource.Play();
         }
+    }
+
+    public void AudMeleeSwing()
+    {
+        Combo currentCombo = charanimation.currentCombo[0];
+
+        audiosource.pitch = 1;
+        audiosource.volume = currentCombo.attackSwingSoundVol;
+        audiosource.clip = currentCombo.attackSwingSound[Random.Range(0, currentCombo.attackSwingSound.Length)];
+        audiosource.Play();
     }
 
     public void HitSomething()

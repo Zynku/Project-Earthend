@@ -6,40 +6,48 @@ using MyBox;
 
 public class Charattacks : MonoBehaviour
 {
+    //[Foldout("Variables", true)]
     public string currentState;
     Charcontrol charcontrol;
     Charanimation charanimation;
+    Charaudio charaudio;
     Rigidbody2D rb2d;
     CharMeleeHitBox charMeleeHitBox;
 
-    [Header("Combo Variables")]
+    [Separator("Combo Lists")]
     public List<Combo> allLightCombosEver;  //Set these in inspector
     public List<Combo> allHeavyCombosEver;
     public List<Combo> allRangedCombosEver;
     public List<Combo> currentPossibleCombos;
     public List<Attack> currentAttacks;
+
+    [Separator("Current Combo")]
     public Combo currentCombo;
     public bool currentlyComboing;
+
+    [Separator("Combo Management Timers")]
     public float comboSustainTargetTime = 0.5f; //How long you have to input another attack before you can chain with previous attacks to make a combo. If it runs out, currentcombo is set to null
-    public float comboSustainTime;
+    [ReadOnly] public float comboSustainTime;
     public float comboExecuteTargetTime = 0.5f;  //How long before current combo returns to nothing after being executed
-    public float comboExecuteTime;
-    public float inputTargetTime;
-    public float inputTime;
-    public int longestComboLength;
+    [ReadOnly] public float comboExecuteTime;
+    public float inputTargetTime;               //Inputs for attacks can only be received when this timer is 0 i.e. This dictates when inputs can be received.
+    [ReadOnly] public float inputTime;
+    private GameObject onScreenComboSustainTimer;
+    private GameObject onScreenComboExecuteTimer;
+    private GameObject inputTimer;
     private float buttonHeldFloat;
     public float buttonHeldThreshold;           //How much time needs to pass (measured from time.deltaTime) for the button to be considered as "held"
-    public Combo longestCombo;
-    public GameObject onScreenComboSustainTimer;
-    public GameObject onScreenComboExecuteTimer;
-    public GameObject inputTimer;
 
-    [Header("Damage Variables")]
+    [Separator("Misc")]
+    public int longestComboLength;
+    public Combo longestCombo;
+
+    [Separator("Damage Variables")]
     public int lightDamageMax, lightDamageMin;
     public int heavyDamageMax, heavyDamageMin;
     public int rangedDamageMax, rangedDamageMin;
 
-    [Header("Effects Variables")]
+    [Separator("Effects Variables")]
     public float screenShakeIntensity;
     public float screenShakeTime;
 
@@ -48,6 +56,7 @@ public class Charattacks : MonoBehaviour
     {
         charcontrol = GetComponent<Charcontrol>();
         charanimation = GetComponent<Charanimation>();
+        charaudio = GetComponent<Charaudio>();
         rb2d = GetComponent<Rigidbody2D>();
         charMeleeHitBox = GetComponentInChildren<CharMeleeHitBox>();
         comboSustainTime = comboSustainTargetTime;
@@ -62,12 +71,6 @@ public class Charattacks : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.T))
-        {
-            string RandomComboName = currentPossibleCombos[Random.Range(0, (allLightCombosEver.Count - 1))].comboName;
-            RemoveCombo(RandomComboName);
-        }
-
         currentState = charcontrol.currentState.ToString();
         inputTime -= Time.deltaTime;
         if (inputTime < 0) { inputTime = 0; }
@@ -81,7 +84,6 @@ public class Charattacks : MonoBehaviour
         onScreenComboSustainTimer.GetComponent<SimpleTimerScript>().timerTime = comboSustainTime;
         onScreenComboExecuteTimer.GetComponent<SimpleTimerScript>().timerTime = comboExecuteTime;
         inputTimer.GetComponent<SimpleTimerScript>().timerTime = inputTime;
-        //onScreenComboExecuteTimer.GetComponent<SimpleTimerScript>().timerTargetTime = charanimation.currentAnimLength;
 
         if (Input.GetButtonUp("Light Attack"))
         {
@@ -93,8 +95,7 @@ public class Charattacks : MonoBehaviour
             {
                 if (buttonHeldFloat > buttonHeldThreshold) { return; }
                 Debug.Log("Light!");
-                Attack newattack = new Attack();
-                newattack.SetupAttack("Light", lightDamageMin, Attack.AttackType.LIGHT);
+                Attack newattack = new Attack("Light", lightDamageMin, Attack.AttackType.LIGHT);
                 currentAttacks.Add(newattack);
                 comboSustainTime = comboSustainTargetTime;              //Resets the combo sustain timer
                 inputTime = inputTargetTime;                            //Resets input timer
@@ -111,8 +112,7 @@ public class Charattacks : MonoBehaviour
             {
                 buttonHeldFloat = 0;
                 //Debug.Log($"Light attack is being held");
-                Attack newattack = new Attack();
-                newattack.SetupAttack("Light_Held", lightDamageMin, Attack.AttackType.LIGHT_HELD);
+                Attack newattack = new Attack("Light_Held", lightDamageMin, Attack.AttackType.LIGHT_HELD);
                 currentAttacks.Add(newattack);
                 comboSustainTime = comboSustainTargetTime;              //Resets the combo sustain timer
 
@@ -122,11 +122,10 @@ public class Charattacks : MonoBehaviour
         }
 
 
-        if (Input.GetButtonUp("Heavy Attack"))
+        if (Input.GetButtonDown("Heavy Attack"))
         {
             Debug.Log("Heavy!");
-            Attack newattack = new Attack();
-            newattack.SetupAttack("Heavy", heavyDamageMin, Attack.AttackType.HEAVY);
+            Attack newattack = new Attack("Heavy", heavyDamageMin, Attack.AttackType.HEAVY);
             currentAttacks.Add(newattack);
             comboSustainTime = comboSustainTargetTime;
 
@@ -135,8 +134,7 @@ public class Charattacks : MonoBehaviour
 
         if (Input.GetButtonDown("Ranged Attack"))
         {
-            Attack newattack = new Attack();
-            newattack.SetupAttack("Ranged", rangedDamageMin, Attack.AttackType.RANGED);
+            Attack newattack = new Attack("Ranged", rangedDamageMin, Attack.AttackType.RANGED);
             currentAttacks.Add(newattack);
             comboSustainTime = comboSustainTargetTime;
 
@@ -146,11 +144,12 @@ public class Charattacks : MonoBehaviour
         if (currentAttacks.Count > 0)   //If we pressed an attack, start counting down the combosustain timer
         {
             comboSustainTime -= Time.deltaTime;
-            if (comboSustainTime < 0)
-            {
-                comboSustainTime = comboSustainTargetTime;
-                ClearAttackList();
-            }
+        }
+
+        if (comboSustainTime < 0)
+        {
+            comboSustainTime = comboSustainTargetTime;
+            ClearAttackList();
         }
 
         if (currentlyComboing) //If we executed a combo start counting down to end the combo
@@ -211,6 +210,7 @@ public class Charattacks : MonoBehaviour
                             currentCombo = combo;
                             currentlyComboing = true;
                             AnimateCombos(combo);
+                            //PlayComboSwingSound(combo);
 
                             if (combo.canChangeState) { StartCoroutine(charanimation.ComboCharcontrolStates(combo)); } //Checks the current combo to see if it requires a state change
                             if (combo.endOfComboChain) { ClearAttackList(); }
@@ -304,7 +304,6 @@ public class Charattacks : MonoBehaviour
         }
     }
 
-    //TODO
     public void RemoveCombo(string ComboName)   //Moves a combo from possible combos to all combos
     {
         for (int i = 0; i < currentPossibleCombos.Count; i++)

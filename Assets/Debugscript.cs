@@ -25,7 +25,7 @@ public class Debugscript : MonoBehaviour
     // Start is called before the first frame update
     public void Start()
     {
-        //DOES NOT WORK
+        Player = GameObject.FindGameObjectWithTag("Player");
     }
 
     // Update is called once per frame
@@ -81,15 +81,27 @@ public class Debugscript : MonoBehaviour
 
     public void ReassignToPlayer()
     {
+        allLightCombosEver = Player.GetComponent<Charattacks>().allLightCombosEver;
+        allHeavyCombosEver = Player.GetComponent<Charattacks>().allHeavyCombosEver;
+        allRangedCombosEver = Player.GetComponent<Charattacks>().allRangedCombosEver;
+        currentPossibleCombos = Player.GetComponent<Charattacks>().currentPossibleCombos;
+    }
+
+    [ButtonMethod]
+    public void ForceReassignInEditor()
+    {
         Player = GameObject.FindGameObjectWithTag("Player");
+        Player.GetComponent<Charattacks>().allLightCombosEver = allLightCombosEver;
         Player.GetComponent<Charattacks>().allHeavyCombosEver = allHeavyCombosEver;
         Player.GetComponent<Charattacks>().allRangedCombosEver = allRangedCombosEver;
-        Player.GetComponent<Charattacks>().currentPossibleCombos = currentPossibleCombos;
+        Player.GetComponent<Charattacks>().currentPossibleCombos = currentPossibleCombos; 
+
     }
 
     [ButtonMethod]
     public void AddComboToCurrentPossibleCombos()  //Moves a combo from all combos to possible combos
     {
+        Debug.LogWarning("Don't forget to copy component, then paste component as values in Charattacks to make sure changes are saved!");
         Player = GameObject.FindGameObjectWithTag("Player");
         allHeavyCombosEver = Player.GetComponent<Charattacks>().allHeavyCombosEver;
         allRangedCombosEver = Player.GetComponent<Charattacks>().allRangedCombosEver;
@@ -145,7 +157,7 @@ public class Debugscript : MonoBehaviour
     [ButtonMethod]
     public void RemoveComboFromCurrentPossibleCombos()   //Moves a combo from possible combos to all combos
     {
-        Player = GameObject.FindGameObjectWithTag("Player");
+        Debug.LogWarning("Don't forget to copy component, then paste component as values in Charattacks to make sure changes are saved!");
         allHeavyCombosEver = Player.GetComponent<Charattacks>().allHeavyCombosEver;
         allRangedCombosEver = Player.GetComponent<Charattacks>().allRangedCombosEver;
         currentPossibleCombos = Player.GetComponent<Charattacks>().currentPossibleCombos;
@@ -190,5 +202,13 @@ public class Debugscript : MonoBehaviour
                 }
             }
         }
+    }
+
+    [ButtonMethod]
+    public void ClearComboBuffer()
+    {
+        Charanimation charanimation = Player.GetComponent<Charanimation>();
+        Debug.Log($"Clearing {charanimation.comboBuffer.Count} combos from combo buffer");
+        charanimation.ClearComboBuffer();
     }
 }

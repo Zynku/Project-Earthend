@@ -24,5 +24,6 @@ public class Charinputs : MonoBehaviour
         //AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA FUCK
     }
 
-    // Y adds a combo from Light combos to all possible combos
+    // P Pauses the game. Called from Gamemanager Update()
+    // O Unpauses the game. Called from Gamemanager Update()
 }

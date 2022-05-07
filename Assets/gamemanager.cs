@@ -25,7 +25,8 @@ public class GameManager : MonoBehaviour
     public GameObject hurtScreen;
     private Animator hurtScreenAnimator;
 
-    CinemachineVirtualCamera CinemachineCam;    //Needs to be assigned in Editor...you should probably change that...
+    CinemachineBrain cineBrain;
+    CinemachineVirtualCamera cineCam;    //Needs to be assigned in Editor...you should probably change that...
     CinemachineBasicMultiChannelPerlin perlin;
 
     public GameObject Player;
@@ -99,10 +100,11 @@ public class GameManager : MonoBehaviour
     }
     #endregion
 
-    private void Start()
+    public void Start()
     {
-        CinemachineCam = GameObject.Find("Cameras n' shit").GetComponent<CinemachineVirtualCamera>();
-        perlin = CinemachineCam.GetCinemachineComponent<CinemachineBasicMultiChannelPerlin>();
+        cineBrain = CinemachineCore.Instance.GetActiveBrain(0);
+        cineCam = cineBrain.ActiveVirtualCamera.VirtualCameraGameObject.GetComponent<CinemachineVirtualCamera>();
+        perlin = cineCam.GetCinemachineComponent<CinemachineBasicMultiChannelPerlin>();
     }
 
     private void AddAllReferencesToModuleList()
@@ -159,7 +161,7 @@ public class GameManager : MonoBehaviour
 
     private void Update()
     {
-        Debug.Log($"Current Scene number is {SceneManager.GetActiveScene().buildIndex} and Scene name is {SceneManager.GetActiveScene().name}");
+        //Debug.Log($"Current Scene number is {SceneManager.GetActiveScene().buildIndex} and Scene name is {SceneManager.GetActiveScene().name}");
 
         if (Input.GetKeyDown(KeyCode.P)) { PauseGame(); }
         if (Input.GetKeyDown(KeyCode.O)) { ResumeGame(); }
@@ -185,6 +187,10 @@ public class GameManager : MonoBehaviour
         if (overwriteTime) 
         {            
             Time.timeScale = timeScale; 
+        }
+        else
+        {
+            Time.timeScale = 1;
         }
         Application.targetFrameRate = frameRate;
 

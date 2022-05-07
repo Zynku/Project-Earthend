@@ -48,7 +48,7 @@ public class InfoHubManager : MonoBehaviour
             pageToLeft = null;
 
             nextPageNumber = 1;
-            if (pages[1].gameObject != null)
+            if (pages.Length >= 2)
             {
                 pageToRight = pages[1].gameObject;
             }

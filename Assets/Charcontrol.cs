@@ -1,10 +1,12 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using MyBox;
 
 
 public class Charcontrol : MonoBehaviour
 {
+    [Foldout("Variables", true)]
     public static Charcontrol Instance;
     Charanimation charanimation;
     Charattacks charattacks;
@@ -14,7 +16,7 @@ public class Charcontrol : MonoBehaviour
 
     public State currentState;
 
-    [Header("Variables")]
+    [Separator("Variables")]
     public float xVel;
     public float yVel;
     [HideInInspector] public float inputX;
@@ -23,30 +25,30 @@ public class Charcontrol : MonoBehaviour
     [HideInInspector] public bool playerDead;
     [HideInInspector] public bool checkForSlopes;
 
-    [Header("Movement Variables")]
+    [Separator("Movement Variables")]
     public float currentDrag;
     public float runThreshold;
-    public float facingDir = 1;
+    [ReadOnly] public float facingDir = 1;
 
-    [Header("Crouching Variables")]
+    [Separator("Crouching Variables")]
     public bool inCrouchingTrigger;             //This is the area the player can press interact in to crouch
     public bool inCrouchingTriggerStayZone;     //This is the area the player must stay in to stay crouched. If they leave it they are automatically uncrouched
     public float crouchWalkingSpeed = 4.75f;
 
-    [Header("Walking Variables")]
+    [Separator("Walking Variables")]
     public float walkSpeed = 9.5f;
     public bool allowWalking;
     //[SerializeField] private float maxWalkSpeed = 1.6f;
 
-    [Header("Running Variables")]
+    [Separator("Running Variables")]
     public float runSpeed = 9.5f;
     //[SerializeField] private float maxRunSpeed = 1.6f;
 
-    [Header("Dodging Variables")]
+    [Separator("Dodging Variables")]
     public bool rolled = false;
     [SerializeField] private float rollDrag = 0.5f;
 
-    [Header("Jump Variables")]
+    [Separator("Jump Variables")]
     [SerializeField] private float jumpForce = 4f;
     [SerializeField] private float airLinearDrag = 2.5f;
     [SerializeField] private float groundLinearDrag = 4.67f;
@@ -57,7 +59,7 @@ public class Charcontrol : MonoBehaviour
     [HideInInspector] public int airJumps = 2;
     [HideInInspector] public int airJumpsHas;
 
-    [Header("Ground and Wall Checks")]
+    [Separator("Ground and Wall Checks")]
     public bool isGrounded;
     [HideInInspector] public float groundCheckDistances = 0.05f;
     [HideInInspector] public float groundYCheckOffset = -0.26f;
@@ -80,13 +82,13 @@ public class Charcontrol : MonoBehaviour
     public float standSpaceXCheckOffset;
 
 
-    [Header("Combat State Variables")]
+    [Separator("Combat State Variables")]
     public bool inCombat;   
     public float combatStateTime;
     public float combatStateTargetTime = 7f;
     private GameObject onscreenTimer;
 
-    [Header("Melee Variables")]
+    [Separator("Melee Variables")]
     public GameObject MeleeObject;
     public float attackTimerTargetTime;
     private float attackTimer;
@@ -97,7 +99,7 @@ public class Charcontrol : MonoBehaviour
     //private SpriteRenderer meleeSpriteR;
     //private ParticleSystem particles;
 
-    [Header("Dialogue Variables")]
+    [Separator("Dialogue Variables")]
     public bool playerInConversation;
 
     public float switchingDirTime;
