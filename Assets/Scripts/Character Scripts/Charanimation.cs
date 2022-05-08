@@ -11,17 +11,17 @@ public class Charanimation : MonoBehaviour
     public float yvel;
     public bool isGrounded;
     private bool jumped;
+
     [Foldout("General Animation Variables", true)]
     public AnimatorClipInfo[] animClipInfo;
-    public string currentComboName;
-    public Combo[] currentCombo;
     public string currentAnimName;
     public float currentAnimLength;
     public float currentStateNormalizedTime;
 
     [Foldout("Combo Animation Variables", true)]
+    public List<Combo> currentCombo;       //Its a list because I literally cannot get it to work when I set it as just a combo field
     public List<Combo> comboBuffer;        //Holds combos that are to be played if a combo is currently being played.
-    public int comboBufferSize = 1;        //How many combos can be stored and buffered.
+    public int comboBufferSize;            //How many combos can be stored and buffered.
     public bool currentlyComboing = false;
     public bool inCombat = false;
     public string currentComboAnimName;
@@ -43,11 +43,11 @@ public class Charanimation : MonoBehaviour
         charanimation = GetComponent<Charanimation>();
         charaudio = GetComponent<Charaudio>();
         charattacks = GetComponent<Charattacks>();
-        currentCombo = new Combo[1];
+        //currentCombo = new Combo[1];
     }
 
 
-    private void FixedUpdate()
+    public void FixedUpdate()
     {
         AnimatorStateInfo currentAnimSInfo = animator.GetCurrentAnimatorStateInfo(0);
         AnimatorClipInfo[] currentAnimCInfo = animator.GetCurrentAnimatorClipInfo(0);
@@ -199,16 +199,18 @@ public class Charanimation : MonoBehaviour
         inCombat = charcontrol.inCombat;
     }
 
-    private void Update()
+    public void Update()
     {
         //if (!currentlyComboing) { StartCoroutine(ManageComboBuffer()); }
-        currentCombo[0].comboName = currentCombo[0].comboName.ToString();
+        //if (currentCombo.Length > 0) { currentCombo[0].comboName = currentCombo[0].comboName.ToString(); }
 
-        AnimatorStateInfo currentAnimSInfo = animator.GetCurrentAnimatorStateInfo(0);
-        if (currentAnimSInfo.normalizedTime >= 0.95f)   //If there current animation is done (~95% done)
+/*        AnimatorStateInfo currentAnimSInfo = animator.GetCurrentAnimatorStateInfo(0);
+        float animationDonePercent = 0.85f;
+        if (currentAnimSInfo.normalizedTime >= animationDonePercent)   //If there current animation is done (~95% done)
         {
+            Debug.Log($"Normalized time is {currentAnimSInfo.normalizedTime} which is above {animationDonePercent}. Calling onAnimationFinish for animation {animClipInfo[0].clip.name}");
             onAnimationFinish();
-        }
+        }*/
         ManageComboBuffer();
     }
 
@@ -221,7 +223,11 @@ public class Charanimation : MonoBehaviour
             {
                 Debug.Log($"...and no combos are playing currently. Playing {combo.comboName}");
                 animator.Play(combo.animationName);
-                currentCombo[0] = combo;
+                StopCoroutine(WaitForAnimationFinish());
+                StartCoroutine(WaitForAnimationFinish());
+                charcontrol.currentState = Charcontrol.State.COMBAT_Attacking;
+                currentCombo.Clear();
+                currentCombo.Add(combo);
                 currentlyComboing = true;
             }
             else if (comboBuffer.Count < comboBufferSize) //Combos are playing, add the combo to the buffer
@@ -252,13 +258,38 @@ public class Charanimation : MonoBehaviour
         {
             AnimatorStateInfo currentAnimSInfo = animator.GetCurrentAnimatorStateInfo(0);
             Combo nextCombo = comboBuffer[0];
-            if (currentCombo.Length > 0)
+            if (currentCombo.Count > 0)
             {
                 if (currentAnimSInfo.normalizedTime >= currentCombo[0].comboChainTimeLocation)   //If the current animation passes the time at which a combo can be chained, it plays the first animation stored in the buffer
                 {
                     string nextComboAnimName = nextCombo.animationName;
                     animator.Play(nextComboAnimName);
-                    currentCombo[0] = nextCombo;
+                    Debug.Log($"Playing {nextComboAnimName}");
+                    StopCoroutine(WaitForAnimationFinish());    //Need to be stopped first or it call onAnimationFinish during another animation, especially if its a combat anim chained from the last one
+                    StartCoroutine(WaitForAnimationFinish());
+                    charcontrol.currentState = Charcontrol.State.COMBAT_Attacking;
+                    currentCombo.Clear();
+                    currentCombo.Add(nextCombo);
+                    comboBuffer.Remove(nextCombo);
+                    Debug.Log($"Removing {nextCombo.comboName} from combo buffer by playing it");
+                    currentlyComboing = true;
+                    charcontrol.currentState = Charcontrol.State.COMBAT_Attacking;
+
+                    if (nextCombo.endOfComboChain)
+                    {
+                        ClearComboBuffer();
+                    }
+                    //UpdateComboStates();
+                }
+                else if (currentCombo.Count > 0)   //If you're not comboing, you can still manage the buffer
+                {
+                    string nextComboAnimName = nextCombo.animationName;
+                    animator.Play(nextComboAnimName);
+                    StopCoroutine(WaitForAnimationFinish());    
+                    StartCoroutine(WaitForAnimationFinish());
+                    charcontrol.currentState = Charcontrol.State.COMBAT_Attacking;
+                    currentCombo.Clear();
+                    currentCombo.Add(nextCombo);
                     comboBuffer.Remove(nextCombo);
                     Debug.Log($"Removing {nextCombo.comboName} from combo buffer by playing it");
                     currentlyComboing = true;
@@ -267,30 +298,34 @@ public class Charanimation : MonoBehaviour
                     {
                         ClearComboBuffer();
                     }
-                    //UpdateComboStates();
-                }
-            }
-            else if (currentCombo[0] == null)
-            {
-                string nextComboAnimName = nextCombo.animationName;
-                animator.Play(nextComboAnimName);
-                currentCombo[0] = nextCombo;
-                comboBuffer.Remove(nextCombo);
-                Debug.Log($"Removing {nextCombo.comboName} from combo buffer by playing it");
-                currentlyComboing = true;
-
-                if (nextCombo.endOfComboChain)
-                {
-                    ClearComboBuffer();
                 }
             }
         }
     }
 
+    public IEnumerator WaitForAnimationFinish()
+    {
+        while (true)
+        {
+            //Debug.Log("Running waitforanim Coroutine");
+            yield return new WaitForFixedUpdate();
+            Debug.Log($"Yielding for {animClipInfo[0].clip.length} for {animClipInfo[0].clip.name}");
+            yield return new WaitForSeconds(animClipInfo[0].clip.length);
+            Debug.Log($"Yielded for {animClipInfo[0].clip.length} for {animClipInfo[0].clip.name}");
+            onAnimationFinish();
+        }
+    }
+
     public void onAnimationFinish()
     {
+        Debug.Log($"On AnimationFinish has been called for {animClipInfo[0].clip.name}");
         currentlyComboing = false;
-        currentCombo.RemoveAt(0);
+        //if (currentCombo.Count > 0) { Debug.Log($"Removing {currentCombo[0].comboName} from currentCombo"); }
+        if (currentCombo.Count > 0) { currentCombo.Clear(); }//currentCombo.RemoveAt(0); }
+        if (charcontrol.currentState == Charcontrol.State.COMBAT_Attacking)
+        {
+            charcontrol.currentState = Charcontrol.State.COMBAT_Idle;
+        }
     }
 
     public void ClearComboBuffer()
@@ -331,11 +366,11 @@ public class Charanimation : MonoBehaviour
             currentComboAnimName = animClipInfo[0].clip.name;
             currentComboAnimLength = animClipInfo[0].clip.length;
 
-            if (currentAnimSInfo.normalizedTime >= 0.85f)   //Detects when the current animation is ended (Technically 85% ended). Ideally this would be 100% ended, but the timer never actually reaches 1
+/*            if (currentAnimSInfo.normalizedTime >= 0.85f)   //Detects when the current animation is ended (Technically 85% ended). Ideally this would be 100% ended, but the timer never actually reaches 1
             {
                 currentlyComboing = false;
                 currentCombo = null;
-            }
+            }*/
         }
         else
         {

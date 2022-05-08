@@ -78,6 +78,7 @@ public class Charattacks : MonoBehaviour
         switch (charcontrol.currentState)
         {
             case Charcontrol.State.COMBAT_Idle:
+                ClearAttackList();
                 break;
         }
 
@@ -85,7 +86,7 @@ public class Charattacks : MonoBehaviour
         onScreenComboExecuteTimer.GetComponent<SimpleTimerScript>().timerTime = comboExecuteTime;
         inputTimer.GetComponent<SimpleTimerScript>().timerTime = inputTime;
 
-        if (Input.GetButtonUp("Light Attack"))
+        if (Input.GetButtonDown("Light Attack"))
         {
             if (charcontrol.currentState == Charcontrol.State.COMBAT_Air_Attacking)
             {
@@ -93,7 +94,7 @@ public class Charattacks : MonoBehaviour
             }
             else if (inputTime == 0)
             {
-                if (buttonHeldFloat > buttonHeldThreshold) { return; }
+                if (buttonHeldFloat > buttonHeldThreshold) { return; }  //If we havent passed the button held float time, that means this is a regular attack, not held
                 Debug.Log("Light!");
                 Attack newattack = new Attack("Light", lightDamageMin, Attack.AttackType.LIGHT);
                 currentAttacks.Add(newattack);
@@ -203,7 +204,7 @@ public class Charattacks : MonoBehaviour
                     {
                         if (i == combo.attackList.Count - 1 && combo.attackList[i].attackType == currentAttacks[i].attackType)  //If the last attack matches...
                         {
-                            Debug.Log($"{combo.comboName}!");
+                            Debug.Log($"{combo.comboName} identified, sending off to be animated.");
 
                             //comboExecuteTime = comboExecuteTargetTime;
                             comboExecuteTime = charanimation.currentAnimLength;
@@ -238,8 +239,6 @@ public class Charattacks : MonoBehaviour
     {
         if (charanimation) { charanimation.AnimateCombos(combo); }
         else { Debug.LogWarning("Charattacks does not have a reference to Charanimation! No combo animations can be played!"); }
-
-        charcontrol.currentState = Charcontrol.State.COMBAT_Attacking;
     }
 
     public void FindLongestCombo()

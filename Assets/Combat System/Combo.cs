@@ -6,7 +6,7 @@ using MyBox;
 [System.Serializable]
 public class Combo
 {
-    public string comboName = "null";
+    public string comboName = "nullCombo";
     public string moveName;
     public AudioClip[] attackSwingSound;    //An array of sounds that can be chosen from to play during this combo
     [Range(0f, 1f)]

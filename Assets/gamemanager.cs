@@ -6,8 +6,10 @@ using UnityEngine.SceneManagement;
 using Cinemachine;
 using MyBox;
 
+
 public class GameManager : MonoBehaviour
 {
+
     public float aliveTime;                    //Keeps track of how long this script (and by extension its children) have been alive
 
     [Header("Time")]

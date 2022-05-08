@@ -226,6 +226,7 @@ public class Charcontrol : MonoBehaviour
         {
             case State.COMBAT_Idle:
                 charattacks.Combat_Idle();
+                charanimation.ClearComboBuffer();
                 inCombat = true;
 
                 if (combatStateTime == 0) { currentState = State.Idle; }
@@ -237,6 +238,7 @@ public class Charcontrol : MonoBehaviour
 
             case State.COMBAT_Walking:
                 inCombat = true;
+                charanimation.ClearComboBuffer();
                 combatStateTime = combatStateTargetTime;
 
                 if (Input.GetAxisRaw("Vertical") > 0) { currentState = State.COMBAT_Jumping; }
@@ -246,6 +248,7 @@ public class Charcontrol : MonoBehaviour
             case State.COMBAT_Running:
                 inCombat = true;
                 charattacks.Combat_Running();
+                charanimation.ClearComboBuffer();
                 combatStateTime = combatStateTargetTime;
                 checkforSwitchingDir();
 
@@ -259,6 +262,7 @@ public class Charcontrol : MonoBehaviour
             case State.COMBAT_Jumping:
                 inCombat = true;
                 combatStateTime = combatStateTargetTime;
+                charanimation.ClearComboBuffer();
                 Jumping();
                 //Transition to Falling
                 if (rb2d.velocity.y < fallThreshold)
@@ -274,6 +278,7 @@ public class Charcontrol : MonoBehaviour
 
             case State.COMBAT_AirJumping:
                 inCombat = true;
+                charanimation.ClearComboBuffer();
                 combatStateTime = combatStateTargetTime;
                 AirJump();
                 //Transition to Falling
@@ -285,6 +290,7 @@ public class Charcontrol : MonoBehaviour
 
             case State.COMBAT_Falling:
                 inCombat = true;
+                charanimation.ClearComboBuffer();
                 combatStateTime = combatStateTargetTime;
                 Falling();
                 //Transition back to Idle
@@ -305,17 +311,18 @@ public class Charcontrol : MonoBehaviour
                 combatStateTime = combatStateTargetTime;
                 break;
 
-            case State.COMBAT_Attacking:
+            case State.COMBAT_Attacking:        //Transition to this is handled in charattacks AnimateCombos() and Charanimation ManageComboBuffer()
                 inCombat = true;
                 combatStateTime = combatStateTargetTime;
-                if (!charanimation.currentlyComboing)
+/*                if (!charanimation.currentlyComboing)
                 {
                     currentState = State.COMBAT_Idle;
-                }
+                }*/
                 break;
 
             case State.COMBAT_Dodging:
                 inCombat = true;
+                charanimation.ClearComboBuffer();
                 combatStateTime = combatStateTargetTime;
                 //Animation is called from Charanimation
                 break;
