@@ -33,6 +33,7 @@ public class Charanimation : MonoBehaviour
     Charanimation charanimation;
     Charaudio charaudio;
     Charattacks charattacks;
+    Chareffects chareffects;
 
     // Start is called before the first frame update
     void Start()
@@ -43,6 +44,7 @@ public class Charanimation : MonoBehaviour
         charanimation = GetComponent<Charanimation>();
         charaudio = GetComponent<Charaudio>();
         charattacks = GetComponent<Charattacks>();
+        chareffects = GetComponent<Chareffects>();
         //currentCombo = new Combo[1];
     }
 
@@ -201,16 +203,6 @@ public class Charanimation : MonoBehaviour
 
     public void Update()
     {
-        //if (!currentlyComboing) { StartCoroutine(ManageComboBuffer()); }
-        //if (currentCombo.Length > 0) { currentCombo[0].comboName = currentCombo[0].comboName.ToString(); }
-
-/*        AnimatorStateInfo currentAnimSInfo = animator.GetCurrentAnimatorStateInfo(0);
-        float animationDonePercent = 0.85f;
-        if (currentAnimSInfo.normalizedTime >= animationDonePercent)   //If there current animation is done (~95% done)
-        {
-            Debug.Log($"Normalized time is {currentAnimSInfo.normalizedTime} which is above {animationDonePercent}. Calling onAnimationFinish for animation {animClipInfo[0].clip.name}");
-            onAnimationFinish();
-        }*/
         ManageComboBuffer();
     }
 
@@ -226,6 +218,7 @@ public class Charanimation : MonoBehaviour
                 StopCoroutine(WaitForAnimationFinish());
                 StartCoroutine(WaitForAnimationFinish());
                 charcontrol.currentState = Charcontrol.State.COMBAT_Attacking;
+                if (combo.FXAnimationName != null) { chareffects.PlayMeleeSwingFX(combo.FXAnimationName); }
                 currentCombo.Clear();
                 currentCombo.Add(combo);
                 currentlyComboing = true;
@@ -268,6 +261,7 @@ public class Charanimation : MonoBehaviour
                     StopCoroutine(WaitForAnimationFinish());    //Need to be stopped first or it call onAnimationFinish during another animation, especially if its a combat anim chained from the last one
                     StartCoroutine(WaitForAnimationFinish());
                     charcontrol.currentState = Charcontrol.State.COMBAT_Attacking;
+                    if (nextCombo.FXAnimationName != null) { chareffects.PlayMeleeSwingFX(nextCombo.FXAnimationName); }
                     currentCombo.Clear();
                     currentCombo.Add(nextCombo);
                     comboBuffer.Remove(nextCombo);
@@ -288,6 +282,7 @@ public class Charanimation : MonoBehaviour
                     StopCoroutine(WaitForAnimationFinish());    
                     StartCoroutine(WaitForAnimationFinish());
                     charcontrol.currentState = Charcontrol.State.COMBAT_Attacking;
+                    if (nextCombo.FXAnimationName != null) { chareffects.PlayMeleeSwingFX(nextCombo.FXAnimationName); }
                     currentCombo.Clear();
                     currentCombo.Add(nextCombo);
                     comboBuffer.Remove(nextCombo);

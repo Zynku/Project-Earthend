@@ -10,6 +10,7 @@ public class Charcontrol : MonoBehaviour
     public static Charcontrol Instance;
     Charanimation charanimation;
     Charattacks charattacks;
+    Chareffects chareffects;
     Animator animator;
     [HideInInspector] public Rigidbody2D rb2d;
     BoxCollider2D boxCol;
@@ -151,6 +152,7 @@ public class Charcontrol : MonoBehaviour
     {
         charattacks = GetComponent<Charattacks>();
         charanimation = GetComponent<Charanimation>();
+        chareffects = GetComponent<Chareffects>();
 
         switchingDirTime = switchingDirTargetTime;
         combatStateTime = combatStateTargetTime;
