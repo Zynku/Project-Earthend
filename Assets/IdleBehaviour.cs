@@ -8,7 +8,21 @@ public class IdleBehaviour : StateMachineBehaviour
     // OnStateEnter is called when a transition starts and the state machine starts to evaluate this state
     override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
-        GameManager.instance.Player.GetComponent<Charcontrol>().currentState = Charcontrol.State.Idle;
+        GameObject player = GameManager.instance.Player;
+        Charcontrol charcontrol = player.GetComponent<Charcontrol>();
+        Charanimation charanimation = player.gameObject.GetComponent<Charanimation>();
+        Charattacks charattacks = player.gameObject.GetComponent<Charattacks>();
+
+        player.GetComponent<Charcontrol>().currentState = Charcontrol.State.Idle;
+
+        //Debug.Log($"We doin' Idle tings");
+        charanimation.currentlyComboing = false;
+        charattacks.ClearAttackList();
+        if (charanimation.currentCombo.Count > 0) { charanimation.currentCombo.Clear(); }
+        if (charcontrol.currentState == Charcontrol.State.COMBAT_Attacking)
+        {
+            charcontrol.currentState = Charcontrol.State.COMBAT_Idle;
+        }
     }
 
     // OnStateUpdate is called on each Update frame between OnStateEnter and OnStateExit callbacks

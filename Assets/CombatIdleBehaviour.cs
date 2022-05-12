@@ -12,7 +12,7 @@ public class CombatIdleBehaviour : StateMachineBehaviour
         Charanimation charanimation = player.gameObject.GetComponent<Charanimation>();
         Charattacks charattacks = player.gameObject.GetComponent<Charattacks>();
 
-        Debug.Log($"We doin' Idle tings");
+        //Debug.Log($"We doin' Idle tings");
         charanimation.currentlyComboing = false;
         charattacks.ClearAttackList();
         if (charanimation.currentCombo.Count > 0) { charanimation.currentCombo.Clear(); }
