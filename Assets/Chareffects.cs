@@ -7,6 +7,7 @@ using MyBox;
 public class Chareffects : MonoBehaviour
 {
     Charcontrol charcontrol;
+    Charattacks charattacks;
 
     [Foldout("Initialization Fields", true)]
     [Header("Assign Please!")]
@@ -19,6 +20,7 @@ public class Chareffects : MonoBehaviour
     {
         charcontrol = GetComponent<Charcontrol>();
         meleeFXAnim = meleeFX.GetComponent<Animator>();
+        charattacks = GetComponent<Charattacks>();
     }
 
     // Update is called once per frame
@@ -45,6 +47,11 @@ public class Chareffects : MonoBehaviour
             particlesTriggered= false;
         }
 
+    }
+
+    public void DoScreenShakeManual()
+    {
+        StartCoroutine(GameManager.instance.DoScreenShake(charattacks.screenShakeIntensity, charattacks.screenShakeTime));
     }
 
     public void PlayMeleeSwingFX(string animName)

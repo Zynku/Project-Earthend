@@ -383,10 +383,12 @@ TextureImporter:
     externalNormalMap: 0
     heightScale: 0.25
     normalMapFilter: 0
+    flipGreenChannel: 0
   isReadable: 0
   streamingMipmaps: 0
   streamingMipmapsPriority: 0
   vTOnly: 0
+  ignoreMasterTextureLimit: 0
   grayScaleToAlpha: 0
   generateCubemap: 6
   cubemapConvolution: 0
@@ -425,6 +427,7 @@ TextureImporter:
   textureFormatSet: 0
   ignorePngGamma: 0
   applyGammaDecoding: 0
+  swizzle: 50462976
   platformSettings:
   - serializedVersion: 3
     buildTarget: DefaultTexturePlatform
@@ -3028,9 +3031,130 @@ TextureImporter:
     edges: []
     weights: []
     secondaryTextures: []
+    nameFileIdTable:
+      IH Page Icons_43: -8545904062912131508
+      IH Page Icons_91: 5197561980682972348
+      IH Page Icons_68: 8321777119133379142
+      IH Page Icons_13: -6629940206466235250
+      IH Page Icons_19: 1476646851702808275
+      IH Page Icons_28: 8179148472359223715
+      IH Page Icons_49: 7621244952230072118
+      IH Page Icons_88: 878987304094979078
+      IH Page Icons_50: -4285600806075714649
+      IH Page Icons_93: -7957252102804235
+      IH Page Icons_55: 1166292392258906666
+      IH Page Icons_56: -6421409015993566332
+      IH Page Icons_107: 3003430290893672805
+      IH Page Icons_113: -7401198652322899547
+      IH Page Icons_81: -2164399187892603203
+      IH Page Icons_119: 1614691035907202995
+      IH Page Icons_14: -5457893776984580033
+      IH Page Icons_46: 4810773739830536270
+      IH Page Icons_73: -2813880126548216790
+      IH Page Icons_100: -6024288423153288934
+      IH Page Icons_23: -1079257663423352963
+      IH Page Icons_35: 8420341418982169167
+      IH Page Icons_120: 3559712410997937765
+      IH Page Icons_32: -9048028042238972426
+      IH Page Icons_104: -6949626329391348045
+      IH Page Icons_3: -446064577331464269
+      IH Page Icons_0: 613537624581988248
+      IH Page Icons_75: -8043724826374720597
+      IH Page Icons_98: -7395979245416067068
+      IH Page Icons_11: 7601757611639412798
+      IH Page Icons_97: 8518115052980236882
+      IH Page Icons_27: -6186025887703231891
+      IH Page Icons_31: -8095557281280008185
+      IH Page Icons_110: 729293042389117529
+      IH Page Icons_117: -741330569548824133
+      IH Page Icons_6: -7639369776941898339
+      IH Page Icons_92: -5565505105428670069
+      IH Page Icons_112: 6492168662872400902
+      IH Page Icons_99: -3585667453387760217
+      IH Page Icons_89: 5713050674459693689
+      IH Page Icons_22: -6456032321413047177
+      IH Page Icons_67: 2925979445646047564
+      IH Page Icons_42: 6082672663708732926
+      IH Page Icons_66: -5291434639520184
+      IH Page Icons_63: 1354696543227710475
+      IH Page Icons_18: 6882769263059809164
+      IH Page Icons_54: -4701068891938348701
+      IH Page Icons_24: -3121371526546573776
+      IH Page Icons_17: -8418830747283053278
+      IH Page Icons_82: 6722941948681107593
+      IH Page Icons_80: 5944547253830616538
+      IH Page Icons_9: 8392171158963230388
+      IH Page Icons_41: 4064952618541762797
+      IH Page Icons_58: 5575655541210184215
+      IH Page Icons_105: 5590661848648307869
+      IH Page Icons_71: 4790505540791978115
+      IH Page Icons_78: -4763117559864116162
+      IH Page Icons_86: -2263194760963426429
+      IH Page Icons_95: -8198521309069345974
+      IH Page Icons_116: -4993431364489123252
+      IH Page Icons_40: -6671168917612584308
+      IH Page Icons_7: 5703287547859684244
+      IH Page Icons_21: 7872597033408260217
+      IH Page Icons_76: -3893486042727509966
+      IH Page Icons_59: -8703247390136134511
+      IH Page Icons_101: -6166576480062825996
+      IH Page Icons_106: 2714584173168769442
+      IH Page Icons_69: 8355193341769785357
+      IH Page Icons_70: 8329209161348071269
+      IH Page Icons_5: -8561362230268957535
+      IH Page Icons_114: 8233834664888004345
+      IH Page Icons_72: -5348192891892371057
+      IH Page Icons_94: 3095645700738380464
+      IH Page Icons_96: -2675730795670276435
+      IH Page Icons_60: -8084901886360948424
+      IH Page Icons_111: -468569303462811842
+      IH Page Icons_61: 6040929818479142875
+      IH Page Icons_25: 794435080364732390
+      IH Page Icons_4: -2325470983217543035
+      IH Page Icons_16: 983426332358894430
+      IH Page Icons_39: 6199893472900740162
+      IH Page Icons_52: -4516135314462194919
+      IH Page Icons_109: 1369386528776150539
+      IH Page Icons_44: -2783853665865402157
+      IH Page Icons_87: -5401986987394364368
+      IH Page Icons_85: 8540273942559676804
+      IH Page Icons_30: -7628760186591650507
+      IH Page Icons_53: 8513231078111571416
+      IH Page Icons_36: 8910454433653599698
+      IH Page Icons_74: 1244116251410311550
+      IH Page Icons_48: -5848240614242375036
+      IH Page Icons_33: -2312307731175224781
+      IH Page Icons_62: 5021283945619327905
+      IH Page Icons_90: 6904430449151078167
+      IH Page Icons_2: -1678415140876750355
+      IH Page Icons_26: 8667824996533791364
+      IH Page Icons_34: -3530859382004492999
+      IH Page Icons_108: 8764655938793589495
+      IH Page Icons_8: -1262894326835082964
+      IH Page Icons_20: -5311133356774417899
+      IH Page Icons_51: 6217674921742130160
+      IH Page Icons_84: 9072634034495774480
+      IH Page Icons_37: -6181688545309275713
+      IH Page Icons_10: 1388286953130153979
+      IH Page Icons_103: -1025562337881958569
+      IH Page Icons_29: 6750236942644659295
+      IH Page Icons_83: -8773648682303203815
+      IH Page Icons_45: 6117863360098988868
+      IH Page Icons_64: -9200552012445122346
+      IH Page Icons_77: -7631301775952396630
+      IH Page Icons_47: -687755570351745652
+      IH Page Icons_65: -1650916707569382462
+      IH Page Icons_38: 4893175549516847669
+      IH Page Icons_57: 1968435416808071458
+      IH Page Icons_118: -995133018874537628
+      IH Page Icons_1: -2901855917874941707
+      IH Page Icons_115: 2323261401458750441
+      IH Page Icons_15: 6975363320232813935
+      IH Page Icons_12: 860394616542178667
+      IH Page Icons_102: -96406783768644508
+      IH Page Icons_79: 3157449670195862960
   spritePackingTag: 
   pSDRemoveMatte: 0
-  pSDShowRemoveMatteOption: 0
   userData: 
   assetBundleName: 
   assetBundleVariant: 

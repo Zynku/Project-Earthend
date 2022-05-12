@@ -120,6 +120,7 @@ public class Charcontrol : MonoBehaviour
         COMBAT_Falling,
         COMBAT_Landing,
         COMBAT_Attacking,
+        COMBAT_Ranged_Shot,
         COMBAT_Dodging,
         COMBAT_Air_Attacking,
         COMBAT_Rolling,
@@ -143,6 +144,7 @@ public class Charcontrol : MonoBehaviour
         CrouchWalking,
         Attacking,
         Air_Attacking,
+        Ranged_Shot,
         Dodging,
         Stunned,
         Dead
@@ -226,7 +228,7 @@ public class Charcontrol : MonoBehaviour
         //The great state machine ------------------------------------------------------------------------------------------------------------------------------
         switch (currentState)
         {
-            case State.COMBAT_Idle:
+            case State.COMBAT_Idle:                 //Combat Idle anim inside the animator has a behaviour that forces this state during its animation
                 charattacks.Combat_Idle();
                 charanimation.ClearComboBuffer();
                 inCombat = true;
@@ -362,7 +364,7 @@ public class Charcontrol : MonoBehaviour
             case State.Ledgejumping:
                 break;
 
-            case State.Idle:
+            case State.Idle:                    //Idle anim inside the animator has a behaviour that forces this state during its animation
                 inCombat = false;
                 Idle();
                 //Transition to Walking

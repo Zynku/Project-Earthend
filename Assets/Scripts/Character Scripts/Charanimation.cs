@@ -45,7 +45,6 @@ public class Charanimation : MonoBehaviour
         charaudio = GetComponent<Charaudio>();
         charattacks = GetComponent<Charattacks>();
         chareffects = GetComponent<Chareffects>();
-        //currentCombo = new Combo[1];
     }
 
 
@@ -74,8 +73,6 @@ public class Charanimation : MonoBehaviour
             case Charcontrol.State.COMBAT_Dodging:
                 animator.Play("L_P_C Combat Roll into Idle");
                 //Last frame of this animation calls onDodgeTransition from Charcontrol to switch back to Idle.
-                //animator.SetTrigger("Dodging");
-                //animator.SetTrigger("Rolling");
                 animator.SetBool("Running", false);
                 break;
 
@@ -140,7 +137,6 @@ public class Charanimation : MonoBehaviour
             case Charcontrol.State.Switching_to_Crouching:
                 if (currentAnimCInfo[0].clip.name != "Idle into Crouch")
                 {
-                    //Debug.Log($"Not already playing {currentAnimCInfo[0].clip.name}, so ima play it");
                     animator.Play("Idle into Crouch");
                 }
                 
@@ -179,8 +175,6 @@ public class Charanimation : MonoBehaviour
 
             case Charcontrol.State.Dodging:
                     animator.Play("L_P Combat Roll into Idle"); //Last frame of this animation calls onDodgeTransition from Charcontrol to switch back to Idle.
-                    //animator.SetTrigger("Dodging");
-                    //animator.SetTrigger("Rolling");
                     animator.SetBool("Running", false);
                 break;
 
@@ -201,8 +195,15 @@ public class Charanimation : MonoBehaviour
         inCombat = charcontrol.inCombat;
     }
 
+    string currentAnimNameNextFrame;
     public void Update()
     {
+        if (currentAnimName != currentAnimNameNextFrame) //Different anim is playing
+        {
+            currentAnimNameNextFrame = currentAnimName;
+            //Debug.LogWarning($"Currently playing {currentAnimName}");
+        }    
+        
         ManageComboBuffer();
     }
 
@@ -210,13 +211,11 @@ public class Charanimation : MonoBehaviour
     {
         if (comboBuffer.Count == 0) //If buffer is empty
         {
-            Debug.Log("Combo buffer is empty...");
+            //Debug.Log("Combo buffer is empty...");
             if (!currentlyComboing) //If no combos are playing...
             {
-                Debug.Log($"...and no combos are playing currently. Playing {combo.comboName}");
+                //Debug.Log($"...and no combos are playing currently. Playing {combo.comboName}");
                 animator.Play(combo.animationName);
-                StopCoroutine(WaitForAnimationFinish());
-                StartCoroutine(WaitForAnimationFinish());
                 charcontrol.currentState = Charcontrol.State.COMBAT_Attacking;
                 if (combo.FXAnimationName != null) { chareffects.PlayMeleeSwingFX(combo.FXAnimationName); }
                 currentCombo.Clear();
@@ -225,101 +224,49 @@ public class Charanimation : MonoBehaviour
             }
             else if (comboBuffer.Count < comboBufferSize) //Combos are playing, add the combo to the buffer
             {
-                Debug.Log($"...and {currentCombo[0].comboName} is playing, assigning {combo.comboName} to the combo buffer to await JUDGEMENT");
+                //Debug.Log($"...and {currentCombo[0].comboName} is playing, assigning {combo.comboName} to the combo buffer to await JUDGEMENT");
                 comboBuffer.Add(combo);
             }
         }
         else
         {
-            Debug.Log($"Combo buffer has {comboBuffer[0].comboName} queued to play already. Checking to see if {combo.comboName} can fit in the combo buffer");
+            //Debug.Log($"Combo buffer has {comboBuffer[0].comboName} queued to play already. Checking to see if {combo.comboName} can fit in the combo buffer");
             if (comboBuffer.Count < comboBufferSize)
             {
-                Debug.Log($"There's space! {combo.comboName} can join the combo buffer :)");
+                //Debug.Log($"There's space! {combo.comboName} can join the combo buffer :)");
                 comboBuffer.Add(combo);
             }
             else if (comboBuffer.Count >= comboBufferSize)
             {
-                Debug.Log($"Combo buffer is FULL, discarding {combo.comboName} :(");
+                //Debug.Log($"Combo buffer is FULL, discarding {combo.comboName} :(");
             }
         }
     }
 
     public void ManageComboBuffer()  //Plays animations from the combo buffer if no other animations are playing
     {
-        //Debug.Log("Managing Combo Buffer...");
-        if (comboBuffer.Count > 0)
+        if (currentCombo.Count > 0 && comboBuffer.Count > 0)
         {
             AnimatorStateInfo currentAnimSInfo = animator.GetCurrentAnimatorStateInfo(0);
             Combo nextCombo = comboBuffer[0];
-            if (currentCombo.Count > 0)
+            if (currentAnimSInfo.normalizedTime >= currentCombo[0].comboChainTimeLocation)   //If the current animation passes the time at which a combo can be chained, it plays the first animation stored in the buffer
             {
-                if (currentAnimSInfo.normalizedTime >= currentCombo[0].comboChainTimeLocation)   //If the current animation passes the time at which a combo can be chained, it plays the first animation stored in the buffer
-                {
-                    string nextComboAnimName = nextCombo.animationName;
-                    animator.Play(nextComboAnimName);
-                    Debug.Log($"Playing {nextComboAnimName}");
-                    StopCoroutine(WaitForAnimationFinish());    //Need to be stopped first or it call onAnimationFinish during another animation, especially if its a combat anim chained from the last one
-                    StartCoroutine(WaitForAnimationFinish());
-                    charcontrol.currentState = Charcontrol.State.COMBAT_Attacking;
-                    if (nextCombo.FXAnimationName != null) { chareffects.PlayMeleeSwingFX(nextCombo.FXAnimationName); }
-                    currentCombo.Clear();
-                    currentCombo.Add(nextCombo);
-                    comboBuffer.Remove(nextCombo);
-                    Debug.Log($"Removing {nextCombo.comboName} from combo buffer by playing it");
-                    currentlyComboing = true;
-                    charcontrol.currentState = Charcontrol.State.COMBAT_Attacking;
+                string nextComboAnimName = nextCombo.animationName;
+                animator.Play(nextComboAnimName);
+                charcontrol.currentState = Charcontrol.State.COMBAT_Attacking;
+                if (nextCombo.FXAnimationName != "") { chareffects.PlayMeleeSwingFX(nextCombo.FXAnimationName); }
+                currentCombo.Clear();
+                currentCombo.Add(nextCombo);
+                comboBuffer.Remove(nextCombo);
+                //Debug.Log($"Removing {nextCombo.comboName} from combo buffer by playing it");
+                currentlyComboing = true;
+                charcontrol.currentState = Charcontrol.State.COMBAT_Attacking;
 
-                    if (nextCombo.endOfComboChain)
-                    {
-                        ClearComboBuffer();
-                    }
-                    //UpdateComboStates();
-                }
-                else if (currentCombo.Count > 0)   //If you're not comboing, you can still manage the buffer
+                if (nextCombo.endOfComboChain)
                 {
-                    string nextComboAnimName = nextCombo.animationName;
-                    animator.Play(nextComboAnimName);
-                    StopCoroutine(WaitForAnimationFinish());    
-                    StartCoroutine(WaitForAnimationFinish());
-                    charcontrol.currentState = Charcontrol.State.COMBAT_Attacking;
-                    if (nextCombo.FXAnimationName != null) { chareffects.PlayMeleeSwingFX(nextCombo.FXAnimationName); }
-                    currentCombo.Clear();
-                    currentCombo.Add(nextCombo);
-                    comboBuffer.Remove(nextCombo);
-                    Debug.Log($"Removing {nextCombo.comboName} from combo buffer by playing it");
-                    currentlyComboing = true;
-
-                    if (nextCombo.endOfComboChain)
-                    {
-                        ClearComboBuffer();
-                    }
+                    ClearComboBuffer();
                 }
             }
-        }
-    }
-
-    public IEnumerator WaitForAnimationFinish()
-    {
-        while (true)
-        {
-            //Debug.Log("Running waitforanim Coroutine");
-            yield return new WaitForFixedUpdate();
-            Debug.Log($"Yielding for {animClipInfo[0].clip.length} for {animClipInfo[0].clip.name}");
-            yield return new WaitForSeconds(animClipInfo[0].clip.length);
-            Debug.Log($"Yielded for {animClipInfo[0].clip.length} for {animClipInfo[0].clip.name}");
-            onAnimationFinish();
-        }
-    }
-
-    public void onAnimationFinish()
-    {
-        Debug.Log($"On AnimationFinish has been called for {animClipInfo[0].clip.name}");
-        currentlyComboing = false;
-        //if (currentCombo.Count > 0) { Debug.Log($"Removing {currentCombo[0].comboName} from currentCombo"); }
-        if (currentCombo.Count > 0) { currentCombo.Clear(); }//currentCombo.RemoveAt(0); }
-        if (charcontrol.currentState == Charcontrol.State.COMBAT_Attacking)
-        {
-            charcontrol.currentState = Charcontrol.State.COMBAT_Idle;
         }
     }
 
@@ -354,18 +301,10 @@ public class Charanimation : MonoBehaviour
 
     public void UpdateComboStates()
     {
-        AnimatorStateInfo currentAnimSInfo = animator.GetCurrentAnimatorStateInfo(0);
-
         if (currentlyComboing)
         {
             currentComboAnimName = animClipInfo[0].clip.name;
             currentComboAnimLength = animClipInfo[0].clip.length;
-
-/*            if (currentAnimSInfo.normalizedTime >= 0.85f)   //Detects when the current animation is ended (Technically 85% ended). Ideally this would be 100% ended, but the timer never actually reaches 1
-            {
-                currentlyComboing = false;
-                currentCombo = null;
-            }*/
         }
         else
         {
@@ -390,7 +329,6 @@ public class Charanimation : MonoBehaviour
         animClipInfo = this.animator.GetCurrentAnimatorClipInfo(0);
         currentAnimName = animClipInfo[0].clip.name;
         currentAnimLength = animClipInfo[0].clip.length;
-        //currentStateNormalizedTime = animator.GetCurrentAnimatorStateInfo(0).normalizedTime;
         AnimatorStateInfo currentAnimSInfo = animator.GetCurrentAnimatorStateInfo(0);
         currentStateNormalizedTime = currentAnimSInfo.normalizedTime;
 

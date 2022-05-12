@@ -71,10 +71,12 @@ TextureImporter:
     externalNormalMap: 0
     heightScale: 0.25
     normalMapFilter: 0
+    flipGreenChannel: 0
   isReadable: 0
   streamingMipmaps: 0
   streamingMipmapsPriority: 0
   vTOnly: 0
+  ignoreMasterTextureLimit: 0
   grayScaleToAlpha: 0
   generateCubemap: 6
   cubemapConvolution: 0
@@ -84,8 +86,8 @@ TextureImporter:
   textureSettings:
     serializedVersion: 2
     filterMode: 0
-    aniso: -1
-    mipBias: -100
+    aniso: 1
+    mipBias: 0
     wrapU: 1
     wrapV: 1
     wrapW: 1
@@ -113,6 +115,7 @@ TextureImporter:
   textureFormatSet: 0
   ignorePngGamma: 0
   applyGammaDecoding: 0
+  swizzle: 50462976
   platformSettings:
   - serializedVersion: 3
     buildTarget: DefaultTexturePlatform
@@ -544,9 +547,26 @@ TextureImporter:
     edges: []
     weights: []
     secondaryTextures: []
+    nameFileIdTable:
+      Devlab Item Sprites_3: 1031659896329677058
+      Devlab Item Sprites_7: 3354991949168595948
+      Devlab Item Sprites_4: 6648516713198507556
+      Devlab Item Sprites_12: -8344665255299959305
+      Devlab Item Sprites_5: 6178869081842427004
+      Devlab Item Sprites_8: 61035345250759058
+      Devlab Item Sprites_14: 2500145982418339080
+      Devlab Item Sprites_15: 5622962717510331518
+      Devlab Item Sprites_13: 7263195496808801464
+      Devlab Item Sprites_16: -9150857204868282027
+      Devlab Item Sprites_0: 7043604107104081460
+      Devlab Item Sprites_1: -4901810058394364201
+      Devlab Item Sprites_11: -4122209875455086265
+      Devlab Item Sprites_10: 8857888943862448345
+      Devlab Item Sprites_9: -8266939723965552414
+      Devlab Item Sprites_6: 4138224588720983999
+      Devlab Item Sprites_2: -1211444019919943648
   spritePackingTag: 
   pSDRemoveMatte: 0
-  pSDShowRemoveMatteOption: 0
   userData: 
   assetBundleName: 
   assetBundleVariant: 

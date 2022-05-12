@@ -89,10 +89,12 @@ TextureImporter:
     externalNormalMap: 0
     heightScale: 0.25
     normalMapFilter: 0
+    flipGreenChannel: 0
   isReadable: 0
   streamingMipmaps: 0
   streamingMipmapsPriority: 0
   vTOnly: 0
+  ignoreMasterTextureLimit: 0
   grayScaleToAlpha: 0
   generateCubemap: 6
   cubemapConvolution: 0
@@ -102,8 +104,8 @@ TextureImporter:
   textureSettings:
     serializedVersion: 2
     filterMode: 0
-    aniso: -1
-    mipBias: -100
+    aniso: 1
+    mipBias: 0
     wrapU: 1
     wrapV: 1
     wrapW: 1
@@ -131,6 +133,7 @@ TextureImporter:
   textureFormatSet: 0
   ignorePngGamma: 0
   applyGammaDecoding: 0
+  swizzle: 50462976
   platformSettings:
   - serializedVersion: 3
     buildTarget: DefaultTexturePlatform
@@ -688,9 +691,32 @@ TextureImporter:
     edges: []
     weights: []
     secondaryTextures: []
+    nameFileIdTable:
+      Devlab Tilesheet 002_6: 1411407845507961245
+      Devlab Tilesheet 002_3: 7374745125998050331
+      Devlab Tilesheet 002_5: -721786859979177551
+      Devlab Tilesheet 002_11: -3868764173628026692
+      Devlab Tilesheet 002_8: 1468694273006853549
+      Devlab Tilesheet 002_20: -2384301803551507406
+      Devlab Tilesheet 002_1: 3787998869602617598
+      Devlab Tilesheet 002_10: -1159819973177630462
+      Devlab Tilesheet 002_18: -7192772211466258674
+      Devlab Tilesheet 002_7: 3237646319673912888
+      Devlab Tilesheet 002_14: -5946902667664602023
+      Devlab Tilesheet 002_19: 2793846658900336672
+      Devlab Tilesheet 002_0: 6471278636363151004
+      Devlab Tilesheet 002_16: -4095253899473589072
+      Devlab Tilesheet 002_15: 2817661830268162235
+      Devlab Tilesheet 002_12: 4246483096467604662
+      Devlab Tilesheet 002_17: -9208849199790533218
+      Devlab Tilesheet 002_2: -6407869685575643769
+      Devlab Tilesheet 002_13: -9062906558129863196
+      Devlab Tilesheet 002_4: 1473121146046880883
+      Devlab Tilesheet 002_21: -4282011729340758767
+      Devlab Tilesheet 002_9: 2489540461399678352
+      Devlab Tilesheet 002_22: 5502796681758021474
   spritePackingTag: 
   pSDRemoveMatte: 0
-  pSDShowRemoveMatteOption: 0
   userData: 
   assetBundleName: 
   assetBundleVariant: 

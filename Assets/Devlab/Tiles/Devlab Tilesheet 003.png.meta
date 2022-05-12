@@ -218,10 +218,12 @@ TextureImporter:
     externalNormalMap: 0
     heightScale: 0.25
     normalMapFilter: 0
+    flipGreenChannel: 0
   isReadable: 0
   streamingMipmaps: 0
   streamingMipmapsPriority: 0
   vTOnly: 0
+  ignoreMasterTextureLimit: 0
   grayScaleToAlpha: 0
   generateCubemap: 6
   cubemapConvolution: 0
@@ -260,6 +262,7 @@ TextureImporter:
   textureFormatSet: 0
   ignorePngGamma: 0
   applyGammaDecoding: 0
+  swizzle: 50462976
   platformSettings:
   - serializedVersion: 3
     buildTarget: DefaultTexturePlatform
@@ -1720,9 +1723,75 @@ TextureImporter:
     edges: []
     weights: []
     secondaryTextures: []
+    nameFileIdTable:
+      Devlab Tilesheet 003_56: 7896262969838391534
+      Devlab Tilesheet 003_34: -2708262905899171756
+      Devlab Tilesheet 003_60: -2506395928980384287
+      Devlab BG Drawer Tile 1: -2352826165923449835
+      Devlab Tilesheet 003_16: 1191725096793418451
+      Devlab Back Dirt Mound 1_3: -6952541941015599994
+      Devlab Tilesheet 003_57: 1767077832478273727
+      Devlab Back Tile 3: -8209858920255543369
+      Devlab BG Drawer Tile 2: -4771108553390150535
+      Devlab Back Dirt Mound 2_2: -4790357771283013613
+      Devlab Tilesheet 003_19: 3211303424519929145
+      Devlab Tilesheet 003_13: -999965165977335842
+      Devlab Tilesheet 003_36: 7133848211558172655
+      Devlab BG Tile 5: -2456611111469497165
+      Devlab Tilesheet 003_21: 3118065507198612147
+      Devlab Tilesheet 003_29: 1842285849177952913
+      Devlab Tilesheet 003_63: 3164756288111913526
+      Devlab Back Dirt Mound 2_4: 879038649098644419
+      Devlab Back Dirt Mound 1_2: -3620037369096659901
+      Devlab Tilesheet 003_62: 5428550895797208761
+      Devlab Tilesheet 003_17: -3002988694056620831
+      Devlab Back Tile 1: -5498092708522915931
+      Devlab Tile 2: 7414268096547342732
+      Devlab Tilesheet 003_22: -2307266374584694525
+      Devlab Tilesheet 003_28: -5752861081875262245
+      Devlab Tilesheet 003_24: 3737411745549314135
+      Devlab Back Dirt Mound 1_6: -5287479424808243050
+      Devlab Back Dirt Mound 2_3: -3256056424108868531
+      Devlab Back Dirt Mound 1_1: 1837304126968442537
+      Devlab Tilesheet 003_10: 9168377686754467985
+      Devlab Tilesheet 003_18: -8741012440220660030
+      Devlab Tilesheet 003_9: 3723972462937299690
+      Devlab Tilesheet 003_32: -195309888258985295
+      Devlab BG Tile 2: -4661939953930399863
+      Devlab Tilesheet 003_33: 7690146226658476091
+      Devlab Back Tree 1_1: -9160028970075402386
+      Devlab Tilesheet 003_35: 7498957662234194218
+      Devlab BG Tile 4: 1720822796425802135
+      Devlab Back Dirt Mound 1_4: -627137489928662301
+      Devlab Tilesheet 003_15: -3509343974035953495
+      Devlab Tilesheet 003_27: 2936595302130797610
+      Devlab Back Tile 2: 5313692483090934467
+      Devlab Tilesheet 003_23: 4693684410214012977
+      Devlab Back Tree 1_2: -7451622703984829151
+      Devlab Tilesheet 003_Stairs Reverse: -7950784232809081871
+      Devlab Tilesheet 003_Stairs: -3513931749984003993
+      Devlab Tilesheet 003_64: 5239771524116600164
+      Devlab Back Tree 1_4: -6910276545929025202
+      Devlab Tilesheet 003_65: 6484662021858382369
+      Devlab Tilesheet 003_11: -1552360621436937005
+      Devlab BG Tile 1: 5771839997050903671
+      Devlab Tilesheet 003_20: -991305513584944583
+      Devlab Back Dirt Mound 1_5: -8966485752122340001
+      Devlab Tilesheet 003_8: -8868765481323418589
+      Devlab Tilesheet 003_25: 3133258316082800343
+      Devlab Tilesheet 003_26: 7351306218109447648
+      Devlab Back Tree 1_3: -3340437226474440694
+      Devlab Tilesheet 003_12: -1155479945119150215
+      Devlab Tilesheet 003_30: -4272499749290439781
+      Devlab Back Dirt Mound 1_7: -836381238670600118
+      Devlab Tilesheet 003_14: -437959874996424295
+      Devlab Back Dirt Mound 2_1: 5072414094255917829
+      Devlab Tilesheet 003_Bigass Screen: -7344887252275576192
+      Devlab Tile 1: 8287542772097880991
+      Devlab BG Tile 3: 8104541585102848441
+      Devlab Tilesheet 003_31: -2318571819864638827
   spritePackingTag: 
   pSDRemoveMatte: 0
-  pSDShowRemoveMatteOption: 0
   userData: 
   assetBundleName: 
   assetBundleVariant: 

@@ -108,8 +108,8 @@ namespace MyBox.Internal
 			// this event is for GameObjects in the project.
 			MyEditorEvents.OnSave += CheckAssets;
 			// this event is for prefabs saved in edit mode.
-			PrefabStage.prefabSaved += CheckComponentsInPrefab;
-			PrefabStage.prefabStageOpened += stage => CheckComponentsInPrefab(stage.prefabContentsRoot);
+			//PrefabStage.prefabSaved += CheckComponentsInPrefab;
+			//PrefabStage.prefabStageOpened += stage => CheckComponentsInPrefab(stage.prefabContentsRoot);
 		}
 
 		private static void CheckAssets()

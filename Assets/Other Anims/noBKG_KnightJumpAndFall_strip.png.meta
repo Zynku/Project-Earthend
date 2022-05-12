@@ -45,7 +45,7 @@ TextureImporter:
       213: 3917879321971269832
     second: noBKG_KnightJumpAndFall_strip_13
   externalObjects: {}
-  serializedVersion: 10
+  serializedVersion: 11
   mipmaps:
     mipMapMode: 0
     enableMipMap: 0
@@ -62,9 +62,12 @@ TextureImporter:
     externalNormalMap: 0
     heightScale: 0.25
     normalMapFilter: 0
+    flipGreenChannel: 0
   isReadable: 0
   streamingMipmaps: 0
   streamingMipmapsPriority: 0
+  vTOnly: 0
+  ignoreMasterTextureLimit: 0
   grayScaleToAlpha: 0
   generateCubemap: 6
   cubemapConvolution: 0
@@ -74,8 +77,8 @@ TextureImporter:
   textureSettings:
     serializedVersion: 2
     filterMode: 0
-    aniso: -1
-    mipBias: -100
+    aniso: 1
+    mipBias: 0
     wrapU: 1
     wrapV: 1
     wrapW: 1
@@ -96,9 +99,14 @@ TextureImporter:
   textureType: 8
   textureShape: 1
   singleChannelComponent: 0
+  flipbookRows: 1
+  flipbookColumns: 1
   maxTextureSizeSet: 0
   compressionQualitySet: 0
   textureFormatSet: 0
+  ignorePngGamma: 0
+  applyGammaDecoding: 1
+  swizzle: 50462976
   platformSettings:
   - serializedVersion: 3
     buildTarget: DefaultTexturePlatform
@@ -467,9 +475,23 @@ TextureImporter:
     edges: []
     weights: []
     secondaryTextures: []
+    nameFileIdTable:
+      noBKG_KnightJumpAndFall_strip_10: 6344160088250257502
+      noBKG_KnightJumpAndFall_strip_7: 513507753970481495
+      noBKG_KnightJumpAndFall_strip_8: 8278566502845999923
+      noBKG_KnightJumpAndFall_strip_13: 3917879321971269832
+      noBKG_KnightJumpAndFall_strip_4: 7819318548096920562
+      noBKG_KnightJumpAndFall_strip_5: 1949507891400082561
+      noBKG_KnightJumpAndFall_strip_6: 2511048077603649539
+      noBKG_KnightJumpAndFall_strip_1: -3323219810877477076
+      noBKG_KnightJumpAndFall_strip_9: -7022734580619261874
+      noBKG_KnightJumpAndFall_strip_2: -1275732480562838495
+      noBKG_KnightJumpAndFall_strip_11: 1235375693083715329
+      noBKG_KnightJumpAndFall_strip_3: -6974088986635383677
+      noBKG_KnightJumpAndFall_strip_12: 2282646019303360540
+      noBKG_KnightJumpAndFall_strip_0: 2165001038142686867
   spritePackingTag: 
   pSDRemoveMatte: 0
-  pSDShowRemoveMatteOption: 0
   userData: 
   assetBundleName: 
   assetBundleVariant: 

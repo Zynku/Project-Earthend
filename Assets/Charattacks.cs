@@ -22,16 +22,14 @@ public class Charattacks : MonoBehaviour
     public List<Attack> currentAttacks;
 
     [Separator("Current Combo")]
-    public Combo currentCombo;
+    //public Combo currentCombo;
     public bool currentlyComboing;
 
     [Separator("Combo Management Timers")]
-    public float comboSustainTargetTime = 0.5f; //How long you have to input another attack before you can chain with previous attacks to make a combo. If it runs out, currentcombo is set to null
-    [ReadOnly] public float comboSustainTime;
-    public float comboExecuteTargetTime = 0.5f;  //How long before current combo returns to nothing after being executed
-    [ReadOnly] public float comboExecuteTime;
-    public float inputTargetTime;               //Inputs for attacks can only be received when this timer is 0 i.e. This dictates when inputs can be received.
-    [ReadOnly] public float inputTime;
+    public float comboSustainTargetTime = 0.5f; 
+    [ReadOnly] public float comboSustainTime;   //How long you have to input another attack before you can chain with previous attacks to make a combo. If it runs out, currentcombo is set to null
+    public float inputTargetTime;               
+    [ReadOnly] public float inputTime;          //Inputs for attacks can only be received when this timer is 0 i.e. This dictates when inputs can be received.
     private GameObject onScreenComboSustainTimer;
     private GameObject onScreenComboExecuteTimer;
     private GameObject inputTimer;
@@ -46,6 +44,7 @@ public class Charattacks : MonoBehaviour
     public int lightDamageMax, lightDamageMin;
     public int heavyDamageMax, heavyDamageMin;
     public int rangedDamageMax, rangedDamageMin;
+    public int currentDamageMax, currentDamageMin;
 
     [Separator("Effects Variables")]
     public float screenShakeIntensity;
@@ -60,10 +59,9 @@ public class Charattacks : MonoBehaviour
         rb2d = GetComponent<Rigidbody2D>();
         charMeleeHitBox = GetComponentInChildren<CharMeleeHitBox>();
         comboSustainTime = comboSustainTargetTime;
-        comboExecuteTime = comboExecuteTargetTime;
+        //comboExecuteTime = comboExecuteTargetTime;
         inputTime = inputTargetTime;
         onScreenComboSustainTimer = TimerManager.instance.CreateTimer(comboSustainTime, comboSustainTargetTime, "Combo Sustain Time", false);
-        onScreenComboExecuteTimer = TimerManager.instance.CreateTimer(comboExecuteTime, comboExecuteTargetTime, "Combo Execute Time", false);
         inputTimer =                TimerManager.instance.CreateTimer(inputTime, inputTargetTime, "Input Time", false);
         FindLongestCombo();
     }
@@ -83,18 +81,32 @@ public class Charattacks : MonoBehaviour
         }
 
         onScreenComboSustainTimer.GetComponent<SimpleTimerScript>().timerTime = comboSustainTime;
-        onScreenComboExecuteTimer.GetComponent<SimpleTimerScript>().timerTime = comboExecuteTime;
         inputTimer.GetComponent<SimpleTimerScript>().timerTime = inputTime;
 
-        if (Input.GetButtonDown("Light Attack"))
+        if (Input.GetButton("Light Attack") && inputTime == 0)
+        {
+            buttonHeldFloat += Time.deltaTime;              //If player holds the light attack button, start counting the buttonHeldFloat by adding Time.deltaTime each frame
+
+            if (buttonHeldFloat > buttonHeldThreshold) //If we have passed the buttonHeldThreshold time, this button was held long enough to count as a held press.
+            {
+                Debug.Log($"Light attack is being held");
+                Attack newattack = new Attack("Light_Held", lightDamageMin, Attack.AttackType.LIGHT_HELD);
+                currentAttacks.Add(newattack);
+                comboSustainTime = comboSustainTargetTime;              //Resets the combo sustain timer
+
+                CheckforCombos();
+            }
+        }
+
+        if (Input.GetButtonUp("Light Attack"))
         {
             if (charcontrol.currentState == Charcontrol.State.COMBAT_Air_Attacking)
             {
-                return;
+                return; //This would be an air light attack
             }
-            else if (inputTime == 0)
+
+            if (buttonHeldFloat < buttonHeldThreshold)
             {
-                if (buttonHeldFloat > buttonHeldThreshold) { return; }  //If we havent passed the button held float time, that means this is a regular attack, not held
                 Debug.Log("Light!");
                 Attack newattack = new Attack("Light", lightDamageMin, Attack.AttackType.LIGHT);
                 currentAttacks.Add(newattack);
@@ -102,30 +114,13 @@ public class Charattacks : MonoBehaviour
                 inputTime = inputTargetTime;                            //Resets input timer
 
                 CheckforCombos();
-                buttonHeldFloat = 0;
             }
+            buttonHeldFloat = 0;
         }
-
-        if (Input.GetButton("Light Attack"))
-        {
-            buttonHeldFloat += Time.deltaTime;                          //If player holds the light attack button, start counting the buttonHeldFloat by adding Time.deltaTime each frame
-            if (buttonHeldFloat > buttonHeldThreshold && inputTime == 0)
-            {
-                buttonHeldFloat = 0;
-                //Debug.Log($"Light attack is being held");
-                Attack newattack = new Attack("Light_Held", lightDamageMin, Attack.AttackType.LIGHT_HELD);
-                currentAttacks.Add(newattack);
-                comboSustainTime = comboSustainTargetTime;              //Resets the combo sustain timer
-
-                CheckforCombos();
-            }
-            //Debug.Log($"{buttonHeldFloat}");
-        }
-
 
         if (Input.GetButtonDown("Heavy Attack"))
         {
-            Debug.Log("Heavy!");
+            //Debug.Log("Heavy!");
             Attack newattack = new Attack("Heavy", heavyDamageMin, Attack.AttackType.HEAVY);
             currentAttacks.Add(newattack);
             comboSustainTime = comboSustainTargetTime;
@@ -152,19 +147,6 @@ public class Charattacks : MonoBehaviour
             comboSustainTime = comboSustainTargetTime;
             ClearAttackList();
         }
-
-        if (currentlyComboing) //If we executed a combo start counting down to end the combo
-        {
-            comboExecuteTime -= Time.deltaTime;
-            if (comboExecuteTime < 0)
-            {
-                comboExecuteTime = comboExecuteTargetTime;
-                //comboExecuteTime = charanimation.currentAnimLength;
-                currentCombo = null;
-                ClearAttackList();
-                currentlyComboing = false;
-            }
-        }
     }
 
     public void Combat_Idle()
@@ -187,6 +169,7 @@ public class Charattacks : MonoBehaviour
     public void CheckforCombos()
     {
         charcontrol.canFlipXDir();
+        //Get the current longest combo. If the current attacks length exceeds that, it means no combo will be possible and inputs will just be added for no reason. Clear the attack list
         if (currentAttacks.Count > longestComboLength + 1)
         {
             ClearAttackList();
@@ -204,23 +187,21 @@ public class Charattacks : MonoBehaviour
                     {
                         if (i == combo.attackList.Count - 1 && combo.attackList[i].attackType == currentAttacks[i].attackType)  //If the last attack matches...
                         {
-                            Debug.Log($"{combo.comboName} identified, sending off to be animated.");
-
-                            //comboExecuteTime = comboExecuteTargetTime;
-                            comboExecuteTime = charanimation.currentAnimLength;
-                            currentCombo = combo;
+                            //Debug.Log($"{combo.comboName} identified, sending off to be animated.");
                             currentlyComboing = true;
                             AnimateCombos(combo);
-                            //PlayComboSwingSound(combo);
 
                             if (combo.canChangeState) { StartCoroutine(charanimation.ComboCharcontrolStates(combo)); } //Checks the current combo to see if it requires a state change
-                            if (combo.endOfComboChain) { ClearAttackList(); }
+                            if (combo.endOfComboChain) 
+                            { 
+                                ClearAttackList(); 
+                            }
                             break;
                         }
                     }
                     else
                     {
-                        //Get the current longest combo. If the current attacks length exceeds that, it means no combo will be possible and inputs will just be added for no reason. Clear the attack list
+                        
                         //Also, if more than 2 inputs are put in and no combos match, the player is down a path that wont result in combos ever, clear attack list.
                         //Or maybe just clear after it finds no combos that match since that means no combos will ever match down that path.
                         break;
@@ -339,6 +320,66 @@ public class Charattacks : MonoBehaviour
                 }
             }
         }
+    }
+
+    public void HitEnemy(GameObject enemy, Attack.AttackType attackType) //I do not know why I wrote this as a string, but its a string and it works
+    {
+        if (enemy.transform.position.x > transform.position.x)
+        {
+            //Collision to the left
+        }
+        else if (enemy.transform.position.x < transform.position.x)
+        {
+            //Collision to the right
+        }
+
+        GameManager.instance.Particle_Manager.PlayHitParticles(enemy.GetComponent<Collider2D>().ClosestPoint(transform.position));
+        StartCoroutine(GameManager.instance.MeleeHitStop());
+        StartCoroutine(GameManager.instance.DoScreenShake(screenShakeIntensity, screenShakeTime));
+
+        switch (attackType)
+        {
+            case Attack.AttackType.LIGHT:
+                currentDamageMax = lightDamageMax;
+                currentDamageMin = lightDamageMin;
+                break;
+            case Attack.AttackType.LIGHT_HELD:
+                currentDamageMax = lightDamageMax;
+                currentDamageMin = lightDamageMin;
+                break;
+            case Attack.AttackType.HEAVY:
+                currentDamageMax = heavyDamageMax;
+                currentDamageMin = heavyDamageMin;
+                break;
+            case Attack.AttackType.HEAVY_HELD:
+                currentDamageMax = heavyDamageMax;
+                currentDamageMin = heavyDamageMin;
+                break;
+            case Attack.AttackType.RANGED:
+                currentDamageMax = rangedDamageMax;
+                currentDamageMin = rangedDamageMin;
+                break;
+            case Attack.AttackType.RANGED_HELD:
+                currentDamageMax = rangedDamageMax;
+                currentDamageMin = rangedDamageMin;
+                break;
+            default:
+                break;
+        }
+
+        switch (enemy.tag)
+        {
+            case "target_dummy":
+                target_dummy_controller dummyScript = enemy.GetComponent<target_dummy_controller>();
+                dummyScript.damageDoneToMeMax = Mathf.FloorToInt(currentDamageMax);
+                dummyScript.damageDoneToMeMin = Mathf.FloorToInt(currentDamageMin);
+                dummyScript.damageDoneToMe = (Random.Range(currentDamageMax, currentDamageMin));
+                dummyScript.TakeDamage(dummyScript.damageDoneToMe);
+                break;
+            default:
+                break;
+        }
+
     }
 
     public void onAddAttackForceHorizontal(int force)  //This function called on the last frame of the dodge animation via AnimationEvent

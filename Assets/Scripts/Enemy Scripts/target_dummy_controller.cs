@@ -64,10 +64,7 @@ public class target_dummy_controller : MonoBehaviour
 
     public void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.gameObject.CompareTag("player_attackhitbox"))
-        {
-            
-        }
+
     }
 
     public void OnTriggerExit2D(Collider2D collision)
@@ -89,6 +86,7 @@ public class target_dummy_controller : MonoBehaviour
             dmgCooldown = dmgCooldownTargetTime;
             healCooldown = healCooldownTargetTime;
         }
+        BeenHit();
     }
 
     public void BeenHit()
