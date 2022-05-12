@@ -15,6 +15,7 @@ public class Charattacks : MonoBehaviour
     CharMeleeHitBox charMeleeHitBox;
 
     [Separator("Combo Lists")]
+    public List<ComboFamily> comboFamilies;
     public List<Combo> allLightCombosEver;  //Set these in inspector
     public List<Combo> allHeavyCombosEver;
     public List<Combo> allRangedCombosEver;
@@ -26,8 +27,8 @@ public class Charattacks : MonoBehaviour
     public bool currentlyComboing;
 
     [Separator("Combo Management Timers")]
-    public float comboSustainTargetTime = 0.5f; 
-    [ReadOnly] public float comboSustainTime;   //How long you have to input another attack before you can chain with previous attacks to make a combo. If it runs out, currentcombo is set to null
+    //public float comboSustainTargetTime = 0.5f; 
+    //[ReadOnly] public float comboSustainTime;   //How long you have to input another attack before you can chain with previous attacks to make a combo. If it runs out, currentcombo is set to null
     public float inputTargetTime;               
     [ReadOnly] public float inputTime;          //Inputs for attacks can only be received when this timer is 0 i.e. This dictates when inputs can be received.
     private GameObject onScreenComboSustainTimer;
@@ -58,12 +59,48 @@ public class Charattacks : MonoBehaviour
         charaudio = GetComponent<Charaudio>();
         rb2d = GetComponent<Rigidbody2D>();
         charMeleeHitBox = GetComponentInChildren<CharMeleeHitBox>();
-        comboSustainTime = comboSustainTargetTime;
+        //comboSustainTime = comboSustainTargetTime;
         //comboExecuteTime = comboExecuteTargetTime;
         inputTime = inputTargetTime;
-        onScreenComboSustainTimer = TimerManager.instance.CreateTimer(comboSustainTime, comboSustainTargetTime, "Combo Sustain Time", false);
+        //onScreenComboSustainTimer = TimerManager.instance.CreateTimer(comboSustainTime, comboSustainTargetTime, "Combo Sustain Time", false);
         inputTimer =                TimerManager.instance.CreateTimer(inputTime, inputTargetTime, "Input Time", false);
         FindLongestCombo();
+        OrganizeComboFamilies();
+    }
+
+    void OrganizeComboFamilies()
+    {
+        comboFamilies = new List<ComboFamily>();
+        foreach (var Combo in currentPossibleCombos)
+        {
+            string thisComboFamilyName = Combo.myComboFamilyName;
+
+            if (comboFamilies.Count == 0)   //This is the first combo being assigned to a family
+            {
+                ComboFamily newFam = new ComboFamily(thisComboFamilyName);
+                newFam.familyList.Add(Combo);
+                Combo.myComboFamilyOrder = 1;
+                comboFamilies.Add(newFam);
+            }
+            else                            //Families already exist, check 'em
+            {
+                for (int i = 0; i < comboFamilies.Count; i++)   //Loop through all combo families already created
+                {
+                    if(comboFamilies[i].cFamilyName == thisComboFamilyName)     //If we found a family with the same name, add combo to it
+                    {
+                        comboFamilies[i].familyList.Add(Combo);
+                        Combo.myComboFamilyOrder = comboFamilies[i].familyList.Count;
+                    }
+                    else if (i == comboFamilies.Count - 1&& comboFamilies[i].cFamilyName != thisComboFamilyName)   //If we reach the end of the list, and nothing matches, make a new fam
+                    {
+                        ComboFamily newFam = new ComboFamily(thisComboFamilyName);
+                        newFam.familyList.Add(Combo);
+                        Combo.myComboFamilyOrder = 1;
+                        comboFamilies.Add(newFam);
+                    }
+                }
+            }
+        }
     }
 
     // Update is called once per frame
@@ -76,11 +113,11 @@ public class Charattacks : MonoBehaviour
         switch (charcontrol.currentState)
         {
             case Charcontrol.State.COMBAT_Idle:
-                ClearAttackList();
+                //ClearAttackList();
                 break;
         }
 
-        onScreenComboSustainTimer.GetComponent<SimpleTimerScript>().timerTime = comboSustainTime;
+        //onScreenComboSustainTimer.GetComponent<SimpleTimerScript>().timerTime = comboSustainTime;
         inputTimer.GetComponent<SimpleTimerScript>().timerTime = inputTime;
 
         if (Input.GetButton("Light Attack") && inputTime == 0)
@@ -92,13 +129,13 @@ public class Charattacks : MonoBehaviour
                 Debug.Log($"Light attack is being held");
                 Attack newattack = new Attack("Light_Held", lightDamageMin, Attack.AttackType.LIGHT_HELD);
                 currentAttacks.Add(newattack);
-                comboSustainTime = comboSustainTargetTime;              //Resets the combo sustain timer
+                //comboSustainTime = comboSustainTargetTime;              //Resets the combo sustain timer
 
                 CheckforCombos();
             }
         }
 
-        if (Input.GetButtonUp("Light Attack"))
+        if (Input.GetButtonUp("Light Attack") && inputTime == 0)
         {
             if (charcontrol.currentState == Charcontrol.State.COMBAT_Air_Attacking)
             {
@@ -110,7 +147,7 @@ public class Charattacks : MonoBehaviour
                 Debug.Log("Light!");
                 Attack newattack = new Attack("Light", lightDamageMin, Attack.AttackType.LIGHT);
                 currentAttacks.Add(newattack);
-                comboSustainTime = comboSustainTargetTime;              //Resets the combo sustain timer
+                //comboSustainTime = comboSustainTargetTime;              //Resets the combo sustain timer
                 inputTime = inputTargetTime;                            //Resets input timer
 
                 CheckforCombos();
@@ -123,7 +160,7 @@ public class Charattacks : MonoBehaviour
             //Debug.Log("Heavy!");
             Attack newattack = new Attack("Heavy", heavyDamageMin, Attack.AttackType.HEAVY);
             currentAttacks.Add(newattack);
-            comboSustainTime = comboSustainTargetTime;
+            //comboSustainTime = comboSustainTargetTime;
 
             CheckforCombos();
         }
@@ -132,21 +169,21 @@ public class Charattacks : MonoBehaviour
         {
             Attack newattack = new Attack("Ranged", rangedDamageMin, Attack.AttackType.RANGED);
             currentAttacks.Add(newattack);
-            comboSustainTime = comboSustainTargetTime;
+            //comboSustainTime = comboSustainTargetTime;
 
             CheckforCombos();
         }
 
         if (currentAttacks.Count > 0)   //If we pressed an attack, start counting down the combosustain timer
         {
-            comboSustainTime -= Time.deltaTime;
+            //comboSustainTime -= Time.deltaTime;
         }
 
-        if (comboSustainTime < 0)
-        {
-            comboSustainTime = comboSustainTargetTime;
-            ClearAttackList();
-        }
+        //if (comboSustainTime < 0)
+        //{
+        //    comboSustainTime = comboSustainTargetTime;
+        //    ClearAttackList();
+        //}
     }
 
     public void Combat_Idle()
@@ -187,7 +224,7 @@ public class Charattacks : MonoBehaviour
                     {
                         if (i == combo.attackList.Count - 1 && combo.attackList[i].attackType == currentAttacks[i].attackType)  //If the last attack matches...
                         {
-                            //Debug.Log($"{combo.comboName} identified, sending off to be animated.");
+                            Debug.Log($"{combo.comboName} identified, sending off to be animated.");
                             currentlyComboing = true;
                             AnimateCombos(combo);
 
@@ -322,7 +359,7 @@ public class Charattacks : MonoBehaviour
         }
     }
 
-    public void HitEnemy(GameObject enemy, Attack.AttackType attackType) //I do not know why I wrote this as a string, but its a string and it works
+    public void HitEnemy(GameObject enemy, Attack.AttackType attackType) 
     {
         if (enemy.transform.position.x > transform.position.x)
         {

@@ -7,6 +7,9 @@ using MyBox;
 public class Combo
 {
     public string comboName = "nullCombo";
+    public ComboType comboType;
+    public string myComboFamilyName = "No Family";
+    public int myComboFamilyOrder = -1;
     public string moveName;
     public AudioClip[] attackSwingSound;    //An array of sounds that can be chosen from to play during this combo
     [Range(0f, 1f)]
@@ -19,4 +22,6 @@ public class Combo
     [ConditionalField(nameof(canChangeState))] public Charcontrol.State stateChange;   //The state to change to after stateChangeTime;
     public bool endOfComboChain;
     public List<Attack> attackList; //Contains the list of attacks required to execute this combo
+
+    public enum ComboType {LIGHT, HEAVY, RANGED}
 }

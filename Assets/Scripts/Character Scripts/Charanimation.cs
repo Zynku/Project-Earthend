@@ -245,11 +245,11 @@ public class Charanimation : MonoBehaviour
 
     public void ManageComboBuffer()  //Plays animations from the combo buffer if no other animations are playing
     {
-        if (currentCombo.Count > 0 && comboBuffer.Count > 0)
+        if (comboBuffer.Count > 0)
         {
             AnimatorStateInfo currentAnimSInfo = animator.GetCurrentAnimatorStateInfo(0);
             Combo nextCombo = comboBuffer[0];
-            if (currentAnimSInfo.normalizedTime >= currentCombo[0].comboChainTimeLocation)   //If the current animation passes the time at which a combo can be chained, it plays the first animation stored in the buffer
+            if (currentCombo.Count > 0 && currentAnimSInfo.normalizedTime >= currentCombo[0].comboChainTimeLocation)   //If the current animation passes the time at which a combo can be chained, it plays the first animation stored in the buffer
             {
                 string nextComboAnimName = nextCombo.animationName;
                 animator.Play(nextComboAnimName);
@@ -267,12 +267,23 @@ public class Charanimation : MonoBehaviour
                     ClearComboBuffer();
                 }
             }
+            else if (currentCombo.Count == 0)
+            {
+                ClearComboBuffer();
+                ClearAttackList();
+                Debug.Log($"Current combo is empty, clearing attack list and combo list");
+            }
         }
     }
 
     public void ClearComboBuffer()
     {
         comboBuffer.Clear();
+    }
+
+    public void ClearAttackList()
+    {
+        charattacks.ClearAttackList();
     }
 
     private Charcontrol.State stateWhenStartedLookingForComboStateChanges;

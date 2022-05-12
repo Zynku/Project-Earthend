@@ -211,4 +211,16 @@ public class Debugscript : MonoBehaviour
         Debug.Log($"Clearing {charanimation.comboBuffer.Count} combos from combo buffer");
         charanimation.ClearComboBuffer();
     }
+
+    [ButtonMethod]
+    public void ResetEmptyComboFamilyNames()
+    {
+        foreach (var item in Player.GetComponent<Charattacks>().currentPossibleCombos)
+        {
+            if (item.myComboFamilyName == "")
+            {
+                item.myComboFamilyName = "No Family";
+            }
+        }
+    }
 }
