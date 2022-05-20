@@ -26,4 +26,8 @@ public class Charinputs : MonoBehaviour
 
     // P Pauses the game. Called from Gamemanager Update()
     // O Unpauses the game. Called from Gamemanager Update()
+    // J Resets health. Called from Charhealth Update()
+    // H Adds 20 health. Called from Charhealth Update()
+    // K Takes max damage from health. Called from Charhealth Update()
+    // L Takes 20 damage from health. Called from Charhealth Update()
 }

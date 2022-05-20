@@ -18,7 +18,7 @@ public class InGameUi : MonoBehaviour
         Player = GameManager.instance.Player;
         healthBar = GetComponentInChildren<Healthbar>();
 
-        Player.GetComponent<Charhealth>().healthbar = healthBar;
+        Player.GetComponent<Charhealth>().healthbarOver = healthBar;
     }
 
     // Update is called once per frame

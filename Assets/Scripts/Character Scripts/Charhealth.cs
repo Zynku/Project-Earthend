@@ -19,7 +19,7 @@ public class Charhealth : MonoBehaviour
     public GameObject floatingDmgTextPrefab;
     public GameObject floatingHealthTextPrefab;
     public Vector3 dmgTextOffset;
-    public Healthbar healthbar;     //This is assigned from onScreenText script as the healthbar is a child object of that
+    public Healthbar healthbarOver;     //This is assigned from onScreenText script as the healthbar is a child object of that
     public int level = 1;
     public delegate void gotHit();
     public static event gotHit Hit;
@@ -54,7 +54,7 @@ public class Charhealth : MonoBehaviour
 
     private void SetHealthIntially()
     {
-        healthbar.SetMaxHealth(maxHealth);
+        healthbarOver.SetMaxHealth(maxHealth);
     }
 
     // Update is called once per frame
@@ -67,7 +67,7 @@ public class Charhealth : MonoBehaviour
         if (currentHealth > maxHealth) {currentHealth = maxHealth;}
         if (currentHealth < 0) { currentHealth = 0;}
 
-        healthbar.SetHealth(currentHealth);
+        //healthbarOver.SetHealth(currentHealth);
 
         if (Input.GetKeyDown(KeyCode.J)) { ResetHealth();}
         if (Input.GetKeyDown(KeyCode.H)) { AddHealth(20); }
@@ -146,7 +146,7 @@ public class Charhealth : MonoBehaviour
         if (dmgCooldown <= 0 && currentHealth > 0)
         {
             currentHealth -= damage;
-            healthbar.SetHealth(currentHealth);
+            healthbarOver.SetHealth(currentHealth);
         
             var floattext = Instantiate(floatingDmgTextPrefab, transform.position + dmgTextOffset, Quaternion.identity);
             floattext.GetComponent<TMPro.TextMeshPro>().text = damage.ToString();
@@ -165,7 +165,7 @@ public class Charhealth : MonoBehaviour
     public void AddHealth(int health)
     {
         currentHealth += health;
-        healthbar.SetHealth(currentHealth);
+        healthbarOver.SetHealth(currentHealth);
 
         var floattext = Instantiate(floatingHealthTextPrefab, transform.position + dmgTextOffset, Quaternion.identity);
         floattext.GetComponent<TMPro.TextMeshPro>().text = health.ToString();
@@ -176,7 +176,7 @@ public class Charhealth : MonoBehaviour
     public void ResetHealth()
     {
         currentHealth = maxHealth;
-        healthbar.SetHealth(maxHealth * 1);
+        healthbarOver.SetHealth(maxHealth * 1);
 
         var floattext = Instantiate(floatingHealthTextPrefab, transform.position + dmgTextOffset, Quaternion.identity);
         floattext.GetComponent<TMPro.TextMeshPro>().text = maxHealth.ToString();
@@ -201,7 +201,7 @@ public class Charhealth : MonoBehaviour
             {
                 //Takes poison damage from health
                 currentHealth -= poisonDamage;
-                healthbar.SetHealth(currentHealth);
+                healthbarOver.SetHealth(currentHealth);
                 poisonTickTimer = poisonTickTargetTime;
 
                 //Instantiate damage numbers text on every tick
