@@ -81,27 +81,21 @@ public class Debugscript : MonoBehaviour
 
     public void ReassignToPlayer()
     {
-        if (Player != null)
-        {
-            allLightCombosEver = Player.GetComponent<Charattacks>().allLightCombosEver;
-            allHeavyCombosEver = Player.GetComponent<Charattacks>().allHeavyCombosEver;
-            allRangedCombosEver = Player.GetComponent<Charattacks>().allRangedCombosEver;
-            currentPossibleCombos = Player.GetComponent<Charattacks>().currentPossibleCombos;
-        }
+        allLightCombosEver = Player.GetComponent<Charattacks>().allLightCombosEver;
+        allHeavyCombosEver = Player.GetComponent<Charattacks>().allHeavyCombosEver;
+        allRangedCombosEver = Player.GetComponent<Charattacks>().allRangedCombosEver;
+        currentPossibleCombos = Player.GetComponent<Charattacks>().currentPossibleCombos;
     }
 
     [ButtonMethod]
     public void ForceReassignInEditor()
     {
         Player = GameObject.FindGameObjectWithTag("Player");
-        if (Player != null)
-        {
-            Player.GetComponent<Charattacks>().allLightCombosEver = allLightCombosEver;
-            Player.GetComponent<Charattacks>().allHeavyCombosEver = allHeavyCombosEver;
-            Player.GetComponent<Charattacks>().allRangedCombosEver = allRangedCombosEver;
-            Player.GetComponent<Charattacks>().currentPossibleCombos = currentPossibleCombos;
+        Player.GetComponent<Charattacks>().allLightCombosEver = allLightCombosEver;
+        Player.GetComponent<Charattacks>().allHeavyCombosEver = allHeavyCombosEver;
+        Player.GetComponent<Charattacks>().allRangedCombosEver = allRangedCombosEver;
+        Player.GetComponent<Charattacks>().currentPossibleCombos = currentPossibleCombos; 
 
-        }
     }
 
     [ButtonMethod]

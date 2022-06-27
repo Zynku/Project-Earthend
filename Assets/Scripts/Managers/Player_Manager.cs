@@ -8,7 +8,6 @@ public class Player_Manager : MonoBehaviour
     public GameObject playerPrefab;
     [ReadOnly]public GameObject playerLiveRef;
     [ReadOnly] public GameObject playerRespawnPoint;
-    [ReadOnly] public bool playerToBeDespawned;
 
     // Start is called before the first frame update
     void Start()
@@ -43,10 +42,8 @@ public class Player_Manager : MonoBehaviour
         }
     }
 
-    public IEnumerator DespawnPlayer()
+    public void DespawnPlayer()
     {
-        yield return new WaitForSeconds(1f);
-        Debug.Log("Despawning Player");
         playerLiveRef.SetActive(false);
         Destroy(playerLiveRef);
     }
@@ -54,10 +51,6 @@ public class Player_Manager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (playerToBeDespawned && GameManager.instance.Player != null)
-        {
-            StartCoroutine(DespawnPlayer());
-            playerToBeDespawned = false;
-        }
+        
     }
 }

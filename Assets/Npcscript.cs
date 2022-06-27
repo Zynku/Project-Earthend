@@ -37,7 +37,7 @@ public class Npcscript : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        Player = GameManager.instance.Player;
+        Player = GameObject.FindWithTag("Player");
         animator = GetComponent<Animator>();
         audiosource = GetComponent<AudioSource>();
         dialogueManager = GameManager.instance.dialogueManager;
