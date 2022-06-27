@@ -103,13 +103,16 @@ public class DialogueManager : MonoBehaviour
 
     public void LateUpdate()
     {
-        endOfConversation = false;
-
-        //Finds closest NPC position from Charcontrol.
-        if (charcontrol.closestNPC.gameObject != null)
+        if (GameManager.instance.Player != null)
         {
-            GameObject closestNPC = charcontrol.closestNPC.gameObject;
-            //NPCPos = new Vector2(closestNPC.transform.position.x, closestNPC.transform.position.y);
+            endOfConversation = false;
+
+            //Finds closest NPC position from Charcontrol.
+            if (charcontrol.closestNPC.gameObject != null)
+            {
+                GameObject closestNPC = charcontrol.closestNPC.gameObject;
+                //NPCPos = new Vector2(closestNPC.transform.position.x, closestNPC.transform.position.y);
+            }
         }
     }
 

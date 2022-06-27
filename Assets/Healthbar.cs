@@ -13,6 +13,7 @@ public class Healthbar : MonoBehaviour
     public float smoothTime, smoothTimeUnderlay;
     public float smoothTargetTime;        //How long the bar takes to smooth between the initial value and the intended value
     public float smoothVel;
+    public float smoothLerpSpeed;
     public bool needToUpdateValsOverlay;
     public bool needToUpdateValsUnderlay;
 
@@ -23,8 +24,9 @@ public class Healthbar : MonoBehaviour
 
     public void Update()
     {
-        SmoothOverlayVals();
-        SmoothUnderlayVals();
+        smoothLerpSpeed = 3f * Time.deltaTime;
+        //SmoothOverlayVals();
+        //SmoothUnderlayVals();
     }
 
     public void SetMaxHealth (int health)
@@ -39,11 +41,13 @@ public class Healthbar : MonoBehaviour
     public void SetHealth (int health)  //This whole shit barely works and I barely understand it, I'm angry and upset and I dont give two fucks about this right now. Fuck off
     {
         healthVal = health;
-        smoothTime = smoothTargetTime;
-        smoothTimeUnderlay = smoothTargetTime;
+        //smoothTime = smoothTargetTime;
+       // smoothTimeUnderlay = smoothTargetTime;
         needToUpdateValsOverlay = true;
         needToUpdateValsUnderlay = true;
-        //StartCoroutine(UnderlayDelaySet(health));
+
+        float currentHealthVal = slider.value;
+        slider.value = Mathf.Lerp(currentHealthVal, health, smoothLerpSpeed);
     }
 
     public void SmoothOverlayVals()

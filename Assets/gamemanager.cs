@@ -9,7 +9,6 @@ using MyBox;
 
 public class GameManager : MonoBehaviour
 {
-
     public float aliveTime;                    //Keeps track of how long this script (and by extension its children) have been alive
 
     [Header("Time")]
@@ -80,11 +79,13 @@ public class GameManager : MonoBehaviour
 
             if (this.aliveTime > instance.aliveTime)    //If this alive time is greater than the alive time of the current instance, then the instance is younger
             {
+                Debug.LogWarning("This gamemanager is older, deleting game manager found in this scene");
                 Destroy(instance);
                 instance = this;
             }
             else if (this.aliveTime < instance.aliveTime) //If this alive time is less than the alive time of the current instance, then the instance is older
             {
+                Debug.LogWarning("This gamemanager is newer, deleting this game manager");
                 Destroy(this.gameObject);
             }
         }
@@ -93,10 +94,11 @@ public class GameManager : MonoBehaviour
             instance = this;
         }
         AssignPlayerReferences();
-        AssignAllReferences();
+        CheckForDuplicateSystems();
+        //AssignAllReferences();
         AddAllReferencesToModuleList();
         DontDestroyOnLoad(this);
-        SceneManager.activeSceneChanged += ChangedActiveScene;
+        SceneManager.activeSceneChanged += ChangedActiveScene;  //Subscribes ChangedActiveScene() to an event that fires every time scene is changegd.
 
 
     }
@@ -107,9 +109,13 @@ public class GameManager : MonoBehaviour
         cineBrain = CinemachineCore.Instance.GetActiveBrain(0);
         cineCam = cineBrain.ActiveVirtualCamera.VirtualCameraGameObject.GetComponent<CinemachineVirtualCamera>();
         perlin = cineCam.GetCinemachineComponent<CinemachineBasicMultiChannelPerlin>();
+
+        infoHub.gameObject.SetActive(true); //Infohub needs to set active separately since it blocks gameplay window in edit mode. This makes sure its always active.
+
+        SetupCameras();
     }
 
-    private void AddAllReferencesToModuleList()
+    private void AddAllReferencesToModuleList() //This is to provide a list of all important modules to iterate over
     {
         allModules.Add(dialogueManager);
         allModules.Add(questManager);
@@ -155,10 +161,26 @@ public class GameManager : MonoBehaviour
     [ButtonMethod]
     public void AssignPlayerReferences()
     {
-        playerManager = GetComponentInChildren<Player_Manager>();
+        //playerManager = GetComponentInChildren<Player_Manager>();
         playerRespawnPoint = GameObject.FindWithTag("player_respawn");
         Player = playerManager.SpawnPlayer();
         if (Player != null) PlayerAnim = Player.GetComponent<Animator>();
+    }
+
+    public void CheckForDuplicateSystems()
+    {
+        //Check for Event System
+        EventSystem[] eventSystems = FindObjectsOfType<EventSystem>();
+        if (eventSystems.Length > 0)    //If there are more than one event system...
+        {
+            foreach (var eSys in eventSystems)  //Check each one...
+            {
+                if (eSys != theEventSystem) //If its not the same one we have a reference to already, destroy it
+                {
+                    Destroy(eSys);
+                }
+            }
+        }
     }
 
     private void Update()
@@ -203,33 +225,37 @@ public class GameManager : MonoBehaviour
     private void ChangedActiveScene(Scene currentScene, Scene nextScene)    //Is called every time the scene is changed
     {
         Debug.Log($"-----------------------------------Scene changed to {SceneManager.GetActiveScene().name}------------------------------------");
+        CheckForDuplicateSystems();
+        SpawnPlayer();
 
         switch (SceneManager.GetActiveScene().name)
         {
             case "Game Test Scene":
-                
-                OnSceneChangedEnableThese(
-                    dialogueManager,
-                    questManager,
-                    ihuiquestmanager,
-                    infoHub,
-                    pause_Menu_Manager,
-                    Particle_Manager,
-                    Global_Script,
-                    teleporternetwork,
-                    timerManager,
-                    playerManager,
-                    inventoryui,
-                    inventoryUIHelper,
-                    ingame_UI,
-                    respawn_Menu_Manager
-                                             ) ;
-                SetupCameras();
-                OnSceneChangedDisableThese();
+                /*             
+                             OnSceneChangedEnableThese(
+                                 dialogueManager,
+                                 questManager,
+                                 ihuiquestmanager,
+                                 infoHub,
+                                 pause_Menu_Manager,
+                                 Particle_Manager,
+                                 Global_Script,
+                                 teleporternetwork,
+                                 timerManager,
+                                 playerManager,
+                                 inventoryui,
+                                 inventoryUIHelper,
+                                 ingame_UI,
+                                 respawn_Menu_Manager
+                                                          ) ;
+
+                             OnSceneChangedDisableThese();*/
+                OnSceneChangedEnableAll();
                 break;
 
             case "Main Menu Scene":
-                OnSceneChangedDisableThese(
+                DisablePlayerAndDependants();
+                /*OnSceneChangedDisableThese(
                     dialogueManager,
                     questManager,
                     ihuiquestmanager,
@@ -245,9 +271,7 @@ public class GameManager : MonoBehaviour
                     ingame_UI,
                     respawn_Menu_Manager,
                     theEventSystem                  //Main Menu Scene already has its own event system
-                                            );
-
-                OnSceneChangedEnableThese();
+                                            );*/
                 break;
 
             default:
@@ -255,7 +279,25 @@ public class GameManager : MonoBehaviour
                 break;
         }
         //AssignAllReferences();
-        
+        SetupCameras();
+    }
+
+    private void SpawnPlayer()
+    {
+        playerManager.SpawnPlayer();
+        playerManager.playerToBeDespawned = false;
+    }
+
+    private void DisablePlayerAndDependants()    //Disables not only the player, but anything dependant on it
+    {
+        if (Player)
+        {
+            playerManager.playerToBeDespawned = true;
+        }
+
+        dialogueManager.gameObject.SetActive(false);
+        playerManager.gameObject.SetActive(false);
+        ingame_UI.gameObject.SetActive(false);
     }
 
     public void OnSceneChangedDisableThese(params MonoBehaviour[] list) //Sets all modules that have been passed in as disabled. Should be used on scene changes in ChangedActiveScene()
