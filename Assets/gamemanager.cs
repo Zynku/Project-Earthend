@@ -9,7 +9,6 @@ using MyBox;
 
 public class GameManager : MonoBehaviour
 {
-
     public float aliveTime;                    //Keeps track of how long this script (and by extension its children) have been alive
 
     [Header("Time")]
@@ -32,7 +31,6 @@ public class GameManager : MonoBehaviour
     CinemachineBasicMultiChannelPerlin perlin;
 
     public GameObject Player;
-    private Animator PlayerAnim;
     public GameObject playerRespawnPoint;
     public GameObject[] Enemies;
 
@@ -95,10 +93,9 @@ public class GameManager : MonoBehaviour
         AssignPlayerReferences();
         AssignAllReferences();
         AddAllReferencesToModuleList();
+        SetupCameras();
         DontDestroyOnLoad(this);
         SceneManager.activeSceneChanged += ChangedActiveScene;
-
-
     }
     #endregion
 
@@ -107,6 +104,41 @@ public class GameManager : MonoBehaviour
         cineBrain = CinemachineCore.Instance.GetActiveBrain(0);
         cineCam = cineBrain.ActiveVirtualCamera.VirtualCameraGameObject.GetComponent<CinemachineVirtualCamera>();
         perlin = cineCam.GetCinemachineComponent<CinemachineBasicMultiChannelPerlin>();
+    }
+
+    [ButtonMethod]
+    public void AssignPlayerReferences()
+    {
+        playerManager = GetComponentInChildren<Player_Manager>();
+        playerRespawnPoint = GameObject.FindWithTag("player_respawn");
+        Player = playerManager.SpawnPlayer();
+    }
+
+    [ButtonMethod]
+    public void AssignAllReferences()   
+    {
+        infoHub.gameObject.SetActive(true);         //Infohub is special since when it is active, it blocks the scene window in edit mode. It is set inactive in edit mode and activated here.
+        infoHub.ActivatePages();
+
+        /*dialogueManager = GetComponentInChildren<DialogueManager>();
+        questManager = GetComponentInChildren<QuestManager>();
+        ihuiquestmanager = GetComponentInChildren<IHUIQuestManager>();
+        infoHub = GetComponentInChildren<InfoHubManager>();
+        pause_Menu_Manager = GetComponentInChildren<Pause_menu_manager>();
+        Particle_Manager = GetComponentInChildren<ParticleManager>();
+        Global_Script = GetComponentInChildren<global_script>();
+        teleporternetwork = GetComponentInChildren<teleporternetwork>();
+        timerManager = GetComponentInChildren<TimerManager>();
+        playerManager = GetComponentInChildren<Player_Manager>();
+        if (infoHub.pages.Length > 0) { inventoryui = GetComponentInChildren<InventoryUI>(); }
+        if (infoHub.pages.Length > 0) { inventoryUIHelper = GetComponentInChildren<InventoryUIHelper>(); }
+        ingame_UI = GetComponentInChildren<InGameUi>();
+        respawn_Menu_Manager = GetComponentInChildren<Respawn_menu_manager>();
+        theEventSystem = GetComponentInChildren<EventSystem>();*/
+
+
+        //hurtScreenAnimator = hurtScreen.GetComponent<Animator>();
+        //hurtScreen.SetActive(false);
     }
 
     private void AddAllReferencesToModuleList()
@@ -126,39 +158,6 @@ public class GameManager : MonoBehaviour
         allModules.Add(ingame_UI);
         allModules.Add(respawn_Menu_Manager);
         allModules.Add(theEventSystem);
-    }
-
-    [ButtonMethod]
-    public void AssignAllReferences()   
-    {
-        dialogueManager = GetComponentInChildren<DialogueManager>();
-        questManager = GetComponentInChildren<QuestManager>();
-        ihuiquestmanager = GetComponentInChildren<IHUIQuestManager>();
-        infoHub = GetComponentInChildren<InfoHubManager>();
-        pause_Menu_Manager = GetComponentInChildren<Pause_menu_manager>();
-        Particle_Manager = GetComponentInChildren<ParticleManager>();
-        Global_Script = GetComponentInChildren<global_script>();
-        teleporternetwork = GetComponentInChildren<teleporternetwork>();
-        timerManager = GetComponentInChildren<TimerManager>();
-        playerManager = GetComponentInChildren<Player_Manager>();
-        if (infoHub.pages.Length > 0) { inventoryui = GetComponentInChildren<InventoryUI>(); }
-        if (infoHub.pages.Length > 0) { inventoryUIHelper = GetComponentInChildren<InventoryUIHelper>(); }
-        ingame_UI = GetComponentInChildren<InGameUi>();
-        respawn_Menu_Manager = GetComponentInChildren<Respawn_menu_manager>();
-        theEventSystem = GetComponentInChildren<EventSystem>();
-
-
-        //hurtScreenAnimator = hurtScreen.GetComponent<Animator>();
-        //hurtScreen.SetActive(false);
-    }
-
-    [ButtonMethod]
-    public void AssignPlayerReferences()
-    {
-        playerManager = GetComponentInChildren<Player_Manager>();
-        playerRespawnPoint = GameObject.FindWithTag("player_respawn");
-        Player = playerManager.SpawnPlayer();
-        if (Player != null) PlayerAnim = Player.GetComponent<Animator>();
     }
 
     private void Update()
@@ -204,7 +203,7 @@ public class GameManager : MonoBehaviour
     {
         Debug.Log($"-----------------------------------Scene changed to {SceneManager.GetActiveScene().name}------------------------------------");
 
-        switch (SceneManager.GetActiveScene().name)
+        /*switch (SceneManager.GetActiveScene().name)
         {
             case "Game Test Scene":
                 
@@ -252,8 +251,9 @@ public class GameManager : MonoBehaviour
 
             default:
                 Debug.LogWarning($"Current scene name is not part of GameManager switch statement. Please add it. All modules disabled.");
+                OnSceneChangedDisableAll();
                 break;
-        }
+        }*/
         //AssignAllReferences();
         
     }
@@ -327,8 +327,7 @@ public class GameManager : MonoBehaviour
     public void PauseGame()
     {
         Debug.Log("Pausing game...");
-        Player.SetActive(false);
-        PlayerAnim.enabled = false;
+        playerManager.DisablePlayer();
         pause_Menu_Manager.isGamePaused = true;
         Time.timeScale = 0;
         pause = true;
@@ -340,19 +339,20 @@ public class GameManager : MonoBehaviour
     public void ResumeGame()
     {
         Debug.Log("Resuming game...");
+        playerManager.EnablePlayer();
         pause_Menu_Manager.isGamePaused = false;
         Time.timeScale = 1;
         pause = false;
         paused = false;
         resume = true;
         resumed = true;
-
+/*
         try
         {
             Player.SetActive(true);
             PlayerAnim.enabled = true;
         }
-        catch (MissingReferenceException) { }
+        catch (MissingReferenceException) { }*/
     }
 
     public void TogglePauseGame()

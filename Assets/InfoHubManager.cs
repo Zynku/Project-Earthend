@@ -22,9 +22,17 @@ public class InfoHubManager : MonoBehaviour
     public GameObject iHPageButtonHolder;
     [HideInInspector] public bool firstPageShown = false;
 
+    public void ActivatePages()
+    {
+        for (int i = 0; i < pages.Length; i++)//Sets each page to its appropriate page number
+        {
+            pages[i].gameObject.SetActive(true);
+        }
+    }
+
     public void Start()
     {
-        pages = GetComponentsInChildren<IHPageScript>();
+        //pages = GetComponentsInChildren<IHPageScript>();
         this.gameObject.SetActive(false);
         if (pages.Length > 0)
         {
@@ -34,6 +42,7 @@ public class InfoHubManager : MonoBehaviour
             for (int i = 0; i < pages.Length; i++)//Sets each page to its appropriate page number
             {
                 pages[i].pageNumber = i;
+                pages[i].gameObject.SetActive(true);
             }
 
             for (int i = pages.Length; i-- > 0;)              //Creates a new button at the top of the IHUI for each page

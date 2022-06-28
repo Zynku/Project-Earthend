@@ -8,6 +8,7 @@ public class Player_Manager : MonoBehaviour
     public GameObject playerPrefab;
     [ReadOnly]public GameObject playerLiveRef;
     [ReadOnly] public GameObject playerRespawnPoint;
+    public bool preventPlayerMovement = false;
 
     // Start is called before the first frame update
     void Start()
@@ -30,8 +31,8 @@ public class Player_Manager : MonoBehaviour
         var player = GameObject.FindGameObjectWithTag("Player");
         if (player != null)
         {
+            playerLiveRef = player;
             return player;
-            
         }
         else
         {
@@ -48,9 +49,55 @@ public class Player_Manager : MonoBehaviour
         Destroy(playerLiveRef);
     }
 
-    // Update is called once per frame
-    void Update()
+    public void DisablePlayer()
     {
-        
+        playerLiveRef.GetComponent<Renderer>().enabled = false;
+        playerLiveRef.GetComponent<Animator>().enabled = false;
+        playerLiveRef.GetComponentInChildren<ParticleSystem>().Pause();
+        foreach (var item in playerLiveRef.GetComponentsInChildren<Renderer>())
+        {
+            var itemRenderer = item.GetComponent<Renderer>();
+            var itemAnimator = item.GetComponent<Animator>();
+
+            if (itemRenderer != null) { itemRenderer.enabled = false; }
+            if (itemAnimator != null) { itemAnimator.enabled = false; }
+        }
+        preventPlayerMovement = true;
+    }
+
+    public void EnablePlayer()
+    {
+        playerLiveRef.GetComponent<Renderer>().enabled = true;
+        playerLiveRef.GetComponent<Animator>().enabled = true;
+        playerLiveRef.GetComponentInChildren<ParticleSystem>().Play();
+        foreach (var item in playerLiveRef.GetComponentsInChildren<Renderer>())
+        {
+            var itemRenderer = item.GetComponent<Renderer>();
+            var itemAnimator = item.GetComponent<Animator>();
+
+            if (itemRenderer != null) { itemRenderer.enabled = true; }
+            if (itemAnimator != null) { itemAnimator.enabled = true; }
+        }
+        preventPlayerMovement = false;
+    }
+
+    bool playerPosRecorded = false;
+    Vector2 playerPosAtPause;
+    // Update is called once per frame
+    public void Update()
+    {
+        if (preventPlayerMovement)
+        {
+            if (!playerPosRecorded)
+            {
+                playerPosAtPause = playerLiveRef.transform.position;
+                playerPosRecorded = true;
+            }
+            playerLiveRef.transform.position = playerPosAtPause;
+        }
+        else
+        {
+            playerPosRecorded = false;
+        }
     }
 }

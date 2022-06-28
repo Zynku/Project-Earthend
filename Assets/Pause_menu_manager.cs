@@ -103,7 +103,6 @@ public class Pause_menu_manager : MonoBehaviour
         //Time.timeScale = 1;
         isGamePaused = false;
         GameManager.instance.ResumeGame();
-
     }
 
     public void Pause()
