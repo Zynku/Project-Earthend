@@ -481,6 +481,11 @@ public class Charcontrol : MonoBehaviour
                 {
                     currentState = State.Idle;
                 }
+
+                if (Input.GetButtonDown("Vertical") && airJumpsHas != 0)
+                {
+                    currentState = State.AirJumping;
+                }
                 break;
 
             case State.AirJumping:

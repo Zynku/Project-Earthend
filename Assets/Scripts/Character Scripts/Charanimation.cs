@@ -123,12 +123,13 @@ public class Charanimation : MonoBehaviour
                 break;
 
             case Charcontrol.State.AirJumping:
-                animator.Play("Jump Transition");
+                animator.Play("Jump Double into Downwards");
                 animator.SetBool("Jumping", true);
                 break;
 
             case Charcontrol.State.Falling:
-                animator.Play("Low Poly Girl Whole Fall HD3");
+                //animator.Play("Low Poly Girl Whole Fall HD3");
+
                 break;
 
             case Charcontrol.State.Landing:
@@ -344,8 +345,10 @@ public class Charanimation : MonoBehaviour
         currentStateNormalizedTime = currentAnimSInfo.normalizedTime;
 
 
-        animator.SetFloat("yVel", Mathf.Clamp(rb2d.velocity.y, -1, 1));
-        animator.SetFloat("xVel", Mathf.Clamp(rb2d.velocity.x, -1, 1));
+        //animator.SetFloat("yVel", Mathf.Clamp(rb2d.velocity.y, -1, 1));
+        animator.SetFloat("yVel", rb2d.velocity.y);
+        //animator.SetFloat("xVel", Mathf.Clamp(rb2d.velocity.x, -1, 1));
+        animator.SetFloat("xVel", rb2d.velocity.x);
         animator.SetFloat("yVelAbs", Mathf.Abs(Mathf.Clamp(rb2d.velocity.y, -1, 1)));
         animator.SetFloat("xVelAbs", Mathf.Abs(Mathf.Clamp(rb2d.velocity.x, -1, 1)));
         animator.SetFloat("verticalPressed", Input.GetAxis("Vertical"));
