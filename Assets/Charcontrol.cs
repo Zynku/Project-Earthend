@@ -443,10 +443,12 @@ public class Charcontrol : MonoBehaviour
                 checkforSwitchingDir();
                 //Transition back to Idle
                 //if (Input.GetAxisRaw("Horizontal") == 0 /*&& Mathf.Abs(Mathf.Ceil(rb2d.velocity.x)) == 0*/)
-                if (Mathf.Abs(Mathf.Ceil(rb2d.velocity.x)) == 0)
+                //if (Mathf.Abs(Mathf.Ceil(rb2d.velocity.x)) == 0)
+                if (Input.GetAxisRaw("Horizontal") == 0)
                 {
-                    currentState = State.Idle;
+                        currentState = State.Idle;
                 }
+
                 //Transition back to Walk
                 //Nothing haha fuck you
                 //Transition to Sliding
