@@ -43,6 +43,8 @@ public class Charcontrol : MonoBehaviour
 
     [Separator("Running Variables")]
     public float runSpeed = 9.5f;
+    public float runStateLingerTargetTime;
+    public float runStateLingerTime;
     //[SerializeField] private float maxRunSpeed = 1.6f;
 
     [Separator("Dodging Variables")]
@@ -210,7 +212,7 @@ public class Charcontrol : MonoBehaviour
 
         if (inCombat) { combatStateTime -= Time.deltaTime; }
         else { combatStateTime = combatStateTargetTime; }
-        if(combatStateTime < 0) { combatStateTime = 0; }
+        if (combatStateTime < 0) { combatStateTime = 0; }
 
         switchingDirTime -= Time.deltaTime;
         if (switchingDirTime < 0) { switchingDirTime = 0; switchedDirToLeft = false; switchedDirToRight = false; }
@@ -318,10 +320,10 @@ public class Charcontrol : MonoBehaviour
             case State.COMBAT_Attacking:        //Transition to this is handled in charattacks AnimateCombos() and Charanimation ManageComboBuffer()
                 inCombat = true;
                 combatStateTime = combatStateTargetTime;
-/*                if (!charanimation.currentlyComboing)
-                {
-                    currentState = State.COMBAT_Idle;
-                }*/
+                /*                if (!charanimation.currentlyComboing)
+                                {
+                                    currentState = State.COMBAT_Idle;
+                                }*/
                 break;
 
             case State.COMBAT_Dodging:
@@ -370,8 +372,8 @@ public class Charcontrol : MonoBehaviour
                 //Transition to Walking
                 if (Input.GetAxisRaw("Horizontal") != 0)
                 {
-                    if (allowWalking) 
-                    { 
+                    if (allowWalking)
+                    {
                         currentState = State.Walking;
                     }
                     else
@@ -380,20 +382,20 @@ public class Charcontrol : MonoBehaviour
                     }
                 }
 
-/*                if (Input.GetButtonDown("Light Attack"))
-                {
-                    currentState = State.COMBAT_Idle;
-                }*/
+                /*                if (Input.GetButtonDown("Light Attack"))
+                                {
+                                    currentState = State.COMBAT_Idle;
+                                }*/
                 //Transition to Jumping
                 if (Input.GetAxisRaw("Vertical") > 0)
                 {
                     currentState = State.Jumping;
                 }
                 //Transition to Attacking
-/*                if (Input.GetAxisRaw("Light Attack") != 0 || Input.GetAxisRaw("Heavy Attack") != 0 || Input.GetAxisRaw("Ranged Attack") != 0)
-                {
-                    currentState = State.Attacking;
-                }*/
+                /*                if (Input.GetAxisRaw("Light Attack") != 0 || Input.GetAxisRaw("Heavy Attack") != 0 || Input.GetAxisRaw("Ranged Attack") != 0)
+                                {
+                                    currentState = State.Attacking;
+                                }*/
                 if (Input.GetButtonDown("Dodge"))
                 {
                     currentState = State.Dodging;
@@ -441,13 +443,6 @@ public class Charcontrol : MonoBehaviour
                 inCombat = false;
                 Running();
                 checkforSwitchingDir();
-                //Transition back to Idle
-                //if (Input.GetAxisRaw("Horizontal") == 0 /*&& Mathf.Abs(Mathf.Ceil(rb2d.velocity.x)) == 0*/)
-                //if (Mathf.Abs(Mathf.Ceil(rb2d.velocity.x)) == 0)
-                if (Input.GetAxisRaw("Horizontal") == 0)
-                {
-                        currentState = State.Idle;
-                }
 
                 //Transition back to Walk
                 //Nothing haha fuck you
@@ -466,6 +461,26 @@ public class Charcontrol : MonoBehaviour
                 {
                     currentState = State.Jumping;
                 }
+
+                //Transition back to Idle
+                if (Input.GetAxisRaw("Horizontal") != 0)    //If you're moving...
+                {
+                    runStateLingerTime = runStateLingerTargetTime;
+
+                }
+                else
+                {
+                    if (runStateLingerTime > 0)
+                    {
+                        runStateLingerTime -= Time.deltaTime;
+                    }
+                    else
+                    {
+                        currentState = State.Idle;
+                    }
+                }
+        
+    
                 break;
 
             case State.Jumping:
@@ -486,6 +501,7 @@ public class Charcontrol : MonoBehaviour
                 {
                     currentState = State.AirJumping;
                 }
+
                 break;
 
             case State.AirJumping:
