@@ -2,13 +2,13 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using MyBox;
+using TMPro;
 
 [ExecuteAlways]
 public class Debugscript : MonoBehaviour
 {
     
     public GameObject Player;
-
     
     public List<Combo> allLightCombosEver, allHeavyCombosEver, allRangedCombosEver, currentPossibleCombos;
     public comboList theComboList;
@@ -22,6 +22,11 @@ public class Debugscript : MonoBehaviour
     public int comboArrayNum;
     public Combo comboBeingMovedFromPossible;
     public Combo comboBeingMovedToPossible;
+
+    public bool showOnScreenDebug;
+    public TextMeshProUGUI playerStateText;
+    public TextMeshProUGUI deltaTimeText;
+
     // Start is called before the first frame update
     public void Start()
     {
@@ -39,7 +44,7 @@ public class Debugscript : MonoBehaviour
         {
             comboBeingMovedFromPossible = null;
         }
-        
+
         switch (theComboList)
         {
             case comboList.allLightCombosEver:
@@ -71,12 +76,26 @@ public class Debugscript : MonoBehaviour
                 {
                     comboBeingMovedToPossible = null;
                 }
-                
+
                 break;
             default:
                 break;
         }
         ReassignToPlayer();     //This is needed as when references are assigned, it makes it local. By reassigning, this makes sure all changes made here are reflected in player
+
+        onDebug();
+
+    }
+
+    public void onDebug()
+    {
+        playerStateText.gameObject.SetActive(showOnScreenDebug);
+        deltaTimeText.gameObject.SetActive(showOnScreenDebug);
+
+        Charcontrol.State playerState = Player.GetComponent<Charcontrol>().currentState;
+        playerStateText.text = $"Player State is {playerState}.";
+
+        deltaTimeText.text = $"Delta time value is {Time.deltaTime}.";
     }
 
     public void ReassignToPlayer()

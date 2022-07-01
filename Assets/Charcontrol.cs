@@ -6,7 +6,6 @@ using MyBox;
 
 public class Charcontrol : MonoBehaviour
 {
-    [Foldout("Variables", true)]
     public static Charcontrol Instance;
     Charanimation charanimation;
     Charattacks charattacks;
@@ -23,7 +22,7 @@ public class Charcontrol : MonoBehaviour
     [HideInInspector] public float inputX;
     [HideInInspector] public float inputY;
     public GameObject closestNPC;
-    [HideInInspector] public bool playerDead;
+    public bool playerDead;
     [HideInInspector] public bool checkForSlopes;
 
     [Separator("Movement Variables")]
@@ -45,6 +44,7 @@ public class Charcontrol : MonoBehaviour
     public float runSpeed = 9.5f;
     public float runStateLingerTargetTime;
     public float runStateLingerTime;
+    [SerializeField] private float groundLinearDrag = 4.67f;
     //[SerializeField] private float maxRunSpeed = 1.6f;
 
     [Separator("Dodging Variables")]
@@ -54,13 +54,13 @@ public class Charcontrol : MonoBehaviour
     [Separator("Jump Variables")]
     [SerializeField] private float jumpForce = 4f;
     [SerializeField] private float airLinearDrag = 2.5f;
-    [SerializeField] private float groundLinearDrag = 4.67f;
     public float HorizontalDirection;
     public float airHorizontalAcc;
     [HideInInspector] public bool jumped = false;
     [HideInInspector] public float fallThreshold;
-    [HideInInspector] public int airJumps = 2;
-    [HideInInspector] public int airJumpsHas;
+    [HideInInspector] public bool airJumped;
+    public int airJumps = 2;
+    public int airJumpsHas;
 
     [Separator("Ground and Wall Checks")]
     public bool isGrounded;
@@ -506,6 +506,7 @@ public class Charcontrol : MonoBehaviour
 
             case State.AirJumping:
                 inCombat = false;
+                airJumped = true;
                 AirJump();
                 //Transition to Falling
                 if (rb2d.velocity.y < fallThreshold)
@@ -516,6 +517,7 @@ public class Charcontrol : MonoBehaviour
 
             case State.Falling:
                 inCombat = false;
+                airJumped = false;
                 Falling();
                 //Transition back to Idle
                 if (isGrounded)
@@ -532,6 +534,7 @@ public class Charcontrol : MonoBehaviour
 
             case State.Landing:
                 inCombat = false;
+                airJumped = false;
                 break;
 
             case State.Switching_to_Crouching:

@@ -17,6 +17,9 @@ public class Respawn_menu_manager : MonoBehaviour
     public GameObject LoadingScreen;
     public Slider loadingSlider;
 
+    public float showRespawnOptionsDelay = 3.5f;
+    public bool showingRespawnOptions = false;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -32,15 +35,16 @@ public class Respawn_menu_manager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (healthScript.currentHealth <= 0)
+        if (healthScript.currentHealth <= 0 && !showingRespawnOptions)
         {
-            float showRespawnOptionsDelay = 3.5f;
-            Invoke("ShowRespawnOptions", showRespawnOptionsDelay);
+            showingRespawnOptions = true;
+            StartCoroutine(ShowRespawnOptions());
         }
     }
 
-    public void ShowRespawnOptions()
+    public IEnumerator ShowRespawnOptions()
     {
+        yield return new WaitForSeconds(showRespawnOptionsDelay);
         RespawnScreenUI.SetActive(true);
         PlayerAnim.enabled = false;
         Time.timeScale = 0;
@@ -52,19 +56,30 @@ public class Respawn_menu_manager : MonoBehaviour
         if (mainCharRespawned == false)
         {
             Player.gameObject.transform.position = playerRespawnPoint.gameObject.transform.position;
-            Char_control.dead = false;
             mainCharRespawned = true;
         }
     }
 
     public void ReloadScene()
     {
+        Time.timeScale = 1;
+        GameManager.instance.playerManager.EnablePlayer();
+        PlayerAnim.enabled = true;
+        showingRespawnOptions = false;
+        //RespawnScreenUI.SetActive(false);
+        StopCoroutine(ShowRespawnOptions());
+        healthScript.currentHealth = healthScript.maxHealth;
         SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+    }
+
+    public void DisableScreen() //Called from GameManager
+    {
+        RespawnScreenUI.SetActive(false);
     }
 
     public void SceneSWitcher(int index)
     {
-        //Loads scene without disabling any other gameobjects so that progress bar can run
+        //Loads scene without disabling any other gameobjects so that progress bar can run.
         Time.timeScale = 1;
         StartCoroutine(LoadAsynchronously(index));
     }

@@ -203,59 +203,12 @@ public class GameManager : MonoBehaviour
     {
         Debug.Log($"-----------------------------------Scene changed to {SceneManager.GetActiveScene().name}------------------------------------");
 
-        /*switch (SceneManager.GetActiveScene().name)
-        {
-            case "Game Test Scene":
-                
-                OnSceneChangedEnableThese(
-                    dialogueManager,
-                    questManager,
-                    ihuiquestmanager,
-                    infoHub,
-                    pause_Menu_Manager,
-                    Particle_Manager,
-                    Global_Script,
-                    teleporternetwork,
-                    timerManager,
-                    playerManager,
-                    inventoryui,
-                    inventoryUIHelper,
-                    ingame_UI,
-                    respawn_Menu_Manager
-                                             ) ;
-                SetupCameras();
-                OnSceneChangedDisableThese();
-                break;
+        DisableStuff();
+    }
 
-            case "Main Menu Scene":
-                OnSceneChangedDisableThese(
-                    dialogueManager,
-                    questManager,
-                    ihuiquestmanager,
-                    infoHub,
-                    pause_Menu_Manager,
-                    Particle_Manager,
-                    Global_Script,
-                    teleporternetwork,
-                    timerManager,
-                    playerManager,
-                    inventoryui,
-                    inventoryUIHelper,
-                    ingame_UI,
-                    respawn_Menu_Manager,
-                    theEventSystem                  //Main Menu Scene already has its own event system
-                                            );
-
-                OnSceneChangedEnableThese();
-                break;
-
-            default:
-                Debug.LogWarning($"Current scene name is not part of GameManager switch statement. Please add it. All modules disabled.");
-                OnSceneChangedDisableAll();
-                break;
-        }*/
-        //AssignAllReferences();
-        
+    public void DisableStuff()
+    {
+        respawn_Menu_Manager.DisableScreen();
     }
 
     public void OnSceneChangedDisableThese(params MonoBehaviour[] list) //Sets all modules that have been passed in as disabled. Should be used on scene changes in ChangedActiveScene()

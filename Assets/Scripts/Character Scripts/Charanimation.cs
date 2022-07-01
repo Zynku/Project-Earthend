@@ -123,8 +123,7 @@ public class Charanimation : MonoBehaviour
                 break;
 
             case Charcontrol.State.AirJumping:
-                animator.Play("Jump Double into Downwards");
-                animator.SetBool("Jumping", true);
+                //Check onAnimate for when double jump is played
                 break;
 
             case Charcontrol.State.Falling:
@@ -338,9 +337,15 @@ public class Charanimation : MonoBehaviour
             animator.SetBool("Grounded", false);
         }
 
+        if (charcontrol.airJumped)
+        {
+            animator.Play("Jump Double into Downwards");
+            animator.SetBool("Jumping", true);
+        }
+
         animClipInfo = this.animator.GetCurrentAnimatorClipInfo(0);
-        currentAnimName = animClipInfo[0].clip.name;
-        currentAnimLength = animClipInfo[0].clip.length;
+        if (animClipInfo[0].clip != null) { currentAnimName = animClipInfo[0].clip.name; }
+        if (animClipInfo[0].clip != null) { currentAnimLength = animClipInfo[0].clip.length; }
         AnimatorStateInfo currentAnimSInfo = animator.GetCurrentAnimatorStateInfo(0);
         currentStateNormalizedTime = currentAnimSInfo.normalizedTime;
 

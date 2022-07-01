@@ -67,11 +67,30 @@ public class Player_Manager : MonoBehaviour
 
     public void EnablePlayer()
     {
+        playerLiveRef.GetComponent<Charcontrol>().currentState = Charcontrol.State.Idle;
+        
         playerLiveRef.GetComponent<Renderer>().enabled = true;
         playerLiveRef.GetComponent<Animator>().enabled = true;
+        playerLiveRef.GetComponent<Animator>().Play("Low Poly Idle");          //Plays default anim
+
+
         playerLiveRef.GetComponentInChildren<ParticleSystem>().Play();
+        playerLiveRef.GetComponent<Charhealth>().ResetHealth();
+
+        BoxCollider2D[] boxCols = playerLiveRef.GetComponentsInChildren<BoxCollider2D>();
+
+        foreach (var col in boxCols)    //Disables melee gameObjects
+        {
+            GameObject colGO = col.gameObject;
+            if (colGO.tag == "player_attackhitbox")
+            {
+                colGO.SetActive(false);
+            }
+        }
+
         foreach (var item in playerLiveRef.GetComponentsInChildren<Renderer>())
         {
+            item.gameObject.SetActive(true);
             var itemRenderer = item.GetComponent<Renderer>();
             var itemAnimator = item.GetComponent<Animator>();
 
@@ -79,6 +98,7 @@ public class Player_Manager : MonoBehaviour
             if (itemAnimator != null) { itemAnimator.enabled = true; }
         }
         preventPlayerMovement = false;
+        
     }
 
     bool playerPosRecorded = false;

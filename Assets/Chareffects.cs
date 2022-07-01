@@ -11,7 +11,8 @@ public class Chareffects : MonoBehaviour
 
     [Foldout("Initialization Fields", true)]
     [Header("Assign Please!")]
-    public ParticleSystem dustParticles;
+    public ParticleSystem runParticles;
+    public ParticleSystem jumpParticles;
     public GameObject meleeFX;
     Animator meleeFXAnim;
 
@@ -27,26 +28,45 @@ public class Chareffects : MonoBehaviour
     void Update()
     {
         DoMovementParticles();
+        DoJumpParticles();
     }
 
-    bool particlesTriggered;
+    bool runParticlesTriggered;
     public void DoMovementParticles()
     {
         if (charcontrol.currentState == Charcontrol.State.Running || charcontrol.currentState == Charcontrol.State.COMBAT_Running)
         {
-            if (!particlesTriggered)
+            if (!runParticlesTriggered)
             {
                 Debug.Log("Playing particle sys");
-                dustParticles.Play();
-                particlesTriggered = true;
+                runParticles.Play();
+                runParticlesTriggered = true;
             }
         }
         else
         {
-            dustParticles.Stop();
-            particlesTriggered= false;
+            runParticles.Stop();
+            runParticlesTriggered= false;
         }
 
+    }
+    bool jumpParticlesTriggered;
+    public void DoJumpParticles()
+    {
+        if (charcontrol.currentState == Charcontrol.State.Jumping)
+        {
+            if (!jumpParticlesTriggered)
+            {
+                Debug.Log("Playing particle sys");
+                jumpParticles.Play();
+                jumpParticlesTriggered = true;
+            }
+        }
+        else
+        {
+            jumpParticles.Stop();
+            jumpParticlesTriggered = false;
+        }
     }
 
     public void DoScreenShakeManual()

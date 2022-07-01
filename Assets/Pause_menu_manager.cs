@@ -66,11 +66,16 @@ public class Pause_menu_manager : MonoBehaviour
         }
     }
 
-    public void SceneSWitcher(int index)
+    public void SceneSwitcher(int index)
     {
         //Loads scene without disabling any other gameobjects so that progress bar can run
         Time.timeScale = 1;
         StartCoroutine(LoadAsynchronously(index));
+    }
+
+    public void ReloadCurrentScene()
+    {
+        StartCoroutine(LoadAsynchronously(SceneManager.GetActiveScene().buildIndex));
     }
 
     IEnumerator LoadAsynchronously(int index)
@@ -98,18 +103,14 @@ public class Pause_menu_manager : MonoBehaviour
 
     public void Resume()
     {
-        //PlayerAnim.enabled = true;
         PauseMenuUi.SetActive(false);
-        //Time.timeScale = 1;
         isGamePaused = false;
         GameManager.instance.ResumeGame();
     }
 
     public void Pause()
     {
-        //PlayerAnim.enabled = false;
         PauseMenuUi.SetActive(true);
-        //Time.timeScale = 0;
         isGamePaused = true;
         GameManager.instance.PauseGame();
     }

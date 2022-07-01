@@ -18,12 +18,12 @@ public class Charpickup_inventory : MonoBehaviour
     #region Singleton
     private void Awake()
     {
-        if (instance != null)
+/*        if (instance != null)
         {
             Debug.LogWarning("More than one instance of Inventory found!");
             return;
         }
-        instance = this;
+        instance = this;*/
     }
     #endregion
 
