@@ -69,7 +69,7 @@ public class Charhealth : MonoBehaviour
 
         //healthbarOver.SetHealth(currentHealth);
 
-        if (Input.GetKeyDown(KeyCode.J)) { ResetHealth();}
+        if (Input.GetKeyDown(KeyCode.J)) { ResetHealth(true);}
         if (Input.GetKeyDown(KeyCode.H)) { AddHealth(20); }
         if (Input.GetKeyDown(KeyCode.K)) { TakeDamage(maxHealth); }
         if (Input.GetKeyDown(KeyCode.L)) { TakeDamage(20); }
@@ -173,13 +173,16 @@ public class Charhealth : MonoBehaviour
 
     //Adds max health, healthbar reacts to show this.
     //Instantiates health text, gives it max health value to display
-    public void ResetHealth()
+    public void ResetHealth(bool showFloatText)
     {
         currentHealth = maxHealth;
         healthbarOver.SetHealth(maxHealth * 1);
 
-        var floattext = Instantiate(floatingHealthTextPrefab, transform.position + dmgTextOffset, Quaternion.identity);
-        floattext.GetComponent<TMPro.TextMeshPro>().text = maxHealth.ToString();
+        if (showFloatText)
+        {
+            var floattext = Instantiate(floatingHealthTextPrefab, transform.position + dmgTextOffset, Quaternion.identity);
+            floattext.GetComponent<TMPro.TextMeshPro>().text = maxHealth.ToString();
+        }
     }
 
     public void Poisoned(float poisonTargetTime, int poisonDamage)

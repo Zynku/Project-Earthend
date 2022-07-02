@@ -2,31 +2,15 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Mainaudioscript : MonoBehaviour
+public class BGAudioScript : MonoBehaviour
 {
     public AudioClip[] audioClips;
-    public static Mainaudioscript Instance;
-    AudioSource audiosource;
-
-
-    void Awake()
-    {
-        //Ensures there's only ever one global script
-        if (Instance == null)
-        {
-            Instance = this;
-        }
-        else if (Instance != null)
-        {
-            Destroy(this);
-        }
-    }
+    public static BGAudioScript Instance;
+    public AudioSource audiosource;
 
     private void Start()
     {
-        audiosource = GetComponent<AudioSource>();
-
-
+        //audiosource = GetComponent<AudioSource>();
         audiosource.clip = audioClips[0];   //Plays the first audioclip on start
         audiosource.Play();
     }
@@ -40,6 +24,6 @@ public class Mainaudioscript : MonoBehaviour
     {
         audiosource.clip = audioClips[clipnumber];
         audiosource.Play();
-        Debug.Log("Playing clip number " + clipnumber);
+        Debug.Log($"Playing {audioClips[clipnumber].name}");
     }
 }

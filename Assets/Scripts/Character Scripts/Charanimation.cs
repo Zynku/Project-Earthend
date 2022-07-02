@@ -344,8 +344,8 @@ public class Charanimation : MonoBehaviour
         }
 
         animClipInfo = this.animator.GetCurrentAnimatorClipInfo(0);
-        if (animClipInfo[0].clip != null) { currentAnimName = animClipInfo[0].clip.name; }
-        if (animClipInfo[0].clip != null) { currentAnimLength = animClipInfo[0].clip.length; }
+        try { currentAnimName = animClipInfo[0].clip.name; } catch (System.NullReferenceException) { };
+        try {currentAnimLength = animClipInfo[0].clip.length; } catch (System.NullReferenceException) { };
         AnimatorStateInfo currentAnimSInfo = animator.GetCurrentAnimatorStateInfo(0);
         currentStateNormalizedTime = currentAnimSInfo.normalizedTime;
 

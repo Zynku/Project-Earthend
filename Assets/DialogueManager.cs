@@ -106,10 +106,12 @@ public class DialogueManager : MonoBehaviour
         endOfConversation = false;
 
         //Finds closest NPC position from Charcontrol.
-        if (charcontrol.closestNPC.gameObject != null)
+        try
         {
             GameObject closestNPC = charcontrol.closestNPC.gameObject;
-            //NPCPos = new Vector2(closestNPC.transform.position.x, closestNPC.transform.position.y);
+        }
+        catch (System.NullReferenceException)
+        {
         }
     }
 

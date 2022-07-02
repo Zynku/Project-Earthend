@@ -26,7 +26,7 @@ public class teleporterscript : MonoBehaviour
     void Start()
     {
         Player = GameManager.instance.Player;
-        Network = GameManager.instance.teleporternetwork; //GetComponentInChildren<teleporternetwork>();
+        Network = GetComponentInParent<teleporternetwork>();
         animator = GetComponent<Animator>();
         audiosource = GetComponent<AudioSource>();
         timerTime = timerTargetTime;

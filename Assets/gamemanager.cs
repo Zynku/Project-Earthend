@@ -20,6 +20,10 @@ public class GameManager : MonoBehaviour
     [Range(1f, 60f)]
     public int frameRate = -1;
 
+    [Separator("Scene Variables")]
+    public string currentSceneName;
+    public bool currentScenePausable;
+
     public float hitStopAmount = 0.2f;
     public float hitStopTimeScale = 0.5f;
 
@@ -55,9 +59,9 @@ public class GameManager : MonoBehaviour
     public Pause_menu_manager pause_Menu_Manager;
     public ParticleManager Particle_Manager;
     public global_script Global_Script;
-    public teleporternetwork teleporternetwork;
     public TimerManager timerManager;
     public Player_Manager playerManager;
+    public BGAudioScript BGAudioManager;
 
     public InventoryUI inventoryui;
     public InventoryUIHelper inventoryUIHelper;
@@ -78,11 +82,13 @@ public class GameManager : MonoBehaviour
 
             if (this.aliveTime > instance.aliveTime)    //If this alive time is greater than the alive time of the current instance, then the instance is younger
             {
+                Debug.LogWarning("Destroying Game Manager found in this scene");
                 Destroy(instance);
                 instance = this;
             }
             else if (this.aliveTime < instance.aliveTime) //If this alive time is less than the alive time of the current instance, then the instance is older
             {
+                Debug.LogWarning("Destroying this version of Game Manager");
                 Destroy(this.gameObject);
             }
         }
@@ -90,7 +96,6 @@ public class GameManager : MonoBehaviour
         {
             instance = this;
         }
-        AssignPlayerReferences();
         AssignAllReferences();
         AddAllReferencesToModuleList();
         SetupCameras();
@@ -106,19 +111,14 @@ public class GameManager : MonoBehaviour
         perlin = cineCam.GetCinemachineComponent<CinemachineBasicMultiChannelPerlin>();
     }
 
-    [ButtonMethod]
-    public void AssignPlayerReferences()
-    {
-        playerManager = GetComponentInChildren<Player_Manager>();
-        playerRespawnPoint = GameObject.FindWithTag("player_respawn");
-        Player = playerManager.SpawnPlayer();
-    }
 
     [ButtonMethod]
     public void AssignAllReferences()   
     {
         infoHub.gameObject.SetActive(true);         //Infohub is special since when it is active, it blocks the scene window in edit mode. It is set inactive in edit mode and activated here.
         infoHub.ActivatePages();
+        playerRespawnPoint = GameObject.FindWithTag("player_respawn");
+        if (Player == null) { Player = playerManager.SpawnPlayer(); }
 
         /*dialogueManager = GetComponentInChildren<DialogueManager>();
         questManager = GetComponentInChildren<QuestManager>();
@@ -150,7 +150,6 @@ public class GameManager : MonoBehaviour
         allModules.Add(pause_Menu_Manager);
         allModules.Add(Particle_Manager);
         allModules.Add(Global_Script);
-        allModules.Add(teleporternetwork);
         allModules.Add(timerManager);
         allModules.Add(playerManager);
         allModules.Add(inventoryui);
@@ -197,6 +196,7 @@ public class GameManager : MonoBehaviour
 
         //Charhealth.Hit += HurtFlash;
         aliveTime += Time.deltaTime;
+        currentSceneName = SceneManager.GetActiveScene().name;
     }
 
     private void ChangedActiveScene(Scene currentScene, Scene nextScene)    //Is called every time the scene is changed
@@ -204,53 +204,33 @@ public class GameManager : MonoBehaviour
         Debug.Log($"-----------------------------------Scene changed to {SceneManager.GetActiveScene().name}------------------------------------");
 
         DisableStuff();
+        SetupCameras();
+
+        switch (SceneManager.GetActiveScene().name)
+        {
+            case "Game Test Scene":
+                currentScenePausable = true;
+                BGAudioManager.PlayAudioClip(0);
+                playerManager.EnablePlayer();
+                break;
+
+            case "Main Menu Scene":
+                currentScenePausable = false;
+                BGAudioManager.PlayAudioClip(1);
+                break;
+
+            default:
+                break;
+        }
+        
+
+        
     }
 
     public void DisableStuff()
     {
         respawn_Menu_Manager.DisableScreen();
-    }
-
-    public void OnSceneChangedDisableThese(params MonoBehaviour[] list) //Sets all modules that have been passed in as disabled. Should be used on scene changes in ChangedActiveScene()
-    {
-        //Debug.Log($"Scene was changed...");
-        if (list.Length > 0)
-        {
-            foreach (var item in list)
-            {
-                if (item)
-                {
-                    item.enabled = false;
-                    Debug.Log($"{item.name} was disabled");
-
-                    if (item == list[list.Length - 1])
-                    {
-                        Debug.Log($"----------------------------------All {list.Length} modules in list successfully updated!-------------------------------------------");
-                    }
-                }
-            }
-        }
-    }
-
-    public void OnSceneChangedEnableThese(params MonoBehaviour[] list) //Sets all modules that have been passed in as enabled. Should be used on scene changes in ChangedActiveScene()
-    {
-        //Debug.Log($"Scene was changed...");
-        if (list.Length > 0)
-        {
-            foreach (var item in list)
-            {
-                if (item)
-                {
-                    item.enabled = true;
-                    Debug.Log($"{item.name} was enabled");
-
-                    if (item == list[list.Length - 1])
-                    {
-                        Debug.Log($"----------------------------------All {list.Length} modules in list successfully updated!-------------------------------------------");
-                    }
-                }
-            }
-        }
+        pause_Menu_Manager.HidePauseUI();
     }
 
     [ButtonMethod]
@@ -273,8 +253,11 @@ public class GameManager : MonoBehaviour
 
     public void SetupCameras()
     {
-        CinemachineVirtualCameraBase camera = CinemachineCore.Instance.GetVirtualCamera(0);
-        camera.Follow = Player.transform;
+        if (Player != null)
+        {
+            CinemachineVirtualCameraBase camera = CinemachineCore.Instance.GetVirtualCamera(0);
+            camera.Follow = Player.transform;
+        }
     }
 
     public void PauseGame()
@@ -292,7 +275,7 @@ public class GameManager : MonoBehaviour
     public void ResumeGame()
     {
         Debug.Log("Resuming game...");
-        playerManager.EnablePlayer();
+        playerManager.ResetPlayer();
         pause_Menu_Manager.isGamePaused = false;
         Time.timeScale = 1;
         pause = false;

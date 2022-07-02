@@ -52,13 +52,11 @@ public class InventoryUI : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        inventory = Charpickup_inventory.instance;
-        //inventory.onItemChangedCallback += UpdateUI;
+        inventory = GameManager.instance.Player.GetComponent<Charpickup_inventory>();
         inventory.onClearInventoryCallback += ClearInventory;
 
         slots = itemsParent.GetComponentsInChildren<InventoryItemSlot>();
         inventoryUIHelper = GameManager.instance.inventoryUIHelper;
-        //InventoryUIObject.SetActive(false);
         beenSetup = true;
     }
 

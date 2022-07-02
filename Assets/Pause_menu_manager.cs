@@ -37,7 +37,7 @@ public class Pause_menu_manager : MonoBehaviour
         eventsystem = FindObjectOfType<EventSystem>();
     }
 
-    private void OnDisable()
+    public void HidePauseUI()
     {
         PauseMenuUi.SetActive(false);
     }
@@ -53,7 +53,7 @@ public class Pause_menu_manager : MonoBehaviour
     void Update()
     {
         //Activates pause menu and stops time if pause menu is not already activated. Restarts time and deactivates pause menu if it is activated
-        if (Input.GetKeyDown("escape"))
+        if (Input.GetKeyDown("escape") && GameManager.instance.currentScenePausable)
         {
             if (isGamePaused)
             {
