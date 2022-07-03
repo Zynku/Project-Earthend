@@ -11,6 +11,8 @@ public class Charanimation : MonoBehaviour
     public float yvel;
     public bool isGrounded;
     private bool jumped;
+    private bool ledgeGrabbed;
+    private bool ledgePulledUp;
 
     [Foldout("General Animation Variables", true)]
     public AnimatorClipInfo[] animClipInfo;
@@ -57,6 +59,7 @@ public class Charanimation : MonoBehaviour
             case Charcontrol.State.COMBAT_Idle:
                 animator.SetBool("In combat", true);
                 animator.SetBool("Running", false);
+                animator.SetBool("Falling", false);
                 currentlyComboing = false;
                 break;
 
@@ -64,16 +67,19 @@ public class Charanimation : MonoBehaviour
                 animator.SetBool("In combat", true);
                 animator.SetBool("Walking", false);
                 animator.SetBool("Running", true);
+                animator.SetBool("Falling", false);
                 break;
 
             case Charcontrol.State.COMBAT_Attacking:
                 animator.SetBool("In combat", true);
+                animator.SetBool("Falling", false);
                 break;
 
             case Charcontrol.State.COMBAT_Dodging:
                 animator.Play("L_P_C Combat Roll into Idle");
                 //Last frame of this animation calls onDodgeTransition from Charcontrol to switch back to Idle.
                 animator.SetBool("Running", false);
+                animator.SetBool("Falling", false);
                 break;
 
             case Charcontrol.State.COMBAT_Jumping:
@@ -97,20 +103,19 @@ public class Charanimation : MonoBehaviour
                 break;
 
             case Charcontrol.State.Idle:
-                animator.SetBool("Running", false);
-                animator.SetBool("Jumping", false);
-                animator.SetBool("Walking", false);
-                animator.SetBool("In combat", false);
+                SetStuffToFalseOnIdle();
                 break;
 
             case Charcontrol.State.Walking:
                 animator.SetBool("Running", false);
                 animator.SetBool("Walking", true);
+                animator.SetBool("Falling", false);
                 break;
 
             case Charcontrol.State.Running:
                 animator.SetBool("Running", true);
                 animator.SetBool("Walking", false);
+                animator.SetBool("Falling", false);
                 break;
 
             case Charcontrol.State.Jumping:
@@ -118,6 +123,7 @@ public class Charanimation : MonoBehaviour
                 {
                     animator.Play("Jump Transition");   //This is an empty state that immediately transitions to the correct state
                     animator.SetBool("Jumping", true);
+                    animator.SetBool("Falling", false);
                     jumped = true;
                 }
                 break;
@@ -128,7 +134,7 @@ public class Charanimation : MonoBehaviour
 
             case Charcontrol.State.Falling:
                 //animator.Play("Low Poly Girl Whole Fall HD3");
-
+                animator.SetBool("Falling", true);
                 break;
 
             case Charcontrol.State.Landing:
@@ -179,6 +185,21 @@ public class Charanimation : MonoBehaviour
                 break;
 
             case Charcontrol.State.Ledgegrabbing:
+                if (!ledgeGrabbed)
+                {
+                    ledgeGrabbed = true;
+                    animator.Play("Ledge Grab from Jump");
+                }
+                animator.SetBool("Jumping", false);
+                break;
+
+            case Charcontrol.State.Ledgepullup:
+                if (!ledgePulledUp)
+                {
+                    ledgePulledUp = true;
+                    animator.Play("Ledge Grab into Pull Up");
+                }
+                animator.SetBool("Jumping", false);
                 break;
 
             case Charcontrol.State.Stunned:
@@ -324,6 +345,15 @@ public class Charanimation : MonoBehaviour
         }
     }
 
+    public void SetStuffToFalseOnIdle() //Is called from IdleBehaviour script every time player enters Idle animation
+    {
+        animator.SetBool("Running", false);
+        animator.SetBool("Jumping", false);
+        animator.SetBool("Walking", false);
+        animator.SetBool("In combat", false);
+        animator.SetBool("Falling", false);
+    }
+
     public void onAnimate()
     {
         if (isGrounded)
@@ -331,21 +361,27 @@ public class Charanimation : MonoBehaviour
             animator.SetBool("Grounded", true);
             animator.SetBool("Jumping", false);
             jumped = false;
+            ledgeGrabbed = false;
+            ledgePulledUp = true;
         }
         if (!isGrounded)
         {
             animator.SetBool("Grounded", false);
         }
 
-        if (charcontrol.airJumped)
+        if (charcontrol.airJumped && charcontrol.currentState == Charcontrol.State.Jumping)
         {
             animator.Play("Jump Double into Downwards");
             animator.SetBool("Jumping", true);
         }
+        else
+        {
+            animator.SetBool("Jumping", false);
+        }
 
         animClipInfo = this.animator.GetCurrentAnimatorClipInfo(0);
-        try { currentAnimName = animClipInfo[0].clip.name; } catch (System.NullReferenceException) { };
-        try {currentAnimLength = animClipInfo[0].clip.length; } catch (System.NullReferenceException) { };
+        try {currentAnimName = animClipInfo[0].clip.name; } catch (System.IndexOutOfRangeException) { };
+        try {currentAnimLength = animClipInfo[0].clip.length; } catch (System.IndexOutOfRangeException) { };
         AnimatorStateInfo currentAnimSInfo = animator.GetCurrentAnimatorStateInfo(0);
         currentStateNormalizedTime = currentAnimSInfo.normalizedTime;
 

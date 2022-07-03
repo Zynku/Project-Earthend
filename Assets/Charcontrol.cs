@@ -16,7 +16,7 @@ public class Charcontrol : MonoBehaviour
 
     public State currentState;
 
-    [Separator("Variables")]
+    [Foldout("Variables", true)]
     public float xVel;
     public float yVel;
     [HideInInspector] public float inputX;
@@ -25,33 +25,41 @@ public class Charcontrol : MonoBehaviour
     public bool playerDead;
     [HideInInspector] public bool checkForSlopes;
 
-    [Separator("Movement Variables")]
+    [Foldout("Movement Variables", true)]
     public float currentDrag;
     public float runThreshold;
     [ReadOnly] public float facingDir = 1;
 
-    [Separator("Crouching Variables")]
+    [Foldout("Crouching Variables", true)]
     public bool inCrouchingTrigger;             //This is the area the player can press interact in to crouch
     public bool inCrouchingTriggerStayZone;     //This is the area the player must stay in to stay crouched. If they leave it they are automatically uncrouched
     public float crouchWalkingSpeed = 4.75f;
 
-    [Separator("Walking Variables")]
+    [Foldout ("Ledge Grabbing Variables", true)]
+    [ReadOnly] public bool inGrabbable_LedgeZone;
+    [ReadOnly] public bool doesPlayerFaceLedge;
+    [ReadOnly] public GameObject thisLedge;                 //The current ledge the player is interacting with
+    private Grabbable_LedgeArea ledgeScript;
+    public float minimumLedgeTime;              //How long does the player have to wait until they can either drop or climb up from a ledge
+    [ReadOnly] public float minimumLedgeTimer;
+
+    [Foldout("Walking Variables", true)]
     public float walkSpeed = 9.5f;
     public bool allowWalking;
     //[SerializeField] private float maxWalkSpeed = 1.6f;
 
-    [Separator("Running Variables")]
+    [Foldout("Running Variables", true)]
     public float runSpeed = 9.5f;
     public float runStateLingerTargetTime;
     public float runStateLingerTime;
     [SerializeField] private float groundLinearDrag = 4.67f;
     //[SerializeField] private float maxRunSpeed = 1.6f;
 
-    [Separator("Dodging Variables")]
+    [Foldout("Dodging Variables", true)]
     public bool rolled = false;
     [SerializeField] private float rollDrag = 0.5f;
 
-    [Separator("Jump Variables")]
+    [Foldout("Jump Variables", true)]
     [SerializeField] private float jumpForce = 4f;
     [SerializeField] private float airLinearDrag = 2.5f;
     public float HorizontalDirection;
@@ -62,7 +70,7 @@ public class Charcontrol : MonoBehaviour
     public int airJumps = 2;
     public int airJumpsHas;
 
-    [Separator("Ground and Wall Checks")]
+    [Foldout("Ground and Wall Checks", true)]
     public bool isGrounded;
     [HideInInspector] public float groundCheckDistances = 0.05f;
     [HideInInspector] public float groundYCheckOffset = -0.26f;
@@ -85,13 +93,13 @@ public class Charcontrol : MonoBehaviour
     public float standSpaceXCheckOffset;
 
 
-    [Separator("Combat State Variables")]
+    [Foldout("Combat State Variables", true)]
     public bool inCombat;   
     public float combatStateTime;
     public float combatStateTargetTime = 7f;
     private GameObject onscreenTimer;
 
-    [Separator("Melee Variables")]
+    [Foldout("Melee Variables", true)]
     public GameObject MeleeObject;
     public float attackTimerTargetTime;
     private float attackTimer;
@@ -102,7 +110,7 @@ public class Charcontrol : MonoBehaviour
     //private SpriteRenderer meleeSpriteR;
     //private ParticleSystem particles;
 
-    [Separator("Dialogue Variables")]
+    [Foldout("Dialogue Variables", true)]
     public bool playerInConversation;
 
     public float switchingDirTime;
@@ -130,7 +138,7 @@ public class Charcontrol : MonoBehaviour
         COMBAT_Dead,
         Switching_to_COMBAT,
         Ledgegrabbing,
-        Ledgejumping,
+        Ledgepullup,
         Idle,
         Walking,
         Switching_Dir,
@@ -217,10 +225,13 @@ public class Charcontrol : MonoBehaviour
         switchingDirTime -= Time.deltaTime;
         if (switchingDirTime < 0) { switchingDirTime = 0; switchedDirToLeft = false; switchedDirToRight = false; }
 
-        if (currentState == State.Dodging || currentState == State.COMBAT_Dodging)
+        if (currentState == State.Ledgegrabbing)
         {
-            ApplyRollDrag();
+            if (minimumLedgeTimer > 0) { minimumLedgeTimer -= Time.deltaTime; }
         }
+        else { minimumLedgeTimer = minimumLedgeTime; }
+
+        if (currentState == State.Dodging || currentState == State.COMBAT_Dodging) {ApplyRollDrag(); }
         else
         {
             if (isGrounded) { ApplyGroundLinearDrag(); }
@@ -231,99 +242,117 @@ public class Charcontrol : MonoBehaviour
         switch (currentState)
         {
             case State.COMBAT_Idle:                 //Combat Idle anim inside the animator has a behaviour that forces this state during its animation
-                charattacks.Combat_Idle();
-                charanimation.ClearComboBuffer();
-                inCombat = true;
+                {
+                    charattacks.Combat_Idle();
+                    charanimation.ClearComboBuffer();
+                    inCombat = true;
 
-                if (combatStateTime == 0) { currentState = State.Idle; }
+                    if (combatStateTime == 0) { currentState = State.Idle; }
 
-                if (Input.GetAxisRaw("Vertical") > 0) { currentState = State.COMBAT_Jumping; }
-                if (Input.GetAxisRaw("Horizontal") != 0) { currentState = State.COMBAT_Running; }
-                if (Input.GetButtonDown("Dodge")) { currentState = State.COMBAT_Dodging; }
+                    if (Input.GetAxisRaw("Vertical") > 0) { currentState = State.COMBAT_Jumping; }
+                    if (Input.GetAxisRaw("Horizontal") != 0) { currentState = State.COMBAT_Running; }
+                    if (Input.GetButtonDown("Dodge")) { currentState = State.COMBAT_Dodging; }
+                }
                 break;
 
             case State.COMBAT_Walking:
-                inCombat = true;
-                charanimation.ClearComboBuffer();
-                combatStateTime = combatStateTargetTime;
+                {
 
-                if (Input.GetAxisRaw("Vertical") > 0) { currentState = State.COMBAT_Jumping; }
-                if (Input.GetButtonDown("Dodge")) { currentState = State.COMBAT_Dodging; }
+                    inCombat = true;
+                    charanimation.ClearComboBuffer();
+                    combatStateTime = combatStateTargetTime;
+
+                    if (Input.GetAxisRaw("Vertical") > 0) { currentState = State.COMBAT_Jumping; }
+                    if (Input.GetButtonDown("Dodge")) { currentState = State.COMBAT_Dodging; }
+                }
                 break;
 
             case State.COMBAT_Running:
-                inCombat = true;
-                charattacks.Combat_Running();
-                charanimation.ClearComboBuffer();
-                combatStateTime = combatStateTargetTime;
-                checkforSwitchingDir();
+                {
+                    inCombat = true;
+                    charattacks.Combat_Running();
+                    charanimation.ClearComboBuffer();
+                    combatStateTime = combatStateTargetTime;
+                    checkforSwitchingDir();
 
-                if (Input.GetAxisRaw("Vertical") > 0) { currentState = State.COMBAT_Jumping; }
-                if (Mathf.Abs(Mathf.Ceil(rb2d.velocity.x)) == 0) { currentState = State.COMBAT_Idle; }
-                if (Input.GetButtonDown("Dodge")) { currentState = State.COMBAT_Dodging; }
-                //Transition back to Walk
-                //Nothing haha fuck you
+                    if (Input.GetAxisRaw("Vertical") > 0) { currentState = State.COMBAT_Jumping; }
+                    if (Mathf.Abs(Mathf.Ceil(rb2d.velocity.x)) == 0) { currentState = State.COMBAT_Idle; }
+                    if (Input.GetButtonDown("Dodge")) { currentState = State.COMBAT_Dodging; }
+                    //Transition back to Walk
+                    //Nothing haha fuck you
+                }
                 break;
 
             case State.COMBAT_Jumping:
-                inCombat = true;
-                combatStateTime = combatStateTargetTime;
-                charanimation.ClearComboBuffer();
-                Jumping();
-                //Transition to Falling
-                if (rb2d.velocity.y < fallThreshold)
                 {
-                    currentState = State.COMBAT_Falling;
-                }
-                //Transition back to Idle
-                if (isGrounded && yVel < 0)
-                {
-                    currentState = State.COMBAT_Idle;
+
+                    inCombat = true;
+                    combatStateTime = combatStateTargetTime;
+                    charanimation.ClearComboBuffer();
+                    Jumping();
+                    //Transition to Falling
+                    if (rb2d.velocity.y < fallThreshold)
+                    {
+                        currentState = State.COMBAT_Falling;
+                    }
+                    //Transition back to Idle
+                    if (isGrounded && yVel < 0)
+                    {
+                        currentState = State.COMBAT_Idle;
+                    }
                 }
                 break;
 
             case State.COMBAT_AirJumping:
-                inCombat = true;
-                charanimation.ClearComboBuffer();
-                combatStateTime = combatStateTargetTime;
-                AirJump();
-                //Transition to Falling
-                if (rb2d.velocity.y < fallThreshold)
                 {
-                    currentState = State.COMBAT_Falling;
+                    inCombat = true;
+                    charanimation.ClearComboBuffer();
+                    combatStateTime = combatStateTargetTime;
+                    AirJump();
+                    //Transition to Falling
+                    if (rb2d.velocity.y < fallThreshold)
+                    {
+                        currentState = State.COMBAT_Falling;
+                    }
                 }
                 break;
 
             case State.COMBAT_Falling:
-                inCombat = true;
-                charanimation.ClearComboBuffer();
-                combatStateTime = combatStateTargetTime;
-                Falling();
-                //Transition back to Idle
-                if (isGrounded)
                 {
-                    currentState = State.COMBAT_Idle;
-                }
-                //Transition to AirJumping
-                //if (Input.GetAxisRaw("Vertical") > 0 && airJumpsHas != 0)
-                if (Input.GetButtonDown("Vertical") && airJumpsHas != 0)
-                {
-                    currentState = State.COMBAT_AirJumping;
+                    inCombat = true;
+                    charanimation.ClearComboBuffer();
+                    combatStateTime = combatStateTargetTime;
+                    Falling();
+                    //Transition back to Idle
+                    if (isGrounded)
+                    {
+                        currentState = State.COMBAT_Idle;
+                    }
+                    //Transition to AirJumping
+                    //if (Input.GetAxisRaw("Vertical") > 0 && airJumpsHas != 0)
+                    if (Input.GetButtonDown("Vertical") && airJumpsHas != 0)
+                    {
+                        currentState = State.COMBAT_AirJumping;
+                    }
                 }
                 break;
 
             case State.COMBAT_Landing:
-                inCombat = true;
-                combatStateTime = combatStateTargetTime;
+                {
+                    inCombat = true;
+                    combatStateTime = combatStateTargetTime;
+                }
                 break;
 
             case State.COMBAT_Attacking:        //Transition to this is handled in charattacks AnimateCombos() and Charanimation ManageComboBuffer()
-                inCombat = true;
-                combatStateTime = combatStateTargetTime;
-                /*                if (!charanimation.currentlyComboing)
-                                {
-                                    currentState = State.COMBAT_Idle;
-                                }*/
+                {
+                    inCombat = true;
+                    combatStateTime = combatStateTargetTime;
+                    /*                if (!charanimation.currentlyComboing)
+                                    {
+                                        currentState = State.COMBAT_Idle;
+                                    }*/
+                }
                 break;
 
             case State.COMBAT_Dodging:
@@ -361,73 +390,88 @@ public class Charcontrol : MonoBehaviour
                 break;
 
             case State.Ledgegrabbing:
+                {
+                    LedgeGrabbing();
+
+                    if (Input.GetAxisRaw("Vertical") < 0 || //If you press down start or...
+                        Input.GetAxisRaw("Horizontal") == ledgeScript.ledgeDirInt * -1 //Move away from ledge...
+                        && minimumLedgeTimer <= 0)   //and the minimum time has been reached...
+                    {
+                        currentState = State.Falling;
+                        rb2d.velocity = new Vector2(rb2d.velocity.x, 0);
+                        Debug.Log($"Letting go of a ledge");
+                    }
+
+                    if (Input.GetAxisRaw("Horizontal") == ledgeScript.ledgeDirInt && minimumLedgeTimer <= 0)
+                    {
+                        ledgeScript.PullUpPlayer();
+                        currentState = State.Ledgepullup;
+                    }
+                }
                 break;
 
-            case State.Ledgejumping:
+            case State.Ledgepullup:
+                LedgePullUp();
+                //Transition out is handled in grabbable script
                 break;
 
             case State.Idle:                    //Idle anim inside the animator has a behaviour that forces this state during its animation
-                inCombat = false;
-                Idle();
-                //Transition to Walking
-                if (Input.GetAxisRaw("Horizontal") != 0)
                 {
-                    if (allowWalking)
+                    inCombat = false;
+                    Idle();
+                    //Transition to Walking
+                    if (Input.GetAxisRaw("Horizontal") != 0)
                     {
-                        currentState = State.Walking;
+                        if (allowWalking)
+                        {
+                            currentState = State.Walking;
+                        }
+                        else
+                        {
+                            currentState = State.Running;
+                        }
                     }
-                    else
+                    //Transition to Jumping
+                    if (Input.GetAxisRaw("Vertical") > 0)
                     {
-                        currentState = State.Running;
+                        currentState = State.Jumping;
                     }
-                }
 
-                /*                if (Input.GetButtonDown("Light Attack"))
-                                {
-                                    currentState = State.COMBAT_Idle;
-                                }*/
-                //Transition to Jumping
-                if (Input.GetAxisRaw("Vertical") > 0)
-                {
-                    currentState = State.Jumping;
-                }
-                //Transition to Attacking
-                /*                if (Input.GetAxisRaw("Light Attack") != 0 || Input.GetAxisRaw("Heavy Attack") != 0 || Input.GetAxisRaw("Ranged Attack") != 0)
-                                {
-                                    currentState = State.Attacking;
-                                }*/
-                if (Input.GetButtonDown("Dodge"))
-                {
-                    currentState = State.Dodging;
+                    if (Input.GetButtonDown("Dodge"))
+                    {
+                        currentState = State.Dodging;
+                    }
                 }
                 break;
 
             case State.Walking:
-                inCombat = false;
-                Walking();
-                //Transition back to Idle
-                if (Input.GetAxisRaw("Horizontal") == 0 /*&& Mathf.Abs(Mathf.Floor(rb2d.velocity.x)) == 0*/)
                 {
-                    currentState = State.Idle;
-                }
-                //Transition to Running
-                if (Mathf.Abs(rb2d.velocity.x) > runThreshold)
-                {
-                    currentState = State.Running;
-                }
-                //Transition to Attacking
-                if (Input.GetAxisRaw("Light Attack") != 0 || Input.GetAxisRaw("Heavy Attack") != 0 || Input.GetAxisRaw("Ranged Attack") != 0)
-                {
-                    currentState = State.Attacking;
-                }
-                //Transition to Jumping
-                if (Input.GetAxisRaw("Vertical") > 0)
-                {
-                    currentState = State.Jumping;
-                }
-                if (Input.GetButtonDown("Dodge"))
-                {
-                    currentState = State.Dodging;
+                    inCombat = false;
+                    Walking();
+                    //Transition back to Idle
+                    if (Input.GetAxisRaw("Horizontal") == 0 /*&& Mathf.Abs(Mathf.Floor(rb2d.velocity.x)) == 0*/)
+                    {
+                        currentState = State.Idle;
+                    }
+                    //Transition to Running
+                    if (Mathf.Abs(rb2d.velocity.x) > runThreshold)
+                    {
+                        currentState = State.Running;
+                    }
+                    //Transition to Attacking
+                    if (Input.GetAxisRaw("Light Attack") != 0 || Input.GetAxisRaw("Heavy Attack") != 0 || Input.GetAxisRaw("Ranged Attack") != 0)
+                    {
+                        currentState = State.Attacking;
+                    }
+                    //Transition to Jumping
+                    if (Input.GetAxisRaw("Vertical") > 0)
+                    {
+                        currentState = State.Jumping;
+                    }
+                    if (Input.GetButtonDown("Dodge"))
+                    {
+                        currentState = State.Dodging;
+                    }
                 }
                 break;
 
@@ -440,68 +484,75 @@ public class Charcontrol : MonoBehaviour
                 break;
 
             case State.Running:
-                inCombat = false;
-                Running();
-                checkforSwitchingDir();
+                {
+                    inCombat = false;
+                    Running();
+                    checkforSwitchingDir();
 
-                //Transition back to Walk
-                //Nothing haha fuck you
-                //Transition to Sliding
-                if (Input.GetButtonDown("Dodge"))
-                {
-                    currentState = State.Dodging;
-                }
-                //Transition to Attacking
-                /*if (Input.GetAxisRaw("Light Attack") != 0 || Input.GetAxisRaw("Heavy Attack") != 0 || Input.GetAxisRaw("Ranged Attack") != 0)
-                {
-                    currentState = State.Attacking;
-                }*/
-                //Transition to Jumping
-                if (Input.GetAxisRaw("Vertical") > 0)
-                {
-                    currentState = State.Jumping;
-                }
-
-                //Transition back to Idle
-                if (Input.GetAxisRaw("Horizontal") != 0)    //If you're moving...
-                {
-                    runStateLingerTime = runStateLingerTargetTime;
-
-                }
-                else
-                {
-                    if (runStateLingerTime > 0)
+                    //Transition back to Walk
+                    //Nothing haha fuck you
+                    //Transition to Sliding
+                    if (Input.GetButtonDown("Dodge"))
                     {
-                        runStateLingerTime -= Time.deltaTime;
+                        currentState = State.Dodging;
+                    }
+                    //Transition to Attacking
+                    /*if (Input.GetAxisRaw("Light Attack") != 0 || Input.GetAxisRaw("Heavy Attack") != 0 || Input.GetAxisRaw("Ranged Attack") != 0)
+                    {
+                        currentState = State.Attacking;
+                    }*/
+                    //Transition to Jumping
+                    if (Input.GetAxisRaw("Vertical") > 0)
+                    {
+                        currentState = State.Jumping;
+                    }
+
+                    //Transition back to Idle
+                    if (Input.GetAxisRaw("Horizontal") != 0)    //If you're moving...
+                    {
+                        runStateLingerTime = runStateLingerTargetTime;
+
                     }
                     else
                     {
-                        currentState = State.Idle;
+                        if (runStateLingerTime > 0)
+                        {
+                            runStateLingerTime -= Time.deltaTime;
+                        }
+                        else
+                        {
+                            currentState = State.Idle;
+                        }
                     }
                 }
-        
-    
                 break;
 
             case State.Jumping:
-                inCombat = false;
-                Jumping();
-                //Transition to Falling
-                if (rb2d.velocity.y < fallThreshold)
                 {
-                    currentState = State.Falling;
-                }
-                //Transition back to Idle
-                if (isGrounded && yVel < 0)
-                {
-                    currentState = State.Idle;
-                }
+                    inCombat = false;
+                    Jumping();
+                    //Transition to Falling
+                    if (rb2d.velocity.y < fallThreshold)
+                    {
+                        currentState = State.Falling;
+                    }
+                    //Transition back to Idle
+                    if (isGrounded && yVel < 0)
+                    {
+                        currentState = State.Idle;
+                    }
 
-                if (Input.GetButtonDown("Vertical") && airJumpsHas != 0)
-                {
-                    currentState = State.AirJumping;
-                }
+                    if (Input.GetButtonDown("Vertical") && airJumpsHas != 0)
+                    {
+                        currentState = State.AirJumping;
+                    }
 
+                    if (inGrabbable_LedgeZone && Input.GetAxisRaw("Horizontal") != 0 && doesPlayerFaceLedge)   //If you're near a ledge and you're facing the right way
+                    {
+                        Debug.Log($"Grabbing a ledge");
+                        currentState = State.Ledgegrabbing;
+                    }
+                }
                 break;
 
             case State.AirJumping:
@@ -516,19 +567,27 @@ public class Charcontrol : MonoBehaviour
                 break;
 
             case State.Falling:
-                inCombat = false;
-                airJumped = false;
-                Falling();
-                //Transition back to Idle
-                if (isGrounded)
                 {
-                    currentState = State.Idle;
-                }
-                //Transition to AirJumping
-                //if (Input.GetAxisRaw("Vertical") > 0 && airJumpsHas != 0)
-                if (Input.GetButtonDown("Vertical") && airJumpsHas != 0)
-                {
-                    currentState = State.AirJumping;
+                    inCombat = false;
+                    airJumped = false;
+                    Falling();
+                    //Transition back to Idle
+                    if (isGrounded)
+                    {
+                        currentState = State.Idle;
+                    }
+                    //Transition to AirJumping
+                    //if (Input.GetAxisRaw("Vertical") > 0 && airJumpsHas != 0)
+                    if (Input.GetButtonDown("Vertical") && airJumpsHas != 0)
+                    {
+                        currentState = State.AirJumping;
+                    }
+                    
+                    if (inGrabbable_LedgeZone && Input.GetAxisRaw("Horizontal") != 0 && doesPlayerFaceLedge)   //If you're near a ledge and you're facing the right way
+                    {
+                        Debug.Log($"Grabbing a ledge");
+                        currentState = State.Ledgegrabbing;
+                    }
                 }
                 break;
 
@@ -610,6 +669,7 @@ public class Charcontrol : MonoBehaviour
         FindClosestNPC();
         checkforGrounded();
         checkforWallsAndStandingSpace();
+        checkforLedges();
     }
 
     void checkforGrounded()
@@ -677,6 +737,18 @@ public class Charcontrol : MonoBehaviour
         else
         {
             isAgainstWallRight = false;
+        }
+    }
+
+    void checkforLedges()
+    {
+        if (thisLedge != null)
+        {
+            doesPlayerFaceLedge = ledgeScript.DoesPlayerDirMatch();
+        }
+        else
+        {
+            doesPlayerFaceLedge = false;
         }
     }
 
@@ -838,6 +910,16 @@ public class Charcontrol : MonoBehaviour
         canFlipXDir();
     }
 
+    public void LedgeGrabbing()
+    {
+        transform.position = ledgeScript.PlayerLoc.transform.position;
+    }
+
+    public void LedgePullUp()
+    {
+        transform.position = ledgeScript.PlayerLoc.transform.position;
+    }
+
     public void FindClosestNPC()
     {
         GameObject[] gos;
@@ -927,6 +1009,13 @@ public class Charcontrol : MonoBehaviour
         {
             inCrouchingTriggerStayZone = true;
         }
+
+        if (collision.CompareTag("grabbable_ledge"))
+        {
+            inGrabbable_LedgeZone = true;
+            thisLedge = collision.gameObject;
+            ledgeScript = thisLedge.GetComponent<Grabbable_LedgeArea>();
+        }
     }
 
     private void OnTriggerExit2D(Collider2D collision)
@@ -939,6 +1028,13 @@ public class Charcontrol : MonoBehaviour
         if (collision.CompareTag("crouching_trigger_stay_zone"))
         {
             inCrouchingTriggerStayZone = false;
+        }
+
+        if (collision.CompareTag("grabbable_ledge"))
+        {
+            inGrabbable_LedgeZone = false;
+            //thisLedge = null;
+            //ledgeScript = null;
         }
     }
 

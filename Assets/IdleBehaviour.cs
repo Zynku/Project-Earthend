@@ -13,7 +13,8 @@ public class IdleBehaviour : StateMachineBehaviour
         Charanimation charanimation = player.gameObject.GetComponent<Charanimation>();
         Charattacks charattacks = player.gameObject.GetComponent<Charattacks>();
 
-        player.GetComponent<Charcontrol>().currentState = Charcontrol.State.Idle;
+        charanimation.SetStuffToFalseOnIdle();
+        charcontrol.currentState = Charcontrol.State.Idle;
 
         //Debug.Log($"We doin' Idle tings");
         charanimation.currentlyComboing = false;
