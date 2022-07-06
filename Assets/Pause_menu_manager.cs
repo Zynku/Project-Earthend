@@ -5,6 +5,8 @@ using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
 using UnityEngine.Audio;
+using MyBox;
+using TMPro;
 
 public class Pause_menu_manager : MonoBehaviour
 {
@@ -14,9 +16,15 @@ public class Pause_menu_manager : MonoBehaviour
     
 
     public bool isGamePaused = false;
+    public int sceneToLoad;
     public GameObject PauseMenuUi;
     public GameObject LoadingScreen;
+    public GameObject LoadingScreenBG;
+    public GameObject continueText;
     public Slider loadingSlider;
+    public float minLoadingTargetTime;
+    [ReadOnly] public float minLoadingTimer;
+    public bool inputToContinue;
 
     [Header("Audio")]
     public AudioMixer masterMixer;
@@ -42,11 +50,19 @@ public class Pause_menu_manager : MonoBehaviour
         PauseMenuUi.SetActive(false);
     }
 
+    public void HideLoadingScreen()
+    {
+        LoadingScreen.SetActive(false);
+    }
+
     private void Start()
     {
         Player = GameManager.instance.Player;
         PlayerAnim = Player.GetComponent<Animator>();
         PauseMenuUi.SetActive(false);
+        LoadingScreen.SetActive(false);
+        continueText.SetActive(false);
+        LoadingScreenBG.SetActive(false);
     }
 
     // Update is called once per frame
@@ -70,7 +86,11 @@ public class Pause_menu_manager : MonoBehaviour
     {
         //Loads scene without disabling any other gameobjects so that progress bar can run
         Time.timeScale = 1;
-        StartCoroutine(LoadAsynchronously(index));
+        sceneToLoad = index;
+        LoadingScreen.SetActive(true);
+        continueText.SetActive(false);
+        LoadingScreenBG.SetActive(true);
+        LoadingScreenBG.GetComponent<LoadingScreenBG>().StartFading();
     }
 
     public void ReloadCurrentScene()
@@ -78,28 +98,53 @@ public class Pause_menu_manager : MonoBehaviour
         StartCoroutine(LoadAsynchronously(SceneManager.GetActiveScene().buildIndex));
     }
 
+    public void FadeOutFinished()   //Called from Loading Screen BG Script
+    {
+        StartCoroutine(LoadAsynchronously(sceneToLoad));
+    }
     IEnumerator LoadAsynchronously(int index)
     {
         //Gets operation values from scenemanager loading
-        Debug.Log($"Loading some shit asynchronously");
         AsyncOperation operation = SceneManager.LoadSceneAsync(index);
-
-        
-
-        if (operation.isDone)
-        {
-            Debug.Log($"Done loading!");
-            LoadingScreen.SetActive(true);
-        }
+        minLoadingTimer = minLoadingTargetTime;
+        LoadingScreen.SetActive(true);
 
         while (!operation.isDone)
         {
             //Do some quick maths and apply loading progress to float, then slider bar
             float progress = Mathf.Clamp01(operation.progress / .9f);
             loadingSlider.value = progress;
+            minLoadingTimer -= Time.deltaTime;
             yield return null;
         }
+
+        while (minLoadingTimer >= 0)
+        {
+            minLoadingTimer -= Time.deltaTime;
+            yield return null;
+        }
+
+        while (!inputToContinue && minLoadingTimer <= 0)
+        {
+            if (Input.GetKeyDown(KeyCode.Space))
+            {
+                inputToContinue = true;
+                yield break;
+            }
+            yield return null;
+        }
+
+        continueText.SetActive(true);
+
+        if (inputToContinue)
+        {
+            LoadingScreen.SetActive(false);
+            LoadingScreenBG.SetActive(false);
+            inputToContinue = false;
+            GameManager.instance.SceneReady();
+        }
     }
+
 
     public void Resume()
     {

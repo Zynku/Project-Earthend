@@ -15,6 +15,7 @@ public class Charcontrol : MonoBehaviour
     BoxCollider2D boxCol;
 
     public State currentState;
+    public State lastState;
 
     [Foldout("Variables", true)]
     public float xVel;
@@ -42,6 +43,10 @@ public class Charcontrol : MonoBehaviour
     private Grabbable_LedgeArea ledgeScript;
     public float minimumLedgeTime;              //How long does the player have to wait until they can either drop or climb up from a ledge
     [ReadOnly] public float minimumLedgeTimer;
+    public float afterLedgeVelAdded;            //How much velocity is added to the player after they pull up from a ledge
+    public float afterLedgeVelDelay;
+    public bool lerpToNewLoc;                   //Does the player need to be smoothly moved from starting point to end point
+    public int lerpSpeed;
 
     [Foldout("Walking Variables", true)]
     public float walkSpeed = 9.5f;
@@ -176,13 +181,9 @@ public class Charcontrol : MonoBehaviour
         rb2d = GetComponent<Rigidbody2D>();
 
         currentState = State.Idle;
+        lastState = State.Idle;
 
         boxCol = GetComponent<BoxCollider2D>();
-        //boxColSize = boxCol.size;
-        //boxColOffset = boxCol.offset;
-
-        //meleeSpriteR = MeleeObject.GetComponent<SpriteRenderer>();
-        //particles = GetComponentInChildren<ParticleSystem>();
     }
 
     private void Update()
@@ -397,22 +398,26 @@ public class Charcontrol : MonoBehaviour
                         Input.GetAxisRaw("Horizontal") == ledgeScript.ledgeDirInt * -1 //Move away from ledge...
                         && minimumLedgeTimer <= 0)   //and the minimum time has been reached...
                     {
-                        currentState = State.Falling;
                         rb2d.velocity = new Vector2(rb2d.velocity.x, 0);
                         Debug.Log($"Letting go of a ledge");
+                        airJumpsHas = airJumps;
+                        currentState = State.Falling;   //Let go of the ledge
                     }
 
                     if (Input.GetAxisRaw("Horizontal") == ledgeScript.ledgeDirInt && minimumLedgeTimer <= 0)
                     {
-                        ledgeScript.PullUpPlayer();
+                        //ledgeScript.PullUpPlayer();
                         currentState = State.Ledgepullup;
                     }
                 }
                 break;
 
             case State.Ledgepullup:
-                LedgePullUp();
-                //Transition out is handled in grabbable script
+                {
+                    LedgePullUp();
+                    ledgeScript.PullUpPlayer();
+                    //Animation is handled in charanimation. Transition out is called from last frame of that animation and uses FinishLedgePullup() below
+                }
                 break;
 
             case State.Idle:                    //Idle anim inside the animator has a behaviour that forces this state during its animation
@@ -496,15 +501,15 @@ public class Charcontrol : MonoBehaviour
                     {
                         currentState = State.Dodging;
                     }
-                    //Transition to Attacking
-                    /*if (Input.GetAxisRaw("Light Attack") != 0 || Input.GetAxisRaw("Heavy Attack") != 0 || Input.GetAxisRaw("Ranged Attack") != 0)
-                    {
-                        currentState = State.Attacking;
-                    }*/
                     //Transition to Jumping
                     if (Input.GetAxisRaw("Vertical") > 0)
                     {
                         currentState = State.Jumping;
+                    }
+
+                    if (!isGrounded)
+                    {
+                        currentState = State.Falling;
                     }
 
                     //Transition back to Idle
@@ -583,7 +588,7 @@ public class Charcontrol : MonoBehaviour
                         currentState = State.AirJumping;
                     }
                     
-                    if (inGrabbable_LedgeZone && Input.GetAxisRaw("Horizontal") != 0 && doesPlayerFaceLedge)   //If you're near a ledge and you're facing the right way
+                    if (inGrabbable_LedgeZone && Input.GetAxisRaw("Horizontal") == ledgeScript.ledgeDirInt && doesPlayerFaceLedge)   //If you're near a ledge and you're facing the right way
                     {
                         Debug.Log($"Grabbing a ledge");
                         currentState = State.Ledgegrabbing;
@@ -670,6 +675,7 @@ public class Charcontrol : MonoBehaviour
         checkforGrounded();
         checkforWallsAndStandingSpace();
         checkforLedges();
+        if (lerpToNewLoc) { LedgeLerp(); }
     }
 
     void checkforGrounded()
@@ -917,7 +923,40 @@ public class Charcontrol : MonoBehaviour
 
     public void LedgePullUp()
     {
-        transform.position = ledgeScript.PlayerLoc.transform.position;
+        if (!lerpToNewLoc)
+        {
+            transform.position = ledgeScript.PlayerLoc.transform.position;  //If we're not lerping to a new spot, you can let the player stay with the ledge loc
+        }
+    }
+
+    public void FinishLedgePullUp() //Called from Ledge Script
+    {
+        currentState = State.Idle;
+        GetComponent<Animator>().Play("Low Poly Idle");
+        transform.position = ledgeScript.PlayerAfterGrabLoc.transform.position;
+        rb2d.velocity = new Vector2(0,0);
+        StartCoroutine(AddAForce(afterLedgeVelDelay, new Vector2(afterLedgeVelAdded * Time.deltaTime * 1000, 0)));
+    }
+
+    public void DoLedgeLerp()   //Is called in player pull up animation
+    {
+        //lerpToNewLoc = true;
+    }
+
+    public void StopLedgeLerp() //I hate having to spend so many functions on this, but the animation system is not cooperating :(
+    {
+        //lerpToNewLoc = false;
+    }
+
+    public void LedgeLerp()
+    {
+        transform.position = Vector2.MoveTowards(transform.position, ledgeScript.PlayerAfterGrabLoc.transform.position, Time.deltaTime * lerpSpeed);
+    }
+
+    public IEnumerator AddAForce(float delay, Vector2 force)
+    {
+        yield return new WaitForSeconds(delay);
+        rb2d.AddForce(force, ForceMode2D.Force);
     }
 
     public void FindClosestNPC()

@@ -204,14 +204,42 @@ public class GameManager : MonoBehaviour
         Debug.Log($"-----------------------------------Scene changed to {SceneManager.GetActiveScene().name}------------------------------------");
 
         DisableStuff();
-        SetupCameras();
+        
 
         switch (SceneManager.GetActiveScene().name)
         {
             case "Game Test Scene":
                 currentScenePausable = true;
+                //BGAudioManager.PlayAudioClip(0);
+                //playerManager.EnablePlayer();
+                SetupCameras();
+                break;
+
+            case "Main Menu Scene":
+                currentScenePausable = false;
+                //BGAudioManager.PlayAudioClip(1);
+                break;
+
+            default:
+                break;
+        }
+    }
+
+    public void DisableStuff()
+    {
+        respawn_Menu_Manager.DisableScreen();
+        pause_Menu_Manager.HidePauseUI();
+        //pause_Menu_Manager.HideLoadingScreen();
+    }
+
+    public void SceneReady()
+    {
+        switch (SceneManager.GetActiveScene().name)
+        {
+            case "Game Test Scene":
                 BGAudioManager.PlayAudioClip(0);
                 playerManager.EnablePlayer();
+                SetupCameras();
                 break;
 
             case "Main Menu Scene":
@@ -222,15 +250,6 @@ public class GameManager : MonoBehaviour
             default:
                 break;
         }
-        
-
-        
-    }
-
-    public void DisableStuff()
-    {
-        respawn_Menu_Manager.DisableScreen();
-        pause_Menu_Manager.HidePauseUI();
     }
 
     [ButtonMethod]

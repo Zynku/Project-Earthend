@@ -124,6 +124,7 @@ public class Charanimation : MonoBehaviour
                     animator.Play("Jump Transition");   //This is an empty state that immediately transitions to the correct state
                     animator.SetBool("Jumping", true);
                     animator.SetBool("Falling", false);
+                    animator.SetBool("Running", false);
                     jumped = true;
                 }
                 break;
@@ -133,7 +134,12 @@ public class Charanimation : MonoBehaviour
                 break;
 
             case Charcontrol.State.Falling:
-                //animator.Play("Low Poly Girl Whole Fall HD3");
+                if (animator.GetBool("Running")) 
+                {
+                    animator.SetBool("Running", false);
+                    animator.Play("Jump Downwards Loop"); 
+                }
+                
                 animator.SetBool("Falling", true);
                 break;
 
@@ -191,15 +197,17 @@ public class Charanimation : MonoBehaviour
                     animator.Play("Ledge Grab from Jump");
                 }
                 animator.SetBool("Jumping", false);
+                animator.SetBool("Falling", false);
                 break;
 
             case Charcontrol.State.Ledgepullup:
                 if (!ledgePulledUp)
                 {
-                    ledgePulledUp = true;
                     animator.Play("Ledge Grab into Pull Up");
+                    ledgePulledUp = true;
                 }
                 animator.SetBool("Jumping", false);
+                animator.SetBool("Falling", false);
                 break;
 
             case Charcontrol.State.Stunned:
@@ -362,7 +370,7 @@ public class Charanimation : MonoBehaviour
             animator.SetBool("Jumping", false);
             jumped = false;
             ledgeGrabbed = false;
-            ledgePulledUp = true;
+            ledgePulledUp = false;
         }
         if (!isGrounded)
         {

@@ -7,6 +7,7 @@ public class Grabbable_LedgeArea : MonoBehaviour
 {
     [ReadOnly] public GameObject Player;
     public GameObject PlayerLoc;    //The location the player will be attached to when it grabs the ledge
+    public GameObject PlayerAfterGrabLoc;   //The location the player is deposited at when it is done pulling up
     Animator animator;
     public int ledgeDirInt;
     public LedgeDir direction;
@@ -58,12 +59,11 @@ public class Grabbable_LedgeArea : MonoBehaviour
 
     public void LetPlayerIdle()
     {
-        Player.GetComponent<Charcontrol>().currentState = Charcontrol.State.Idle;
-        Player.GetComponent<Animator>().Play("Low Poly Idle");
+        Player.GetComponent<Charcontrol>().FinishLedgePullUp();
     }
 
     public void PullUpPlayer()
     {
-        animator.Play("Grabbable Ledge Pull Up Player Loc");
+        //animator.Play("Grabbable Ledge Pull Up Player Loc");
     }
 }
