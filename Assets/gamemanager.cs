@@ -234,6 +234,7 @@ public class GameManager : MonoBehaviour
 
     public void SceneReady()
     {
+        BGAudioManager.ResetMasterVolToInitial();
         switch (SceneManager.GetActiveScene().name)
         {
             case "Game Test Scene":
@@ -301,13 +302,6 @@ public class GameManager : MonoBehaviour
         paused = false;
         resume = true;
         resumed = true;
-/*
-        try
-        {
-            Player.SetActive(true);
-            PlayerAnim.enabled = true;
-        }
-        catch (MissingReferenceException) { }*/
     }
 
     public void TogglePauseGame()

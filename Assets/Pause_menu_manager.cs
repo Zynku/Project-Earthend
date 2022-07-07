@@ -11,6 +11,7 @@ using TMPro;
 public class Pause_menu_manager : MonoBehaviour
 {
     private GameObject Player;
+    private BGAudioScript BGAud;
     private Animator PlayerAnim;
     private EventSystem eventsystem;
     
@@ -24,6 +25,7 @@ public class Pause_menu_manager : MonoBehaviour
     public Slider loadingSlider;
     public float minLoadingTargetTime;
     [ReadOnly] public float minLoadingTimer;
+    public bool loading;
     public bool inputToContinue;
 
     [Header("Audio")]
@@ -34,13 +36,13 @@ public class Pause_menu_manager : MonoBehaviour
 
     void Awake()
     {
-        masterMixer.SetFloat("MasterVolume", global_script.masterVolfloat);
-        masterMixer.SetFloat("SoundVolume", global_script.soundVolfloat);
-        masterMixer.SetFloat("MusicVolume", global_script.musicVolfloat);
+        //masterMixer.SetFloat("MasterVolume", global_script.masterVolfloat);
+        //masterMixer.SetFloat("SoundVolume", global_script.soundVolfloat);
+        //masterMixer.SetFloat("MusicVolume", global_script.musicVolfloat);
 
-        masterVol.value = global_script.masterVolfloat;
-        soundVol.value = global_script.soundVolfloat;
-        musicVol.value = global_script.musicVolfloat;
+        //masterVol.value = global_script.masterVolfloat;
+        //soundVol.value = global_script.soundVolfloat;
+        //musicVol.value = global_script.musicVolfloat;
 
         eventsystem = FindObjectOfType<EventSystem>();
     }
@@ -58,6 +60,7 @@ public class Pause_menu_manager : MonoBehaviour
     private void Start()
     {
         Player = GameManager.instance.Player;
+        BGAud = GameManager.instance.BGAudioManager;
         PlayerAnim = Player.GetComponent<Animator>();
         PauseMenuUi.SetActive(false);
         LoadingScreen.SetActive(false);
@@ -80,6 +83,11 @@ public class Pause_menu_manager : MonoBehaviour
                 Pause();
             }
         }
+
+        if (Input.GetKeyDown(KeyCode.Space) && loading)
+        {
+            inputToContinue = true;
+        }
     }
 
     public void SceneSwitcher(int index)
@@ -87,6 +95,7 @@ public class Pause_menu_manager : MonoBehaviour
         //Loads scene without disabling any other gameobjects so that progress bar can run
         Time.timeScale = 1;
         sceneToLoad = index;
+        StartCoroutine(BGAud.FadeAudioMixer(BGAud.masterMixer.audioMixer, "MasterVol", 1f, 0f));
         LoadingScreen.SetActive(true);
         continueText.SetActive(false);
         LoadingScreenBG.SetActive(true);
@@ -108,6 +117,7 @@ public class Pause_menu_manager : MonoBehaviour
         AsyncOperation operation = SceneManager.LoadSceneAsync(index);
         minLoadingTimer = minLoadingTargetTime;
         LoadingScreen.SetActive(true);
+        loading = true;
 
         while (!operation.isDone)
         {
@@ -124,23 +134,20 @@ public class Pause_menu_manager : MonoBehaviour
             yield return null;
         }
 
-        while (!inputToContinue && minLoadingTimer <= 0)
-        {
-            if (Input.GetKeyDown(KeyCode.Space))
-            {
-                inputToContinue = true;
-                yield break;
-            }
-            yield return null;
-        }
-
         continueText.SetActive(true);
 
+        while (!inputToContinue)
+        {
+            yield return null;
+        }
+        
         if (inputToContinue)
         {
             LoadingScreen.SetActive(false);
             LoadingScreenBG.SetActive(false);
+            loadingSlider.value = 0;
             inputToContinue = false;
+            loading = false;
             GameManager.instance.SceneReady();
         }
     }

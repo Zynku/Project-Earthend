@@ -64,7 +64,7 @@ AudioMixerController:
   m_UpdateMode: 1
   m_ExposedParameters:
   - guid: cc71e8896ed8f944bb6152aacaa9d44a
-    name: MasterVolume
+    name: MasterVol
   - guid: 1ff6ce7d0f031144dace66a5f86a1d38
     name: MusicVolume
   - guid: 81cd0acb6a52bc944a4d8f27d90dd798
@@ -77,8 +77,8 @@ AudioMixerController:
     name: View
   - guids:
     - aac21ded3e8ddc7408efa35700802004
-    - 065b616dab238b2419ed77063101e765
     - 67e5ef4c6a156fa42822a2071a427d9a
+    - 065b616dab238b2419ed77063101e765
     - f29fcf2c34d609c4688dcf5bb1801f82
     name: View - Copy
   m_CurrentViewIndex: 1
@@ -129,7 +129,7 @@ AudioMixerSnapshotController:
   m_AudioMixer: {fileID: 24100000}
   m_SnapshotID: 3687c15cd925c65419d62d1a43d6d9ef
   m_FloatValues:
-    cc71e8896ed8f944bb6152aacaa9d44a: -15.421314
+    cc71e8896ed8f944bb6152aacaa9d44a: -16
     81cd0acb6a52bc944a4d8f27d90dd798: 6.7923827
     1ff6ce7d0f031144dace66a5f86a1d38: 2.090601
     ea2e8ccfe7926e54ba0cec6cbfc95435: -2.8722944

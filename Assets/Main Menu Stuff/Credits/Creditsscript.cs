@@ -49,8 +49,8 @@ public class Creditsscript : MonoBehaviour
             creditsBg.SetActive(false);
             //startScrolling = false;
             if (!musicRestarted) 
-            { 
-                BGAudioScript.Instance.PlayAudioClip(0);
+            {
+                GameManager.instance.BGAudioManager.PlayAudioClip(0);
                 musicRestarted = true;
             }  //Restarts playing the main menu theme when we're done  
         }
@@ -85,7 +85,7 @@ public class Creditsscript : MonoBehaviour
         startingMessage.SetActive(true);
         //startingMessage.GetComponent<Animator>().Play("Start");
         endingMessage.SetActive(false);
-        BGAudioScript.Instance.StopAudio();
+        GameManager.instance.BGAudioManager.StopAudio();
         musicRestarted = false;
         lerpFraction = 0;
         lerpFraction -= timeBeforeStartScroll / scaleMultiplier * 10;
