@@ -8,11 +8,7 @@ public class welcome_screen : MonoBehaviour
 
     public void SetThisAsInactive()
     {
-        if (welcomeScreen != null)
-        {
-            welcomeScreen.SetActive(false);
-            Destroy(welcomeScreen);
-        }
+        welcomeScreen?.SetActive(false);
     }
 
     public void PauseGame()

@@ -75,7 +75,7 @@ public class Player_Manager : MonoBehaviour
 
 
         playerLiveRef.GetComponentInChildren<ParticleSystem>().Play();
-        playerLiveRef.GetComponent<Charhealth>().ResetHealth(false);
+        playerLiveRef.GetComponent<Charhealth>().Start();
 
         BoxCollider2D[] boxCols = playerLiveRef.GetComponentsInChildren<BoxCollider2D>();
 

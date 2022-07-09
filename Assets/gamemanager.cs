@@ -9,6 +9,7 @@ using MyBox;
 
 public class GameManager : MonoBehaviour
 {
+    public static GameManager instance;
     public float aliveTime;                    //Keeps track of how long this script (and by extension its children) have been alive
 
     [Header("Time")]
@@ -30,10 +31,6 @@ public class GameManager : MonoBehaviour
     public GameObject hurtScreen;
     private Animator hurtScreenAnimator;
 
-    CinemachineBrain cineBrain;
-    CinemachineVirtualCamera cineCam;    //Needs to be assigned in Editor...you should probably change that...
-    CinemachineBasicMultiChannelPerlin perlin;
-
     public GameObject Player;
     public GameObject playerRespawnPoint;
     public GameObject[] Enemies;
@@ -44,31 +41,32 @@ public class GameManager : MonoBehaviour
     public bool paused, resumed;
     public bool hitStopped = false;
 
-    public static GameManager instance;
-
-    public List<MonoBehaviour> allModules;
-    
-
-    //Make sure when you declare a new reference below, add it to all Modules list in AddAllReferencesToModuleList(), make sure it is assigned to in AssignAllReferences()
-    //and it is enabled and disabled in various scenes in ChangedActiveScene()-
-
+    [Separator("Managers")]
     public DialogueManager dialogueManager;             
     public QuestManager questManager;
     public IHUIQuestManager ihuiquestmanager;
     public InfoHubManager infoHub;
     public Pause_menu_manager pause_Menu_Manager;
     public ParticleManager Particle_Manager;
-    public global_script Global_Script;
     public TimerManager timerManager;
     public Player_Manager playerManager;
-    public BGAudioScript BGAudioManager;
-
-    public InventoryUI inventoryui;
+    public BGAudioScript BGAudioManager;    
     public InventoryUIHelper inventoryUIHelper;
-
-    public InGameUi ingame_UI;
     public Respawn_menu_manager respawn_Menu_Manager;
+    public Welcome_screen_manager welcome_screen_manager;
+    public InGameUi inGameUI;
 
+    [Separator("Important Game Objects & Scripts")]
+    public InGameUi ingame_UI;
+    public InventoryUI inventoryui;
+
+    [Separator("Cameras")]
+    public CinemachineBrain cMBrain;
+    public CinemachineVirtualCamera mainCamera;
+    [ReadOnly] public CinemachineVirtualCameraBase mainCameraBase;
+    CinemachineBasicMultiChannelPerlin camPerlin;
+
+    [Separator("Event System")]
     public EventSystem theEventSystem;
     //------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
@@ -97,68 +95,24 @@ public class GameManager : MonoBehaviour
             instance = this;
         }
         AssignAllReferences();
-        AddAllReferencesToModuleList();
-        SetupCameras();
         DontDestroyOnLoad(this);
+        SceneReady();
         SceneManager.activeSceneChanged += ChangedActiveScene;
     }
     #endregion
 
     public void Start()
     {
-        cineBrain = CinemachineCore.Instance.GetActiveBrain(0);
-        cineCam = cineBrain.ActiveVirtualCamera.VirtualCameraGameObject.GetComponent<CinemachineVirtualCamera>();
-        perlin = cineCam.GetCinemachineComponent<CinemachineBasicMultiChannelPerlin>();
+
     }
 
-
-    [ButtonMethod]
     public void AssignAllReferences()   
     {
         infoHub.gameObject.SetActive(true);         //Infohub is special since when it is active, it blocks the scene window in edit mode. It is set inactive in edit mode and activated here.
         infoHub.ActivatePages();
         playerRespawnPoint = GameObject.FindWithTag("player_respawn");
         if (Player == null) { Player = playerManager.SpawnPlayer(); }
-
-        /*dialogueManager = GetComponentInChildren<DialogueManager>();
-        questManager = GetComponentInChildren<QuestManager>();
-        ihuiquestmanager = GetComponentInChildren<IHUIQuestManager>();
-        infoHub = GetComponentInChildren<InfoHubManager>();
-        pause_Menu_Manager = GetComponentInChildren<Pause_menu_manager>();
-        Particle_Manager = GetComponentInChildren<ParticleManager>();
-        Global_Script = GetComponentInChildren<global_script>();
-        teleporternetwork = GetComponentInChildren<teleporternetwork>();
-        timerManager = GetComponentInChildren<TimerManager>();
-        playerManager = GetComponentInChildren<Player_Manager>();
-        if (infoHub.pages.Length > 0) { inventoryui = GetComponentInChildren<InventoryUI>(); }
-        if (infoHub.pages.Length > 0) { inventoryUIHelper = GetComponentInChildren<InventoryUIHelper>(); }
-        ingame_UI = GetComponentInChildren<InGameUi>();
-        respawn_Menu_Manager = GetComponentInChildren<Respawn_menu_manager>();
-        theEventSystem = GetComponentInChildren<EventSystem>();*/
-
-
-        //hurtScreenAnimator = hurtScreen.GetComponent<Animator>();
-        //hurtScreen.SetActive(false);
     }
-
-    private void AddAllReferencesToModuleList()
-    {
-        allModules.Add(dialogueManager);
-        allModules.Add(questManager);
-        allModules.Add(ihuiquestmanager);
-        allModules.Add(infoHub);
-        allModules.Add(pause_Menu_Manager);
-        allModules.Add(Particle_Manager);
-        allModules.Add(Global_Script);
-        allModules.Add(timerManager);
-        allModules.Add(playerManager);
-        allModules.Add(inventoryui);
-        allModules.Add(inventoryUIHelper);
-        allModules.Add(ingame_UI);
-        allModules.Add(respawn_Menu_Manager);
-        allModules.Add(theEventSystem);
-    }
-
     private void Update()
     {
         //Debug.Log($"Current Scene number is {SceneManager.GetActiveScene().buildIndex} and Scene name is {SceneManager.GetActiveScene().name}");
@@ -201,28 +155,8 @@ public class GameManager : MonoBehaviour
 
     private void ChangedActiveScene(Scene currentScene, Scene nextScene)    //Is called every time the scene is changed
     {
-        Debug.Log($"-----------------------------------Scene changed to {SceneManager.GetActiveScene().name}------------------------------------");
-
+        Debug.Log($"-----------------------------------Scene changed to {currentSceneName}------------------------------------");
         DisableStuff();
-        
-
-        switch (SceneManager.GetActiveScene().name)
-        {
-            case "Game Test Scene":
-                currentScenePausable = true;
-                //BGAudioManager.PlayAudioClip(0);
-                //playerManager.EnablePlayer();
-                SetupCameras();
-                break;
-
-            case "Main Menu Scene":
-                currentScenePausable = false;
-                //BGAudioManager.PlayAudioClip(1);
-                break;
-
-            default:
-                break;
-        }
     }
 
     public void DisableStuff()
@@ -235,10 +169,14 @@ public class GameManager : MonoBehaviour
     public void SceneReady()
     {
         BGAudioManager.ResetMasterVolToInitial();
+        BGAudioManager.RemoveMixerLowPass(BGAudioManager.masterMixer.audioMixer);
         switch (SceneManager.GetActiveScene().name)
         {
             case "Game Test Scene":
+                currentScenePausable = true;
                 BGAudioManager.PlayAudioClip(0);
+                welcome_screen_manager.ShowWelcomeScreen();
+                inGameUI.mainCanvas.SetActive(true);
                 playerManager.EnablePlayer();
                 SetupCameras();
                 break;
@@ -246,44 +184,28 @@ public class GameManager : MonoBehaviour
             case "Main Menu Scene":
                 currentScenePausable = false;
                 BGAudioManager.PlayAudioClip(1);
+                inGameUI.mainCanvas.SetActive(false);
+                playerManager.DisablePlayer();
                 break;
 
             default:
                 break;
         }
     }
-
-    [ButtonMethod]
-    public void OnSceneChangedDisableAll()
-    {
-        foreach (var item in allModules)
-        {
-            item.gameObject.SetActive(false);
-        }
-    }
-
-    [ButtonMethod]
-    public void OnSceneChangedEnableAll()
-    {
-        foreach (var item in allModules)
-        {
-            item.gameObject.SetActive(true);
-        }
-    }
-
     public void SetupCameras()
     {
-        if (Player != null)
-        {
-            CinemachineVirtualCameraBase camera = CinemachineCore.Instance.GetVirtualCamera(0);
-            camera.Follow = Player.transform;
-        }
+        cMBrain = FindObjectOfType<CinemachineBrain>();
+        mainCamera = FindObjectOfType<CinemachineVirtualCamera>(); //mainCamera.GetComponent<CinemachineVirtualCameraBase>();
+        //mainCameraBase = cMBrain.GetCinemachineComponent<CinemachineVirtualCameraBase>();
+        camPerlin = mainCamera.GetCinemachineComponent<CinemachineBasicMultiChannelPerlin>();
+        mainCamera.Follow = Player.transform;
     }
 
     public void PauseGame()
     {
         Debug.Log("Pausing game...");
         playerManager.DisablePlayer();
+        BGAudioManager.FadeMixerLowPass(BGAudioManager.masterMixer.audioMixer, "MasterLowPassCutoffFreq", 0.5f);
         pause_Menu_Manager.isGamePaused = true;
         Time.timeScale = 0;
         pause = true;
@@ -296,6 +218,7 @@ public class GameManager : MonoBehaviour
     {
         Debug.Log("Resuming game...");
         playerManager.ResetPlayer();
+        BGAudioManager.RemoveMixerLowPass(BGAudioManager.masterMixer.audioMixer);
         pause_Menu_Manager.isGamePaused = false;
         Time.timeScale = 1;
         pause = false;
@@ -354,9 +277,9 @@ public class GameManager : MonoBehaviour
 
     public IEnumerator DoScreenShake(float intensity, float time)
     {
-        perlin.m_AmplitudeGain = intensity;
+        camPerlin.m_AmplitudeGain = intensity;
         yield return new WaitForSeconds(time);
-        perlin.m_AmplitudeGain = 0;
+        camPerlin.m_AmplitudeGain = 0;
     }
 
     void HurtFlash()

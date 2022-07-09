@@ -34,6 +34,10 @@ public class Pause_menu_manager : MonoBehaviour
     public Slider soundVol;
     public Slider musicVol;
 
+    public AudioSource audioSource;
+    public AudioClip[] menuButtonHover;
+    public AudioClip[] menuButtonPressed;
+
     void Awake()
     {
         //masterMixer.SetFloat("MasterVolume", global_script.masterVolfloat);
@@ -95,7 +99,7 @@ public class Pause_menu_manager : MonoBehaviour
         //Loads scene without disabling any other gameobjects so that progress bar can run
         Time.timeScale = 1;
         sceneToLoad = index;
-        StartCoroutine(BGAud.FadeAudioMixer(BGAud.masterMixer.audioMixer, "MasterVol", 1f, 0f));
+        StartCoroutine(BGAud.FadeAudioMixer(BGAud.masterMixer.audioMixer, "MasterVol", .7f, -80f));
         LoadingScreen.SetActive(true);
         continueText.SetActive(false);
         LoadingScreenBG.SetActive(true);
@@ -128,20 +132,20 @@ public class Pause_menu_manager : MonoBehaviour
             yield return null;
         }
 
-        while (minLoadingTimer >= 0)
+        while (minLoadingTimer >= 0)    //Decrement timer by time.delta time until 0
         {
             minLoadingTimer -= Time.deltaTime;
             yield return null;
         }
 
-        continueText.SetActive(true);
+        continueText.SetActive(true);   //When timer is finished and it's finished loading, show the continue text
 
         while (!inputToContinue)
         {
             yield return null;
         }
         
-        if (inputToContinue)
+        if (inputToContinue)            //When you press the button, do shit
         {
             LoadingScreen.SetActive(false);
             LoadingScreenBG.SetActive(false);
@@ -167,26 +171,21 @@ public class Pause_menu_manager : MonoBehaviour
         GameManager.instance.PauseGame();
     }
 
+    public void MenuButtonHover()
+    {
+        AudioClip randomSound = menuButtonHover[Random.Range(0, menuButtonHover.Length - 1)];
+        audioSource.PlayOneShot(randomSound);
+    }
+
+    public void MenuButtonPressed()
+    {
+        AudioClip randomSound = menuButtonPressed[Random.Range(0, menuButtonPressed.Length - 1)];
+        audioSource.PlayOneShot(randomSound);
+    }
 
     public void ApplicationClose()
     {
         Debug.Log("Quitting game...");
         Application.Quit();
     }
-
-    //For some reason these 3 methods absolutely destroy this script. Uncomment at your own risk
-    /*public void SetMasterVolume(float volume)
-    {
-        masterMixer.SetFloat("MasterVolume", volume);
-    }
-
-    public void SetMusicVolume(float volume)
-    {
-        masterMixer.SetFloat("MusicVolume", volume);
-    }
-
-    public void SetSoundVolume(float volume)
-    {
-        masterMixer.SetFloat("SoundVolume", volume);
-    }*/
 }

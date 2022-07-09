@@ -19,6 +19,10 @@ public class teleporterscript : MonoBehaviour
     public float teleportingVolume = 1;
     public AudioClip teleporting;
 
+    [Range(0f, 1f)]
+    public float menuOpenVolume = 1;
+    public AudioClip[] menuOpen;
+
     Animator animator;
     AudioSource audiosource;
 
@@ -58,6 +62,7 @@ public class teleporterscript : MonoBehaviour
                 {
                     Debug.Log("Activating teleport menu");
                     Network.showNetworkUI();
+                    PlayMenuTyping();
                     Network.activatedAt = gameObject;
                 }
             }
@@ -75,6 +80,13 @@ public class teleporterscript : MonoBehaviour
     {
         Gizmos.color = Color.red;
         Gizmos.DrawWireSphere(transform.position, teleportRange);
+    }
+
+    public void PlayMenuTyping()
+    {
+        AudioClip randomClip = menuOpen[Random.Range(0, menuOpen.Length -1)];
+        audiosource.volume = menuOpenVolume;
+        audiosource.PlayOneShot(randomClip);
     }
 
     public void PlaySoundandAnimation()

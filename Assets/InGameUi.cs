@@ -8,17 +8,17 @@ public class InGameUi : MonoBehaviour
     public GameObject Player;
 
     [Header("On Screen Variables")]
+    public GameObject mainCanvas;
     public GameObject moneyCounter;
     public GameObject levelCounter;
-    public Healthbar healthBar;
+    public Healthbar healthBarOver;
+    public Healthbar healthBarUnder;
 
     // Start is called before the first frame update
     void Start()
     {
         Player = GameManager.instance.Player;
-        healthBar = GetComponentInChildren<Healthbar>();
-
-        Player.GetComponent<Charhealth>().healthbarOver = healthBar;
+        //Player.GetComponent<Charhealth>().healthbarOver = healthBarOver;
     }
 
     // Update is called once per frame

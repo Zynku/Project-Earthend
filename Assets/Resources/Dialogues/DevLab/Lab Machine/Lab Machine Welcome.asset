@@ -20,7 +20,7 @@ MonoBehaviour:
     dialogueLines:
     - lineString: Welcome to the Developer Labs!
       canChangeAboveHeadDialogue: 0
-      AHDialogueToSwitchTo: 0
+      AHDialogueIndexToSwitchTo: 0
       hasChoice: 0
       choiceTreeID: 
       canChangeDefaultTreeId: 0
@@ -29,15 +29,12 @@ MonoBehaviour:
       myQuest: {fileID: 0}
       lineOwner: 
       typeSpeed: 0
-      audio:
-      - {fileID: 0}
-      - {fileID: 0}
-      - {fileID: 0}
+      audio: []
       audioVol: 1
     - lineString: Use WASD to walk around, A for a ranged attack, S for a heavy attack,
         and D for a light attack.
       canChangeAboveHeadDialogue: 0
-      AHDialogueToSwitchTo: 0
+      AHDialogueIndexToSwitchTo: 0
       hasChoice: 0
       choiceTreeID: 
       canChangeDefaultTreeId: 0
@@ -46,15 +43,12 @@ MonoBehaviour:
       myQuest: {fileID: 0}
       lineOwner: 
       typeSpeed: 0
-      audio:
-      - {fileID: 0}
-      - {fileID: 0}
-      - {fileID: 0}
+      audio: []
       audioVol: 1
     - lineString: Feel free to use the teleporters to get around the Devlab! There's
         one behind you, just interact with it.
       canChangeAboveHeadDialogue: 0
-      AHDialogueToSwitchTo: 0
+      AHDialogueIndexToSwitchTo: 0
       hasChoice: 0
       choiceTreeID: 
       canChangeDefaultTreeId: 0
@@ -63,14 +57,11 @@ MonoBehaviour:
       myQuest: {fileID: 0}
       lineOwner: 
       typeSpeed: 0
-      audio:
-      - {fileID: 0}
-      - {fileID: 0}
-      - {fileID: 0}
+      audio: []
       audioVol: 1
     - lineString: Also feel free to smash some stuff. (It's made to be smashed)
       canChangeAboveHeadDialogue: 0
-      AHDialogueToSwitchTo: 0
+      AHDialogueIndexToSwitchTo: 0
       hasChoice: 0
       choiceTreeID: 
       canChangeDefaultTreeId: 0
@@ -79,14 +70,11 @@ MonoBehaviour:
       myQuest: {fileID: 0}
       lineOwner: 
       typeSpeed: 0
-      audio:
-      - {fileID: 0}
-      - {fileID: 0}
-      - {fileID: 0}
+      audio: []
       audioVol: 1
     - lineString: Don't forget to have fun :)
       canChangeAboveHeadDialogue: 0
-      AHDialogueToSwitchTo: 0
+      AHDialogueIndexToSwitchTo: 0
       hasChoice: 0
       choiceTreeID: 
       canChangeDefaultTreeId: 0
@@ -95,9 +83,6 @@ MonoBehaviour:
       myQuest: {fileID: 0}
       lineOwner: 
       typeSpeed: 0
-      audio:
-      - {fileID: 0}
-      - {fileID: 0}
-      - {fileID: 0}
+      audio: []
       audioVol: 1
   choiceTrees: []

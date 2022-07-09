@@ -50,7 +50,7 @@ public class Creditsscript : MonoBehaviour
             //startScrolling = false;
             if (!musicRestarted) 
             {
-                GameManager.instance.BGAudioManager.PlayAudioClip(0);
+                GameManager.instance.BGAudioManager.RestartCurrentAudio();
                 musicRestarted = true;
             }  //Restarts playing the main menu theme when we're done  
         }

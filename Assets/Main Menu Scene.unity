@@ -5230,30 +5230,10 @@ PrefabInstance:
     serializedVersion: 2
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 6856508596162601353, guid: b85499c901bd34540937fadd091e4c58,
-        type: 3}
-      propertyPath: m_AnchorMax.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6856508596162601353, guid: b85499c901bd34540937fadd091e4c58,
-        type: 3}
-      propertyPath: m_AnchorMax.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6856508596296433333, guid: b85499c901bd34540937fadd091e4c58,
-        type: 3}
-      propertyPath: Player
-      value: 
-      objectReference: {fileID: 0}
     - target: {fileID: 6856508596905928384, guid: b85499c901bd34540937fadd091e4c58,
         type: 3}
       propertyPath: m_Name
       value: '#Game Manager (1)'
-      objectReference: {fileID: 0}
-    - target: {fileID: 6856508596905928444, guid: b85499c901bd34540937fadd091e4c58,
-        type: 3}
-      propertyPath: Player
-      value: 
       objectReference: {fileID: 0}
     - target: {fileID: 6856508596905928447, guid: b85499c901bd34540937fadd091e4c58,
         type: 3}

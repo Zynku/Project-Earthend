@@ -6,8 +6,7 @@ public class Welcome_screen_manager : MonoBehaviour
 {
     public GameObject welcomeScreen;
 
-
-    private void Awake()
+    public void ShowWelcomeScreen()
     {
         welcomeScreen.SetActive(true);
     }

@@ -30,7 +30,7 @@ public class Debugscript : MonoBehaviour
     // Start is called before the first frame update
     public void Start()
     {
-        Player = GameObject.FindGameObjectWithTag("Player");
+        
     }
 
     // Update is called once per frame
@@ -85,6 +85,10 @@ public class Debugscript : MonoBehaviour
 
         onDebug();
 
+        if (Player == null)
+        {
+            Player = GameObject.FindGameObjectWithTag("Player");
+        }
     }
 
     public void onDebug()

@@ -9,14 +9,15 @@ public class BGAudioScript : MonoBehaviour
     public AudioSource audiosource;
 
     public AudioMixerGroup masterMixer;
-    public float masterMixerVol;
+    public float initialMasterMixVol;
+    bool initialMasterMixVolSet;
+
+    public int lowPassFreq; //The frequency that mixer will fade to, to low pass everything
 
     private void Start()
     {
-        masterMixer.audioMixer.GetFloat("MasterVol", out masterMixerVol);
-        //audiosource = GetComponent<AudioSource>();
-        audiosource.clip = audioClips[0];   //Plays the first audioclip on start
-        audiosource.Play();
+        masterMixer.audioMixer.GetFloat("MasterVol", out initialMasterMixVol);
+        //audiosource.Play();
     }
 
     public void StopAudio()
@@ -26,9 +27,15 @@ public class BGAudioScript : MonoBehaviour
 
     public void PlayAudioClip(int clipnumber)
     {
+        audiosource.Stop();
         audiosource.clip = audioClips[clipnumber];
         audiosource.Play();
         Debug.Log($"Playing {audioClips[clipnumber].name}");
+    }
+
+    public void RestartCurrentAudio()
+    {
+        audiosource.Play();
     }
 
     public IEnumerator FadeAudioVolume(float duration, float targetVolume)
@@ -61,6 +68,36 @@ public class BGAudioScript : MonoBehaviour
         yield break;
     }
 
+    public void FadeMixerLowPass(AudioMixer audioMixer, string exposedParam, float duration)
+    {
+        StartCoroutine(FadeAudioMixerLowPassFreq(audioMixer, exposedParam, duration));
+    }
+
+    public IEnumerator FadeAudioMixerLowPassFreq(AudioMixer audioMixer, string exposedParam, float duration)
+    {
+
+        float currentTime = 0;
+        float currentFreq;
+        audioMixer.GetFloat(exposedParam, out currentFreq);
+        float targetValue = lowPassFreq;
+        while (currentTime < duration)
+        {
+            Debug.Log("Fading low pass");
+            currentTime += Time.deltaTime;
+            float newFreq = Mathf.Lerp(currentFreq, targetValue, currentTime / duration);
+            audioMixer.SetFloat(exposedParam, newFreq);
+            yield return null;
+        }
+        yield break;
+    }
+
+    public void RemoveMixerLowPass(AudioMixer audioMixer)
+    {
+        Debug.Log("Resetting low pass");
+        StopAllCoroutines();
+        audioMixer.SetFloat("MasterLowPassCutoffFreq", 22000f);  //The max cutoff freq, effectively bypassing it
+    }
+
     public void SetMixerVol(AudioMixer audioMixer, float targetVolume)
     {
         audioMixer.SetFloat("MasterVol", targetVolume);
@@ -68,6 +105,11 @@ public class BGAudioScript : MonoBehaviour
 
     public void ResetMasterVolToInitial()
     {
-        masterMixer.audioMixer.SetFloat("MasterVol", masterMixerVol);
+        if (!initialMasterMixVolSet)
+        {
+            masterMixer.audioMixer.GetFloat("MasterVol", out initialMasterMixVol);
+            initialMasterMixVolSet = true;
+        }
+        masterMixer.audioMixer.SetFloat("MasterVol", initialMasterMixVol);
     }
 }
