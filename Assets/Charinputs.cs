@@ -30,5 +30,5 @@ public class Charinputs : MonoBehaviour
     // H Adds 20 health. Called from Charhealth Update()
     // K Takes max damage from health. Called from Charhealth Update()
     // L Takes 20 damage from health. Called from Charhealth Update()
-    // esd Pauses and unpauses the game. Called from Pause_menu_manager Update()
+    // esd Pauses and unpauses the game. Called from Pause_and_Scene_manager Update()
 }

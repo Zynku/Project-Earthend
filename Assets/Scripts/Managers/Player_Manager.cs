@@ -16,22 +16,20 @@ public class Player_Manager : MonoBehaviour
         playerRespawnPoint = GameManager.instance.playerRespawnPoint;
     }
 
-    private void OnEnable()
-    {
-        
-    }
-
-    private void OnDisable()
-    {
-        
-    }
-
     public GameObject SpawnPlayer()
     {
         var player = GameObject.FindGameObjectWithTag("Player");
         if (player != null)
         {
             playerLiveRef = player;
+
+            Charcontrol charcontrol = playerLiveRef.GetComponent<Charcontrol>();
+            Charhealth charhealth = playerLiveRef.GetComponent<Charhealth>();
+
+            charcontrol.playerDead = false;
+            charhealth.playerDead = false;
+            charhealth.SetHealthIntially();
+            EnablePlayer();
             return player;
         }
         else
@@ -39,6 +37,14 @@ public class Player_Manager : MonoBehaviour
             playerRespawnPoint = GameManager.instance.playerRespawnPoint;
             playerLiveRef = Instantiate(playerPrefab, playerRespawnPoint.transform.position, Quaternion.identity, gameObject.transform);
             playerLiveRef.SetActive(true);
+
+            Charcontrol charcontrol = playerLiveRef.GetComponent<Charcontrol>();
+            Charhealth charhealth = playerLiveRef.GetComponent<Charhealth>();
+
+            charcontrol.playerDead = false;
+            charhealth.playerDead = false;
+            charhealth.SetHealthIntially();
+            EnablePlayer();
             return playerLiveRef;
         }
     }

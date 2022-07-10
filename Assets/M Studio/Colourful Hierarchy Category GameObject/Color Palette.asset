@@ -16,18 +16,18 @@ MonoBehaviour:
   - keyChar: //
     textColor: {r: 1, g: 1, b: 1, a: 1}
     backgroundColor: {r: 0, g: 0.10323961, b: 0.10323961, a: 1}
-    textAlignment: 7
-    fontStyle: 0
+    textAlignment: 4
+    fontStyle: 3
   - keyChar: ///
     textColor: {r: 1, g: 1, b: 1, a: 1}
     backgroundColor: {r: 0, g: 0.6152477, b: 1, a: 1}
-    textAlignment: 5
-    fontStyle: 1
+    textAlignment: 4
+    fontStyle: 0
   - keyChar: '#'
-    textColor: {r: 1, g: 1, b: 1, a: 1}
-    backgroundColor: {r: 0.5058824, g: 0.84705883, b: 0.81960785, a: 1}
-    textAlignment: 3
-    fontStyle: 1
+    textColor: {r: 0.21698111, g: 0.21698111, b: 0.21698111, a: 1}
+    backgroundColor: {r: 1, g: 1, b: 1, a: 1}
+    textAlignment: 1
+    fontStyle: 3
   - keyChar: '@'
     textColor: {r: 1, g: 1, b: 1, a: 1}
     backgroundColor: {r: 0.8207547, g: 0.6350863, b: 0, a: 1}
@@ -46,5 +46,15 @@ MonoBehaviour:
   - keyChar: '[DEBUG]'
     textColor: {r: 1, g: 1, b: 1, a: 1}
     backgroundColor: {r: 0.6981132, g: 0.6981132, b: 0.6981132, a: 1}
+    textAlignment: 4
+    fontStyle: 0
+  - keyChar: '[SYS1]'
+    textColor: {r: 1, g: 1, b: 1, a: 1}
+    backgroundColor: {r: 0.45943397, g: 0.46184456, b: 0.5, a: 1}
+    textAlignment: 4
+    fontStyle: 0
+  - keyChar: '[SYS2]'
+    textColor: {r: 1, g: 1, b: 1, a: 1}
+    backgroundColor: {r: 0.34185937, g: 0.34478125, b: 0.374, a: 1}
     textAlignment: 4
     fontStyle: 0

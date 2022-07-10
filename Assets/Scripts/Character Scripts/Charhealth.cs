@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using MyBox;
 
 public class Charhealth : MonoBehaviour
 {
@@ -24,6 +25,7 @@ public class Charhealth : MonoBehaviour
     public int level = 1;
     public delegate void gotHit();
     public static event gotHit Hit;
+    [ReadOnly] public bool playerDead;
 
     [Header("StatusEffects")]
     public bool poisoned;
@@ -50,15 +52,19 @@ public class Charhealth : MonoBehaviour
         spriterenderer = GetComponent<SpriteRenderer>();
         //poison = GetComponent<ParticleSystem>();
 
-        Invoke("SetHealthIntially", 0.2f);
+        //Invoke("SetHealthIntially", 0.2f);
         currentHealth = maxHealth;
         healthbarOver.SetHealth(maxHealth * 1);
+        healthbarUnder.SetMaxHealth(maxHealth * 1);
         poisonTimer = poisonTargetTime;
     }
 
-    private void SetHealthIntially()
+    public void SetHealthIntially()
     {
+        Start();
+        playerDead = false;
         healthbarOver.SetMaxHealth(maxHealth);
+        healthbarUnder.SetMaxHealth(maxHealth);
     }
 
     // Update is called once per frame
@@ -76,7 +82,7 @@ public class Charhealth : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.J)) { ResetHealth(true);}
         if (Input.GetKeyDown(KeyCode.H)) { AddHealth(20); }
         if (Input.GetKeyDown(KeyCode.K)) { TakeDamage(maxHealth); }
-        if (Input.GetKeyDown(KeyCode.L)) { TakeDamage(20); }
+        if (Input.GetKeyDown(KeyCode.L)) { TakeDamage(19); }
 
         if (poisoned) { Poisoned(poisonTargetTime, poisonDamage); }
         else { poisonTimer = poisonTargetTime; spriterenderer.color = new Color(1, 1, 1, 1); }
@@ -84,8 +90,9 @@ public class Charhealth : MonoBehaviour
 
     private void FixedUpdate()
     {
-        if (currentHealth <= 0)
+        if (currentHealth <= 0 && !playerDead)
         {
+            playerDead = true;
             OnDeath();
         }
     }
@@ -151,7 +158,8 @@ public class Charhealth : MonoBehaviour
         {
             currentHealth -= damage;
             healthbarOver.SetHealth(currentHealth);
-        
+            healthbarUnder.SetHealth(currentHealth);
+
             var floattext = Instantiate(floatingDmgTextPrefab, transform.position + dmgTextOffset, Quaternion.identity);
             floattext.GetComponent<TMPro.TextMeshPro>().text = damage.ToString();
             //Applies force to show direction hit from.
@@ -170,6 +178,7 @@ public class Charhealth : MonoBehaviour
     {
         currentHealth += health;
         healthbarOver.SetHealth(currentHealth);
+        healthbarUnder.SetHealth(currentHealth);
 
         var floattext = Instantiate(floatingHealthTextPrefab, transform.position + dmgTextOffset, Quaternion.identity);
         floattext.GetComponent<TMPro.TextMeshPro>().text = health.ToString();
@@ -181,6 +190,7 @@ public class Charhealth : MonoBehaviour
     {
         currentHealth = maxHealth;
         healthbarOver.SetHealth(maxHealth * 1);
+        healthbarUnder.SetHealth(maxHealth * 1);
 
         if (showFloatText)
         {
@@ -209,6 +219,7 @@ public class Charhealth : MonoBehaviour
                 //Takes poison damage from health
                 currentHealth -= poisonDamage;
                 healthbarOver.SetHealth(currentHealth);
+                healthbarUnder.SetHealth(currentHealth);
                 poisonTickTimer = poisonTickTargetTime;
 
                 //Instantiate damage numbers text on every tick
@@ -241,6 +252,7 @@ public class Charhealth : MonoBehaviour
     public void OnDeath()
     {
         charcontrol.currentState = Charcontrol.State.Dead;
-        rb2d.velocity = new Vector2(0, 0);   
+        rb2d.velocity = new Vector2(0, 0);
+        StartCoroutine(GameManager.instance.respawn_Menu_Manager.ShowRespawnOptions());
     }
 }

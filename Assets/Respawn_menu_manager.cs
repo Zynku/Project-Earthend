@@ -35,11 +35,11 @@ public class Respawn_menu_manager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (healthScript.currentHealth <= 0 && !showingRespawnOptions)
+/*        if (healthScript.currentHealth <= 0 && !showingRespawnOptions)
         {
             showingRespawnOptions = true;
             StartCoroutine(ShowRespawnOptions());
-        }
+        }*/
     }
 
     public IEnumerator ShowRespawnOptions()
@@ -52,12 +52,17 @@ public class Respawn_menu_manager : MonoBehaviour
 
     public void RespawnPlayer()
     {
-        bool mainCharRespawned = false;
-        if (mainCharRespawned == false)
-        {
-            Player.gameObject.transform.position = playerRespawnPoint.gameObject.transform.position;
-            mainCharRespawned = true;
-        }
+        /*        bool mainCharRespawned = false;
+                if (mainCharRespawned == false)
+                {
+                    Player.gameObject.transform.position = playerRespawnPoint.gameObject.transform.position;
+                    mainCharRespawned = true;
+                }*/
+        GameManager.instance.playerManager.SpawnPlayer();
+        Time.timeScale = 1;
+        showingRespawnOptions = false;
+        StopCoroutine(ShowRespawnOptions());
+        DisableScreen();
     }
 
     public void ReloadScene()
@@ -66,7 +71,6 @@ public class Respawn_menu_manager : MonoBehaviour
         GameManager.instance.playerManager.EnablePlayer();
         PlayerAnim.enabled = true;
         showingRespawnOptions = false;
-        //RespawnScreenUI.SetActive(false);
         StopCoroutine(ShowRespawnOptions());
         healthScript.currentHealth = healthScript.maxHealth;
         SceneManager.LoadScene(SceneManager.GetActiveScene().name);

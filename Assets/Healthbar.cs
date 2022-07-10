@@ -2,26 +2,15 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using MyBox;
 
 public class Healthbar : MonoBehaviour
 {
     public Slider slider;
     public float healthVal;
-    public int sliderValInt;
-    public float smoothTime, smoothTimeUnderlay;
+    [ReadOnly] public float smoothTimer;  //Actual timer for smooth time         
     public float smoothTargetTime;        //How long the bar takes to smooth between the initial value and the intended value
-    public float smoothVel;
-    public bool needToUpdateValsOverlay;
-
-    private void Start()
-    {
-        //healthVal = GameManager.instance.Player.GetComponent<Charhealth>().currentHealth;
-    }
-
-    public void Update()
-    {
-        SmoothOverlayVals();
-    }
+    public float updateDelay;              //The delay between receiving a new value, and actually updating the bar. Used for health bar underlay
 
     public void SetMaxHealth (int health)
     {
@@ -29,28 +18,26 @@ public class Healthbar : MonoBehaviour
         slider.value = health;
     }
 
-    public void SetHealth (int health)  //This whole shit barely works and I barely understand it, I'm angry and upset and I dont give two fucks about this right now. Fuck off
+    public void SetHealth (int health)
     {
+        Debug.Log("Updating health vals");
         healthVal = health;
-        smoothTime = smoothTargetTime;
-        smoothTimeUnderlay = smoothTargetTime;
-        needToUpdateValsOverlay = true;
+        StopAllCoroutines();
+        StartCoroutine(SmoothValues(Mathf.FloorToInt(slider.value), health));
     }
 
-    public void SmoothOverlayVals()
+    public IEnumerator SmoothValues(int startHealth, int endHealth)
     {
-        if (needToUpdateValsOverlay)
+        yield return new WaitForSeconds(updateDelay);
+        smoothTimer = 0;
+        while (smoothTimer <= smoothTargetTime)
         {
-            sliderValInt = Mathf.FloorToInt(slider.value);
-            //slider.value = Mathf.SmoothDamp(sliderValInt, healthVal, ref smoothVel, smoothTargetTime);
-
-            if (smoothTime > 0)
-            {
-                smoothTime -= Time.deltaTime;
-            }
-            slider.value = Mathf.SmoothStep(sliderValInt, healthVal, smoothTime);
-
-            if (sliderValInt == healthVal) { needToUpdateValsOverlay = false; }
+            Debug.Log("Smooth health values");
+            smoothTimer += Time.deltaTime;
+            float timer = smoothTimer / smoothTargetTime;
+            float currentValue = Mathf.SmoothStep(startHealth, endHealth, timer);
+            slider.value = currentValue;
+            yield return null;
         }
     }
 }

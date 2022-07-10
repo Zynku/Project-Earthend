@@ -17,6 +17,6 @@ public class Main_Menu_manager : MonoBehaviour
 
     public void CallSceneSwitcher(int index)
     {
-        gameManager.pause_Menu_Manager.SceneSwitcher(index);
+        gameManager.pause_and_scene_manager.SceneSwitcher(index);
     }
 }

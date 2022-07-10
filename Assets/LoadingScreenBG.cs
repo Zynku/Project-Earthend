@@ -4,12 +4,12 @@ using UnityEngine;
 
 public class LoadingScreenBG : MonoBehaviour
 {
-    public Pause_menu_manager manager;
+    public Pause_and_Scene_manager manager;
     Animator animator;
 
     private void Start()
     {
-        manager = GetComponentInParent<Pause_menu_manager>();
+        manager = GetComponentInParent<Pause_and_Scene_manager>();
         animator = GetComponent<Animator>();
     }
 

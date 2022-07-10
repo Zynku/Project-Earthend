@@ -46,7 +46,7 @@ public class GameManager : MonoBehaviour
     public QuestManager questManager;
     public IHUIQuestManager ihuiquestmanager;
     public InfoHubManager infoHub;
-    public Pause_menu_manager pause_Menu_Manager;
+    public Pause_and_Scene_manager pause_and_scene_manager;
     public ParticleManager Particle_Manager;
     public TimerManager timerManager;
     public Player_Manager playerManager;
@@ -162,7 +162,7 @@ public class GameManager : MonoBehaviour
     public void DisableStuff()
     {
         respawn_Menu_Manager.DisableScreen();
-        pause_Menu_Manager.HidePauseUI();
+        pause_and_scene_manager.HidePauseUI();
         //pause_Menu_Manager.HideLoadingScreen();
     }
 
@@ -206,7 +206,7 @@ public class GameManager : MonoBehaviour
         Debug.Log("Pausing game...");
         playerManager.DisablePlayer();
         BGAudioManager.FadeMixerLowPass(BGAudioManager.masterMixer.audioMixer, "MasterLowPassCutoffFreq", 0.5f);
-        pause_Menu_Manager.isGamePaused = true;
+        pause_and_scene_manager.isGamePaused = true;
         Time.timeScale = 0;
         pause = true;
         paused = true;
@@ -219,7 +219,7 @@ public class GameManager : MonoBehaviour
         Debug.Log("Resuming game...");
         playerManager.ResetPlayer();
         BGAudioManager.RemoveMixerLowPass(BGAudioManager.masterMixer.audioMixer);
-        pause_Menu_Manager.isGamePaused = false;
+        pause_and_scene_manager.isGamePaused = false;
         Time.timeScale = 1;
         pause = false;
         paused = false;
@@ -246,9 +246,9 @@ public class GameManager : MonoBehaviour
     {
         Debug.Log("Resuming game...");
         //PlayerAnim.enabled = true;
-        pause_Menu_Manager.PauseMenuUi.SetActive(false);
+        pause_and_scene_manager.PauseMenuUi.SetActive(false);
         //Time.timeScale = 1;
-        pause_Menu_Manager.isGamePaused = false;
+        pause_and_scene_manager.isGamePaused = false;
         GameManager.instance.ResumeGame();
 
     }
@@ -257,9 +257,9 @@ public class GameManager : MonoBehaviour
     {
         Debug.Log("Pausing game...");
         //PlayerAnim.enabled = false;
-        pause_Menu_Manager.PauseMenuUi.SetActive(true);
+        pause_and_scene_manager.PauseMenuUi.SetActive(true);
         //Time.timeScale = 0;
-        pause_Menu_Manager.isGamePaused = true;
+        pause_and_scene_manager.isGamePaused = true;
         GameManager.instance.PauseGame();
     }
 

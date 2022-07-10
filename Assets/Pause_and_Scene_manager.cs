@@ -8,7 +8,7 @@ using UnityEngine.Audio;
 using MyBox;
 using TMPro;
 
-public class Pause_menu_manager : MonoBehaviour
+public class Pause_and_Scene_manager : MonoBehaviour
 {
     private GameObject Player;
     private BGAudioScript BGAud;
@@ -100,6 +100,7 @@ public class Pause_menu_manager : MonoBehaviour
         Time.timeScale = 1;
         sceneToLoad = index;
         StartCoroutine(BGAud.FadeAudioMixer(BGAud.masterMixer.audioMixer, "MasterVol", .7f, -80f));
+        GameManager.instance.respawn_Menu_Manager.DisableScreen();
         LoadingScreen.SetActive(true);
         continueText.SetActive(false);
         LoadingScreenBG.SetActive(true);
