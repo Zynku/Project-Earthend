@@ -404,9 +404,8 @@ public class Charcontrol : MonoBehaviour
                         currentState = State.Falling;   //Let go of the ledge
                     }
 
-                    if (Input.GetAxisRaw("Horizontal") == ledgeScript.ledgeDirInt && minimumLedgeTimer <= 0)
+                    if (Input.GetAxisRaw("Vertical") > 0 || Input.GetAxisRaw("Horizontal") == ledgeScript.ledgeDirInt && minimumLedgeTimer <= 0)
                     {
-                        //ledgeScript.PullUpPlayer();
                         currentState = State.Ledgepullup;
                     }
                 }
@@ -626,17 +625,19 @@ public class Charcontrol : MonoBehaviour
                 break;
 
             case State.CrouchWalking:
-                CrouchingWalking();
-                inCombat = false;
-
-                if (Input.GetAxisRaw("Horizontal") == 0)
                 {
-                    currentState = State.Crouching_Idle;
-                }
+                    CrouchingWalking();
+                    inCombat = false;
 
-                if (!isGrounded)
-                {
-                    currentState = State.Falling;
+                    if (Input.GetAxisRaw("Horizontal") == 0)
+                    {
+                        currentState = State.Crouching_Idle;
+                    }
+
+                    if (!isGrounded)
+                    {
+                        currentState = State.Falling;
+                    }
                 }
                 break;
 

@@ -9,7 +9,7 @@ public class Grabbable_LedgeArea : MonoBehaviour
     public GameObject PlayerLoc;    //The location the player will be attached to when it grabs the ledge
     public GameObject PlayerAfterGrabLoc;   //The location the player is deposited at when it is done pulling up
     Animator animator;
-    public int ledgeDirInt;
+    [HideInInspector] public int ledgeDirInt;
     public LedgeDir direction;
     public enum LedgeDir    //The direction the player must hold in order to face the edge
     {
