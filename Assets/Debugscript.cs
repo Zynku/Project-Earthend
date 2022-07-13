@@ -3,14 +3,21 @@ using System.Collections.Generic;
 using UnityEngine;
 using MyBox;
 using TMPro;
+using System.Linq;
 
-[ExecuteAlways]
+//[ExecuteAlways]
 public class Debugscript : MonoBehaviour
 {
-    
     public GameObject Player;
+    Charanimation charanimation;
+    Charcontrol charcontrol;
+    Charattacks charattacks;
+    public Debug_Group_Section rightHandSection;
     
+    [Foldout("Combo Stuff", true)]
     public List<Combo> allLightCombosEver, allHeavyCombosEver, allRangedCombosEver, currentPossibleCombos;
+    //private List<Combo> comboBuffer;
+    [HideInInspector] public List<string> comboBufferNames;
     public comboList theComboList;
     public enum comboList
     {
@@ -23,17 +30,36 @@ public class Debugscript : MonoBehaviour
     public Combo comboBeingMovedFromPossible;
     public Combo comboBeingMovedToPossible;
 
+    [Foldout("Debug", true)]
+    [Separator("Debug Toggle")]
     public bool showOnScreenDebug;
-    public TextMeshProUGUI playerStateText;
-    public TextMeshProUGUI deltaTimeText;
 
-    // Start is called before the first frame update
-    public void Start()
+    [Separator("Debug Sections")]
+    public Debug_Section deltaTimeSection;
+    public Debug_Section comboBufferSection;
+
+    [Separator("Debug Switches")]
+    public bool showDeltaTime;
+    public bool showComboBuffer;
+
+    [Separator("Attacks & Combos")]
+    private float placeHolder;
+    private void OnEnable()
     {
-        
+        if (Player == null)
+        {
+            Player = GameObject.FindGameObjectWithTag("Player");
+            charanimation = Player.GetComponent<Charanimation>();
+            charcontrol = Player.GetComponent<Charcontrol>();
+            charattacks = Player.GetComponent<Charattacks>();
+        }
     }
 
-    // Update is called once per frame
+    private void OnDisable()
+    {
+        Player = null;
+    }
+
     public void Update()
     {
         if (comboArrayNum < currentPossibleCombos.Count - 1)
@@ -44,6 +70,10 @@ public class Debugscript : MonoBehaviour
         {
             comboBeingMovedFromPossible = null;
         }
+
+        //comboBuffer = Player.GetComponent<Charanimation>().comboBuffer;
+        comboBufferNames = charanimation.comboBuffer.Select(o => o.comboName).ToList();
+
 
         switch (theComboList)
         {
@@ -83,23 +113,22 @@ public class Debugscript : MonoBehaviour
         }
         ReassignToPlayer();     //This is needed as when references are assigned, it makes it local. By reassigning, this makes sure all changes made here are reflected in player
 
-        onDebug();
-
-        if (Player == null)
+        if (showOnScreenDebug)
         {
-            Player = GameObject.FindGameObjectWithTag("Player");
+            rightHandSection.gameObject.SetActive(true);
+            onDebug();
         }
+        else
+        {
+            rightHandSection.gameObject.SetActive(false);
+        }
+
     }
 
     public void onDebug()
     {
-        playerStateText.gameObject.SetActive(showOnScreenDebug);
-        deltaTimeText.gameObject.SetActive(showOnScreenDebug);
-
-        Charcontrol.State playerState = Player.GetComponent<Charcontrol>().currentState;
-        playerStateText.text = $"Player State is {playerState}.";
-
-        deltaTimeText.text = $"Delta time value is {Time.deltaTime}.";
+        deltaTimeSection.gameObject.SetActive(showDeltaTime);
+        comboBufferSection.gameObject.SetActive(showComboBuffer);
     }
 
     public void ReassignToPlayer()

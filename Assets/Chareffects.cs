@@ -38,7 +38,7 @@ public class Chareffects : MonoBehaviour
         {
             if (!runParticlesTriggered)
             {
-                Debug.Log("Playing particle sys");
+                //Debug.Log("Playing particle sys");
                 runParticles.Play();
                 runParticlesTriggered = true;
             }
@@ -57,7 +57,7 @@ public class Chareffects : MonoBehaviour
         {
             if (!jumpParticlesTriggered)
             {
-                Debug.Log("Playing particle sys");
+                //Debug.Log("Playing particle sys");
                 jumpParticles.Play();
                 jumpParticlesTriggered = true;
             }

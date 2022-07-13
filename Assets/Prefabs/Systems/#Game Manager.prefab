@@ -14224,6 +14224,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Player: {fileID: 0}
+  rightHandSection: {fileID: 0}
   allLightCombosEver:
   - comboName: Double Swing
     comboType: 0
@@ -14556,6 +14557,7 @@ MonoBehaviour:
     - attackName: 
       attackDamage: 0
       attackType: 1
+  comboBufferNames: []
   theComboList: 0
   comboArrayNum: 0
   comboBeingMovedFromPossible:
@@ -14601,8 +14603,10 @@ MonoBehaviour:
       attackDamage: 0
       attackType: 0
   showOnScreenDebug: 1
-  playerStateText: {fileID: 6856508595976427954}
-  deltaTimeText: {fileID: 6856508595556664892}
+  deltaTimeSection: {fileID: 0}
+  comboBufferSection: {fileID: 0}
+  showDeltaTime: 0
+  showComboBuffer: 0
 --- !u!1 &6856508596298769480
 GameObject:
   m_ObjectHideFlags: 0
@@ -30353,7 +30357,7 @@ MonoBehaviour:
   welcome_screen_manager: {fileID: 6856508595813604635}
   inGameUI: {fileID: 6856508595856330538}
   ingame_UI: {fileID: 6856508595856330538}
-  inventoryui: {fileID: 12}
+  inventoryui: {fileID: 0}
   cMBrain: {fileID: 0}
   mainCamera: {fileID: 0}
   mainCameraBase: {fileID: 0}
@@ -30371,6 +30375,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Player: {fileID: 0}
+  rightHandSection: {fileID: 0}
   allLightCombosEver:
   - comboName: Double Swing
     comboType: 0
@@ -30703,6 +30708,7 @@ MonoBehaviour:
     - attackName: 
       attackDamage: 0
       attackType: 1
+  comboBufferNames: []
   theComboList: 0
   comboArrayNum: 0
   comboBeingMovedFromPossible:
@@ -30748,8 +30754,10 @@ MonoBehaviour:
       attackDamage: 0
       attackType: 0
   showOnScreenDebug: 1
-  playerStateText: {fileID: 6856508595976427954}
-  deltaTimeText: {fileID: 6856508595556664892}
+  deltaTimeSection: {fileID: 0}
+  comboBufferSection: {fileID: 0}
+  showDeltaTime: 0
+  showComboBuffer: 0
 --- !u!114 &6856508596905928445
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -40240,18 +40248,6 @@ PrefabInstance:
     m_RemovedComponents: []
     m_AddedGameObjects: []
   m_SourcePrefab: {fileID: 100100000, guid: f5efcbdb3a2128b43a11c6a58027937f, type: 3}
---- !u!114 &12 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 6856508596152019190, guid: f5efcbdb3a2128b43a11c6a58027937f,
-    type: 3}
-  m_PrefabInstance: {fileID: 6856508596152019194}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5e05bbed72bc44a40801294f7fedf426, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &9049894246077917150 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 2499665898099363620, guid: f5efcbdb3a2128b43a11c6a58027937f,

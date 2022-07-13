@@ -59,8 +59,6 @@ public class Charattacks : MonoBehaviour
         charaudio = GetComponent<Charaudio>();
         rb2d = GetComponent<Rigidbody2D>();
         charMeleeHitBox = GetComponentInChildren<CharMeleeHitBox>();
-        //comboSustainTime = comboSustainTargetTime;
-        //comboExecuteTime = comboExecuteTargetTime;
         inputTime = inputTargetTime;
         //onScreenComboSustainTimer = TimerManager.instance.CreateTimer(comboSustainTime, comboSustainTargetTime, "Combo Sustain Time", false);
         inputTimer =                TimerManager.instance.CreateTimer(inputTime, inputTargetTime, "Input Time", false);
@@ -250,6 +248,7 @@ public class Charattacks : MonoBehaviour
 
     public void ClearAttackList()
     {
+        currentlyComboing = false;
         currentAttacks.Clear();
     }
 

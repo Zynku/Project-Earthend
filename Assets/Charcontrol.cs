@@ -699,11 +699,11 @@ public class Charcontrol : MonoBehaviour
         //Check for left wall duplicates
         //Duplicate 1
         if (Physics2D.OverlapCircle(new Vector2(transform.position.x + wallLeftXCheckOffset, transform.position.y + wallLeftYCheckOffset + wallLeftDuplicatesYOffset), wallLeftCheckDistances, groundAndWalls))
-        { isAgainstWallLeftTop = true; Debug.Log("Collided at top"); }
+        { isAgainstWallLeftTop = true;}
         else { isAgainstWallLeftTop = false; }
         //Duplicate 2
         if (Physics2D.OverlapCircle(new Vector2(transform.position.x + wallLeftXCheckOffset, transform.position.y + wallLeftYCheckOffset - wallLeftDuplicatesYOffset), wallLeftCheckDistances, groundAndWalls))
-        { isAgainstWallLeftBottom = true; Debug.Log("Collided at bottom"); }
+        { isAgainstWallLeftBottom = true;}
         else { isAgainstWallLeftBottom = false; }
 
 
@@ -715,11 +715,11 @@ public class Charcontrol : MonoBehaviour
         //Check for right wall duplicates
         //Duplicate1
         if (Physics2D.OverlapCircle(new Vector2(transform.position.x + wallRightXCheckOffset, transform.position.y + wallRightYCheckOffset + wallRightDuplicatesYOffset), wallRightCheckDistances, groundAndWalls))
-        { isAgainstWallRightTop = true; Debug.Log("Collided at top"); }
+        { isAgainstWallRightTop = true;}
         else { isAgainstWallRightTop = false; }
         //Duplicate2
         if (Physics2D.OverlapCircle(new Vector2(transform.position.x + wallRightXCheckOffset, transform.position.y + wallRightYCheckOffset - wallRightDuplicatesYOffset), wallRightCheckDistances, groundAndWalls))
-        { isAgainstWallRightBottom = true; Debug.Log("Collided at bottom"); }
+        { isAgainstWallRightBottom = true;}
         else { isAgainstWallRightBottom = false;
         }
 
