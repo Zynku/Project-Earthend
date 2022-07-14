@@ -37,10 +37,12 @@ public class Debugscript : MonoBehaviour
     [Separator("Debug Sections")]
     public Debug_Section deltaTimeSection;
     public Debug_Section comboBufferSection;
+    public Debug_Section playerStateSection;
 
     [Separator("Debug Switches")]
     public bool showDeltaTime;
     public bool showComboBuffer;
+    public bool showPlayerState;
 
     [Separator("Attacks & Combos")]
     private float placeHolder;
@@ -129,6 +131,7 @@ public class Debugscript : MonoBehaviour
     {
         deltaTimeSection.gameObject.SetActive(showDeltaTime);
         comboBufferSection.gameObject.SetActive(showComboBuffer);
+        playerStateSection.gameObject.SetActive(showPlayerState);
     }
 
     public void ReassignToPlayer()

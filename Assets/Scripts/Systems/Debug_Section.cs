@@ -15,7 +15,8 @@ public class Debug_Section : MonoBehaviour
     public enum DebugType
     {
         DeltaTime,
-        ComboBuffer
+        ComboBuffer,
+        PlayerState
     }
 
     private void Start()
@@ -27,6 +28,8 @@ public class Debug_Section : MonoBehaviour
             case DebugType.DeltaTime:
                 break;
             case DebugType.ComboBuffer:
+                break;
+            case DebugType.PlayerState:
                 break;
             default:
                 break;
@@ -48,6 +51,12 @@ public class Debug_Section : MonoBehaviour
                 {
                     //debugText.text = string.Join(" , ", debugscript.Player.GetComponent<Charanimation>().comboBuffer);
                     debugText.text = string.Join(" , ", debugscript.comboBufferNames);
+                }
+                break;
+            case DebugType.PlayerState:
+                if (debugscript.showPlayerState)
+                {
+                    debugText.text = $"Player state is {debugscript.Player.GetComponent<Charcontrol>().currentState}";
                 }
                 break;
             default:

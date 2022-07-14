@@ -14605,8 +14605,10 @@ MonoBehaviour:
   showOnScreenDebug: 1
   deltaTimeSection: {fileID: 0}
   comboBufferSection: {fileID: 0}
+  playerStateSection: {fileID: 0}
   showDeltaTime: 0
   showComboBuffer: 0
+  showPlayerState: 0
 --- !u!1 &6856508596298769480
 GameObject:
   m_ObjectHideFlags: 0
@@ -30756,8 +30758,10 @@ MonoBehaviour:
   showOnScreenDebug: 1
   deltaTimeSection: {fileID: 0}
   comboBufferSection: {fileID: 0}
+  playerStateSection: {fileID: 0}
   showDeltaTime: 0
   showComboBuffer: 0
+  showPlayerState: 0
 --- !u!114 &6856508596905928445
 MonoBehaviour:
   m_ObjectHideFlags: 0
