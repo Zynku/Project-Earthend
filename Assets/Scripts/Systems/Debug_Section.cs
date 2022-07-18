@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 using TMPro;
 using System.Linq;
 
@@ -8,7 +9,13 @@ using System.Linq;
 public class Debug_Section : MonoBehaviour
 {
     private Debugscript debugscript;
+    public Image debugLight;
     public TextMeshProUGUI debugText;
+
+
+    Charcontrol charcontrol;
+    Charanimation charanimation;
+    Charattacks charattacks;
 
     public DebugType debugType;
 
@@ -22,18 +29,9 @@ public class Debug_Section : MonoBehaviour
     private void Start()
     {
         debugscript = GetComponentInParent<Debugscript>();
-
-        switch (debugType)
-        {
-            case DebugType.DeltaTime:
-                break;
-            case DebugType.ComboBuffer:
-                break;
-            case DebugType.PlayerState:
-                break;
-            default:
-                break;
-        }
+        charcontrol = GameManager.instance.Player.GetComponent<Charcontrol>();
+        charanimation = GameManager.instance.Player.GetComponent<Charanimation>();
+        charattacks = GameManager.instance.Player.GetComponent<Charattacks>();
     }
 
     private void Update()
@@ -56,11 +54,24 @@ public class Debug_Section : MonoBehaviour
             case DebugType.PlayerState:
                 if (debugscript.showPlayerState)
                 {
-                    debugText.text = $"Player state is {debugscript.Player.GetComponent<Charcontrol>().currentState}";
+                    debugText.text = $"Player state is {charcontrol.currentState}";
+
+                    if (charcontrol.stateChanged)
+                    {
+                        StopAllCoroutines();
+                        StartCoroutine(Lightblink(0.12f));
+                    }
                 }
                 break;
             default:
                 break;
         }
+    }
+
+    public IEnumerator Lightblink(float duration)
+    {
+        debugLight.color = Color.green;
+        yield return new WaitForSeconds(duration);
+        debugLight.color = Color.white;
     }
 }

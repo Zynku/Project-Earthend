@@ -16,6 +16,7 @@ public class Charcontrol : MonoBehaviour
 
     public State currentState;
     public State lastState;
+    public bool stateChanged;
 
     [Foldout("Variables", true)]
     public float xVel;
@@ -217,6 +218,19 @@ public class Charcontrol : MonoBehaviour
             }
         }
         //Crouching Stuff---------------------------------------------------------------------------------------------------------------------------------------
+
+
+        //State Checks
+        if (currentState == lastState)
+        {
+            stateChanged = false;
+        }
+        else
+        {
+            stateChanged = true;
+            lastState = currentState;
+            Debug.Log($"State changed!");
+        }
 
 
         if (inCombat) { combatStateTime -= Time.deltaTime; }
