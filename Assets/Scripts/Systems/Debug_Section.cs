@@ -11,7 +11,7 @@ public class Debug_Section : MonoBehaviour
     private Debugscript debugscript;
     public Image debugLight;
     public TextMeshProUGUI debugText;
-
+    public TextMeshProUGUI titleText;
 
     Charcontrol charcontrol;
     Charanimation charanimation;
@@ -23,6 +23,7 @@ public class Debug_Section : MonoBehaviour
     {
         DeltaTime,
         ComboBuffer,
+        ComboAttacks,
         PlayerState
     }
 
@@ -32,10 +33,12 @@ public class Debug_Section : MonoBehaviour
         charcontrol = GameManager.instance.Player.GetComponent<Charcontrol>();
         charanimation = GameManager.instance.Player.GetComponent<Charanimation>();
         charattacks = GameManager.instance.Player.GetComponent<Charattacks>();
+        GetComponent<RectTransform>().localScale = Vector3.one;
     }
 
     private void Update()
     {
+        titleText.text = debugType.ToString();
         switch (debugType)
         {
             case DebugType.DeltaTime:
@@ -47,6 +50,7 @@ public class Debug_Section : MonoBehaviour
             case DebugType.ComboBuffer:
                 if (debugscript.showComboBuffer)
                 {
+                    charanimation.comboBufferCleared += LightBlinkEvents;
                     //debugText.text = string.Join(" , ", debugscript.Player.GetComponent<Charanimation>().comboBuffer);
                     debugText.text = string.Join(" , ", debugscript.comboBufferNames);
                 }
@@ -59,18 +63,27 @@ public class Debug_Section : MonoBehaviour
                     if (charcontrol.stateChanged)
                     {
                         StopAllCoroutines();
-                        StartCoroutine(Lightblink(0.12f));
+                        StartCoroutine(Lightblink(0.12f, Color.green));
                     }
                 }
+                break;
+            case DebugType.ComboAttacks:
+                charattacks.attacksCleared += LightBlinkEvents;
+                debugText.text = string.Join(" , ", debugscript.comboAttackNames);
                 break;
             default:
                 break;
         }
     }
 
-    public IEnumerator Lightblink(float duration)
+    public void LightBlinkEvents() //This method essentially calls the LightBlink coroutine, but can subscribe to events since it doesn't have arguments
     {
-        debugLight.color = Color.green;
+        StartCoroutine(Lightblink(0.15f, Color.red));
+    }
+
+    public IEnumerator Lightblink(float duration, Color blinkColor)
+    {
+        debugLight.color = blinkColor;
         yield return new WaitForSeconds(duration);
         debugLight.color = Color.white;
     }

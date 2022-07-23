@@ -18,6 +18,7 @@ public class Debugscript : MonoBehaviour
     public List<Combo> allLightCombosEver, allHeavyCombosEver, allRangedCombosEver, currentPossibleCombos;
     //private List<Combo> comboBuffer;
     [HideInInspector] public List<string> comboBufferNames;
+    [HideInInspector] public List<string> comboAttackNames;
     public comboList theComboList;
     public enum comboList
     {
@@ -35,13 +36,13 @@ public class Debugscript : MonoBehaviour
     public bool showOnScreenDebug;
 
     [Separator("Debug Sections")]
-    public Debug_Section deltaTimeSection;
-    public Debug_Section comboBufferSection;
-    public Debug_Section playerStateSection;
+    public GameObject debugSectionPrefab;
+    public List<GameObject> debugSections;
 
     [Separator("Debug Switches")]
     public bool showDeltaTime;
     public bool showComboBuffer;
+    public bool showComboAttacks;
     public bool showPlayerState;
 
     [Separator("Attacks & Combos")]
@@ -55,6 +56,18 @@ public class Debugscript : MonoBehaviour
             charcontrol = Player.GetComponent<Charcontrol>();
             charattacks = Player.GetComponent<Charattacks>();
         }
+
+        if (showDeltaTime) CreateDebugSection(Debug_Section.DebugType.DeltaTime);
+        if (showComboBuffer) CreateDebugSection(Debug_Section.DebugType.ComboBuffer);
+        if (showComboAttacks) CreateDebugSection(Debug_Section.DebugType.ComboAttacks);
+        if (showPlayerState) CreateDebugSection(Debug_Section.DebugType.PlayerState);
+    }
+
+    public void CreateDebugSection(Debug_Section.DebugType dbt)
+    {
+        GameObject dbs = Instantiate(debugSectionPrefab, Vector3.zero, Quaternion.identity, rightHandSection.gameObject.transform);
+        dbs.GetComponent<Debug_Section>().debugType = dbt;
+        debugSections.Add(dbs);
     }
 
     private void OnDisable()
@@ -75,6 +88,7 @@ public class Debugscript : MonoBehaviour
 
         //comboBuffer = Player.GetComponent<Charanimation>().comboBuffer;
         comboBufferNames = charanimation.comboBuffer.Select(o => o.comboName).ToList();
+        comboAttackNames = charattacks.currentAttacks.Select(o => o.attackType.ToString()).ToList();
 
 
         switch (theComboList)
@@ -129,9 +143,7 @@ public class Debugscript : MonoBehaviour
 
     public void onDebug()
     {
-        deltaTimeSection.gameObject.SetActive(showDeltaTime);
-        comboBufferSection.gameObject.SetActive(showComboBuffer);
-        playerStateSection.gameObject.SetActive(showPlayerState);
+
     }
 
     public void ReassignToPlayer()

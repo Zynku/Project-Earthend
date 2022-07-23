@@ -14558,6 +14558,7 @@ MonoBehaviour:
       attackDamage: 0
       attackType: 1
   comboBufferNames: []
+  comboAttackNames: []
   theComboList: 0
   comboArrayNum: 0
   comboBeingMovedFromPossible:
@@ -14603,11 +14604,11 @@ MonoBehaviour:
       attackDamage: 0
       attackType: 0
   showOnScreenDebug: 1
-  deltaTimeSection: {fileID: 0}
-  comboBufferSection: {fileID: 0}
-  playerStateSection: {fileID: 0}
+  debugSectionPrefab: {fileID: 0}
+  debugSections: []
   showDeltaTime: 0
   showComboBuffer: 0
+  showComboAttacks: 0
   showPlayerState: 0
 --- !u!1 &6856508596298769480
 GameObject:
@@ -30711,6 +30712,7 @@ MonoBehaviour:
       attackDamage: 0
       attackType: 1
   comboBufferNames: []
+  comboAttackNames: []
   theComboList: 0
   comboArrayNum: 0
   comboBeingMovedFromPossible:
@@ -30756,11 +30758,11 @@ MonoBehaviour:
       attackDamage: 0
       attackType: 0
   showOnScreenDebug: 1
-  deltaTimeSection: {fileID: 0}
-  comboBufferSection: {fileID: 0}
-  playerStateSection: {fileID: 0}
+  debugSectionPrefab: {fileID: 0}
+  debugSections: []
   showDeltaTime: 0
   showComboBuffer: 0
+  showComboAttacks: 0
   showPlayerState: 0
 --- !u!114 &6856508596905928445
 MonoBehaviour:

@@ -37,6 +37,9 @@ public class Charanimation : MonoBehaviour
     Charattacks charattacks;
     Chareffects chareffects;
 
+    public delegate void ComboBufferClearEvent();
+    public event ComboBufferClearEvent comboBufferCleared;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -294,6 +297,7 @@ public class Charanimation : MonoBehaviour
                 if (nextCombo.endOfComboChain)
                 {
                     ClearComboBuffer();
+                    ClearAttackList();
                 }
             }
             else if (currentCombo.Count == 0)
@@ -308,6 +312,7 @@ public class Charanimation : MonoBehaviour
     public void ClearComboBuffer()
     {
         comboBuffer.Clear();
+        comboBufferCleared?.Invoke();
     }
 
     public void ClearAttackList()

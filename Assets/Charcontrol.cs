@@ -259,7 +259,7 @@ public class Charcontrol : MonoBehaviour
             case State.COMBAT_Idle:                 //Combat Idle anim inside the animator has a behaviour that forces this state during its animation
                 {
                     charattacks.Combat_Idle();
-                    charanimation.ClearComboBuffer();
+                    //charanimation.ClearComboBuffer();
                     inCombat = true;
 
                     if (combatStateTime == 0) { currentState = State.Idle; }
@@ -274,7 +274,7 @@ public class Charcontrol : MonoBehaviour
                 {
 
                     inCombat = true;
-                    charanimation.ClearComboBuffer();
+                    //charanimation.ClearComboBuffer();
                     combatStateTime = combatStateTargetTime;
 
                     if (Input.GetAxisRaw("Vertical") > 0) { currentState = State.COMBAT_Jumping; }
@@ -286,7 +286,7 @@ public class Charcontrol : MonoBehaviour
                 {
                     inCombat = true;
                     charattacks.Combat_Running();
-                    charanimation.ClearComboBuffer();
+                    //charanimation.ClearComboBuffer();
                     combatStateTime = combatStateTargetTime;
                     checkforSwitchingDir();
 
@@ -303,7 +303,7 @@ public class Charcontrol : MonoBehaviour
 
                     inCombat = true;
                     combatStateTime = combatStateTargetTime;
-                    charanimation.ClearComboBuffer();
+                    //charanimation.ClearComboBuffer();
                     Jumping();
                     //Transition to Falling
                     if (rb2d.velocity.y < fallThreshold)
@@ -321,7 +321,7 @@ public class Charcontrol : MonoBehaviour
             case State.COMBAT_AirJumping:
                 {
                     inCombat = true;
-                    charanimation.ClearComboBuffer();
+                    //charanimation.ClearComboBuffer();
                     combatStateTime = combatStateTargetTime;
                     AirJump();
                     //Transition to Falling

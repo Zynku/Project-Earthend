@@ -51,6 +51,10 @@ public class Charattacks : MonoBehaviour
     public float screenShakeIntensity;
     public float screenShakeTime;
 
+
+    public delegate void AttackClearEvent();
+    public event AttackClearEvent attacksCleared;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -250,6 +254,7 @@ public class Charattacks : MonoBehaviour
     {
         currentlyComboing = false;
         currentAttacks.Clear();
+        attacksCleared?.Invoke();   //Invokes attack cleared event;
     }
 
     public void AnimateCombos(Combo combo)
