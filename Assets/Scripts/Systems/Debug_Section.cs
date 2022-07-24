@@ -12,6 +12,7 @@ public class Debug_Section : MonoBehaviour
     public Image debugLight;
     public TextMeshProUGUI debugText;
     public TextMeshProUGUI titleText;
+    private Color thisColor;    //Color this gameObject's light changes to.
 
     Charcontrol charcontrol;
     Charanimation charanimation;
@@ -24,6 +25,7 @@ public class Debug_Section : MonoBehaviour
         DeltaTime,
         ComboBuffer,
         ComboAttacks,
+        AttackInputs,
         PlayerState
     }
 
@@ -42,43 +44,56 @@ public class Debug_Section : MonoBehaviour
         switch (debugType)
         {
             case DebugType.DeltaTime:
-                if (debugscript.showDeltaTime)
-                {
-                    debugText.text = $"Delta time is {Time.deltaTime}";
-                }
+                debugText.text = $"Delta time is {Time.deltaTime}";
                 break;
             case DebugType.ComboBuffer:
-                if (debugscript.showComboBuffer)
+                thisColor = Color.red;
+                charanimation.comboBufferCleared += DoLightBlink;
+                //debugText.text = string.Join(" , ", debugscript.Player.GetComponent<Charanimation>().comboBuffer);
+                string comboBufferString = string.Join(" , ", debugscript.comboBufferNames);
+                if (comboBufferString.Length > 0)
                 {
-                    charanimation.comboBufferCleared += LightBlinkEvents;
-                    //debugText.text = string.Join(" , ", debugscript.Player.GetComponent<Charanimation>().comboBuffer);
-                    debugText.text = string.Join(" , ", debugscript.comboBufferNames);
+                    debugText.text = comboBufferString;
                 }
-                break;
-            case DebugType.PlayerState:
-                if (debugscript.showPlayerState)
+                else
                 {
-                    debugText.text = $"Player state is {charcontrol.currentState}";
-
-                    if (charcontrol.stateChanged)
-                    {
-                        StopAllCoroutines();
-                        StartCoroutine(Lightblink(0.12f, Color.green));
-                    }
+                    debugText.text = $" -~- ";
                 }
                 break;
             case DebugType.ComboAttacks:
-                charattacks.attacksCleared += LightBlinkEvents;
-                debugText.text = string.Join(" , ", debugscript.comboAttackNames);
+                thisColor = Color.red;
+                charattacks.attacksCleared += DoLightBlink;
+                string comboAttackString = string.Join(" , ", debugscript.comboAttackNames);
+                if (comboAttackString.Length > 0)
+                {
+                    debugText.text = comboAttackString;
+                }
+                else
+                {
+                    debugText.text = $" -~- ";
+                }
+                break;
+            case DebugType.AttackInputs:
+                thisColor = Color.yellow;
+                charattacks.attackInputRegistered += DoLightBlink;
+                debugText.text = $" -~- ";
+                break;
+            case DebugType.PlayerState:
+                debugText.text = $"Player state is {charcontrol.currentState}";
+                if (charcontrol.stateChanged)
+                {
+                    StopAllCoroutines();
+                    StartCoroutine(Lightblink(0.12f, Color.green));
+                }
                 break;
             default:
                 break;
         }
     }
 
-    public void LightBlinkEvents() //This method essentially calls the LightBlink coroutine, but can subscribe to events since it doesn't have arguments
+    public void DoLightBlink() //This method essentially calls the LightBlink coroutine, but can subscribe to events since it doesn't have arguments
     {
-        StartCoroutine(Lightblink(0.15f, Color.red));
+        StartCoroutine(Lightblink(0.15f, thisColor));
     }
 
     public IEnumerator Lightblink(float duration, Color blinkColor)

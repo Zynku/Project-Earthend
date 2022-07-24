@@ -43,6 +43,7 @@ public class Debugscript : MonoBehaviour
     public bool showDeltaTime;
     public bool showComboBuffer;
     public bool showComboAttacks;
+    public bool showAttackInputs;
     public bool showPlayerState;
 
     [Separator("Attacks & Combos")]
@@ -60,6 +61,7 @@ public class Debugscript : MonoBehaviour
         if (showDeltaTime) CreateDebugSection(Debug_Section.DebugType.DeltaTime);
         if (showComboBuffer) CreateDebugSection(Debug_Section.DebugType.ComboBuffer);
         if (showComboAttacks) CreateDebugSection(Debug_Section.DebugType.ComboAttacks);
+        if (showAttackInputs) CreateDebugSection(Debug_Section.DebugType.AttackInputs);
         if (showPlayerState) CreateDebugSection(Debug_Section.DebugType.PlayerState);
     }
 
@@ -132,17 +134,11 @@ public class Debugscript : MonoBehaviour
         if (showOnScreenDebug)
         {
             rightHandSection.gameObject.SetActive(true);
-            onDebug();
         }
         else
         {
             rightHandSection.gameObject.SetActive(false);
         }
-
-    }
-
-    public void onDebug()
-    {
 
     }
 

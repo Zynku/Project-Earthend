@@ -14609,6 +14609,7 @@ MonoBehaviour:
   showDeltaTime: 0
   showComboBuffer: 0
   showComboAttacks: 0
+  showAttackInputs: 0
   showPlayerState: 0
 --- !u!1 &6856508596298769480
 GameObject:
@@ -30763,6 +30764,7 @@ MonoBehaviour:
   showDeltaTime: 0
   showComboBuffer: 0
   showComboAttacks: 0
+  showAttackInputs: 0
   showPlayerState: 0
 --- !u!114 &6856508596905928445
 MonoBehaviour:

@@ -55,6 +55,9 @@ public class Charattacks : MonoBehaviour
     public delegate void AttackClearEvent();
     public event AttackClearEvent attacksCleared;
 
+    public delegate void AttackInputEvent();
+    public event AttackInputEvent attackInputRegistered;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -151,7 +154,7 @@ public class Charattacks : MonoBehaviour
                 currentAttacks.Add(newattack);
                 //comboSustainTime = comboSustainTargetTime;              //Resets the combo sustain timer
                 inputTime = inputTargetTime;                            //Resets input timer
-
+                attackInputRegistered?.Invoke();
                 CheckforCombos();
             }
             buttonHeldFloat = 0;
@@ -163,7 +166,7 @@ public class Charattacks : MonoBehaviour
             Attack newattack = new Attack("Heavy", heavyDamageMin, Attack.AttackType.HEAVY);
             currentAttacks.Add(newattack);
             //comboSustainTime = comboSustainTargetTime;
-
+            attackInputRegistered?.Invoke();
             CheckforCombos();
         }
 
@@ -172,7 +175,7 @@ public class Charattacks : MonoBehaviour
             Attack newattack = new Attack("Ranged", rangedDamageMin, Attack.AttackType.RANGED);
             currentAttacks.Add(newattack);
             //comboSustainTime = comboSustainTargetTime;
-
+            attackInputRegistered?.Invoke();
             CheckforCombos();
         }
 
