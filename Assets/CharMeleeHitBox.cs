@@ -16,7 +16,7 @@ public class CharMeleeHitBox : MonoBehaviour
         charanimation = Player.GetComponent<Charanimation>();
     }
 
-    public void OnTriggerEnter2D(Collider2D collision)  //Please put this somewhere that makes sense
+    public void OnTriggerEnter2D(Collider2D collision)  //Passes information to charattacks since that script should have all the logic relating the enemy collisions
     {
         charattacks.HitEnemy(collision.gameObject, charanimation.currentCombo[0].attackList[0].attackType);    //Gets the first attack in the attack list to determine what type of attack it is
     }

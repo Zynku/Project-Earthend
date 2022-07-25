@@ -88,9 +88,9 @@ public class Player_Manager : MonoBehaviour
         foreach (var col in boxCols)    //Disables melee gameObjects
         {
             GameObject colGO = col.gameObject;
-            if (colGO.tag == "player_attackhitbox")
+            if (colGO.CompareTag("player_attackhitbox"))
             {
-                colGO.SetActive(false);
+                colGO.SetActive(true);
             }
         }
 
@@ -125,7 +125,7 @@ public class Player_Manager : MonoBehaviour
             GameObject colGO = col.gameObject;
             if (colGO.tag == "player_attackhitbox")
             {
-                colGO.SetActive(false);
+                colGO.SetActive(true);
             }
         }
 
