@@ -32,7 +32,7 @@ public class Healthbar : MonoBehaviour
         smoothTimer = 0;
         while (smoothTimer <= smoothTargetTime)
         {
-            Debug.Log("Smooth health values");
+            //Debug.Log("Smooth health values");
             smoothTimer += Time.deltaTime;
             float timer = smoothTimer / smoothTargetTime;
             float currentValue = Mathf.SmoothStep(startHealth, endHealth, timer);

@@ -14,17 +14,18 @@ public class Charhealth : MonoBehaviour
     private int damageDoneToMeMax;
     private int damageDoneToMeMin;
     public int damageDoneToMe;
-    private float dmgCooldown;
+    
+    public bool onDamageCoolDown;
     [HideInInspector] public float collisionDir = 1f;
-    [HideInInspector] public float dmgCooldownTargetTime = 0.1f;
+    public float dmgCooldownTime;
+    public float dmgCooldownTargetTime = 0.1f;
     public GameObject floatingDmgTextPrefab;
     public GameObject floatingHealthTextPrefab;
     public Vector3 dmgTextOffset;
     public Healthbar healthbarOver;
     public Healthbar healthbarUnder;
     public int level = 1;
-    public delegate void gotHit();
-    public static event gotHit Hit;
+    
     [ReadOnly] public bool playerDead;
 
     [Header("StatusEffects")]
@@ -36,6 +37,9 @@ public class Charhealth : MonoBehaviour
     private float poisonTickTimer;
     public bool frozen;
     public bool onFire;
+
+    public delegate void gotHit();
+    public static event gotHit Hit;
 
     private void Awake()
     {
@@ -70,8 +74,8 @@ public class Charhealth : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        dmgCooldown -= Time.deltaTime;
-        if (dmgCooldown < 0) { dmgCooldown = 0;}
+        if (dmgCooldownTime > 0) { dmgCooldownTime -= Time.deltaTime; onDamageCoolDown = true; }
+        else { onDamageCoolDown = false; }
 
         //Stops health from overflowing or underflowing
         if (currentHealth > maxHealth) {currentHealth = maxHealth;}
@@ -154,7 +158,7 @@ public class Charhealth : MonoBehaviour
     //Instantiates dmg text, gives it dmg value to display
     public void TakeDamage(int damage)
     {
-        if (dmgCooldown <= 0 && currentHealth > 0)
+        if (dmgCooldownTime <= 0 && currentHealth > 0)
         {
             currentHealth -= damage;
             healthbarOver.SetHealth(currentHealth);
@@ -164,11 +168,8 @@ public class Charhealth : MonoBehaviour
             floattext.GetComponent<TMPro.TextMeshPro>().text = damage.ToString();
             //Applies force to show direction hit from.
             floattext.GetComponent<Rigidbody2D>().AddForce(new Vector2(collisionDir, 0), ForceMode2D.Impulse);
-            dmgCooldown = dmgCooldownTargetTime;
-            if (Hit != null)
-            {
-                Hit();
-            }
+            dmgCooldownTime = dmgCooldownTargetTime;
+            Hit?.Invoke();
         }
     }
 

@@ -19,7 +19,6 @@ public class devlab_turret : MonoBehaviour
     public List<Sprite> turretLightColors;
 
     [Foldout("Audio", true)]
-    public GameObject energyBulletPrefab;
     [Range(0f, 1f)] public float shootingVolume = 1;
     public AudioClip[] shootingSounds;
     [Range(0f, 1f)] public float activateVolume = 1;
@@ -33,6 +32,7 @@ public class devlab_turret : MonoBehaviour
     private bool alertPlayed;
 
     [Foldout("Bullets", true)]
+    public GameObject energyBulletPrefab;
     public float bulletSpeed;
     public float bulletDelay;
     public float randomBulletRotOffset;
@@ -46,6 +46,7 @@ public class devlab_turret : MonoBehaviour
 
     [Foldout("Variables", true)]
     public float rotationSpeed;
+    public float maxDamage, minDamage;
     public float gunRotation;
     public bool targetPlayer;
     public bool onCoolDown;
@@ -146,6 +147,8 @@ public class devlab_turret : MonoBehaviour
         bullet.transform.eulerAngles = new Vector3(0, 0, turretGun.transform.eulerAngles.z + 90f + randomBulletOffset);
         devlab_energy_bullet bulletscripp = bullet.GetComponent<devlab_energy_bullet>();
         bulletscripp.speed = bulletSpeed;
+        bulletscripp.maxDamage = maxDamage;
+        bulletscripp.minDamage = minDamage;
         bulletscripp.firedFrom = gameObject;
         bulletscripp.target = target;
 

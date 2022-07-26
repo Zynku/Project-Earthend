@@ -21,9 +21,23 @@ public class devlab_energy_bullet : MonoBehaviour
 
     private void OnTriggerStay2D(Collider2D collision)
     {
-        if (collision.CompareTag("Walls") || collision.CompareTag("Ground"))
+        switch (collision.tag)
         {
-            Destroy(gameObject);
+            case "Walls":
+                Destroy(gameObject);
+                break;
+
+            case "Ground":
+                Destroy(gameObject);
+                break;
+
+            case "Player":
+                int randomDamage = Mathf.FloorToInt(Random.Range(minDamage, maxDamage));
+                collision.GetComponent<Charhealth>().TakeDamage(randomDamage);
+                break;
+
+            default:
+                break;
         }
     }
 }

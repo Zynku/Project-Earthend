@@ -5,7 +5,6 @@ using MyBox;
 
 public class Charaudio : MonoBehaviour
 {
-    [Foldout("Variables", true)]
     Charanimation charanimation;
     //Check some Animation States for sound initialization
     [Header("Object audio")]
@@ -40,11 +39,10 @@ public class Charaudio : MonoBehaviour
     [Range(0f, 1f)]
     public float voiceSwingVolume = 1;
 
-    [SerializeField] private AudioClip[] voice_get_hit;
-    [Range(0f, 1f)]
-    public float voiceGetHitVolume = 1;
+    [SerializeField] private AudioClip[] voiceBeenHit;
+    [Range(0f, 1f)] public float voiceBeenHitVol = 1;
 
-    public bool Jumped;
+    [HideInInspector] public bool Jumped;
     private AudioSource audiosource;
 
 
@@ -52,11 +50,14 @@ public class Charaudio : MonoBehaviour
     {
         audiosource = GetComponent<AudioSource>();
         charanimation = GetComponent<Charanimation>();
+
+        Enemyhealth.EnemyBeenHit += HitSomething;
+        Charhealth.Hit += BeenHit;
     }
 
     private void Update()
     {
-        Enemyhealth.EnemyBeenHit += HitSomething;
+       
     }
 
     public void AudOnFootStep()
@@ -115,17 +116,6 @@ public class Charaudio : MonoBehaviour
     }
 
 
-    public void AudVoiceonGetHit()
-    {
-        if (voice_get_hit != null)
-        {
-            audiosource.volume = voiceGetHitVolume;
-            audiosource.pitch = 1;
-            audiosource.clip = voice_get_hit[Random.Range(0, voice_get_hit.Length)];
-            audiosource.Play();
-        }
-    }
-
     public void AudMeleeSwing()
     {
         Combo currentCombo = charanimation.currentCombo[0];
@@ -147,6 +137,13 @@ public class Charaudio : MonoBehaviour
         }
     }
 
+    public void BeenHit()
+    {
+        audiosource.volume = voiceBeenHitVol;
+        audiosource.pitch = 1;
+        audiosource.PlayOneShot(voiceBeenHit?[Random.Range(0, voiceBeenHit.Length - 1)]);
+    }
+
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
@@ -164,15 +161,7 @@ public class Charaudio : MonoBehaviour
         }
         if (collision.gameObject.CompareTag("enemy_attackhitbox"))
         {
-            if (voice_get_hit != null)
-            {
-                audiosource.volume = voiceGetHitVolume;
-                audiosource.pitch = 1;
-                int randomNumber = Random.Range(0, voice_get_hit.Length);
-                audiosource.clip = voice_get_hit[randomNumber];
-                Debug.Log(randomNumber + " was used to play audio");
-                audiosource.Play();
-            }
+            BeenHit();
         }
     }
 }

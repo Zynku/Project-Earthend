@@ -8,6 +8,8 @@ public class Chareffects : MonoBehaviour
 {
     Charcontrol charcontrol;
     Charattacks charattacks;
+    Charhealth charhealth;
+    SpriteRenderer spriteRenderer;
 
     [Foldout("Initialization Fields", true)]
     [Header("Assign Please!")]
@@ -16,12 +18,23 @@ public class Chareffects : MonoBehaviour
     public GameObject meleeFX;
     Animator meleeFXAnim;
 
+    public float IFrameBlinkDelayStart; //The time between each blink at the start of the effect. Will slowly lerp to end delay
+    public float IFrameBlinkDelayEnd;
+    public float IFrameBlinkDelayCurr;  //What is the value currently
+    public float IFrameBlinkTest;
+
+    private float damageCoolDownTimeRef;
+    private float damageCoolDownTargetTimeRef;
+
     // Start is called before the first frame update
     void Start()
     {
         charcontrol = GetComponent<Charcontrol>();
         meleeFXAnim = meleeFX.GetComponent<Animator>();
         charattacks = GetComponent<Charattacks>();
+        charhealth = GetComponent<Charhealth>();
+        spriteRenderer = GetComponent<SpriteRenderer>();
+        Charhealth.Hit += IframeBlink;
     }
 
     // Update is called once per frame
@@ -29,6 +42,17 @@ public class Chareffects : MonoBehaviour
     {
         DoMovementParticles();
         DoJumpParticles();
+        if (!charhealth.onDamageCoolDown)
+        {
+            IFrameBlinkDelayCurr = IFrameBlinkDelayStart;
+        }
+        else
+        {
+            damageCoolDownTargetTimeRef = charhealth.dmgCooldownTargetTime;
+            damageCoolDownTimeRef = charhealth.dmgCooldownTime;
+            StartCoroutine(CalculateIFrameBlinkDelay());
+            StartCoroutine(DoIframeBlink());
+        }
     }
 
     bool runParticlesTriggered;
@@ -72,6 +96,37 @@ public class Chareffects : MonoBehaviour
     public void DoScreenShakeManual()
     {
         StartCoroutine(GameManager.instance.DoScreenShake(charattacks.screenShakeIntensity, charattacks.screenShakeTime));
+    }
+
+    public void IframeBlink()
+    {
+        //StopCoroutine(DoIframeBlink());
+        //StartCoroutine(DoIframeBlink());
+    }
+
+    public IEnumerator CalculateIFrameBlinkDelay()
+    {
+        while (damageCoolDownTimeRef >= 0)
+        {
+            float elapsedTime = damageCoolDownTimeRef / damageCoolDownTargetTimeRef;
+            IFrameBlinkDelayCurr = Mathf.Lerp(IFrameBlinkDelayEnd, IFrameBlinkDelayStart, elapsedTime);
+            yield return null;
+        }
+    }
+
+    public IEnumerator DoIframeBlink()
+    {
+        while (damageCoolDownTimeRef >= 0)
+        {
+            //spriteRenderer.color = new Color(spriteRenderer.color.r, spriteRenderer.color.g, spriteRenderer.color.b, 0);    //Set player sprite to transparent
+            Debug.Log("Disabling renderer");
+            spriteRenderer.enabled = false;
+            yield return new WaitForSeconds(IFrameBlinkTest);
+            //spriteRenderer.color = new Color(spriteRenderer.color.r, spriteRenderer.color.g, spriteRenderer.color.b, 1);    //Set player sprite to opaque
+            Debug.Log("Enabling renderer");
+            spriteRenderer.enabled = true;
+            yield return new WaitForSeconds(IFrameBlinkTest);
+        }
     }
 
     public void PlayMeleeSwingFX(string animName)

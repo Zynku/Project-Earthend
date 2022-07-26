@@ -30,7 +30,7 @@ public class BGAudioScript : MonoBehaviour
         audiosource.Stop();
         audiosource.clip = audioClips[clipnumber];
         audiosource.Play();
-        Debug.Log($"Playing {audioClips[clipnumber].name}");
+        //Debug.Log($"Playing {audioClips[clipnumber].name}");
     }
 
     public void RestartCurrentAudio()
@@ -93,7 +93,7 @@ public class BGAudioScript : MonoBehaviour
 
     public void RemoveMixerLowPass(AudioMixer audioMixer)
     {
-        Debug.Log("Resetting low pass");
+        //Debug.Log("Resetting low pass");
         StopAllCoroutines();
         audioMixer.SetFloat("MasterLowPassCutoffFreq", 22000f);  //The max cutoff freq, effectively bypassing it
     }
