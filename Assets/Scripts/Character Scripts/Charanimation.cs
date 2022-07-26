@@ -300,12 +300,6 @@ public class Charanimation : MonoBehaviour
                     ClearAttackList();
                 }
             }
-            else if (currentCombo.Count == 0)
-            {
-                ClearComboBuffer();
-                ClearAttackList();
-                Debug.Log($"Current combo is empty, clearing attack list and combo list");
-            }
         }
     }
 

@@ -93,7 +93,7 @@ public class Debug_Section : MonoBehaviour
 
     public void DoLightBlink() //This method essentially calls the LightBlink coroutine, but can subscribe to events since it doesn't have arguments
     {
-        StartCoroutine(Lightblink(0.15f, thisColor));
+        if (debugscript.showOnScreenDebug) { StartCoroutine(Lightblink(0.15f, thisColor)); }
     }
 
     public IEnumerator Lightblink(float duration, Color blinkColor)

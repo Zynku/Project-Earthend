@@ -2075,34 +2075,6 @@ AnimationClip:
     floatParameter: 0
     intParameter: 20
     messageOptions: 0
-  - time: 0.06666667
-    functionName: onAddAttackForceHorizontal
-    data: 
-    objectReferenceParameter: {fileID: 0}
-    floatParameter: 0
-    intParameter: 20
-    messageOptions: 0
-  - time: 0.1
-    functionName: onAddAttackForceHorizontal
-    data: 
-    objectReferenceParameter: {fileID: 0}
-    floatParameter: 0
-    intParameter: 20
-    messageOptions: 0
-  - time: 0.13333334
-    functionName: onAddAttackForceHorizontal
-    data: 
-    objectReferenceParameter: {fileID: 0}
-    floatParameter: 0
-    intParameter: 20
-    messageOptions: 0
-  - time: 0.16666667
-    functionName: onAddAttackForceHorizontal
-    data: 
-    objectReferenceParameter: {fileID: 0}
-    floatParameter: 0
-    intParameter: 20
-    messageOptions: 0
   - time: 0.2
     functionName: onAddAttackForceVertical
     data: 
@@ -2110,45 +2082,10 @@ AnimationClip:
     floatParameter: 0
     intParameter: 50
     messageOptions: 0
-  - time: 0.23333333
-    functionName: onAddAttackForceHorizontal
-    data: 
-    objectReferenceParameter: {fileID: 0}
-    floatParameter: 0
-    intParameter: 20
-    messageOptions: 0
-  - time: 0.26666668
-    functionName: onAddAttackForceHorizontal
-    data: 
-    objectReferenceParameter: {fileID: 0}
-    floatParameter: 0
-    intParameter: 20
-    messageOptions: 0
-  - time: 0.3
-    functionName: onAddAttackForceHorizontal
-    data: 
-    objectReferenceParameter: {fileID: 0}
-    floatParameter: 0
-    intParameter: 20
-    messageOptions: 0
-  - time: 0.33333334
-    functionName: onAddAttackForceHorizontal
-    data: 
-    objectReferenceParameter: {fileID: 0}
-    floatParameter: 0
-    intParameter: 20
-    messageOptions: 0
   - time: 0.36666667
     functionName: AudMeleeSwing
     data: 
     objectReferenceParameter: {fileID: 0}
     floatParameter: 0
     intParameter: 0
-    messageOptions: 0
-  - time: 0.4
-    functionName: onAddAttackForceHorizontal
-    data: 
-    objectReferenceParameter: {fileID: 0}
-    floatParameter: 0
-    intParameter: 20
     messageOptions: 0

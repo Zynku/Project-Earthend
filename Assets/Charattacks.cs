@@ -16,7 +16,7 @@ public class Charattacks : MonoBehaviour
     CharMeleeHitBox charMeleeHitBox;
 
     [Separator("Combo Lists")]
-    public List<ComboFamily> comboFamilies;
+    private List<ComboFamily> comboFamilies;
     public List<Combo> allLightCombosEver;  //Set these in inspector
     public List<Combo> allHeavyCombosEver;
     public List<Combo> allRangedCombosEver;
@@ -25,7 +25,7 @@ public class Charattacks : MonoBehaviour
     public List<Combo> comboBufferRef;  //Reference to the charanimation combo buffer
 
     [Separator("Current Combo")]
-    public List<Combo> currentComboRef; //Don't ask me why it's a list. Refer to charanimation to see what past me wrote
+    [HideInInspector] public List<Combo> currentComboRef; //Don't ask me why it's a list. Refer to charanimation to see what past me wrote
     public bool currentlyComboing;
 
     [Separator("Combo Management Timers")]
@@ -37,12 +37,12 @@ public class Charattacks : MonoBehaviour
     public float buttonHeldThreshold;           //How much time needs to pass (measured from time.deltaTime) for the button to be considered as "held"
     public float clearAttacksDelay;              //How long should we wait before receiving the command to clear the attack list.
 
-    [Separator("Misc")]
-    public int longestComboLength;
-    public Combo longestCombo;
+    [HideInInspector] public int longestComboLength;
+    [HideInInspector] public Combo longestCombo;
 
     [Separator("Damage Variables")]
-    public int lightDamageMax, lightDamageMin;
+    public int lightDamageMax;
+    public int lightDamageMin;
     public int heavyDamageMax, heavyDamageMin;
     public int rangedDamageMax, rangedDamageMin;
     public int currentDamageMax, currentDamageMin;
@@ -126,8 +126,9 @@ public class Charattacks : MonoBehaviour
                     Debug.Log($"Light attack is being held");
                     Attack newattack = new Attack("Light_Held", lightDamageMin, Attack.AttackType.LIGHT_HELD);
                     currentAttacks.Add(newattack);
-                    attackInputRegistered?.Invoke();
+                    canAcceptAttackInput = false;
                     CheckforCombos();
+                    attackInputRegistered?.Invoke();
                     buttonHeldFloat = 0;
                 }
             }
@@ -144,8 +145,9 @@ public class Charattacks : MonoBehaviour
                     //Debug.Log("Light!");
                     Attack newattack = new Attack("Light", lightDamageMin, Attack.AttackType.LIGHT);
                     currentAttacks.Add(newattack);
-                    attackInputRegistered?.Invoke();
+                    canAcceptAttackInput = false;
                     CheckforCombos();
+                    attackInputRegistered?.Invoke();
                 }
                 buttonHeldFloat = 0;
             }
@@ -155,16 +157,18 @@ public class Charattacks : MonoBehaviour
                 //Debug.Log("Heavy!");
                 Attack newattack = new Attack("Heavy", heavyDamageMin, Attack.AttackType.HEAVY);
                 currentAttacks.Add(newattack);
-                attackInputRegistered?.Invoke();
+                canAcceptAttackInput = false;
                 CheckforCombos();
+                attackInputRegistered?.Invoke();
             }
 
             if (Input.GetButtonDown("Ranged Attack"))
             {
                 Attack newattack = new Attack("Ranged", rangedDamageMin, Attack.AttackType.RANGED);
                 currentAttacks.Add(newattack);
-                attackInputRegistered?.Invoke();
                 CheckforCombos();
+                canAcceptAttackInput = false;
+                attackInputRegistered?.Invoke();
             }
         }
     }
@@ -178,7 +182,7 @@ public class Charattacks : MonoBehaviour
         if (currentComboRef.Count > 0)
         {
             float newComboChainTimeLoc = currentComboRef[0].comboChainTimeLocation - comboChainTimeLocLeeway;
-            if (currentAnimSInfo.normalizedTime >= newComboChainTimeLoc)
+            if (currentAnimSInfo.normalizedTime >= newComboChainTimeLoc)    //If we pass the combo's chain time location + the offset, consider it enough time passing for inputs to be allowed again
             {
                 canAcceptAttackInput = true;
             }
@@ -214,10 +218,7 @@ public class Charattacks : MonoBehaviour
     {
         charcontrol.canFlipXDir();
         //Get the current longest combo. If the current attacks length exceeds that, it means no combo will be possible and inputs will just be added for no reason. Clear the attack list
-        if (currentAttacks.Count > longestComboLength + 1)
-        {
-            ClearAttackList();
-        }
+        if (currentAttacks.Count > longestComboLength + 1) { ClearAttackList(); }
 
         foreach (Combo combo in currentPossibleCombos)
         {
@@ -236,10 +237,7 @@ public class Charattacks : MonoBehaviour
                             AnimateCombos(combo);
 
                             if (combo.canChangeState) { StartCoroutine(charanimation.ComboCharcontrolStates(combo)); } //Checks the current combo to see if it requires a state change
-                            if (combo.endOfComboChain) 
-                            { 
-                                ClearAttackList(); 
-                            }
+                            if (combo.endOfComboChain) { ClearAttackList(); }
                             break;
                         }
                     }
@@ -258,6 +256,7 @@ public class Charattacks : MonoBehaviour
     public void ClearAttackList()
     {
         currentlyComboing = false;
+        StopCoroutine(ClearAttackListDelay());
         StartCoroutine(ClearAttackListDelay());
     }
 

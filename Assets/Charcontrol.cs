@@ -63,6 +63,7 @@ public class Charcontrol : MonoBehaviour
 
     [Foldout("Dodging Variables", true)]
     public bool rolled = false;
+    public float dodgeForce;    //The amount of force applied on dodging;
     [SerializeField] private float rollDrag = 0.5f;
 
     [Foldout("Jump Variables", true)]
@@ -1036,7 +1037,7 @@ public class Charcontrol : MonoBehaviour
     public void onDodge(int force)  //This function called on the last frame of the dodge animation via AnimationEvent
     {
         rb2d.velocity = new Vector2(0f, 0f);
-        rb2d.AddForce(new Vector2 (rb2d.velocity.x + (force * facingDir), rb2d.velocity.y));
+        rb2d.AddForce(new Vector2 (rb2d.velocity.x + (dodgeForce * facingDir), rb2d.velocity.y));
         rolled = true;
     }
 

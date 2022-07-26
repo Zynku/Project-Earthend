@@ -1865,28 +1865,7 @@ AnimationClip:
     floatParameter: 0
     intParameter: 30
     messageOptions: 0
-  - time: 0.06557377
-    functionName: onAddAttackForceHorizontal
-    data: 
-    objectReferenceParameter: {fileID: 0}
-    floatParameter: 0
-    intParameter: 30
-    messageOptions: 0
-  - time: 0.08196721
-    functionName: onAddAttackForceHorizontal
-    data: 
-    objectReferenceParameter: {fileID: 0}
-    floatParameter: 0
-    intParameter: 30
-    messageOptions: 0
   - time: 0.09836066
-    functionName: onAddAttackForceHorizontal
-    data: 
-    objectReferenceParameter: {fileID: 0}
-    floatParameter: 0
-    intParameter: 30
-    messageOptions: 0
-  - time: 0.114754096
     functionName: onAddAttackForceHorizontal
     data: 
     objectReferenceParameter: {fileID: 0}
