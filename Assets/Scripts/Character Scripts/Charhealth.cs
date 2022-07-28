@@ -17,7 +17,7 @@ public class Charhealth : MonoBehaviour
     
     public bool onDamageCoolDown;
     [HideInInspector] public float collisionDir = 1f;
-    public float dmgCooldownTime;
+    [ReadOnly] public float dmgCooldownTime;
     public float dmgCooldownTargetTime = 0.1f;
     public GameObject floatingDmgTextPrefab;
     public GameObject floatingHealthTextPrefab;
@@ -160,6 +160,7 @@ public class Charhealth : MonoBehaviour
     {
         if (dmgCooldownTime <= 0 && currentHealth > 0)
         {
+            dmgCooldownTime = dmgCooldownTargetTime;
             currentHealth -= damage;
             healthbarOver.SetHealth(currentHealth);
             healthbarUnder.SetHealth(currentHealth);
@@ -168,7 +169,6 @@ public class Charhealth : MonoBehaviour
             floattext.GetComponent<TMPro.TextMeshPro>().text = damage.ToString();
             //Applies force to show direction hit from.
             floattext.GetComponent<Rigidbody2D>().AddForce(new Vector2(collisionDir, 0), ForceMode2D.Impulse);
-            dmgCooldownTime = dmgCooldownTargetTime;
             Hit?.Invoke();
         }
     }

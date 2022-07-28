@@ -18,11 +18,10 @@ public class Chareffects : MonoBehaviour
     public GameObject meleeFX;
     Animator meleeFXAnim;
 
-    public float IFrameBlinkDelayStart; //The time between each blink at the start of the effect. Will slowly lerp to end delay
+    public float IFrameBlinkDelayStart; //The time between each blink at the start of the effect. Will lerp to end delay
     public float IFrameBlinkDelayEnd;
-    public float IFrameBlinkDelayCurr;  //What is the value currently
-    public float IFrameBlinkTest;
-
+    [ReadOnly] public float IFrameBlinkDelayCurr;  //What is the value currently
+    public bool IFrameBlinking;         //Are we blinking?
     private float damageCoolDownTimeRef;
     private float damageCoolDownTargetTimeRef;
 
@@ -51,8 +50,17 @@ public class Chareffects : MonoBehaviour
             damageCoolDownTargetTimeRef = charhealth.dmgCooldownTargetTime;
             damageCoolDownTimeRef = charhealth.dmgCooldownTime;
             StartCoroutine(CalculateIFrameBlinkDelay());
-            StartCoroutine(DoIframeBlink());
         }
+
+        if(damageCoolDownTimeRef <= 0 && IFrameBlinking)  //If we're off the damage cooldown
+        {
+            StopCoroutine(DoIframeBlink());
+            IFrameBlinking = false;
+            spriteRenderer.enabled = true;
+        }
+
+        //if (Input.GetKeyDown(KeyCode.Y)) { IFrameBlinkToggle ^= true; } //Apparently ^= is the XOR operator, so it inverts the value of the left hand side
+        //if (IFrameBlinkToggle && !IFrameBlinking) { StartCoroutine(DoIframeBlink()); IFrameBlinking = true; }
     }
 
     bool runParticlesTriggered;
@@ -100,8 +108,11 @@ public class Chareffects : MonoBehaviour
 
     public void IframeBlink()
     {
-        //StopCoroutine(DoIframeBlink());
-        //StartCoroutine(DoIframeBlink());
+        if (!IFrameBlinking)
+        {
+            IFrameBlinking = true;
+            StartCoroutine(DoIframeBlink()); 
+        }
     }
 
     public IEnumerator CalculateIFrameBlinkDelay()
@@ -116,16 +127,16 @@ public class Chareffects : MonoBehaviour
 
     public IEnumerator DoIframeBlink()
     {
-        while (damageCoolDownTimeRef >= 0)
+        yield return new WaitForSeconds(0.05f); //This ensures there's enough time for the damagecooldown value to update since I had issues with the next time checking too quickly
+        if(damageCoolDownTimeRef >= 0)  //This coroutine will run once as long as it we're on damage cool down. It's called again futher down and will do it again if we're still true
         {
-            //spriteRenderer.color = new Color(spriteRenderer.color.r, spriteRenderer.color.g, spriteRenderer.color.b, 0);    //Set player sprite to transparent
-            Debug.Log("Disabling renderer");
+            IFrameBlinking = true;
+            //Debug.Log("Disabling renderer");
             spriteRenderer.enabled = false;
-            yield return new WaitForSeconds(IFrameBlinkTest);
-            //spriteRenderer.color = new Color(spriteRenderer.color.r, spriteRenderer.color.g, spriteRenderer.color.b, 1);    //Set player sprite to opaque
-            Debug.Log("Enabling renderer");
+            yield return new WaitForSeconds(IFrameBlinkDelayCurr);
+            //Debug.Log("Enabling renderer");
             spriteRenderer.enabled = true;
-            yield return new WaitForSeconds(IFrameBlinkTest);
+            StartCoroutine(DoIframeBlink());    //Make sure this loops as long as it needs to
         }
     }
 

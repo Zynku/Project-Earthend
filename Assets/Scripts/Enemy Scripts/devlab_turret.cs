@@ -143,7 +143,7 @@ public class devlab_turret : MonoBehaviour
 
         float randomBulletOffset = Random.Range(-randomBulletRotOffset, randomBulletRotOffset);
 
-        GameObject bullet = Instantiate(energyBulletPrefab, shootingPoint.transform.position, turretGun.transform.rotation, turretGun.transform);
+        GameObject bullet = Instantiate(energyBulletPrefab, shootingPoint.transform.position, turretGun.transform.rotation);
         bullet.transform.eulerAngles = new Vector3(0, 0, turretGun.transform.eulerAngles.z + 90f + randomBulletOffset);
         devlab_energy_bullet bulletscripp = bullet.GetComponent<devlab_energy_bullet>();
         bulletscripp.speed = bulletSpeed;

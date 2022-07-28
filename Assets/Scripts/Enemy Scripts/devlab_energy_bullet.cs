@@ -4,19 +4,38 @@ using UnityEngine;
 
 public class devlab_energy_bullet : MonoBehaviour
 {
+    SpriteRenderer spriterenderer;
+    ParticleSystem hitparticles;
+
     public GameObject firedFrom;
     public GameObject target;
 
+    public bool travelling = true;
+    private bool particlesTriggered;
     public float despawnTime = 5f;
     public float minDamage;
     public float maxDamage;
 
     public float speed;
 
+    private void Start()
+    {
+        spriterenderer = GetComponent<SpriteRenderer>();
+        hitparticles = GetComponent<ParticleSystem>();
+    }
+
     private void Update()
     {
-        transform.Translate(new Vector3(-1 * speed * Time.deltaTime, 0, 0));
+        if (travelling) { transform.Translate(new Vector3(-1 * speed * Time.deltaTime, 0, 0)); }
         Destroy(gameObject, despawnTime);
+    }
+
+    public void CreateEffects()
+    { 
+        travelling = false;
+        spriterenderer.enabled = false;
+        hitparticles.Play();
+        Destroy(gameObject, 3f);
     }
 
     private void OnTriggerStay2D(Collider2D collision)
@@ -24,11 +43,13 @@ public class devlab_energy_bullet : MonoBehaviour
         switch (collision.tag)
         {
             case "Walls":
-                Destroy(gameObject);
+                //Destroy(gameObject);
+                if (!particlesTriggered) { particlesTriggered = true; CreateEffects(); }
                 break;
 
             case "Ground":
-                Destroy(gameObject);
+                //Destroy(gameObject);
+                if (!particlesTriggered) { particlesTriggered = true; CreateEffects(); }
                 break;
 
             case "Player":
