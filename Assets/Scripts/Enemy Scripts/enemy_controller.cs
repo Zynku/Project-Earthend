@@ -1,25 +1,36 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using MyBox;
 
 public class enemy_controller : MonoBehaviour
 {
+    [Separator("Variables")]
     public State currentState;
-    public float senseRadius, attackRadius, playerTooCloseRadius;
+
+    [Separator("Checks & Radii")]
+    public float senseRadius;
+    public float attackRadius;
+    public float playerTooCloseRadius;
     public float insideRadiusDir, playerDist, moveSpeed, maxMoveSpeed, jumpForce, movingDir;
     public bool canFollowPlayer, canAttackPlayer, playerTooClose;
-    public bool inControl;
+
     public float wallCheckLength, groundCheckDistance;
     public bool wallInfront, isGrounded, attack, stuncheck;
     public bool stunned;
     public bool dead, appliedDeadKB;
     public float stunchance, stunTime, attackChance;
     public float coolDownTimer = 0f, coolDownTargetTime = 0.2f;
+
+    [Separator("Damage")]
     public float attackdamageMax = 0;
     public float attackdamageMin = 0;
-    public Vector2 playerPos;
-    public Vector2 myPos;
-    public Vector2 speed;
+
+    private Vector2 playerPos;
+    private Vector2 myPos;
+    private Vector2 speed;
+
+    [Separator("Death Stuff")]
     public float deadKnockBX;
     public float deadKnockBY;
     public float collisionDir;
@@ -156,7 +167,7 @@ public class enemy_controller : MonoBehaviour
                 if (Mathf.Abs(rb2d.velocity.x) > maxMoveSpeed)
                 {
                     rb2d.velocity = new Vector2((maxMoveSpeed * -insideRadiusDir), rb2d.velocity.y);
-                    transform.localScale = new Vector2(-insideRadiusDir * 1.5f, 1.5f);
+                    transform.localScale = new Vector2(-insideRadiusDir * scale.x, scale.y);
                 }
 
                 //If outside too close radius, return to attacking
@@ -189,7 +200,7 @@ public class enemy_controller : MonoBehaviour
                 }
 
                 //Face the player
-                transform.localScale = new Vector2(insideRadiusDir * 1.5f, 1.5f);
+                transform.localScale = new Vector2(insideRadiusDir * scale.x, scale.y);
 
                 //If inside radius, stop attacking, move to keep player at radius edge
                 if (playerTooClose == true)
@@ -245,20 +256,23 @@ public class enemy_controller : MonoBehaviour
         playerDist = playerPos.x - transform.position.x;
     }
 
+    private Vector3 scale;
+    private bool scaleSet = false;
     public void MovementDir()
     {
+        if (scaleSet == false) { scale = transform.localScale; scaleSet = true; }
         //Moving Left
         if (rb2d.velocity.x < -0.05f && currentState == State.MovingToPlayer)
         {
             movingDir = -1f;
-            transform.localScale = new Vector2(-1.5f, 1.5f);
+            transform.localScale = new Vector3(-Mathf.Abs(scale.x), scale.y, scale.z);
         }
 
         //Moving Right
         if (rb2d.velocity.x > 0.05f && currentState == State.MovingToPlayer)
         {
             movingDir = 1f;
-            transform.localScale = new Vector2(1.5f, 1.5f);
+            transform.localScale = scale;
         }
 
     }

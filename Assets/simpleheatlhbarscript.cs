@@ -68,8 +68,8 @@ public class simpleheatlhbarscript : MonoBehaviour
         healthbarFill.transform.localScale = new Vector3(fillPercent, 1, 1);
 
         //Sets stun bar to true if parent is stunned
-        //if (stunned == true){ stunnedFill.SetActive(true); }
-        //else { stunnedFill.SetActive(false); }
+        if (stunned == true){ stunnedFill.SetActive(true); }
+        else { stunnedFill.SetActive(false); }
 
         //Stops overflow and underflow
         if (fillPercent > 1) { fillPercent = 1; }
