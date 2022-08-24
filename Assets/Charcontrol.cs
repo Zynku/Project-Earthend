@@ -230,7 +230,7 @@ public class Charcontrol : MonoBehaviour
         {
             stateChanged = true;
             lastState = currentState;
-            Debug.Log($"State changed!");
+            //Debug.Log($"State changed!");
         }
 
 

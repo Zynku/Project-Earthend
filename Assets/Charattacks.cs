@@ -152,7 +152,7 @@ public class Charattacks : MonoBehaviour
                 buttonHeldFloat = 0;
             }
 
-            if (Input.GetButtonDown("Heavy Attack"))
+            /*if (Input.GetButtonDown("Heavy Attack"))
             {
                 //Debug.Log("Heavy!");
                 Attack newattack = new Attack("Heavy", heavyDamageMin, Attack.AttackType.HEAVY);
@@ -160,6 +160,43 @@ public class Charattacks : MonoBehaviour
                 canAcceptAttackInput = false;
                 CheckforCombos();
                 attackInputRegistered?.Invoke();
+            }*/
+
+            if (Input.GetButton("Heavy Attack"))
+            {
+                if (buttonHeldFloat < buttonHeldThreshold)
+                {
+                    buttonHeldFloat += Time.deltaTime;              //If player holds the light attack button, start counting the buttonHeldFloat by adding Time.deltaTime each frame
+                }
+                else if (buttonHeldFloat > buttonHeldThreshold)   //If we have passed the buttonHeldThreshold time, this button was held long enough to count as a held press.
+                {
+                    Debug.Log($"Heavy attack is being held");
+                    Attack newattack = new Attack("Heavy_Held", heavyDamageMin, Attack.AttackType.HEAVY_HELD);
+                    currentAttacks.Add(newattack);
+                    canAcceptAttackInput = false;
+                    CheckforCombos();
+                    attackInputRegistered?.Invoke();
+                    buttonHeldFloat = 0;
+                }
+            }
+
+            if (Input.GetButtonUp("Heavy Attack"))
+            {
+                if (charcontrol.currentState == Charcontrol.State.COMBAT_Air_Attacking /* Add condition for regular combat air */)
+                {
+                    return; //This would be an air heavy attack
+                }
+
+                if (buttonHeldFloat < buttonHeldThreshold)
+                {
+                    //Debug.Log("Light!");
+                    Attack newattack = new Attack("Heavy", heavyDamageMin, Attack.AttackType.HEAVY);
+                    currentAttacks.Add(newattack);
+                    canAcceptAttackInput = false;
+                    CheckforCombos();
+                    attackInputRegistered?.Invoke();
+                }
+                buttonHeldFloat = 0;
             }
 
             if (Input.GetButtonDown("Ranged Attack"))
@@ -220,9 +257,10 @@ public class Charattacks : MonoBehaviour
         //Get the current longest combo. If the current attacks length exceeds that, it means no combo will be possible and inputs will just be added for no reason. Clear the attack list
         if (currentAttacks.Count > longestComboLength + 1) { ClearAttackList(); }
 
-        foreach (Combo combo in currentPossibleCombos)
+        foreach (Combo combo in currentPossibleCombos) //If the combo...        //P.S. This can be improved, it currently checks every combo in order in the possible combo list. If you could
         {
-            if (currentAttacks.Count == combo.attackList.Count)    //Has the same amount of attacks in its list
+            Debug.Log($"Checking combo named {combo.comboName}.");
+            if (currentAttacks.Count == combo.attackList.Count)//Has the same amount of attacks in its list
             {
                 //Debug.Log(combo.comboName + " has the same amount of attacks as the current attack count, which is " + currentAttacks.Count);
                 for (int i = 0; i < combo.attackList.Count; i++)    //Loop through all attacks in the combo attack list, checking if they match
@@ -238,12 +276,11 @@ public class Charattacks : MonoBehaviour
 
                             if (combo.canChangeState) { StartCoroutine(charanimation.ComboCharcontrolStates(combo)); } //Checks the current combo to see if it requires a state change
                             if (combo.endOfComboChain) { ClearAttackList(); }
-                            break;
+                            return;
                         }
                     }
                     else
                     {
-                        
                         //Also, if more than 2 inputs are put in and no combos match, the player is down a path that wont result in combos ever, clear attack list.
                         //Or maybe just clear after it finds no combos that match since that means no combos will ever match down that path.
                         break;

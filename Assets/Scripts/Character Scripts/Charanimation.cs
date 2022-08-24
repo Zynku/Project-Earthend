@@ -243,10 +243,10 @@ public class Charanimation : MonoBehaviour
     {
         if (comboBuffer.Count == 0) //If buffer is empty
         {
-            Debug.Log("Combo buffer is empty...");
+            //Debug.Log("Combo buffer is empty...");
             if (!currentlyComboing) //If no combos are playing...
             {
-                Debug.Log($"...and no combos are playing currently. Playing {combo.comboName}");
+                //Debug.Log($"...and no combos are playing currently. Playing {combo.comboName}");
                 animator.Play(combo.animationName);
                 charcontrol.currentState = Charcontrol.State.COMBAT_Attacking;
                 if (combo.FXAnimationName != null) { chareffects.PlayMeleeSwingFX(combo.FXAnimationName); }
@@ -256,21 +256,21 @@ public class Charanimation : MonoBehaviour
             }
             else if (comboBuffer.Count < comboBufferSize) //Combos are playing, add the combo to the buffer
             {
-                Debug.Log($"...and {currentCombo[0].comboName} is playing, assigning {combo.comboName} to the combo buffer to await JUDGEMENT");
+                //Debug.Log($"...and {currentCombo[0].comboName} is playing, assigning {combo.comboName} to the combo buffer to await JUDGEMENT");
                 comboBuffer.Add(combo);
             }
         }
         else
         {
-            Debug.Log($"Combo buffer has {comboBuffer[0].comboName} queued to play already. Checking to see if {combo.comboName} can fit in the combo buffer");
+            //Debug.Log($"Combo buffer has {comboBuffer[0].comboName} queued to play already. Checking to see if {combo.comboName} can fit in the combo buffer");
             if (comboBuffer.Count < comboBufferSize)
             {
-                Debug.Log($"There's space! {combo.comboName} can join the combo buffer :)");
+                //Debug.Log($"There's space! {combo.comboName} can join the combo buffer :)");
                 comboBuffer.Add(combo);
             }
             else if (comboBuffer.Count >= comboBufferSize)
             {
-                Debug.Log($"Combo buffer is FULL, discarding {combo.comboName} :(");
+                //Debug.Log($"Combo buffer is FULL, discarding {combo.comboName} :(");
             }
         }
     }

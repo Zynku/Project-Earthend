@@ -24,7 +24,7 @@ public class Charaudio : MonoBehaviour
     [Range(0f, 1f)]
     public float coinPickupVolume = 1;
 
-    [SerializeField] private AudioClip hit_Something;
+    [SerializeField] private AudioClip[] hit_Something;
     [Range(0f, 1f)]
     public float hitSomethingVolume = 1;
 
@@ -132,7 +132,7 @@ public class Charaudio : MonoBehaviour
         {
             audiosource.volume = hitSomethingVolume;
             audiosource.pitch = 1;
-            audiosource.clip = hit_Something;
+            audiosource.clip = hit_Something[Random.Range(0, hit_Something.Length - 1)];
             audiosource.Play();
         }
     }

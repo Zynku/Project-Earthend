@@ -46,3 +46,5 @@ Logs/AssetImportWorker0-prev.log
 Logs/AssetImportWorker0-prev.log
 Logs/AssetImportWorker0.log
 Logs/shadercompiler-AssetImportWorker0.log
+*.blend
+*.blend1
