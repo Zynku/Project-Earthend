@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using MyBox;
+using System;
 
 public class Charattacks : MonoBehaviour
 {
@@ -16,7 +17,8 @@ public class Charattacks : MonoBehaviour
     CharMeleeHitBox charMeleeHitBox;
 
     [Separator("Combo Lists")]
-    private List<ComboFamily> comboFamilies;
+    public List<ComboFamily> comboFamilies; //This is a list of lists, hence a new type and not just List<Combo>
+    public List<ComboFamilyType> comboFamilyTypes;     //Same as above
     public List<Combo> allLightCombosEver;  //Set these in inspector
     public List<Combo> allHeavyCombosEver;
     public List<Combo> allRangedCombosEver;
@@ -69,7 +71,42 @@ public class Charattacks : MonoBehaviour
         animator = GetComponent<Animator>();
         canAcceptAttackInput = true;
         FindLongestCombo();
-        //OrganizeComboFamilies();  
+        //OrganizeComboFamilies();
+        OrganizeComboFamilyTypes();
+    }
+
+    void OrganizeComboFamilyTypes()
+    {
+        comboFamilyTypes = new List<ComboFamilyType>();
+        foreach (var Combo in currentPossibleCombos)
+        {
+            string thisComboFamilyTypeName = Combo.comboType.ToString();
+
+            if (comboFamilyTypes.Count == 0)   //This is the first combo being assigned to a family type
+            {
+                ComboFamilyType newFamType = new ComboFamilyType(thisComboFamilyTypeName);  //Create new type list
+                newFamType.familyTypeList.Add(Combo);   //Add the combo to the new type list
+                comboFamilyTypes.Add(newFamType);       //Add the type list to the list of lists
+            }
+            else //Families already exist, check 'em
+            {
+                for (int i = 0; i < comboFamilyTypes.Count; i++)   //Loop through all combo family types already created
+                {
+                    if(comboFamilyTypes[i].cFamilyTypeName == thisComboFamilyTypeName)     //If we found a family type with the same name, add combo to it
+                    {
+                        comboFamilyTypes[i].familyTypeList.Add(Combo);
+                        break;
+                    }
+                    else if (i == comboFamilyTypes.Count - 1 && comboFamilyTypes[i].cFamilyTypeName != thisComboFamilyTypeName)   //If we reach the end of the list, and nothing matches, make a new fam
+                    {
+                        ComboFamilyType newFamType = new ComboFamilyType(thisComboFamilyTypeName);
+                        newFamType.familyTypeList.Add(Combo);
+                        comboFamilyTypes.Add(newFamType);
+                        break;
+                    }
+                }
+            }
+        }
     }
 
     void OrganizeComboFamilies()//Would delete this but it seems like useful code so idk
@@ -90,12 +127,12 @@ public class Charattacks : MonoBehaviour
             {
                 for (int i = 0; i < comboFamilies.Count; i++)   //Loop through all combo families already created
                 {
-                    if(comboFamilies[i].cFamilyName == thisComboFamilyName)     //If we found a family with the same name, add combo to it
+                    if (comboFamilies[i].cFamilyName == thisComboFamilyName)     //If we found a family with the same name, add combo to it
                     {
                         comboFamilies[i].familyList.Add(Combo);
                         Combo.myComboFamilyOrder = comboFamilies[i].familyList.Count;
                     }
-                    else if (i == comboFamilies.Count - 1&& comboFamilies[i].cFamilyName != thisComboFamilyName)   //If we reach the end of the list, and nothing matches, make a new fam
+                    else if (i == comboFamilies.Count - 1 && comboFamilies[i].cFamilyName != thisComboFamilyName)   //If we reach the end of the list, and nothing matches, make a new fam
                     {
                         ComboFamily newFam = new ComboFamily(thisComboFamilyName);
                         newFam.familyList.Add(Combo);
@@ -152,21 +189,11 @@ public class Charattacks : MonoBehaviour
                 buttonHeldFloat = 0;
             }
 
-            /*if (Input.GetButtonDown("Heavy Attack"))
-            {
-                //Debug.Log("Heavy!");
-                Attack newattack = new Attack("Heavy", heavyDamageMin, Attack.AttackType.HEAVY);
-                currentAttacks.Add(newattack);
-                canAcceptAttackInput = false;
-                CheckforCombos();
-                attackInputRegistered?.Invoke();
-            }*/
-
             if (Input.GetButton("Heavy Attack"))
             {
                 if (buttonHeldFloat < buttonHeldThreshold)
                 {
-                    buttonHeldFloat += Time.deltaTime;              //If player holds the light attack button, start counting the buttonHeldFloat by adding Time.deltaTime each frame
+                    buttonHeldFloat += Time.deltaTime;              //If player holds the heavy attack button, start counting the buttonHeldFloat by adding Time.deltaTime each frame
                 }
                 else if (buttonHeldFloat > buttonHeldThreshold)   //If we have passed the buttonHeldThreshold time, this button was held long enough to count as a held press.
                 {
@@ -251,26 +278,89 @@ public class Charattacks : MonoBehaviour
         charcontrol.canFlipXDir();
     }
 
+
+    public void FilterCombo()
+    {
+
+    }
+
     public void CheckforCombos()
     {
+        //This is a debug section-------------------------------------------------------------------------
+        List<string> currentAttackNames = new List<string>();
+        foreach (var atk in currentAttacks) { currentAttackNames.Add(atk.attackName);}
+        Debug.Log($"Current attack list is {string.Join(", ", currentAttackNames)}");
+        //End of debug section----------------------------------------------------------------------------
+
         charcontrol.canFlipXDir();
         //Get the current longest combo. If the current attacks length exceeds that, it means no combo will be possible and inputs will just be added for no reason. Clear the attack list
         if (currentAttacks.Count > longestComboLength + 1) { ClearAttackList(); }
 
-        foreach (Combo combo in currentPossibleCombos) //If the combo...        //P.S. This can be improved, it currently checks every combo in order in the possible combo list. If you could
+        ComboFamilyType comboFamType;   //Find the combofamily we're going to search through
+        if (currentAttacks.Count > 0)
         {
-            Debug.Log($"Checking combo named {combo.comboName}.");
-            if (currentAttacks.Count == combo.attackList.Count)//Has the same amount of attacks in its list
+            foreach (var cFamType in comboFamilyTypes)  //Loop through all families
             {
-                //Debug.Log(combo.comboName + " has the same amount of attacks as the current attack count, which is " + currentAttacks.Count);
-                for (int i = 0; i < combo.attackList.Count; i++)    //Loop through all attacks in the combo attack list, checking if they match
+                if (cFamType.cFamilyTypeName == currentAttacks[0].attackType.ToString())    //If it matches, we using that fam
                 {
-                    //Debug.Log("Checking " + combo.comboName + " to see if " + combo.attackList[i].attackType + " is the same as " + currentAttacks[i].attackType);
-                    if (combo.attackList[i].attackType == currentAttacks[i].attackType)
+                    comboFamType = cFamType;
+                    Debug.Log($"Combo family is {comboFamType.cFamilyTypeName}");
+
+                    //foreach (Combo combo in comboFamType.familyTypeList) //If the combo...        //P.S. This can be improved, it currently checks every combo in order in the possible combo list. If you could
+                    for (int h = 0; h < comboFamType.familyTypeList.Count; h++)  
                     {
-                        if (i == combo.attackList.Count - 1 && combo.attackList[i].attackType == currentAttacks[i].attackType)  //If the last attack matches...
+                        Combo combo = comboFamType.familyTypeList[h];
+                        Debug.Log($"Checking combo named {combo.comboName}.");
+                        if (currentAttacks.Count == combo.attackList.Count)//Has the same amount of attacks in its list
                         {
-                            Debug.Log($"{combo.comboName} identified, sending off to be animated.");
+                            Debug.Log(combo.comboName + " has the same amount of attacks as the current attack count, which is " + currentAttacks.Count);
+                            for (int i = 0; i < combo.attackList.Count; i++)    //Loop through all attacks in the combo attack list, checking if they match
+                            {
+                                Debug.Log($"Checking {combo.comboName} to see if {combo.attackList[i].attackType} is the same as {currentAttacks[i].attackType} for attack #{i}");
+                                if (combo.attackList[i].attackType == currentAttacks[i].attackType)
+                                {
+                                    if (i == combo.attackList.Count - 1 && combo.attackList[i].attackType == currentAttacks[i].attackType)  //If the last attack matches...
+                                    {
+                                        Debug.Log($"----------------------------------{combo.comboName} identified, sending off to be animated.-------------------------------------");
+                                        currentlyComboing = true;
+                                        AnimateCombos(combo);
+
+                                        if (combo.canChangeState) { StartCoroutine(charanimation.ComboCharcontrolStates(combo)); } //Checks the current combo to see if it requires a state change
+                                        if (combo.endOfComboChain) { ClearAttackList(); }
+                                        return;
+                                    }
+
+                                    if (i == combo.attackList.Count - 1 && combo.attackList[i].attackType != currentAttacks[i].attackType)  //If the last attack DOESN'T match...
+                                    {
+                                        Debug.Log($"So close! the final attack of {combo.comboName} doesn't match! ({combo.attackList[i].attackType} vs. {currentAttacks[i].attackType})");
+                                        ClearAttackList();
+
+                                        currentlyComboing = true;
+                                        AnimateCombos(combo);
+
+                                        if (combo.canChangeState) { StartCoroutine(charanimation.ComboCharcontrolStates(combo)); } //Checks the current combo to see if it requires a state change
+                                        if (combo.endOfComboChain) { ClearAttackList(); }
+                                        return;
+                                    }
+                                }
+                                else
+                                {
+                                    Debug.Log($"{combo.attackList[i].attackType} is NOT the same as {currentAttacks[i].attackType}, checking next combo...");
+                                    //Also, if more than 2 inputs are put in and no combos match, the player is down a path that wont result in combos ever, clear attack list.
+                                    //Or maybe just clear after it finds no combos that match since that means no combos will ever match down that path.
+                                    break;
+                                }
+                            }
+                        }
+                        else
+                        {
+                            Debug.Log($"{combo.comboName} doesn't have the same amount of attacks, checking next combo...");
+                        }
+                        if (h == comboFamType.familyTypeList.Count)
+                        {
+                            Debug.Log($"No combos in this family type match, clearing attack list and adding the new attack instead");
+                            ClearAttackList();
+
                             currentlyComboing = true;
                             AnimateCombos(combo);
 
@@ -278,12 +368,6 @@ public class Charattacks : MonoBehaviour
                             if (combo.endOfComboChain) { ClearAttackList(); }
                             return;
                         }
-                    }
-                    else
-                    {
-                        //Also, if more than 2 inputs are put in and no combos match, the player is down a path that wont result in combos ever, clear attack list.
-                        //Or maybe just clear after it finds no combos that match since that means no combos will ever match down that path.
-                        break;
                     }
                 }
             }
@@ -453,7 +537,7 @@ public class Charattacks : MonoBehaviour
                 target_dummy_controller dummyScript = enemy.GetComponent<target_dummy_controller>();
                 dummyScript.damageDoneToMeMax = Mathf.FloorToInt(currentDamageMax);
                 dummyScript.damageDoneToMeMin = Mathf.FloorToInt(currentDamageMin);
-                dummyScript.damageDoneToMe = (Random.Range(currentDamageMax, currentDamageMin));
+                dummyScript.damageDoneToMe = (UnityEngine.Random.Range(currentDamageMax, currentDamageMin));
                 dummyScript.TakeDamage(dummyScript.damageDoneToMe);
                 break;
             default:

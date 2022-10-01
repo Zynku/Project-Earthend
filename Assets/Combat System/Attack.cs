@@ -8,13 +8,15 @@ public class Attack
     public string attackName;
     public int attackDamage;
     public AttackType attackType;
+    string name;
 
     public enum AttackType { LIGHT, LIGHT_HELD, HEAVY, HEAVY_HELD, RANGED, RANGED_HELD}
 
 
-    public Attack(string name, int damage, AttackType type)
+    public Attack(string atkname, int damage, AttackType type)
     {
-        attackName = name;
+        name = atkname;
+        attackName = atkname;
         attackDamage = damage;
         attackType = type;
     }

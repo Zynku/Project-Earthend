@@ -82,7 +82,7 @@ public class BGAudioScript : MonoBehaviour
         float targetValue = lowPassFreq;
         while (currentTime < duration)
         {
-            Debug.Log("Fading low pass");
+            //Debug.Log("Fading low pass");
             currentTime += Time.deltaTime;
             float newFreq = Mathf.Lerp(currentFreq, targetValue, currentTime / duration);
             audioMixer.SetFloat(exposedParam, newFreq);

@@ -11,6 +11,7 @@ public class Button_effector : MonoBehaviour
     private float coolDownTimer;
     public float coolDownTargetTime = 5f;
     public GameObject Spawnable;
+    public bool toggleable;
     private GameObject Spawnableclone;
     public float Spawnamount;
     public float forceX;
@@ -45,6 +46,8 @@ public class Button_effector : MonoBehaviour
             //if they interact and button not on cooldown...
             if (Input.GetAxisRaw("Interact") > 0 && coolDownTimer == 0)
             {
+                StopAllCoroutines();
+                if (toggleable) { StartCoroutine(ContinuousSpawn());}
                 //restarts cooldown, presses button, plays audio, spawns objects
                 coolDownTimer = coolDownTargetTime;
                 animator.SetTrigger("Pressed");
@@ -62,4 +65,25 @@ public class Button_effector : MonoBehaviour
             }
         }
     }
+    public IEnumerator ContinuousSpawn()
+    {
+        while (toggleable)
+        {
+            yield return new WaitForSeconds(coolDownTargetTime);
+            coolDownTimer = coolDownTargetTime;
+            animator.SetTrigger("Pressed");
+
+            if (Spawn != null) audiosource.PlayOneShot(Spawn);
+            if (Press != null) audiosource.PlayOneShot(Press);
+
+            //loops spawning *spawnamount* amount of times. Second line applies random velocity based on params
+            for (int i = 0; i < Spawnamount; i++)
+            {
+                Spawnableclone = Instantiate(Spawnable, new Vector2(transform.position.x, transform.position.y + 0.2f), Quaternion.identity);
+                Spawnableclone.GetComponent<Rigidbody2D>().velocity = new Vector2(forceX / 2 + Random.Range(-0.5f, 0.5f), (forceY / 2 + Random.Range(-0.5f, 0.5f) + 0.2f));
+                Spawnableclone.GetComponent<Rigidbody2D>().AddTorque(Random.Range(forceRotation, -forceRotation));
+            }
+        }
+    }
 }
+

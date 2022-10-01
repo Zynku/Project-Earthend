@@ -15,3 +15,15 @@ public class ComboFamily
         familyList = new List<Combo>();
     }
 }
+[System.Serializable]
+public class ComboFamilyType
+{
+    public string cFamilyTypeName;
+    public List<Combo> familyTypeList;
+
+    public ComboFamilyType(string name)
+    {
+        cFamilyTypeName = name;
+        familyTypeList = new List<Combo>();
+    }
+}

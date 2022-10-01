@@ -1,0 +1,217 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!74 &7400000
+AnimationClip:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: LPC L-A2 Attack v2
+  serializedVersion: 7
+  m_Legacy: 0
+  m_Compressed: 0
+  m_UseHighQualityCurve: 1
+  m_RotationCurves: []
+  m_CompressedRotationCurves: []
+  m_EulerCurves: []
+  m_PositionCurves: []
+  m_ScaleCurves: []
+  m_FloatCurves:
+  - curve:
+      serializedVersion: 2
+      m_Curve:
+      - serializedVersion: 3
+        time: 0
+        value: 0
+        inSlope: Infinity
+        outSlope: Infinity
+        tangentMode: 103
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0
+      - serializedVersion: 3
+        time: 0.15
+        value: 1
+        inSlope: Infinity
+        outSlope: Infinity
+        tangentMode: 103
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0
+      - serializedVersion: 3
+        time: 0.275
+        value: 0
+        inSlope: Infinity
+        outSlope: Infinity
+        tangentMode: 103
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 4
+    attribute: m_Enabled
+    path: Combat HitBoxes/Melee Hitbox
+    classID: 61
+    script: {fileID: 0}
+  m_PPtrCurves:
+  - curve:
+    - time: 0
+      value: {fileID: 21300000, guid: 394ed6596d4e70c4eba21868491709b5, type: 3}
+    - time: 0.025
+      value: {fileID: 21300000, guid: e5de0eb24f5839c44812743d2471f008, type: 3}
+    - time: 0.05
+      value: {fileID: 21300000, guid: d206d0a0bc7eb364781962a9751205a8, type: 3}
+    - time: 0.075
+      value: {fileID: 21300000, guid: 4bb4fa0abe05cff42a70c03be936d26b, type: 3}
+    - time: 0.1
+      value: {fileID: 21300000, guid: 7e3c4644e0a027145ad0d1b6a8d7087a, type: 3}
+    - time: 0.125
+      value: {fileID: 21300000, guid: 28369b39e52c16144967ab225edf307d, type: 3}
+    - time: 0.15
+      value: {fileID: 21300000, guid: 5250bfb546783ea4aaafa3ee314fadab, type: 3}
+    - time: 0.175
+      value: {fileID: 21300000, guid: 5e922561133695c4ba8e6a3d60552740, type: 3}
+    - time: 0.2
+      value: {fileID: 21300000, guid: c9d4491d7c7dfca4884043b37e8a2165, type: 3}
+    - time: 0.225
+      value: {fileID: 21300000, guid: b0b4668c0e9a5db4894b8d56d00ee71d, type: 3}
+    - time: 0.25
+      value: {fileID: 21300000, guid: 4125a6a0af920114987608bdd1cd06b8, type: 3}
+    - time: 0.275
+      value: {fileID: 21300000, guid: 9a77cbe974a96ad4ebe6854ab2fdd76f, type: 3}
+    - time: 0.3
+      value: {fileID: 21300000, guid: 5d444ee6963e3b041aca10dbecac59c0, type: 3}
+    - time: 0.325
+      value: {fileID: 21300000, guid: abe035907b7d8af498969a00b517f556, type: 3}
+    - time: 0.35
+      value: {fileID: 21300000, guid: a152f0e8b79705e44a0dfcf88c0e0723, type: 3}
+    - time: 0.375
+      value: {fileID: 21300000, guid: 55ebd26193b5f6c408e143224c0c224f, type: 3}
+    - time: 0.4
+      value: {fileID: 21300000, guid: fb757a1c9a696bc47999a82f884d90fb, type: 3}
+    - time: 0.425
+      value: {fileID: 21300000, guid: 8195b898bcb015446bc109ec8e5084d3, type: 3}
+    - time: 0.45
+      value: {fileID: 21300000, guid: 53b3bf5b7ea34254394f55d41b604fd5, type: 3}
+    - time: 0.475
+      value: {fileID: 21300000, guid: 717fa5899f5d2cf43996068fe4f30e30, type: 3}
+    - time: 0.5
+      value: {fileID: 21300000, guid: bd0d7955686b7c44b8e31c7eb24436ad, type: 3}
+    - time: 0.525
+      value: {fileID: 21300000, guid: 33c48a859fcc2e54e9b8742a67ca20c4, type: 3}
+    - time: 0.55
+      value: {fileID: 21300000, guid: efbc7b452b0955945bda20e0c8fdbb3f, type: 3}
+    attribute: m_Sprite
+    path: 
+    classID: 212
+    script: {fileID: 0}
+  m_SampleRate: 40
+  m_WrapMode: 0
+  m_Bounds:
+    m_Center: {x: 0, y: 0, z: 0}
+    m_Extent: {x: 0, y: 0, z: 0}
+  m_ClipBindingConstant:
+    genericBindings:
+    - serializedVersion: 2
+      path: 1560475504
+      attribute: 3305885265
+      script: {fileID: 0}
+      typeID: 61
+      customType: 0
+      isPPtrCurve: 0
+      isIntCurve: 0
+    - serializedVersion: 2
+      path: 0
+      attribute: 0
+      script: {fileID: 0}
+      typeID: 212
+      customType: 23
+      isPPtrCurve: 1
+      isIntCurve: 0
+    pptrCurveMapping:
+    - {fileID: 21300000, guid: 394ed6596d4e70c4eba21868491709b5, type: 3}
+    - {fileID: 21300000, guid: e5de0eb24f5839c44812743d2471f008, type: 3}
+    - {fileID: 21300000, guid: d206d0a0bc7eb364781962a9751205a8, type: 3}
+    - {fileID: 21300000, guid: 4bb4fa0abe05cff42a70c03be936d26b, type: 3}
+    - {fileID: 21300000, guid: 7e3c4644e0a027145ad0d1b6a8d7087a, type: 3}
+    - {fileID: 21300000, guid: 28369b39e52c16144967ab225edf307d, type: 3}
+    - {fileID: 21300000, guid: 5250bfb546783ea4aaafa3ee314fadab, type: 3}
+    - {fileID: 21300000, guid: 5e922561133695c4ba8e6a3d60552740, type: 3}
+    - {fileID: 21300000, guid: c9d4491d7c7dfca4884043b37e8a2165, type: 3}
+    - {fileID: 21300000, guid: b0b4668c0e9a5db4894b8d56d00ee71d, type: 3}
+    - {fileID: 21300000, guid: 4125a6a0af920114987608bdd1cd06b8, type: 3}
+    - {fileID: 21300000, guid: 9a77cbe974a96ad4ebe6854ab2fdd76f, type: 3}
+    - {fileID: 21300000, guid: 5d444ee6963e3b041aca10dbecac59c0, type: 3}
+    - {fileID: 21300000, guid: abe035907b7d8af498969a00b517f556, type: 3}
+    - {fileID: 21300000, guid: a152f0e8b79705e44a0dfcf88c0e0723, type: 3}
+    - {fileID: 21300000, guid: 55ebd26193b5f6c408e143224c0c224f, type: 3}
+    - {fileID: 21300000, guid: fb757a1c9a696bc47999a82f884d90fb, type: 3}
+    - {fileID: 21300000, guid: 8195b898bcb015446bc109ec8e5084d3, type: 3}
+    - {fileID: 21300000, guid: 53b3bf5b7ea34254394f55d41b604fd5, type: 3}
+    - {fileID: 21300000, guid: 717fa5899f5d2cf43996068fe4f30e30, type: 3}
+    - {fileID: 21300000, guid: bd0d7955686b7c44b8e31c7eb24436ad, type: 3}
+    - {fileID: 21300000, guid: 33c48a859fcc2e54e9b8742a67ca20c4, type: 3}
+    - {fileID: 21300000, guid: efbc7b452b0955945bda20e0c8fdbb3f, type: 3}
+  m_AnimationClipSettings:
+    serializedVersion: 2
+    m_AdditiveReferencePoseClip: {fileID: 0}
+    m_AdditiveReferencePoseTime: 0
+    m_StartTime: 0
+    m_StopTime: 0.575
+    m_OrientationOffsetY: 0
+    m_Level: 0
+    m_CycleOffset: 0
+    m_HasAdditiveReferencePose: 0
+    m_LoopTime: 1
+    m_LoopBlend: 0
+    m_LoopBlendOrientation: 0
+    m_LoopBlendPositionY: 0
+    m_LoopBlendPositionXZ: 0
+    m_KeepOriginalOrientation: 0
+    m_KeepOriginalPositionY: 1
+    m_KeepOriginalPositionXZ: 0
+    m_HeightFromFeet: 0
+    m_Mirror: 0
+  m_EditorCurves:
+  - curve:
+      serializedVersion: 2
+      m_Curve:
+      - serializedVersion: 3
+        time: 0
+        value: 0
+        inSlope: Infinity
+        outSlope: Infinity
+        tangentMode: 103
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0
+      - serializedVersion: 3
+        time: 0.15
+        value: 1
+        inSlope: Infinity
+        outSlope: Infinity
+        tangentMode: 103
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0
+      - serializedVersion: 3
+        time: 0.275
+        value: 0
+        inSlope: Infinity
+        outSlope: Infinity
+        tangentMode: 103
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 4
+    attribute: m_Enabled
+    path: Combat HitBoxes/Melee Hitbox
+    classID: 61
+    script: {fileID: 0}
+  m_EulerEditorCurves: []
+  m_HasGenericRootTransform: 0
+  m_HasMotionFloatCurves: 0
+  m_Events: []

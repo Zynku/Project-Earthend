@@ -6,6 +6,7 @@ using MyBox;
 [System.Serializable]
 public class Combo
 {
+    string name;
     public string comboName = "nullCombo";
     public ComboType comboType;
     public string myComboFamilyName = "No Family";
@@ -24,4 +25,9 @@ public class Combo
     public List<Attack> attackList; //Contains the list of attacks required to execute this combo
 
     public enum ComboType {LIGHT, HEAVY, RANGED}
+
+    public Combo()
+    {
+        name = comboName;
+    }
 }
