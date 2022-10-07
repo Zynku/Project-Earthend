@@ -372,10 +372,12 @@ public class Charcontrol : MonoBehaviour
                 break;
 
             case State.COMBAT_Dodging:
-                inCombat = true;
-                if (charanimation.comboBuffer.Count > 0) { charanimation.ClearComboBuffer(); }
-                combatStateTime = combatStateTargetTime;
-                //Animation is called from Charanimation
+                {
+                    inCombat = true;
+                    if (charanimation.comboBuffer.Count > 0) { charanimation.ClearComboBuffer(); }
+                    combatStateTime = combatStateTargetTime;
+                    //Animation is called from Charanimation
+                }
                 break;
 
             case State.COMBAT_Air_Attacking:
@@ -449,11 +451,13 @@ public class Charcontrol : MonoBehaviour
                         {
                             currentState = State.Running;
                         }
+                        Debug.Log("Pressing horizontal...");
                     }
                     //Transition to Jumping
                     if (Input.GetAxisRaw("Vertical") > 0)
                     {
                         currentState = State.Jumping;
+                        Debug.Log("Pressing vertical...");
                     }
 
                     if (Input.GetButtonDown("Dodge"))
@@ -575,13 +579,15 @@ public class Charcontrol : MonoBehaviour
                 break;
 
             case State.AirJumping:
-                inCombat = false;
-                airJumped = true;
-                AirJump();
-                //Transition to Falling
-                if (rb2d.velocity.y < fallThreshold)
                 {
-                    currentState = State.Falling;
+                    inCombat = false;
+                    airJumped = true;
+                    AirJump();
+                    //Transition to Falling
+                    if (rb2d.velocity.y < fallThreshold)
+                    {
+                        currentState = State.Falling;
+                    }
                 }
                 break;
 
@@ -626,17 +632,19 @@ public class Charcontrol : MonoBehaviour
                 break;
 
             case State.Crouching_Idle:
-                inCombat = false;
-                if (Input.GetAxisRaw("Horizontal") != 0) { currentState = State.CrouchWalking; }
-                //boxCol.size = boxColSize;
-                //boxCol.offset = boxColOffset;
-
-                if (!inCrouchingTriggerStayZone)
                 {
-                    currentState = State.Switching_from_Crouching;
-                }
+                    inCombat = false;
+                    if (Input.GetAxisRaw("Horizontal") != 0) { currentState = State.CrouchWalking; }
+                    //boxCol.size = boxColSize;
+                    //boxCol.offset = boxColOffset;
 
-                rb2d.velocity = rb2d.velocity;
+                    if (!inCrouchingTriggerStayZone)
+                    {
+                        currentState = State.Switching_from_Crouching;
+                    }
+
+                    rb2d.velocity = rb2d.velocity;
+                }
                 break;
 
             case State.CrouchWalking:
@@ -1124,5 +1132,4 @@ public class Charcontrol : MonoBehaviour
         if (hasEnoughSpaceToStand) { Gizmos.color = Color.green; } else { Gizmos.color = Color.red; }
         Gizmos.DrawWireSphere(new Vector2(transform.position.x + standSpaceXCheckOffset, transform.position.y + standSpaceYCheckOffset), standSpaceCheckDistances);
     }
-
 }

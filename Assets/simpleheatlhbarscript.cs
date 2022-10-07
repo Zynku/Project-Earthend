@@ -47,7 +47,7 @@ public class simpleheatlhbarscript : MonoBehaviour
                 parentMaxHealth = GetComponentInParent<Enemyhealth>().maxHealth;
                 parentHealth = GetComponentInParent<Enemyhealth>().currentHealth;
 
-                if (GetComponentInParent<enemy_controller>().currentState == enemy_controller.State.Stunned)
+                if (GetComponentInParent<Enemy_controller>().currentState == Enemy_controller.State.Stunned)
                 { stunned = true; }
                 else
                 { stunned = false; }

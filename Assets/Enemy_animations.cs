@@ -32,32 +32,32 @@ public class Enemy_animations : MonoBehaviour
     {
 
         //I can't figure out how to get a reference to the enum from here lol
-        if (GetComponent<enemy_controller>().currentState == enemy_controller.State.Idle)
+        if (GetComponent<Enemy_controller>().currentState == Enemy_controller.State.Idle)
         {
             AnimationStates = animstate.Idle;
         }
 
-        if (GetComponent<enemy_controller>().currentState == enemy_controller.State.MovingToPlayer)
+        if (GetComponent<Enemy_controller>().currentState == Enemy_controller.State.MovingToPlayer)
         {
             AnimationStates = animstate.Running;
         }
 
-        if (GetComponent<enemy_controller>().currentState == enemy_controller.State.Attacking)
+        if (GetComponent<Enemy_controller>().currentState == Enemy_controller.State.Attacking)
         {
             AnimationStates = animstate.Attacking;
         }
 
-        if (GetComponent<enemy_controller>().currentState == enemy_controller.State.Dead)
+        if (GetComponent<Enemy_controller>().currentState == Enemy_controller.State.Dead)
         {
             AnimationStates = animstate.Dead;
         }
 
-        if (GetComponent<enemy_controller>().currentState == enemy_controller.State.Stunned)
+        if (GetComponent<Enemy_controller>().currentState == Enemy_controller.State.Stunned)
         {
             AnimationStates = animstate.Stunned;
         }
 
-        if (GetComponent<enemy_controller>().currentState == enemy_controller.State.Dead)
+        if (GetComponent<Enemy_controller>().currentState == Enemy_controller.State.Dead)
         {
             AnimationStates = animstate.Dead;
         }
@@ -66,7 +66,7 @@ public class Enemy_animations : MonoBehaviour
 
 
 
-        if (GetComponent<enemy_controller>().attack == true && AnimationStates == animstate.Attacking)
+        if (GetComponent<Enemy_controller>().attack == true && AnimationStates == animstate.Attacking)
         {
             animator.SetBool("Attack", true);
         }
@@ -75,7 +75,7 @@ public class Enemy_animations : MonoBehaviour
             animator.SetBool("Attack", false);
         }
 
-        if (GetComponent<enemy_controller>().canFollowPlayer == true && rb2d.velocity.x > 0|| rb2d.velocity.x < 0 && AnimationStates != animstate.Attacking)
+        if (GetComponent<Enemy_controller>().canFollowPlayer == true && rb2d.velocity.x > 0|| rb2d.velocity.x < 0 && AnimationStates != animstate.Attacking)
         {
             animator.SetBool("Running", true);
         }
@@ -93,7 +93,7 @@ public class Enemy_animations : MonoBehaviour
             animator.SetBool("Stunned", false);
         }
 
-        if (GetComponent<enemy_controller>().isGrounded == true)
+        if (GetComponent<Enemy_controller>().isGrounded == true)
         {
             animator.SetBool("Grounded", true);
         }

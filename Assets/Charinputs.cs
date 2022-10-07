@@ -29,6 +29,7 @@ public class Charinputs : MonoBehaviour
     // J Resets health. Called from Charhealth Update()
     // H Adds 20 health. Called from Charhealth Update()
     // K Takes max damage from health. Called from Charhealth Update()
+    // K Also resets enemy health values to max. Called from EnemyHealth Update()
     // L Takes 20 damage from health. Called from Charhealth Update()
     // esd Pauses and unpauses the game. Called from Pause_and_Scene_manager Update()
 }

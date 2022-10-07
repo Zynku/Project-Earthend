@@ -49,7 +49,7 @@ public class Enemyhealth : MonoBehaviour
         //Shows the text stunned! if enemy enters stunned state. Makes sure it only shows once
         if (stunnedShown == false)
         {
-            if (GetComponent<enemy_controller>().currentState == enemy_controller.State.Stunned)
+            if (GetComponent<Enemy_controller>().currentState == Enemy_controller.State.Stunned)
             {
                 var stunnedtext = Instantiate(floatingDmgTextPrefab, transform.position + dmgTextOffset, Quaternion.identity);
                 stunnedtext.GetComponent<TMPro.TextMeshPro>().text = "STUNNED!";
@@ -57,7 +57,7 @@ public class Enemyhealth : MonoBehaviour
             }
         }
         //Resets ability to show stun if enemy moves out of stunned state
-        if (GetComponent<enemy_controller>().currentState != enemy_controller.State.Stunned)
+        if (GetComponent<Enemy_controller>().currentState != Enemy_controller.State.Stunned)
         {
             stunnedShown = false;
         }
@@ -83,10 +83,7 @@ public class Enemyhealth : MonoBehaviour
             damageDoneToMe = (Random.Range(damageDoneToMeMax, damageDoneToMeMin));
             TakeDamage(damageDoneToMe);
 
-            if (EnemyBeenHit != null)
-            {
-                EnemyBeenHit();
-            }
+            EnemyBeenHit?.Invoke();
 
             //Loads hit effect from resources folder
             Instantiate(Resources.Load<GameObject>("Sprites/Hit effects/Hit effect 1"), new Vector3(transform.position.x, transform.position.y, -1.33f), transform.rotation);

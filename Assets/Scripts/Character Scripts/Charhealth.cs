@@ -116,8 +116,8 @@ public class Charhealth : MonoBehaviour
             }
 
             //Gets max and min attack values from enemy script, returns random value between them, calls damage function, passing calculated damage to it
-            damageDoneToMeMax = Mathf.FloorToInt(collision.gameObject.GetComponentInParent<enemy_controller>().attackdamageMax);
-            damageDoneToMeMin = Mathf.FloorToInt(collision.gameObject.GetComponentInParent<enemy_controller>().attackdamageMin);
+            damageDoneToMeMax = Mathf.FloorToInt(collision.gameObject.GetComponentInParent<Enemy_controller>().attackdamageMax);
+            damageDoneToMeMin = Mathf.FloorToInt(collision.gameObject.GetComponentInParent<Enemy_controller>().attackdamageMin);
             damageDoneToMe = (Random.Range(damageDoneToMeMax, damageDoneToMeMin));
             TakeDamage(damageDoneToMe);
         }

@@ -3,7 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 using MyBox;
 
-public class enemy_controller : MonoBehaviour
+public class Enemy_controller : MonoBehaviour   //This class is responsible for more specific enemy type behaviours, and maybe things that
+                                                //could affect enemies movement or AI in general. May not be suitable for all enemy types
 {
     [Separator("Variables")]
     public State currentState;
