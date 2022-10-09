@@ -106,7 +106,7 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: Devlab Enemy Stand-in Side Light Green_0
+      name: Devlab Enemy Stand-in Side Light Green_L
       rect:
         serializedVersion: 2
         x: 25
@@ -127,7 +127,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Devlab Enemy Stand-in Side Light Green_1
+      name: Devlab Enemy Stand-in Side Light Green_R
       rect:
         serializedVersion: 2
         x: 33
@@ -158,8 +158,8 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     nameFileIdTable:
-      Devlab Enemy Stand-in Side Light Green_1: -545723407
-      Devlab Enemy Stand-in Side Light Green_0: 976415462
+      Devlab Enemy Stand-in Side Light Green_L: 976415462
+      Devlab Enemy Stand-in Side Light Green_R: -545723407
   spritePackingTag: 
   pSDRemoveMatte: 0
   userData: 

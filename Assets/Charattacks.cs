@@ -540,6 +540,10 @@ public class Charattacks : MonoBehaviour
                 dummyScript.damageDoneToMe = (UnityEngine.Random.Range(currentDamageMax, currentDamageMin));
                 dummyScript.TakeDamage(dummyScript.damageDoneToMe);
                 break;
+            case "enemy":
+                Enemymain enemyScript = enemy.GetComponent<Enemymain>();
+                enemyScript.TakeDamage(69);
+                break;
             default:
                 break;
         }

@@ -451,13 +451,13 @@ public class Charcontrol : MonoBehaviour
                         {
                             currentState = State.Running;
                         }
-                        Debug.Log("Pressing horizontal...");
+                        //Debug.Log("Pressing horizontal...");
                     }
                     //Transition to Jumping
                     if (Input.GetAxisRaw("Vertical") > 0)
                     {
                         currentState = State.Jumping;
-                        Debug.Log("Pressing vertical...");
+                        //Debug.Log("Pressing vertical...");
                     }
 
                     if (Input.GetButtonDown("Dodge"))

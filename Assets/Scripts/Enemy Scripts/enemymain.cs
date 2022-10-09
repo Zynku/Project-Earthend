@@ -66,7 +66,9 @@ public class Enemymain : MonoBehaviour  //This class is reponsible for everythin
     //Checks for collisions from enemy hitboxes
     public void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.gameObject.CompareTag("player_attackhitbox"))
+        //Charattacks is responsible for letting the enemy know it has been hit. Make sure tags and layers are correct.
+
+        /*if (collision.gameObject.CompareTag("player_attackhitbox"))
         {
             if (collision.transform.position.x > transform.position.x)
             {
@@ -88,15 +90,12 @@ public class Enemymain : MonoBehaviour  //This class is reponsible for everythin
             //Loads hit effect from resources folder
             Instantiate(Resources.Load<GameObject>("Sprites/Hit effects/Hit effect 1"), new Vector3(transform.position.x, transform.position.y, -1.33f), transform.rotation);
             //stunnedcheck = true;
-        }
+        }*/
     }
 
     public void OnTriggerExit2D(Collider2D collision)
     {
-        if (collision.gameObject.CompareTag("player_attackhitbox"))
-        {
-            //stunnedcheck = false;
-        }
+
     }
 
 
@@ -126,6 +125,7 @@ public class Enemymain : MonoBehaviour  //This class is reponsible for everythin
             floattext.GetComponent<Rigidbody2D>().AddForce(new Vector2(collisionDir, 0), ForceMode2D.Impulse);
             dmgCooldown = dmgCooldownTargetTime;
         }
+        EnemyBeenHit?.Invoke();
     }
 
     public void ResetHealth()
