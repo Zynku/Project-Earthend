@@ -9,7 +9,7 @@ public class Enemymain : MonoBehaviour  //This class is reponsible for everythin
     public float playerRadius;
 
     [Foldout("Static Variables", true)]
-    private Vector2 playerPos;
+    public Vector2 playerPos;
     public float insideRadiusDir;
     public bool playerInsideRadius;
     public float playerDist;    //How far the player is from this enemy
@@ -21,14 +21,15 @@ public class Enemymain : MonoBehaviour  //This class is reponsible for everythin
     private int damageDoneToMeMax;
     private int damageDoneToMeMin;
     public int damageDoneToMe;
-    [HideInInspector] public float dmgCooldown;
-    [HideInInspector] public float dmgCooldownTargetTime = 0.1f;
+    public float dmgCooldown;
+    public float dmgCooldownTargetTime = 0.1f;
     [HideInInspector] public float collisionDir = 1f;
     public GameObject floatingDmgTextPrefab;
     public GameObject floatingHealthTextPrefab;
     public Vector3 dmgTextOffset;
     public delegate void EnemyGotHit();
-    public static event EnemyGotHit EnemyBeenHit;
+    //public static event EnemyGotHit EnemyBeenHit;
+    public EnemyGotHit enemyBeenHit;
 
 
     GameObject Player;
@@ -37,6 +38,7 @@ public class Enemymain : MonoBehaviour  //This class is reponsible for everythin
     void Start()
     {
         Player = GameManager.instance.Player;
+        currentHealth = maxHealth;
     }
 
     // Update is called once per frame
@@ -125,7 +127,17 @@ public class Enemymain : MonoBehaviour  //This class is reponsible for everythin
             floattext.GetComponent<Rigidbody2D>().AddForce(new Vector2(collisionDir, 0), ForceMode2D.Impulse);
             dmgCooldown = dmgCooldownTargetTime;
         }
-        EnemyBeenHit?.Invoke();
+
+        if (playerPos.x < transform.position.x) //Been hit from left
+        {
+            collisionDir = -1;
+        }
+
+        if (playerPos.x > transform.position.x) //Been hit from right
+        {
+            collisionDir = 1;
+        }
+        enemyBeenHit?.Invoke();
     }
 
     public void ResetHealth()

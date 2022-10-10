@@ -10,22 +10,23 @@ public class Devlab_stand_in : MonoBehaviour
     Collider2D hitbox;
     SpriteRenderer squareSprite;
 
-    Standstate standState;
     CurrentColor currentColor;
 
     [Foldout("Part Colors", true)]
     public GameObject sideLightOff, sideLightGreen, sideLightRed, sideLightBroken;
     public GameObject faceColorOff, faceColorGreen, faceColorRed, faceColorBroken;
 
-    public bool appeared, disappeared;  //Has the stand appeared or disappeared yet?
-
-
-    public enum Standstate
-    {
-        Appearing,
-        Idle,
-        Disappearing
-    }
+    [Foldout("State and Completion Variables", true)]
+    [Tooltip("How much damage until it's completed?")]
+    public int requiredDamage;
+    [Tooltip("How much damage have I taken so far?")]
+    public int damageSustained;         
+    [Tooltip("Has the stand appeared or disappeared yet?")]
+    public bool appeared, disappeared;  
+    [Tooltip("Has it taken enough damage to be completed")]
+    public bool completed;              
+    [Tooltip("Does the stand reset itself after is has been completed?")]
+    public bool resetOnCompleted;       
 
     public enum CurrentColor
     {
@@ -43,20 +44,14 @@ public class Devlab_stand_in : MonoBehaviour
         hitbox.enabled = false;
         squareSprite = GetComponent<SpriteRenderer>();
         squareSprite.enabled = false;  
-        Enemymain.EnemyBeenHit += BeenHit;
+        enemymainscript.enemyBeenHit += BeenHit;
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (enemymainscript.playerInsideRadius) 
-        {
-            ActivateStand(); 
-        }
-        else if (appeared && enemymainscript.playerInsideRadius)
-        {
-            DeactivateStand();
-        }
+        if (enemymainscript.playerInsideRadius) { ActivateStand(); }
+        //else if (appeared && !enemymainscript.playerInsideRadius) { DeactivateStand(); }
     }
 
     public void UpdateColors(string color)
@@ -76,28 +71,22 @@ public class Devlab_stand_in : MonoBehaviour
         switch (colorToUse)
         {
             case "off":
-                //For some reason this doesn't work and I can't figure it out. Enabled and disable as needed from animations.
-                //sideLightOff.SetActive(true);
-                //Debug.Log($"Side light off is {sideLightOff.activeSelf}");
-                //faceColorOff.SetActive(true);
-                //Debug.Log($"Face Color off is {faceColorOff.activeSelf}");
                 Debug.LogWarning("Setting face and light off to active does not work for some reason. Please enabled and disable via animations");
                 break;
             case "green":
                 sideLightGreen.SetActive(true);
-                Debug.Log($"Side light green is {sideLightGreen.activeSelf}");
                 faceColorGreen.SetActive(true);
-                Debug.Log($"Face Color green is {faceColorGreen.activeSelf}");
+                currentColor = CurrentColor.Green;
                 break;
             case "red":
                 sideLightRed.SetActive(true);
-                Debug.Log($"Side light red is {sideLightRed.activeSelf}");
                 faceColorRed.SetActive(true);
-                Debug.Log($"Face Color red is {faceColorRed.activeSelf}");
+                currentColor = CurrentColor.Red;
                 break;
             case "broken":
                 sideLightBroken.SetActive(true);
                 faceColorBroken.SetActive(true);
+                currentColor = CurrentColor.Broken;
                 break;
             default:
                 break;
@@ -106,16 +95,30 @@ public class Devlab_stand_in : MonoBehaviour
 
     public void BeenHit()
     {
-        Debug.Log("Ouch!");
+        damageSustained = enemymainscript.maxHealth - enemymainscript.currentHealth;
+        if (damageSustained >= requiredDamage) { Debug.Log("Enough damage sustained"); CompleteStand(); }
+
+        if (!completed)
+        {
+            if (enemymainscript.collisionDir == -1) { animator.Play("Stand-in Hit from Left Large"); }  //Been hit from left
+            if (enemymainscript.collisionDir == 1) { animator.Play("Stand-in Hit from Right Large"); }  //Been hit from right
+        }   
+    }
+
+    public void CompleteStand()
+    {
+        completed = true;
+        DeactivateStand();
     }
 
     public void ActivateStand()
     {
-        if (!appeared)
+        if (!appeared && !completed)
         { 
             animator.SetTrigger("Appear");
             appeared = true;
             disappeared = false;
+            enemymainscript.ResetHealth();
         }
     }
 
@@ -132,6 +135,8 @@ public class Devlab_stand_in : MonoBehaviour
             animator.SetTrigger("Disappear");
             disappeared = true;
             appeared=false;
+            DeactivateHitbox();
+            if (resetOnCompleted) { ActivateStand(); appeared = false; completed = false; }
         }
     }
 
