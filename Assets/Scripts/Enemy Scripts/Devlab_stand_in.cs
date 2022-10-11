@@ -10,31 +10,29 @@ public class Devlab_stand_in : MonoBehaviour
     Collider2D hitbox;
     SpriteRenderer squareSprite;
 
-    CurrentColor currentColor;
-
     [Foldout("Part Colors", true)]
     public GameObject sideLightOff, sideLightGreen, sideLightRed, sideLightBroken;
     public GameObject faceColorOff, faceColorGreen, faceColorRed, faceColorBroken;
+    public GameObject top;
+    public Sprite topNormal, topBroken;
+    public string currentColor;
 
     [Foldout("State and Completion Variables", true)]
     [Tooltip("How much damage until it's completed?")]
     public int requiredDamage;
     [Tooltip("How much damage have I taken so far?")]
-    public int damageSustained;         
+    [ReadOnly] public int damageSustained;
+    [Tooltip("Percentage damage of requiredDamage necessary for a big hit")]
+    public float percentDmgForBigHit;
     [Tooltip("Has the stand appeared or disappeared yet?")]
     public bool appeared, disappeared;  
     [Tooltip("Has it taken enough damage to be completed")]
     public bool completed;              
     [Tooltip("Does the stand reset itself after is has been completed?")]
-    public bool resetOnCompleted;       
+    public bool resetOnCompleted;
+    [Tooltip("How long after deactivating should I reset, provided resetOnCompleted is true")]
+    public float resetTime;
 
-    public enum CurrentColor
-    {
-        Off,
-        Green,
-        Red,
-        Broken
-    }
     // Start is called before the first frame update
     void Start()
     {
@@ -51,64 +49,125 @@ public class Devlab_stand_in : MonoBehaviour
     void Update()
     {
         if (enemymainscript.playerInsideRadius) { ActivateStand(); }
-        //else if (appeared && !enemymainscript.playerInsideRadius) { DeactivateStand(); }
+        if (completed) {CompleteStand(); Debug.Log("Stand completed!"); }
     }
 
     public void UpdateColors(string color)
     {
-        //sideLightOff.SetActive(false);
-        Debug.Log($"Side light off is {sideLightOff.activeSelf}");
-        sideLightGreen.SetActive(false);
-        sideLightRed.SetActive(false);
-        sideLightBroken.SetActive(false);
-        //faceColorOff.SetActive(false);
-        Debug.Log($"Face Color off is {faceColorOff.activeSelf}");
-        faceColorGreen.SetActive(false);
-        faceColorRed.SetActive(false);
-        faceColorBroken.SetActive(false);
-
+        Debug.Log("Updating colors...");
         string colorToUse = color.ToLower();
         switch (colorToUse)
         {
             case "off":
-                Debug.LogWarning("Setting face and light off to active does not work for some reason. Please enabled and disable via animations");
+                if (currentColor != "off")
+                {
+                    Debug.Log("Off recognized");
+                    sideLightGreen.SetActive(false);
+                    faceColorGreen.SetActive(false);
+                    sideLightRed.SetActive(false);
+                    faceColorRed.SetActive(false);
+                    sideLightBroken.SetActive(false);
+                    faceColorBroken.SetActive(false);
+
+                    sideLightOff.SetActive(true);
+                    faceColorOff.SetActive(true);
+                    currentColor = "off";
+                }
                 break;
             case "green":
-                sideLightGreen.SetActive(true);
-                faceColorGreen.SetActive(true);
-                currentColor = CurrentColor.Green;
+                if (currentColor != "green")
+                {
+                    Debug.Log("Green recognized");
+                    sideLightOff.SetActive(false);
+                    faceColorOff.SetActive(false);
+                    sideLightRed.SetActive(false);
+                    faceColorRed.SetActive(false);
+                    sideLightBroken.SetActive(false);
+                    faceColorBroken.SetActive(false);
+
+                    sideLightGreen.SetActive(true);
+                    faceColorGreen.SetActive(true);
+                    currentColor = "green";
+                }
                 break;
             case "red":
-                sideLightRed.SetActive(true);
-                faceColorRed.SetActive(true);
-                currentColor = CurrentColor.Red;
+                if (currentColor != "red")
+                {
+                    Debug.Log("Red recognized");
+                    sideLightOff.SetActive(false);
+                    faceColorOff.SetActive(false);
+                    sideLightGreen.SetActive(false);
+                    faceColorGreen.SetActive(false);
+                    sideLightBroken.SetActive(false);
+                    faceColorBroken.SetActive(false);
+
+                    sideLightRed.SetActive(true);
+                    faceColorRed.SetActive(true);
+                    currentColor = "red";
+                }
                 break;
             case "broken":
-                sideLightBroken.SetActive(true);
-                faceColorBroken.SetActive(true);
-                currentColor = CurrentColor.Broken;
+                if (currentColor != "broken")
+                {
+                    Debug.Log("Broken recognized");
+                    sideLightOff.SetActive(false);
+                    faceColorOff.SetActive(false);
+                    sideLightGreen.SetActive(false);
+                    faceColorGreen.SetActive(false);
+                    sideLightRed.SetActive(false);
+                    faceColorRed.SetActive(false);
+
+                    sideLightBroken.SetActive(true);
+                    faceColorBroken.SetActive(true);
+                    currentColor = "broken";
+                }
                 break;
             default:
+                Debug.Log("No color recognized");
                 break;
         }
     }
 
     public void BeenHit()
     {
-        damageSustained = enemymainscript.maxHealth - enemymainscript.currentHealth;
-        if (damageSustained >= requiredDamage) { Debug.Log("Enough damage sustained"); CompleteStand(); }
-
         if (!completed)
         {
-            if (enemymainscript.collisionDir == -1) { animator.Play("Stand-in Hit from Left Large"); }  //Been hit from left
-            if (enemymainscript.collisionDir == 1) { animator.Play("Stand-in Hit from Right Large"); }  //Been hit from right
-        }   
+            float damageForBigHit = requiredDamage * (percentDmgForBigHit / 100);
+
+            if (enemymainscript.damageDoneToMe > requiredDamage)    //If damage is taken larger than the required damage...
+            {
+                UpdateColors("broken");
+                top.GetComponent<SpriteRenderer>().sprite = topBroken;
+                DeactivateHitbox();
+                completed = true;
+                if (enemymainscript.collisionDir == -1) { animator.Play("Stand-in Hit from Left Broken"); }  //Been hit from left
+                if (enemymainscript.collisionDir == 1) { animator.Play("Stand-in Hit from Right Broken"); }  //Been hit from right
+                return;
+            }
+            else if (enemymainscript.damageDoneToMe > damageForBigHit)  //Else if the damage is larger than the damage for big hit threshold
+            {
+                if (enemymainscript.collisionDir == -1) { animator.Play("Stand-in Hit from Left Large"); }  //Been hit from left
+                if (enemymainscript.collisionDir == 1) { animator.Play("Stand-in Hit from Right Large"); }  //Been hit from right
+            }
+            else
+            {
+                if (enemymainscript.collisionDir == -1) { animator.Play("Stand-in Hit from Left Small"); }  //Been hit from left
+                if (enemymainscript.collisionDir == 1) { animator.Play("Stand-in Hit from Right Small"); }  //Been hit from right
+            }
+        }
+
+        damageSustained = enemymainscript.maxHealth - enemymainscript.currentHealth;
+        if (damageSustained >= requiredDamage) {completed = true; }
     }
 
     public void CompleteStand()
     {
-        completed = true;
         DeactivateStand();
+        enemymainscript.defeated?.Invoke();
+        enemymainscript.enemyDefeated = true;
+        enemymainscript.damageDoneToMe = 0;
+        enemymainscript.damageDoneToMeMax = 0;
+        enemymainscript.damageDoneToMeMin = 0;
     }
 
     public void ActivateStand()
@@ -116,8 +175,10 @@ public class Devlab_stand_in : MonoBehaviour
         if (!appeared && !completed)
         { 
             animator.SetTrigger("Appear");
+            top.GetComponent<SpriteRenderer>().sprite = topNormal;
             appeared = true;
             disappeared = false;
+            damageSustained = 0;
             enemymainscript.ResetHealth();
         }
     }
@@ -132,12 +193,19 @@ public class Devlab_stand_in : MonoBehaviour
     {
         if (!disappeared)
         {
-            animator.SetTrigger("Disappear");
             disappeared = true;
+            animator.SetTrigger("Disappear");
             appeared=false;
             DeactivateHitbox();
-            if (resetOnCompleted) { ActivateStand(); appeared = false; completed = false; }
+            if (resetOnCompleted) { Invoke(nameof(ResetStand), resetTime);}
         }
+    }
+
+    public void ResetStand()
+    {
+        ActivateStand();
+        appeared = false;
+        completed = false;
     }
 
     public void DeactivateHitbox()

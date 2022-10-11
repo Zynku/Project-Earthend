@@ -494,7 +494,7 @@ public class Charattacks : MonoBehaviour
         }
     }
 
-    public void HitEnemy(GameObject enemy, Attack.AttackType attackType) 
+    public void HitEnemy(GameObject enemy, Attack.AttackType attackType) //Is called from the player hitboxes, alongside all relevant information.
     {
         if (enemy.transform.position.x > transform.position.x)
         {
@@ -535,14 +535,19 @@ public class Charattacks : MonoBehaviour
         {
             case "target_dummy":
                 target_dummy_controller dummyScript = enemy.GetComponent<target_dummy_controller>();
-                dummyScript.damageDoneToMeMax = Mathf.FloorToInt(currentDamageMax);
+                dummyScript.damageDoneToMeMax = Mathf.FloorToInt(currentDamageMax); //These values are assigned in case a script needs to reference them
                 dummyScript.damageDoneToMeMin = Mathf.FloorToInt(currentDamageMin);
-                dummyScript.damageDoneToMe = (UnityEngine.Random.Range(currentDamageMax, currentDamageMin));
-                dummyScript.TakeDamage(dummyScript.damageDoneToMe);
+                int damageDoneDummy = (UnityEngine.Random.Range(currentDamageMax, currentDamageMin));
+                dummyScript.damageDoneToMe = damageDoneDummy;
+                dummyScript.TakeDamage(damageDoneDummy);
                 break;
             case "enemy":
                 Enemymain enemyScript = enemy.GetComponent<Enemymain>();
-                enemyScript.TakeDamage(69);
+                enemyScript.damageDoneToMeMax = Mathf.FloorToInt(currentDamageMax); 
+                enemyScript.damageDoneToMeMin = Mathf.FloorToInt(currentDamageMin);
+                int damageDoneEnemy = (UnityEngine.Random.Range(currentDamageMax, currentDamageMin));
+                enemyScript.damageDoneToMe = damageDoneEnemy;
+                enemyScript.TakeDamage(damageDoneEnemy);
                 break;
             default:
                 break;

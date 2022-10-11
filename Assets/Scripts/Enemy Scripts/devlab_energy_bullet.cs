@@ -57,6 +57,15 @@ public class devlab_energy_bullet : MonoBehaviour
                 collision.GetComponent<Charhealth>().TakeDamage(randomDamage);
                 break;
 
+            case "enemy":
+                int randomDamage2= Mathf.FloorToInt(Random.Range(minDamage, maxDamage));
+                Enemymain enemyScript = collision.GetComponentInParent<Enemymain>();
+                enemyScript.damageDoneToMeMax = randomDamage2;
+                enemyScript.damageDoneToMeMin = randomDamage2;
+                enemyScript.damageDoneToMe = randomDamage2;
+                enemyScript.TakeDamage(randomDamage2);
+                break;
+
             default:
                 break;
         }

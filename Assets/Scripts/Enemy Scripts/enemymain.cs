@@ -18,8 +18,8 @@ public class Enemymain : MonoBehaviour  //This class is reponsible for everythin
     public bool canTakeDamage;
     public int maxHealth;
     public int currentHealth;
-    private int damageDoneToMeMax;
-    private int damageDoneToMeMin;
+    public int damageDoneToMeMax;
+    public int damageDoneToMeMin;
     public int damageDoneToMe;
     public float dmgCooldown;
     public float dmgCooldownTargetTime = 0.1f;
@@ -27,9 +27,13 @@ public class Enemymain : MonoBehaviour  //This class is reponsible for everythin
     public GameObject floatingDmgTextPrefab;
     public GameObject floatingHealthTextPrefab;
     public Vector3 dmgTextOffset;
+
     public delegate void EnemyGotHit();
-    //public static event EnemyGotHit EnemyBeenHit;
     public EnemyGotHit enemyBeenHit;
+    public delegate void EnemyDefeated();
+    public EnemyDefeated defeated;
+    public bool enemyDefeated;
+
 
 
     GameObject Player;
@@ -69,30 +73,6 @@ public class Enemymain : MonoBehaviour  //This class is reponsible for everythin
     public void OnTriggerEnter2D(Collider2D collision)
     {
         //Charattacks is responsible for letting the enemy know it has been hit. Make sure tags and layers are correct.
-
-        /*if (collision.gameObject.CompareTag("player_attackhitbox"))
-        {
-            if (collision.transform.position.x > transform.position.x)
-            {
-                collisionDir = -1;
-            }
-            else if (collision.transform.position.x < transform.position.x)
-            {
-                collisionDir = 1;
-            }
-
-            //Gets max and min attack values from enemy script, returns random value between them, applies damage
-            damageDoneToMeMax = Mathf.FloorToInt(collision.GetComponentInParent<Charcontrol>().attackdamageMax);
-            damageDoneToMeMin = Mathf.FloorToInt(collision.GetComponentInParent<Charcontrol>().attackdamageMin);
-            damageDoneToMe = (Random.Range(damageDoneToMeMax, damageDoneToMeMin));
-            TakeDamage(damageDoneToMe);
-
-            EnemyBeenHit?.Invoke();
-
-            //Loads hit effect from resources folder
-            Instantiate(Resources.Load<GameObject>("Sprites/Hit effects/Hit effect 1"), new Vector3(transform.position.x, transform.position.y, -1.33f), transform.rotation);
-            //stunnedcheck = true;
-        }*/
     }
 
     public void OnTriggerExit2D(Collider2D collision)
@@ -138,6 +118,13 @@ public class Enemymain : MonoBehaviour  //This class is reponsible for everythin
             collisionDir = 1;
         }
         enemyBeenHit?.Invoke();
+    }
+
+    public void CreateFloatingText(string text, Color color)
+    {
+        var floattext = Instantiate(floatingDmgTextPrefab, transform.position + dmgTextOffset, Quaternion.identity);
+        floattext.GetComponent<TMPro.TextMeshPro>().text = text;
+        floattext.GetComponent<TMPro.TextMeshPro>().faceColor = color;
     }
 
     public void ResetHealth()
