@@ -21,8 +21,9 @@ public class Enemymain : MonoBehaviour  //This class is reponsible for everythin
     public int damageDoneToMeMax;
     public int damageDoneToMeMin;
     public int damageDoneToMe;
-    public float dmgCooldown;
+    [ReadOnly] public float dmgCooldown;
     public float dmgCooldownTargetTime = 0.1f;
+    public GameObject lastDmgSource;
     [HideInInspector] public float collisionDir = 1f;
     public GameObject floatingDmgTextPrefab;
     public GameObject floatingHealthTextPrefab;
@@ -75,12 +76,6 @@ public class Enemymain : MonoBehaviour  //This class is reponsible for everythin
         //Charattacks is responsible for letting the enemy know it has been hit. Make sure tags and layers are correct.
     }
 
-    public void OnTriggerExit2D(Collider2D collision)
-    {
-
-    }
-
-
     //Instantiates health text, gives it health value to display
     public void AddHealth(int health)
     {
@@ -102,22 +97,22 @@ public class Enemymain : MonoBehaviour  //This class is reponsible for everythin
             floattext.GetComponent<TMPro.TextMeshPro>().text = damage.ToString();
             floattext.GetComponent<TMPro.TextMeshPro>().faceColor = new Color(255, 18, 37);
 
-
             //Applies force to show direction hit from. Current bug where direction only updates on hit, so last direction may be incorrect if it is changed
             floattext.GetComponent<Rigidbody2D>().AddForce(new Vector2(collisionDir, 0), ForceMode2D.Impulse);
+
+            if (lastDmgSource.transform.position.x < transform.position.x) //Been hit from left
+            {
+                collisionDir = -1;
+            }
+
+            if (lastDmgSource.transform.position.x > transform.position.x) //Been hit from right
+            {
+                collisionDir = 1;
+            }
+            enemyBeenHit?.Invoke();
+
             dmgCooldown = dmgCooldownTargetTime;
         }
-
-        if (playerPos.x < transform.position.x) //Been hit from left
-        {
-            collisionDir = -1;
-        }
-
-        if (playerPos.x > transform.position.x) //Been hit from right
-        {
-            collisionDir = 1;
-        }
-        enemyBeenHit?.Invoke();
     }
 
     public void CreateFloatingText(string text, Color color)

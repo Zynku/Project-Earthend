@@ -54,14 +54,12 @@ public class Devlab_stand_in : MonoBehaviour
 
     public void UpdateColors(string color)
     {
-        Debug.Log("Updating colors...");
         string colorToUse = color.ToLower();
         switch (colorToUse)
         {
             case "off":
                 if (currentColor != "off")
                 {
-                    Debug.Log("Off recognized");
                     sideLightGreen.SetActive(false);
                     faceColorGreen.SetActive(false);
                     sideLightRed.SetActive(false);
@@ -77,7 +75,6 @@ public class Devlab_stand_in : MonoBehaviour
             case "green":
                 if (currentColor != "green")
                 {
-                    Debug.Log("Green recognized");
                     sideLightOff.SetActive(false);
                     faceColorOff.SetActive(false);
                     sideLightRed.SetActive(false);
@@ -93,7 +90,6 @@ public class Devlab_stand_in : MonoBehaviour
             case "red":
                 if (currentColor != "red")
                 {
-                    Debug.Log("Red recognized");
                     sideLightOff.SetActive(false);
                     faceColorOff.SetActive(false);
                     sideLightGreen.SetActive(false);
@@ -109,7 +105,6 @@ public class Devlab_stand_in : MonoBehaviour
             case "broken":
                 if (currentColor != "broken")
                 {
-                    Debug.Log("Broken recognized");
                     sideLightOff.SetActive(false);
                     faceColorOff.SetActive(false);
                     sideLightGreen.SetActive(false);
@@ -123,7 +118,6 @@ public class Devlab_stand_in : MonoBehaviour
                 }
                 break;
             default:
-                Debug.Log("No color recognized");
                 break;
         }
     }
@@ -206,6 +200,7 @@ public class Devlab_stand_in : MonoBehaviour
         ActivateStand();
         appeared = false;
         completed = false;
+        enemymainscript.enemyDefeated = false;
     }
 
     public void DeactivateHitbox()

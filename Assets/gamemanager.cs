@@ -54,6 +54,8 @@ public class GameManager : MonoBehaviour
     public InventoryUIHelper inventoryUIHelper;
     public Respawn_menu_manager respawn_Menu_Manager;
     public Welcome_screen_manager welcome_screen_manager;
+    public EncounterManager encounterManager;
+    //public Enemymanager enemyManager;
     public InGameUi inGameUI;
 
     [Separator("Important Game Objects & Scripts")]
@@ -195,10 +197,14 @@ public class GameManager : MonoBehaviour
     public void SetupCameras()
     {
         cMBrain = FindObjectOfType<CinemachineBrain>();
-        mainCamera = FindObjectOfType<CinemachineVirtualCamera>(); //mainCamera.GetComponent<CinemachineVirtualCameraBase>();
-        //mainCameraBase = cMBrain.GetCinemachineComponent<CinemachineVirtualCameraBase>();
+        mainCamera = FindObjectOfType<CinemachineVirtualCamera>();       
         camPerlin = mainCamera.GetCinemachineComponent<CinemachineBasicMultiChannelPerlin>();
         mainCamera.Follow = Player.transform;
+    }
+
+    public void SetNewCameraTarget(GameObject newTarget)
+    {
+        mainCamera.Follow = newTarget.transform;
     }
 
     public void PauseGame()

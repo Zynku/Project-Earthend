@@ -30359,6 +30359,7 @@ MonoBehaviour:
   inventoryUIHelper: {fileID: 6856508595896684866}
   respawn_Menu_Manager: {fileID: 6856508595631553581}
   welcome_screen_manager: {fileID: 6856508595813604635}
+  encounterManager: {fileID: 0}
   inGameUI: {fileID: 6856508595856330538}
   ingame_UI: {fileID: 6856508595856330538}
   inventoryui: {fileID: 0}

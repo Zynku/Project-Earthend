@@ -161,7 +161,7 @@ public class Charattacks : MonoBehaviour
                 else if (buttonHeldFloat > buttonHeldThreshold)   //If we have passed the buttonHeldThreshold time, this button was held long enough to count as a held press.
                 {
                     Debug.Log($"Light attack is being held");
-                    Attack newattack = new Attack("Light_Held", lightDamageMin, Attack.AttackType.LIGHT_HELD);
+                    Attack newattack = new ("Light_Held", lightDamageMin, Attack.AttackType.LIGHT_HELD);
                     currentAttacks.Add(newattack);
                     canAcceptAttackInput = false;
                     CheckforCombos();
@@ -180,7 +180,7 @@ public class Charattacks : MonoBehaviour
                 if (buttonHeldFloat < buttonHeldThreshold)
                 {
                     //Debug.Log("Light!");
-                    Attack newattack = new Attack("Light", lightDamageMin, Attack.AttackType.LIGHT);
+                    Attack newattack = new ("Light", lightDamageMin, Attack.AttackType.LIGHT);
                     currentAttacks.Add(newattack);
                     canAcceptAttackInput = false;
                     CheckforCombos();
@@ -198,7 +198,7 @@ public class Charattacks : MonoBehaviour
                 else if (buttonHeldFloat > buttonHeldThreshold)   //If we have passed the buttonHeldThreshold time, this button was held long enough to count as a held press.
                 {
                     Debug.Log($"Heavy attack is being held");
-                    Attack newattack = new Attack("Heavy_Held", heavyDamageMin, Attack.AttackType.HEAVY_HELD);
+                    Attack newattack = new ("Heavy_Held", heavyDamageMin, Attack.AttackType.HEAVY_HELD);
                     currentAttacks.Add(newattack);
                     canAcceptAttackInput = false;
                     CheckforCombos();
@@ -217,7 +217,7 @@ public class Charattacks : MonoBehaviour
                 if (buttonHeldFloat < buttonHeldThreshold)
                 {
                     //Debug.Log("Light!");
-                    Attack newattack = new Attack("Heavy", heavyDamageMin, Attack.AttackType.HEAVY);
+                    Attack newattack = new ("Heavy", heavyDamageMin, Attack.AttackType.HEAVY);
                     currentAttacks.Add(newattack);
                     canAcceptAttackInput = false;
                     CheckforCombos();
@@ -228,7 +228,7 @@ public class Charattacks : MonoBehaviour
 
             if (Input.GetButtonDown("Ranged Attack"))
             {
-                Attack newattack = new Attack("Ranged", rangedDamageMin, Attack.AttackType.RANGED);
+                Attack newattack = new ("Ranged", rangedDamageMin, Attack.AttackType.RANGED);
                 currentAttacks.Add(newattack);
                 CheckforCombos();
                 canAcceptAttackInput = false;
@@ -547,6 +547,7 @@ public class Charattacks : MonoBehaviour
                 enemyScript.damageDoneToMeMin = Mathf.FloorToInt(currentDamageMin);
                 int damageDoneEnemy = (UnityEngine.Random.Range(currentDamageMax, currentDamageMin));
                 enemyScript.damageDoneToMe = damageDoneEnemy;
+                enemyScript.lastDmgSource = gameObject;
                 enemyScript.TakeDamage(damageDoneEnemy);
                 break;
             default:

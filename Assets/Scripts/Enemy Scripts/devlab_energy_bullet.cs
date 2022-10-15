@@ -38,8 +38,14 @@ public class devlab_energy_bullet : MonoBehaviour
         Destroy(gameObject, 3f);
     }
 
-    private void OnTriggerStay2D(Collider2D collision)
+    public void OnTriggerStay2D(Collider2D collision)
     {
+        
+    }
+
+    public void OnTriggerEnter2D(Collider2D collision)
+    {
+        Debug.Log($"{collision} on {collision.gameObject}");
         switch (collision.tag)
         {
             case "Walls":
@@ -58,11 +64,12 @@ public class devlab_energy_bullet : MonoBehaviour
                 break;
 
             case "enemy":
-                int randomDamage2= Mathf.FloorToInt(Random.Range(minDamage, maxDamage));
+                int randomDamage2 = Mathf.FloorToInt(Random.Range(minDamage, maxDamage));
                 Enemymain enemyScript = collision.GetComponentInParent<Enemymain>();
                 enemyScript.damageDoneToMeMax = randomDamage2;
                 enemyScript.damageDoneToMeMin = randomDamage2;
                 enemyScript.damageDoneToMe = randomDamage2;
+                enemyScript.lastDmgSource = gameObject;
                 enemyScript.TakeDamage(randomDamage2);
                 break;
 
