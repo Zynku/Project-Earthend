@@ -507,7 +507,7 @@ public class Charattacks : MonoBehaviour
 
         GameManager.instance.Particle_Manager.PlayHitParticles(enemy.GetComponent<Collider2D>().ClosestPoint(transform.position));
         StartCoroutine(GameManager.instance.MeleeHitStop());
-        StartCoroutine(GameManager.instance.DoScreenShake(screenShakeIntensity, screenShakeTime));
+        GameManager.instance.DoScreenShake(screenShakeIntensity, screenShakeTime);
 
         switch (currentComboRef[0].comboType)
         {

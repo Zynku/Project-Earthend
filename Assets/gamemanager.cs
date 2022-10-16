@@ -55,18 +55,13 @@ public class GameManager : MonoBehaviour
     public Respawn_menu_manager respawn_Menu_Manager;
     public Welcome_screen_manager welcome_screen_manager;
     public EncounterManager encounterManager;
+    public CameraManager cameraManager;
     //public Enemymanager enemyManager;
     public InGameUi inGameUI;
 
     [Separator("Important Game Objects & Scripts")]
     public InGameUi ingame_UI;
     public InventoryUI inventoryui;
-
-    [Separator("Cameras")]
-    public CinemachineBrain cMBrain;
-    public CinemachineVirtualCamera mainCamera;
-    [ReadOnly] public CinemachineVirtualCameraBase mainCameraBase;
-    CinemachineBasicMultiChannelPerlin camPerlin;
 
     [Separator("Event System")]
     public EventSystem theEventSystem;
@@ -180,7 +175,7 @@ public class GameManager : MonoBehaviour
                 welcome_screen_manager.ShowWelcomeScreen();
                 inGameUI.mainCanvas.SetActive(true);
                 playerManager.EnablePlayer();
-                SetupCameras();
+                cameraManager.SetupCameras();
                 break;
 
             case "Main Menu Scene":
@@ -194,22 +189,10 @@ public class GameManager : MonoBehaviour
                 break;
         }
     }
-    public void SetupCameras()
-    {
-        cMBrain = FindObjectOfType<CinemachineBrain>();
-        mainCamera = FindObjectOfType<CinemachineVirtualCamera>();       
-        camPerlin = mainCamera.GetCinemachineComponent<CinemachineBasicMultiChannelPerlin>();
-        mainCamera.Follow = Player.transform;
-    }
-
-    public void SetNewCameraTarget(GameObject newTarget)
-    {
-        mainCamera.Follow = newTarget.transform;
-    }
 
     public void PauseGame()
     {
-        Debug.Log("Pausing game...");
+        //Debug.Log("Pausing game...");
         playerManager.DisablePlayer();
         BGAudioManager.FadeMixerLowPass(BGAudioManager.masterMixer.audioMixer, "MasterLowPassCutoffFreq", 0.5f);
         pause_and_scene_manager.isGamePaused = true;
@@ -222,7 +205,7 @@ public class GameManager : MonoBehaviour
 
     public void ResumeGame()
     {
-        Debug.Log("Resuming game...");
+        //Debug.Log("Resuming game...");
         playerManager.ResetPlayer();
         BGAudioManager.RemoveMixerLowPass(BGAudioManager.masterMixer.audioMixer);
         pause_and_scene_manager.isGamePaused = false;
@@ -281,11 +264,9 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    public IEnumerator DoScreenShake(float intensity, float time)
+    public void DoScreenShake(float intensity, float time)
     {
-        camPerlin.m_AmplitudeGain = intensity;
-        yield return new WaitForSeconds(time);
-        camPerlin.m_AmplitudeGain = 0;
+        StartCoroutine(cameraManager.DoScreenShake(intensity, time));
     }
 
     void HurtFlash()

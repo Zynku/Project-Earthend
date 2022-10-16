@@ -20,7 +20,7 @@ public class Healthbar : MonoBehaviour
 
     public void SetHealth (int health)
     {
-        Debug.Log("Updating health vals");
+        //Debug.Log("Updating health vals");
         healthVal = health;
         StopAllCoroutines();
         StartCoroutine(SmoothValues(Mathf.FloorToInt(slider.value), health));

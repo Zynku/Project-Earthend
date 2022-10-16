@@ -103,7 +103,7 @@ public class Chareffects : MonoBehaviour
 
     public void DoScreenShakeManual()
     {
-        StartCoroutine(GameManager.instance.DoScreenShake(charattacks.screenShakeIntensity, charattacks.screenShakeTime));
+        GameManager.instance.DoScreenShake(charattacks.screenShakeIntensity, charattacks.screenShakeTime);
     }
 
     public void IframeBlink()

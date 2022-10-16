@@ -30360,12 +30360,10 @@ MonoBehaviour:
   respawn_Menu_Manager: {fileID: 6856508595631553581}
   welcome_screen_manager: {fileID: 6856508595813604635}
   encounterManager: {fileID: 0}
+  cameraManager: {fileID: 0}
   inGameUI: {fileID: 6856508595856330538}
   ingame_UI: {fileID: 6856508595856330538}
   inventoryui: {fileID: 0}
-  cMBrain: {fileID: 0}
-  mainCamera: {fileID: 0}
-  mainCameraBase: {fileID: 0}
   theEventSystem: {fileID: 6856508595472878870}
 --- !u!114 &6856508596905928444
 MonoBehaviour:

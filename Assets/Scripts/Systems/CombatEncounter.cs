@@ -15,6 +15,9 @@ public class CombatEncounter : MonoBehaviour
     public bool playerInStartCollider;  //This and the below one are controlled from the encounterhitbox children
     public bool playerInExitCollider;
 
+    [Foldout("Important Objects", true)]
+    public GameObject cameraTarget;
+    public GameObject[] encounterEdges;
 
     [Foldout("Encounter Limits", true)]
     [Tooltip("If the player collides here, the encounter starts")]
@@ -37,6 +40,7 @@ public class CombatEncounter : MonoBehaviour
         player = GameManager.instance.Player;
         encounterState = EncounterStates.Active;
         gameManager = GameManager.instance;
+        encounterManager = GetComponentInParent<EncounterManager>();
     }
 
     // Update is called once per frame
@@ -45,6 +49,7 @@ public class CombatEncounter : MonoBehaviour
         if (playerInStartCollider && playerInExitCollider)
         {
             encounterState = EncounterStates.PlayerInside;
+            encounterManager.AssignNewEncounter(this);
         }
         else
         {

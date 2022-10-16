@@ -38,14 +38,14 @@ MonoBehaviour:
     backgroundColor: {r: 0.5903926, g: 0.12967247, b: 0.8867924, a: 1}
     textAlignment: 4
     fontStyle: 0
-  - keyChar: '[ENEMY]'
+  - keyChar: '[NME]'
     textColor: {r: 1, g: 1, b: 1, a: 1}
     backgroundColor: {r: 0.52599996, g: 0.06294755, b: 0.055230007, a: 1}
     textAlignment: 4
     fontStyle: 0
   - keyChar: '[AUD]'
     textColor: {r: 1, g: 1, b: 1, a: 1}
-    backgroundColor: {r: 0.7169812, g: 0.0111683, b: 0, a: 1}
+    backgroundColor: {r: 0.20220716, g: 0.754717, b: 0.6153039, a: 1}
     textAlignment: 4
     fontStyle: 0
   - keyChar: '[DEBUG]'
@@ -61,5 +61,10 @@ MonoBehaviour:
   - keyChar: '[SYS2]'
     textColor: {r: 1, g: 1, b: 1, a: 1}
     backgroundColor: {r: 0.34185937, g: 0.34478125, b: 0.374, a: 1}
+    textAlignment: 4
+    fontStyle: 0
+  - keyChar: '[CAM]'
+    textColor: {r: 1, g: 1, b: 1, a: 1}
+    backgroundColor: {r: 0.48509094, g: 0.8396226, b: 0.18535063, a: 1}
     textAlignment: 4
     fontStyle: 0
