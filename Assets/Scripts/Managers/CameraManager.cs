@@ -22,9 +22,9 @@ public class CameraManager : MonoBehaviour
 
     public void SetupCameras()
     {
-        if(gameManager == null) { Start(); }
+        if(gameManager == null) { gameManager = GameManager.instance; }
         cMBrain = FindObjectOfType<CinemachineBrain>();
-        mainCamera = FindObjectOfType<CinemachineVirtualCamera>();
+        //mainCamera = FindObjectOfType<CinemachineVirtualCamera>();
         camPerlin = mainCamera.GetCinemachineComponent<CinemachineBasicMultiChannelPerlin>();
         mainCamera.Follow = gameManager.Player.transform;
     }

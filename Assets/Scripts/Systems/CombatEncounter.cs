@@ -1,7 +1,9 @@
 using MyBox;
+using System.Linq;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Cinemachine;
 
 public class CombatEncounter : MonoBehaviour
 {
@@ -14,10 +16,22 @@ public class CombatEncounter : MonoBehaviour
     public EncounterStates encounterState;
     public bool playerInStartCollider;  //This and the below one are controlled from the encounterhitbox children
     public bool playerInExitCollider;
+    [Tooltip("Will the Encounter restart if the player completely exits and enters again?")]
+    public bool resetOnPlayerExit;
+    private bool playerExited;
 
     [Foldout("Important Objects", true)]
     public GameObject cameraTarget;
+    public SpriteRenderer XMarker;
     public GameObject[] encounterEdges;
+    public CinemachineVirtualCamera myCamera;
+
+    [Foldout("Enemies", true)]
+    public List<Enemymain> allEnemies;
+    public List<Enemymain> defeatedEnemies;
+    public int enemyAmount;
+    public int enemiesDefeated;
+    public float enemySpawnDelay;
 
     [Foldout("Encounter Limits", true)]
     [Tooltip("If the player collides here, the encounter starts")]
@@ -27,11 +41,12 @@ public class CombatEncounter : MonoBehaviour
 
     public enum EncounterStates
     {
-        Inactive,
-        Active,
+        Inactive,   //Won't activate even if the player is ready and inside
+        Active,     //Will be ready when the player steps inside and will be assigned to the manager
         Waiting,
-        PlayerInside,
-        Completed
+        PlayerInside,   
+        Completed,
+        WaitingForPlayerExit    //Waiting for the player to exit so it can be reset
     }
 
     // Start is called before the first frame update
@@ -41,19 +56,109 @@ public class CombatEncounter : MonoBehaviour
         encounterState = EncounterStates.Active;
         gameManager = GameManager.instance;
         encounterManager = GetComponentInParent<EncounterManager>();
+        cameraTarget.GetComponent<SpriteRenderer>().enabled = false;
+        XMarker.enabled = false;
+
+        foreach (var edge in encounterEdges)
+        {
+            edge.GetComponent<SpriteRenderer>().enabled = false;
+            edge.GetComponent<Collider2D>().enabled = false;
+        }
+
+        allEnemies = GetComponentsInChildren<Enemymain>().ToList();
+        enemyAmount = allEnemies.Count;
+        encounterManager.combatEncounters.Add(this);
+
+        Enemymain.defeated += ManageEnemies;
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (playerInStartCollider && playerInExitCollider)
+        if (playerInStartCollider && playerInExitCollider && encounterState != EncounterStates.PlayerInside)    //Sets the state to player inside once the player...is inside...
         {
-            encounterState = EncounterStates.PlayerInside;
-            encounterManager.AssignNewEncounter(this);
+            if (encounterState != EncounterStates.WaitingForPlayerExit) //...and we're not waiting for the player to exit
+            {
+                if (encounterState != EncounterStates.Completed)
+                {
+                    encounterState = EncounterStates.PlayerInside;
+                }
+            }
         }
-        else
+        else if (!playerInStartCollider && !playerInExitCollider && encounterState != EncounterStates.Active)   //Sets the encounter to active once the player
         {
-            encounterState=EncounterStates.Active;
+            if (encounterState != EncounterStates.Completed)
+            {
+                encounterState = EncounterStates.Active;
+            }
+
+        }
+
+        if (!playerInStartCollider && !playerInExitCollider)   //Player completed exited the encounter
+        {
+            playerExited = true;
+            if (resetOnPlayerExit)  //Resets variables here. The combat encounter manager will treat this as a new encounter once the player leaves it
+            {
+                encounterState = EncounterStates.Active;
+                enemiesDefeated = 0;
+            }
+        }
+
+        if (encounterState == EncounterStates.PlayerInside)
+        {
+            ManageEnemies();
+        }
+
+        if (encounterState == EncounterStates.Completed && resetOnPlayerExit)
+        {
+            encounterState = EncounterStates.WaitingForPlayerExit;
+        }
+    }
+
+    public void ManageEnemies()
+    {
+        foreach (var enemy in allEnemies)
+        {
+            if (enemy.GetComponent<Enemymain>().enemyDefeated)
+            {
+                if (!defeatedEnemies.Contains(enemy))
+                {
+                    defeatedEnemies.Add(enemy);
+                    enemiesDefeated++;
+                }
+            }
+        }
+    }
+
+    public void ResetEncounter()
+    {
+        //TODO: ManageEnemies() is called on every frame, even before this is called from EncounterManager on reset. Find a way to make ManageEnemies() less eager
+        defeatedEnemies.Clear();
+        enemiesDefeated = 0;
+    }
+
+    public void ActivateEdges()
+    {
+        foreach (var edge in encounterEdges)
+        {
+            edge.GetComponent<Collider2D>().enabled = true;
+        }
+    }
+
+    public void DeactivateEdges()
+    {
+        foreach (var edge in encounterEdges)
+        {
+            edge.GetComponent<Collider2D>().enabled = false;
+        }
+    }
+
+    public IEnumerator SpawnEnemies()
+    {
+        foreach (var enemy in allEnemies)   //Tell each enemy to spawn itself after a short delay
+        {
+            enemy.GetComponent<Enemymain>().spawnOrActivate?.Invoke();
+            yield return new WaitForSeconds(enemySpawnDelay);
         }
     }
 }

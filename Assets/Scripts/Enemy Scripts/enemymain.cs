@@ -29,10 +29,12 @@ public class Enemymain : MonoBehaviour  //This class is reponsible for everythin
     public GameObject floatingHealthTextPrefab;
     public Vector3 dmgTextOffset;
 
+    public delegate void SpawnOrActivateEnemy();
+    public SpawnOrActivateEnemy spawnOrActivate;
     public delegate void EnemyGotHit();
     public EnemyGotHit enemyBeenHit;
     public delegate void EnemyDefeated();
-    public EnemyDefeated defeated;
+    public static EnemyDefeated defeated;
     public bool enemyDefeated;
 
 

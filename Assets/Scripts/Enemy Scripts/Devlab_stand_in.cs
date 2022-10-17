@@ -18,6 +18,8 @@ public class Devlab_stand_in : MonoBehaviour
     public string currentColor;
 
     [Foldout("State and Completion Variables", true)]
+    [Tooltip("Will the stand spawn by the player coming close or by an encounter?")]
+    public bool spawnViaDistance;
     [Tooltip("How much damage until it's completed?")]
     public int requiredDamage;
     [Tooltip("How much damage have I taken so far?")]
@@ -43,13 +45,17 @@ public class Devlab_stand_in : MonoBehaviour
         squareSprite = GetComponent<SpriteRenderer>();
         squareSprite.enabled = false;  
         enemymainscript.enemyBeenHit += BeenHit;
+        enemymainscript.spawnOrActivate += ActivateStand;
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (enemymainscript.playerInsideRadius) { ActivateStand(); }
-        if (completed) {CompleteStand(); Debug.Log("Stand completed!"); }
+        if (enemymainscript.playerInsideRadius && spawnViaDistance) 
+        {
+            ActivateStand();
+        }
+        if (completed) {CompleteStand();}
     }
 
     public void UpdateColors(string color)
@@ -157,7 +163,8 @@ public class Devlab_stand_in : MonoBehaviour
     public void CompleteStand()
     {
         DeactivateStand();
-        enemymainscript.defeated?.Invoke();
+        //enemymainscript.defeated?.Invoke();
+        Enemymain.defeated?.Invoke();
         enemymainscript.enemyDefeated = true;
         enemymainscript.damageDoneToMe = 0;
         enemymainscript.damageDoneToMeMax = 0;
@@ -166,12 +173,13 @@ public class Devlab_stand_in : MonoBehaviour
 
     public void ActivateStand()
     {
-        if (!appeared && !completed)
+        if (!appeared)
         { 
             animator.SetTrigger("Appear");
             top.GetComponent<SpriteRenderer>().sprite = topNormal;
             appeared = true;
             disappeared = false;
+            completed = false;
             damageSustained = 0;
             enemymainscript.ResetHealth();
         }
@@ -181,7 +189,6 @@ public class Devlab_stand_in : MonoBehaviour
     {
         hitbox.enabled = true;
     }
-
 
     public void DeactivateStand()
     {
@@ -201,6 +208,7 @@ public class Devlab_stand_in : MonoBehaviour
         appeared = false;
         completed = false;
         enemymainscript.enemyDefeated = false;
+        enemymainscript.damageDoneToMe = 0;
     }
 
     public void DeactivateHitbox()
