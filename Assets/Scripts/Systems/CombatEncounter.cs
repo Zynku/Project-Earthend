@@ -18,7 +18,9 @@ public class CombatEncounter : MonoBehaviour
     public bool playerInExitCollider;
     [Tooltip("Will the Encounter restart if the player completely exits and enters again?")]
     public bool resetOnPlayerExit;
-    private bool playerExited;
+    public bool encounterReady;         //Keeps certain functions from activating early. Is changed from Encounter Manager
+    [Tooltip("How many times has this encounter been completed?")]
+    public int timesCompleted;
 
     [Foldout("Important Objects", true)]
     public GameObject cameraTarget;
@@ -68,8 +70,6 @@ public class CombatEncounter : MonoBehaviour
         allEnemies = GetComponentsInChildren<Enemymain>().ToList();
         enemyAmount = allEnemies.Count;
         encounterManager.combatEncounters.Add(this);
-
-        Enemymain.defeated += ManageEnemies;
     }
 
     // Update is called once per frame
@@ -96,17 +96,11 @@ public class CombatEncounter : MonoBehaviour
 
         if (!playerInStartCollider && !playerInExitCollider)   //Player completed exited the encounter
         {
-            playerExited = true;
             if (resetOnPlayerExit)  //Resets variables here. The combat encounter manager will treat this as a new encounter once the player leaves it
             {
                 encounterState = EncounterStates.Active;
                 enemiesDefeated = 0;
             }
-        }
-
-        if (encounterState == EncounterStates.PlayerInside)
-        {
-            ManageEnemies();
         }
 
         if (encounterState == EncounterStates.Completed && resetOnPlayerExit)
@@ -115,25 +109,18 @@ public class CombatEncounter : MonoBehaviour
         }
     }
 
-    public void ManageEnemies()
+    public void ChildEnemyDefeated(Enemymain enemy)
     {
-        foreach (var enemy in allEnemies)
-        {
-            if (enemy.GetComponent<Enemymain>().enemyDefeated)
-            {
-                if (!defeatedEnemies.Contains(enemy))
-                {
-                    defeatedEnemies.Add(enemy);
-                    enemiesDefeated++;
-                }
-            }
-        }
+        Debug.Log($"Adding {enemy.name} to the list");
+        defeatedEnemies.Add(enemy);
+        enemy.activated = false;
+        enemiesDefeated++;
     }
 
     public void ResetEncounter()
     {
-        //TODO: ManageEnemies() is called on every frame, even before this is called from EncounterManager on reset. Find a way to make ManageEnemies() less eager
-        defeatedEnemies.Clear();
+        Debug.Log("Enemies cleared from list");
+        defeatedEnemies.Clear();    //This is essentially useless as the enemies are readded on the very next frame since the ecounter isnt set as inactive yet.
         enemiesDefeated = 0;
     }
 
@@ -155,9 +142,14 @@ public class CombatEncounter : MonoBehaviour
 
     public IEnumerator SpawnEnemies()
     {
-        foreach (var enemy in allEnemies)   //Tell each enemy to spawn itself after a short delay
+        for (int i = 0; i < allEnemies.Count; i++)
         {
-            enemy.GetComponent<Enemymain>().spawnOrActivate?.Invoke();
+            allEnemies[i].GetComponent<Enemymain>().spawnOrActivate?.Invoke();
+            if (i == 1)
+            {
+                Debug.Log($"{i} enemies spawned, setting the ecounter to ready!");
+                encounterReady = true;  //Sets the ecounter to be ready once the first enemy is spawned
+            }
             yield return new WaitForSeconds(enemySpawnDelay);
         }
     }

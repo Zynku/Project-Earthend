@@ -29,7 +29,8 @@ public class Devlab_stand_in : MonoBehaviour
     [Tooltip("Has the stand appeared or disappeared yet?")]
     public bool appeared, disappeared;  
     [Tooltip("Has it taken enough damage to be completed")]
-    public bool completed;              
+    public bool completed;
+    private bool finishedCompletion;
     [Tooltip("Does the stand reset itself after is has been completed?")]
     public bool resetOnCompleted;
     [Tooltip("How long after deactivating should I reset, provided resetOnCompleted is true")]
@@ -51,11 +52,13 @@ public class Devlab_stand_in : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (enemymainscript.playerInsideRadius && spawnViaDistance) 
+        if (enemymainscript.playerInsideRadius) 
         {
+            if (!spawnViaDistance) { return; }  //Do nothing if not in range
+            if (completed) { return; }          //Do nothing if enemy has been defeated before and doesn't reset
             ActivateStand();
         }
-        if (completed) {CompleteStand();}
+        if (completed && !finishedCompletion) {CompleteStand(); finishedCompletion = true; }
     }
 
     public void UpdateColors(string color)
@@ -163,12 +166,7 @@ public class Devlab_stand_in : MonoBehaviour
     public void CompleteStand()
     {
         DeactivateStand();
-        //enemymainscript.defeated?.Invoke();
-        Enemymain.defeated?.Invoke();
-        enemymainscript.enemyDefeated = true;
-        enemymainscript.damageDoneToMe = 0;
-        enemymainscript.damageDoneToMeMax = 0;
-        enemymainscript.damageDoneToMeMin = 0;
+        enemymainscript.DefeatEnemy();
     }
 
     public void ActivateStand()
@@ -180,9 +178,16 @@ public class Devlab_stand_in : MonoBehaviour
             appeared = true;
             disappeared = false;
             completed = false;
+            finishedCompletion = false;
             damageSustained = 0;
             enemymainscript.ResetHealth();
+            Invoke(nameof(ActivateEnemy), 2f);
         }
+    }
+
+    public void ActivateEnemy()
+    {
+        enemymainscript.SetAsReady();
     }
 
     public void ActivateHitBox()
@@ -209,6 +214,7 @@ public class Devlab_stand_in : MonoBehaviour
         completed = false;
         enemymainscript.enemyDefeated = false;
         enemymainscript.damageDoneToMe = 0;
+        finishedCompletion = false;
     }
 
     public void DeactivateHitbox()

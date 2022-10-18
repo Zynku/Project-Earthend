@@ -304,24 +304,24 @@ public class Charattacks : MonoBehaviour
                 if (cFamType.cFamilyTypeName == currentAttacks[0].attackType.ToString())    //If it matches, we using that fam
                 {
                     comboFamType = cFamType;
-                    Debug.Log($"Combo family is {comboFamType.cFamilyTypeName}");
+                    //Debug.Log($"Combo family is {comboFamType.cFamilyTypeName}");
 
                     //foreach (Combo combo in comboFamType.familyTypeList) //If the combo...        //P.S. This can be improved, it currently checks every combo in order in the possible combo list. If you could
                     for (int h = 0; h < comboFamType.familyTypeList.Count; h++)  
                     {
                         Combo combo = comboFamType.familyTypeList[h];
-                        Debug.Log($"Checking combo named {combo.comboName}.");
+                        //Debug.Log($"Checking combo named {combo.comboName}.");
                         if (currentAttacks.Count == combo.attackList.Count)//Has the same amount of attacks in its list
                         {
-                            Debug.Log(combo.comboName + " has the same amount of attacks as the current attack count, which is " + currentAttacks.Count);
+                            //Debug.Log(combo.comboName + " has the same amount of attacks as the current attack count, which is " + currentAttacks.Count);
                             for (int i = 0; i < combo.attackList.Count; i++)    //Loop through all attacks in the combo attack list, checking if they match
                             {
-                                Debug.Log($"Checking {combo.comboName} to see if {combo.attackList[i].attackType} is the same as {currentAttacks[i].attackType} for attack #{i}");
+                                //Debug.Log($"Checking {combo.comboName} to see if {combo.attackList[i].attackType} is the same as {currentAttacks[i].attackType} for attack #{i}");
                                 if (combo.attackList[i].attackType == currentAttacks[i].attackType)
                                 {
                                     if (i == combo.attackList.Count - 1 && combo.attackList[i].attackType == currentAttacks[i].attackType)  //If the last attack matches...
                                     {
-                                        Debug.Log($"----------------------------------{combo.comboName} identified, sending off to be animated.-------------------------------------");
+                                        //Debug.Log($"----------------------------------{combo.comboName} identified, sending off to be animated.-------------------------------------");
                                         currentlyComboing = true;
                                         AnimateCombos(combo);
 
@@ -332,7 +332,7 @@ public class Charattacks : MonoBehaviour
 
                                     if (i == combo.attackList.Count - 1 && combo.attackList[i].attackType != currentAttacks[i].attackType)  //If the last attack DOESN'T match...
                                     {
-                                        Debug.Log($"So close! the final attack of {combo.comboName} doesn't match! ({combo.attackList[i].attackType} vs. {currentAttacks[i].attackType})");
+                                        //Debug.Log($"So close! the final attack of {combo.comboName} doesn't match! ({combo.attackList[i].attackType} vs. {currentAttacks[i].attackType})");
                                         ClearAttackList();
 
                                         currentlyComboing = true;
@@ -345,7 +345,7 @@ public class Charattacks : MonoBehaviour
                                 }
                                 else
                                 {
-                                    Debug.Log($"{combo.attackList[i].attackType} is NOT the same as {currentAttacks[i].attackType}, checking next combo...");
+                                    //Debug.Log($"{combo.attackList[i].attackType} is NOT the same as {currentAttacks[i].attackType}, checking next combo...");
                                     //Also, if more than 2 inputs are put in and no combos match, the player is down a path that wont result in combos ever, clear attack list.
                                     //Or maybe just clear after it finds no combos that match since that means no combos will ever match down that path.
                                     break;
@@ -354,11 +354,11 @@ public class Charattacks : MonoBehaviour
                         }
                         else
                         {
-                            Debug.Log($"{combo.comboName} doesn't have the same amount of attacks, checking next combo...");
+                            //Debug.Log($"{combo.comboName} doesn't have the same amount of attacks, checking next combo...");
                         }
                         if (h == comboFamType.familyTypeList.Count)
                         {
-                            Debug.Log($"No combos in this family type match, clearing attack list and adding the new attack instead");
+                            //Debug.Log($"No combos in this family type match, clearing attack list and adding the new attack instead");
                             ClearAttackList();
 
                             currentlyComboing = true;

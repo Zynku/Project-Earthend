@@ -79,8 +79,10 @@ public class EncounterManager : MonoBehaviour
         thisEncounter.myCamera.Priority = 5;
         thisEncounter.DeactivateEdges();
         thisEncounter.encounterState = CombatEncounter.EncounterStates.Completed;
+        thisEncounter.timesCompleted++;
         cameraManager.SetupCameras();
         newEncounterSetup = false;
+        thisEncounter.encounterReady = false;
     }
 
     public void ClearCurrentEncounter()

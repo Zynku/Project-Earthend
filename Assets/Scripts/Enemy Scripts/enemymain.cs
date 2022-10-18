@@ -5,6 +5,9 @@ using UnityEngine;
 
 public class Enemymain : MonoBehaviour  //This class is reponsible for everything any enemy might need. This should be able to be attached to anything and not affect it negatively
 {
+    GameManager gameManager;
+    CombatEncounter combatEncounter;   //Every enemy won't have a combatencounter, so this sometimes return null;
+    
     [Foldout("Ranges", true)]
     public float playerRadius;
 
@@ -31,6 +34,7 @@ public class Enemymain : MonoBehaviour  //This class is reponsible for everythin
 
     public delegate void SpawnOrActivateEnemy();
     public SpawnOrActivateEnemy spawnOrActivate;
+    public bool activated;                      //Is the enemy full ready to take dmg / engage with player?
     public delegate void EnemyGotHit();
     public EnemyGotHit enemyBeenHit;
     public delegate void EnemyDefeated();
@@ -45,6 +49,8 @@ public class Enemymain : MonoBehaviour  //This class is reponsible for everythin
     void Start()
     {
         Player = GameManager.instance.Player;
+        gameManager = GameManager.instance;
+        combatEncounter = GetComponentInParent<CombatEncounter>();
         currentHealth = maxHealth;
     }
 
@@ -87,12 +93,12 @@ public class Enemymain : MonoBehaviour  //This class is reponsible for everythin
         floattext.GetComponent<TMPro.TextMeshPro>().text = health.ToString();
     }
 
-
     //Subtracts damage calculated above from health, healthbar reacts to show this
     public void TakeDamage(int damage)
     {
         if (dmgCooldown <= 0 && currentHealth > 0)
         {
+            if (!activated) { Debug.LogWarning("Enemy is not ready! Please set activated to true in Enemymain script!"); return; }
             currentHealth -= damage;
 
             var floattext = Instantiate(floatingDmgTextPrefab, transform.position + dmgTextOffset, Quaternion.identity);
@@ -117,6 +123,22 @@ public class Enemymain : MonoBehaviour  //This class is reponsible for everythin
         }
     }
 
+    public void SetAsReady()
+    {
+        activated = true;
+    }
+
+    public void DefeatEnemy()
+    {
+        //activated = false;
+        defeated?.Invoke();
+        enemyDefeated = true;
+        damageDoneToMe = 0;
+        damageDoneToMeMax = 0;
+        damageDoneToMeMin = 0;
+        combatEncounter?.ChildEnemyDefeated(this);
+    }
+
     public void CreateFloatingText(string text, Color color)
     {
         var floattext = Instantiate(floatingDmgTextPrefab, transform.position + dmgTextOffset, Quaternion.identity);
@@ -127,6 +149,7 @@ public class Enemymain : MonoBehaviour  //This class is reponsible for everythin
     public void ResetHealth()
     {
         currentHealth = maxHealth;
+        enemyDefeated = false;
     }
 
     private void OnDrawGizmos()
