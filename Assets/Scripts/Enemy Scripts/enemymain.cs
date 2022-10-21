@@ -19,6 +19,7 @@ public class Enemymain : MonoBehaviour  //This class is reponsible for everythin
 
     [Foldout("Health Variables", true)]
     public bool canTakeDamage;
+    public bool dead;
     public int maxHealth;
     public int currentHealth;
     public int damageDoneToMeMax;
@@ -144,6 +145,11 @@ public class Enemymain : MonoBehaviour  //This class is reponsible for everythin
         var floattext = Instantiate(floatingDmgTextPrefab, transform.position + dmgTextOffset, Quaternion.identity);
         floattext.GetComponent<TMPro.TextMeshPro>().text = text;
         floattext.GetComponent<TMPro.TextMeshPro>().faceColor = color;
+    }
+
+    public void EnemyDead()
+    {
+
     }
 
     public void ResetHealth()

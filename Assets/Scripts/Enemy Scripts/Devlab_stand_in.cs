@@ -58,7 +58,6 @@ public class Devlab_stand_in : MonoBehaviour
             if (completed) { return; }          //Do nothing if enemy has been defeated before and doesn't reset
             ActivateStand();
         }
-        if (completed && !finishedCompletion) {CompleteStand(); finishedCompletion = true; }
     }
 
     public void UpdateColors(string color)
@@ -133,6 +132,8 @@ public class Devlab_stand_in : MonoBehaviour
 
     public void BeenHit()
     {
+        damageSustained = enemymainscript.maxHealth - enemymainscript.currentHealth;
+
         if (!completed)
         {
             float damageForBigHit = requiredDamage * (percentDmgForBigHit / 100);
@@ -141,10 +142,10 @@ public class Devlab_stand_in : MonoBehaviour
             {
                 UpdateColors("broken");
                 top.GetComponent<SpriteRenderer>().sprite = topBroken;
-                DeactivateHitbox();
                 completed = true;
                 if (enemymainscript.collisionDir == -1) { animator.Play("Stand-in Hit from Left Broken"); }  //Been hit from left
                 if (enemymainscript.collisionDir == 1) { animator.Play("Stand-in Hit from Right Broken"); }  //Been hit from right
+                if (damageSustained >= requiredDamage && !finishedCompletion) { CompleteStand(); }
                 return;
             }
             else if (enemymainscript.damageDoneToMe > damageForBigHit)  //Else if the damage is larger than the damage for big hit threshold
@@ -157,16 +158,23 @@ public class Devlab_stand_in : MonoBehaviour
                 if (enemymainscript.collisionDir == -1) { animator.Play("Stand-in Hit from Left Small"); }  //Been hit from left
                 if (enemymainscript.collisionDir == 1) { animator.Play("Stand-in Hit from Right Small"); }  //Been hit from right
             }
+            if (damageSustained >= requiredDamage && !finishedCompletion) { CompleteStand(); }
         }
-
-        damageSustained = enemymainscript.maxHealth - enemymainscript.currentHealth;
-        if (damageSustained >= requiredDamage) {completed = true; }
     }
 
     public void CompleteStand()
     {
-        DeactivateStand();
         enemymainscript.DefeatEnemy();
+        completed = true;
+        if (!disappeared)
+        {
+            disappeared = true;
+            animator.SetTrigger("Disappear");
+            appeared = false;
+            hitbox.enabled = false;
+            if (resetOnCompleted) { Invoke(nameof(ResetStand), resetTime); }
+        }
+        finishedCompletion = true;
     }
 
     public void ActivateStand()
@@ -202,7 +210,7 @@ public class Devlab_stand_in : MonoBehaviour
             disappeared = true;
             animator.SetTrigger("Disappear");
             appeared=false;
-            DeactivateHitbox();
+            hitbox.enabled = false;
             if (resetOnCompleted) { Invoke(nameof(ResetStand), resetTime);}
         }
     }
