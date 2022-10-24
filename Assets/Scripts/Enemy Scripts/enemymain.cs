@@ -7,35 +7,42 @@ public class Enemymain : MonoBehaviour  //This class is reponsible for everythin
 {
     GameManager gameManager;
     CombatEncounter combatEncounter;   //Every enemy won't have a combatencounter, so this sometimes return null;
-    
+
+    public bool activated;                      //Is the enemy fully ready to take dmg / engage with player?
+
     [Foldout("Ranges", true)]
     public float playerRadius;
 
     [Foldout("Static Variables", true)]
     public Vector2 playerPos;
-    public float insideRadiusDir;
-    public bool playerInsideRadius;
-    public float playerDist;    //How far the player is from this enemy
+    [ReadOnly] public float insideRadiusDir;
+    [ReadOnly] public bool playerInsideRadius;
+    [ReadOnly] public float playerDist;    //How far the player is from this enemy
 
     [Foldout("Health Variables", true)]
     public bool canTakeDamage;
-    public bool dead;
+    [ReadOnly] public bool dead;
     public int maxHealth;
-    public int currentHealth;
+    [ReadOnly] public int currentHealth;
+
+    [Foldout("Damage Variables", true)]
     public int damageDoneToMeMax;
     public int damageDoneToMeMin;
     public int damageDoneToMe;
     [ReadOnly] public float dmgCooldown;
+    [Tooltip("How long should invulnerability frames be after taking damage")]
     public float dmgCooldownTargetTime = 0.1f;
-    public GameObject lastDmgSource;
+    [ReadOnly] public GameObject lastDmgSource;
     [HideInInspector] public float collisionDir = 1f;
+
+    [Foldout("Damage Numbers", true)]
     public GameObject floatingDmgTextPrefab;
     public GameObject floatingHealthTextPrefab;
     public Vector3 dmgTextOffset;
 
+
     public delegate void SpawnOrActivateEnemy();
     public SpawnOrActivateEnemy spawnOrActivate;
-    public bool activated;                      //Is the enemy full ready to take dmg / engage with player?
     public delegate void EnemyGotHit();
     public EnemyGotHit enemyBeenHit;
     public delegate void EnemyDefeated();

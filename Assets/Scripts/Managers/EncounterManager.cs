@@ -16,7 +16,7 @@ public class EncounterManager : MonoBehaviour
     [Foldout("Variables", true)]
     [Tooltip("How much time should pass after the last enemy is defeated before the encounter is completed")]
     public float combatCompleteDelay;
-    private bool newEncounterSetup;
+    [HideInInspector]public bool newEncounterSetup;
 
     public CombatEncounter.EncounterStates encounterStates;
 
@@ -31,7 +31,7 @@ public class EncounterManager : MonoBehaviour
         //if (!newEncounterSetup && currentActiveEncounter != null) { AssignNewEncounter(currentActiveEncounter);}
         //else if (newEncounterSetup && currentActiveEncounter == null) { ClearCurrentEncounter();}
 
-        foreach (var encounter in combatEncounters) //If any encounter is ready to be used (player inside, enemies ready) then assign it
+/*        foreach (var encounter in combatEncounters) //If any encounter is ready to be used (player inside, enemies ready) then assign it
         {
             if (encounter.encounterState == CombatEncounter.EncounterStates.PlayerInside && encounter.encounterState != CombatEncounter.EncounterStates.Completed)
             {
@@ -40,7 +40,7 @@ public class EncounterManager : MonoBehaviour
                     AssignNewEncounter(encounter);
                 }
             }
-        }
+        }*/
 
         if (currentActiveEncounter != null)
         {

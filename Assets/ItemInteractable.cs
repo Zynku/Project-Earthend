@@ -6,7 +6,12 @@ using UnityEngine;
 public class ItemInteractable : MonoBehaviour
 {
     public ItemScriptable item;
+    Charpickup_inventory inventory;
 
+    private void Start()
+    {
+        inventory = GameManager.instance.Player.GetComponent<Charpickup_inventory>();
+    }
     public void Interact()
     {
 
@@ -30,7 +35,7 @@ public class ItemInteractable : MonoBehaviour
     
     public void Pickup()
     {
-        bool wasPickedUp = Charpickup_inventory.instance.AddItem(item);
+        bool wasPickedUp = inventory.AddItem(item);
 
         if (wasPickedUp)
         {

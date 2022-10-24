@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class simpleheatlhbarscript : MonoBehaviour
 {
+    Enemymain enemymain;
+
     private GameObject healthbarFill;
     private GameObject stunnedFill;
     public float parentHealth;
@@ -15,10 +17,21 @@ public class simpleheatlhbarscript : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        enemymain = GetComponentInParent<Enemymain>();
         healthbarFill = transform.GetChild(0).gameObject;
         stunnedFill = transform.GetChild(1).gameObject;
         stunnedFill.SetActive(false);
         fillPercent = 1;
+
+        if (transform.parent.CompareTag("enemy"))
+        {
+            currentEnemy = Enemyattachedto.Enemy;
+        }
+
+        if (transform.parent.CompareTag("target_dummy"))
+        {
+            currentEnemy = Enemyattachedto.Target_dummy;
+        }
     }
 
     public enum Enemyattachedto
@@ -30,22 +43,11 @@ public class simpleheatlhbarscript : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (transform.parent.CompareTag("enemy"))
-        {
-            currentEnemy = Enemyattachedto.Enemy;
-        }
-
-        if (transform.parent.CompareTag("target_dummy"))
-        {
-            currentEnemy = Enemyattachedto.Target_dummy;
-        }
-
-
         switch (currentEnemy)
         {
             case Enemyattachedto.Enemy:
-                parentMaxHealth = GetComponentInParent<Enemyhealth>().maxHealth;
-                parentHealth = GetComponentInParent<Enemyhealth>().currentHealth;
+                parentMaxHealth = enemymain.maxHealth;
+                parentHealth = enemymain.currentHealth;
 
                 if (GetComponentInParent<Enemy_controller>().currentState == Enemy_controller.State.Stunned)
                 { stunned = true; }
@@ -55,14 +57,15 @@ public class simpleheatlhbarscript : MonoBehaviour
                 break;
 
             case Enemyattachedto.Target_dummy:
-                parentMaxHealth = GetComponentInParent<target_dummy_controller>().maxHealth;
-                parentHealth = GetComponentInParent<target_dummy_controller>().currentHealth;
+                //parentMaxHealth = GetComponentInParent<target_dummy_controller>().maxHealth;
+                //parentHealth = GetComponentInParent<target_dummy_controller>().currentHealth;
                 break;
         }
 
         //Ensures healthbar doesnt rotate with enemy.
         transform.localScale = transform.localScale;
         fillPercent = parentHealth / parentMaxHealth;
+        if (fillPercent <= 0) { fillPercent = 0.1f; }
 
         //Changes x scale based on fill percent
         healthbarFill.transform.localScale = new Vector3(fillPercent, 1, 1);

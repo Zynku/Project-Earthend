@@ -534,12 +534,12 @@ public class Charattacks : MonoBehaviour
         switch (enemy.tag)
         {
             case "target_dummy":
-                target_dummy_controller dummyScript = enemy.GetComponent<target_dummy_controller>();
-                dummyScript.damageDoneToMeMax = Mathf.FloorToInt(currentDamageMax); //These values are assigned in case a script needs to reference them
-                dummyScript.damageDoneToMeMin = Mathf.FloorToInt(currentDamageMin);
-                int damageDoneDummy = (UnityEngine.Random.Range(currentDamageMax, currentDamageMin));
-                dummyScript.damageDoneToMe = damageDoneDummy;
-                dummyScript.TakeDamage(damageDoneDummy);
+                //target_dummy_controller dummyScript = enemy.GetComponent<target_dummy_controller>();
+                //dummyScript.damageDoneToMeMax = Mathf.FloorToInt(currentDamageMax); //These values are assigned in case a script needs to reference them
+                //dummyScript.damageDoneToMeMin = Mathf.FloorToInt(currentDamageMin);
+                //int damageDoneDummy = (UnityEngine.Random.Range(currentDamageMax, currentDamageMin));
+                //dummyScript.damageDoneToMe = damageDoneDummy;
+                //dummyScript.TakeDamage(damageDoneDummy);
                 break;
             case "enemy":
                 Enemymain enemyScript = enemy.GetComponent<Enemymain>();

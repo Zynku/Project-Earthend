@@ -8,24 +8,10 @@ public class Charpickup_inventory : MonoBehaviour
     public List<ItemScriptable> items = new List<ItemScriptable>();
     public int inventorySpace = 40;
     public int money;
-    public static Charpickup_inventory instance;
     private Charcontrol Charcontrol;
     private InventoryUI inventoryui;
     private InventoryUIHelper inventoryUIHelper;
     private InfoHubManager infoHub;
-    //private bool canInteract;
-
-    #region Singleton
-    private void Awake()
-    {
-/*        if (instance != null)
-        {
-            Debug.LogWarning("More than one instance of Inventory found!");
-            return;
-        }
-        instance = this;*/
-    }
-    #endregion
 
     public delegate void onItemChanged();
     public onItemChanged onItemChangedCallback;
@@ -40,17 +26,6 @@ public class Charpickup_inventory : MonoBehaviour
         inventoryui = GameManager.instance.inventoryui;
         inventoryUIHelper = GameManager.instance.inventoryUIHelper;
         infoHub = GameManager.instance.infoHub;
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        //Get damage values from dropped weapon script on collision object, apply to charhealth
-
-/*        if (Input.GetButtonDown("Inventory"))
-        {
-            infoHub.gameObject.SetActive(!infoHub.gameObject.activeSelf);
-        }*/
     }
 
     public bool AddItem(ItemScriptable item)
@@ -71,8 +46,7 @@ public class Charpickup_inventory : MonoBehaviour
                 items[i].amountHas += items[i].amount;
 
                 inventoryUIHelper.ShowPickedUpText(item);
-                //if (onItemChangedCallback != null) { onItemChangedCallback.Invoke(); }
-                inventoryui.UpdateUI();
+                //inventoryui.UpdateUI();
                 return true;
             }
         }
@@ -80,9 +54,7 @@ public class Charpickup_inventory : MonoBehaviour
         items.Add(item);
         item.amountHas = 0;
         item.amountHas += item.amount;
-        //inventoryui.ShowPickedUpText(item);
-        //if (onItemChangedCallback != null) { onItemChangedCallback.Invoke(); }
-        inventoryui.UpdateUI();
+        //inventoryui.UpdateUI();
         return true;
     }
 
@@ -108,7 +80,6 @@ public class Charpickup_inventory : MonoBehaviour
 
     public void OnTriggerEnter2D(Collider2D collision)
     {        
-        //if (!canInteract)
         {
             //If you come across a coin, pick it up, destroy the coin, add coinvalue to player inv
             if (collision.CompareTag("coin_collectable"))
@@ -142,15 +113,7 @@ public class Charpickup_inventory : MonoBehaviour
             //If you come across a droptable item, do the whole interact thing bruv
             if (collision.CompareTag("item_collectable"))
             {
-                collision.GetComponentInChildren<ItemPickupable>().Interact();
-                /*Interactable interactable = collision.gameObject.GetComponentInParent<Interactable>();
-                if (interactable != null)
-                {
-                    canInteract = true;
-                    //collision.gameObject.SetActive(false);
-                    //Destroy(interactable.gameObject);
-                    interactable.Interact();
-                }*/
+                collision.GetComponentInChildren<ItemPickupable>().Pickup();
 
                 //This is how an item is added to the inventory. Interact() is called here, from ItemInteractable script. If pickup time is reached,
                 //Pickup() destroys the gameObject and calls the AddItem() function from this script, which, if there is enough room, invokes onItemChangedCallback 

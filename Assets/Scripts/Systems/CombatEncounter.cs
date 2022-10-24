@@ -48,14 +48,15 @@ public class CombatEncounter : MonoBehaviour
         Waiting,
         PlayerInside,   
         Completed,
-        WaitingForPlayerExit    //Waiting for the player to exit so it can be reset
+        WaitingForPlayerExit,    //Waiting for the player to exit so it can be reset
+        NonFunctional
     }
 
     // Start is called before the first frame update
     void Start()
     {
         player = GameManager.instance.Player;
-        encounterState = EncounterStates.Active;
+        //encounterState = EncounterStates.Active;
         gameManager = GameManager.instance;
         encounterManager = GetComponentInParent<EncounterManager>();
         cameraTarget.GetComponent<SpriteRenderer>().enabled = false;
@@ -75,28 +76,22 @@ public class CombatEncounter : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (playerInStartCollider && playerInExitCollider && encounterState != EncounterStates.PlayerInside)    //Sets the state to player inside once the player...is inside...
+        if (playerInStartCollider && playerInExitCollider)    //Sets the state to player inside once the player...is inside...
         {
-            if (encounterState != EncounterStates.WaitingForPlayerExit) //...and we're not waiting for the player to exit
-            {
-                if (encounterState != EncounterStates.Completed)
-                {
-                    encounterState = EncounterStates.PlayerInside;
-                }
-            }
-        }
-        else if (!playerInStartCollider && !playerInExitCollider && encounterState != EncounterStates.Active)   //Sets the encounter to active once the player
-        {
-            if (encounterState != EncounterStates.Completed)
-            {
-                encounterState = EncounterStates.Active;
-            }
+            if (encounterState == EncounterStates.NonFunctional) { return; }
+            if (encounterState == EncounterStates.WaitingForPlayerExit) { return; } //...and we're not waiting for the player to exit
+            if (encounterState == EncounterStates.Completed) { return; }
 
+            encounterState = EncounterStates.PlayerInside;
+            if (!encounterManager.newEncounterSetup)
+            {
+                encounterManager.AssignNewEncounter(this);
+            }
         }
 
         if (!playerInStartCollider && !playerInExitCollider)   //Player completed exited the encounter
         {
-            if (resetOnPlayerExit)  //Resets variables here. The combat encounter manager will treat this as a new encounter once the player leaves it
+            if (resetOnPlayerExit && timesCompleted > 0)  //Resets variables here. The combat encounter manager will treat this as a new encounter once the player leaves it
             {
                 encounterState = EncounterStates.Active;
                 enemiesDefeated = 0;

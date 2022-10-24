@@ -2,10 +2,14 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
+using MyBox;
 
 public class ItemPickupable : MonoBehaviour
 {
     public ItemScriptable item;
+    [Tooltip("The collider that")]
+    public Collider2D pickupTrigger;
+    Charpickup_inventory inventory;
 
     public float beenAliveTime = 0f;
     public float canPickupTargetTime = 5f;
@@ -20,6 +24,7 @@ public class ItemPickupable : MonoBehaviour
     {
         aliveTimer = GetComponentInChildren<TextMeshPro>();
         anim = GetComponentInParent<Animator>();
+        inventory = GameManager.instance.Player.GetComponent<Charpickup_inventory>();
 
         UpdateAnimClipTimes();
     }
@@ -55,14 +60,6 @@ public class ItemPickupable : MonoBehaviour
         }
     }
 
-    public void Interact()
-    {
-        if (canBePickedUp == true)
-        {
-           Pickup();
-        }
-    }
-
     public void DestroyGameObject()
     {
         Destroy(gameObject.transform.parent.gameObject);
@@ -70,12 +67,14 @@ public class ItemPickupable : MonoBehaviour
 
     public void Pickup()
     {
-        bool wasPickedUp = Charpickup_inventory.instance.AddItem(item);
-
-        if (wasPickedUp)
+        if (canBePickedUp)
         {
-            Destroy(gameObject.transform.parent.gameObject);
+            bool wasPickedUp = inventory.AddItem(item);
+
+            if (wasPickedUp)
+            {
+                Destroy(gameObject.transform.parent.gameObject);
+            }
         }
     }
-
 }

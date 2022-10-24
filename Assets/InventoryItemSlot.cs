@@ -18,7 +18,7 @@ public class InventoryItemSlot : MonoBehaviour
         nameText.gameObject.SetActive(false);
         amountText.text = "You shouldn't be able to see this";
         nameText.text = "You shouldn't be able to see this";
-        inventory = Charpickup_inventory.instance;
+        inventory = GameManager.instance.Player.GetComponent<Charpickup_inventory>();
     }
 
     public void AddItem(ItemScriptable newItem)

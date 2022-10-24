@@ -17,7 +17,7 @@ public class PlayerData
 
     public PlayerData (Charcontrol charcontrol, Charpickup_inventory inventory, Charhealth charhealth)
     {
-        money = Charpickup_inventory.instance.money;
+        money = GameManager.instance.Player.GetComponent<Charpickup_inventory>().money;
 
         level = charhealth.level;
 

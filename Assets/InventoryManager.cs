@@ -4,21 +4,15 @@ using UnityEngine;
 
 public class InventoryManager : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
+    Charpickup_inventory inventory;
 
-    // Update is called once per frame
-    void Update()
+    private void Start()
     {
-        
+        inventory = GameManager.instance.Player.GetComponent<Charpickup_inventory>();
     }
-
     public void ClearInventory()
     {
         //Calls clear inventory in the Charpickup_Inventory script
-        Charpickup_inventory.instance.ClearInventory();
+        inventory.ClearInventory();
     }
 }
