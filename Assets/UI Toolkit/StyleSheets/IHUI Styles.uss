@@ -1,0 +1,35 @@
+.ihui-page-switch-buttons {
+    height: 100%;
+    width: 7.5%;
+    background-color: rgba(255, 0, 0, 0);
+    background-image: url('project://database/Assets/Sprites/UI/Info%20Hub%20UI/IH%20Page%20Icons.png?fileID=-446064577331464269&guid=b254a7ff434e92149a9a7b673d05777c&type=3#IH Page Icons_3');
+    -unity-background-scale-mode: scale-to-fit;
+    -unity-slice-left: 0;
+    -unity-slice-top: 0;
+    -unity-slice-right: 0;
+    -unity-slice-bottom: 0;
+}
+
+.ihui-main-bg {
+    width: 94%;
+    height: 95%;
+    margin-left: 3%;
+    margin-right: 3%;
+    margin-top: 2.5%;
+    margin-bottom: 2.5%;
+    align-items: center;
+    justify-content: flex-end;
+    flex-direction: row;
+    background-color: rgba(0, 0, 0, 0.25);
+    flex-wrap: wrap;
+}
+
+.ihui-inventory-square {
+    background-color: rgba(189, 255, 244, 0.27);
+    width: 110px;
+    height: 105px;
+    margin-left: 11px;
+    margin-right: 11px;
+    margin-top: 12px;
+    margin-bottom: 12px;
+}

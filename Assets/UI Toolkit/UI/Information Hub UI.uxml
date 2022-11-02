@@ -1,0 +1,73 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" xsi="http://www.w3.org/2001/XMLSchema-instance" engine="UnityEngine.UIElements" editor="UnityEditor.UIElements" noNamespaceSchemaLocation="../../../UIElementsSchema/UIElements.xsd" editor-extension-mode="False">
+    <Style src="project://database/Assets/UI%20Toolkit/StyleSheets/IHUI%20Styles.uss?fileID=7433441132597879392&amp;guid=29dc14c9c922348498d5b58fd8ece85a&amp;type=3#IHUI Styles" />
+    <ui:VisualElement name="whole-screen" style="width: 100%; height: 100%;">
+        <ui:VisualElement name="background" style="width: 100%; height: 100%; background-color: rgba(0, 0, 0, 0.39);">
+            <ui:VisualElement name="top-panel" style="margin-top: 3%; background-color: rgba(0, 0, 0, 0.27); flex-grow: 1; margin-left: 3%; margin-right: 3%; margin-bottom: 0.5%; height: 12%;">
+                <ui:Label tabindex="-1" text="What Page is this?" display-tooltip-when-elided="true" name="what-page-text" style="font-size: 82px; color: rgba(255, 255, 255, 255); -unity-font: url(&apos;project://database/Assets/TextMesh%20Pro/Examples%20&amp;%20Extras/Fonts/Roboto-Bold.ttf?fileID=12800000&amp;guid=4beb055f07aaff244873dec698d0363e&amp;type=3#Roboto-Bold&apos;);" />
+            </ui:VisualElement>
+            <ui:VisualElement name="screen-space" class="ihui-main-bg" style="flex-basis: 100%; flex-wrap: wrap; min-height: auto; max-height: none; margin-top: 0;">
+                <ui:VisualElement name="left-arrow" class="ihui-page-switch-buttons" style="flex-shrink: 1; flex-grow: 0;" />
+                <ui:VisualElement name="information-area" style="height: 100%; width: 85%; flex-direction: row; max-width: 85%; flex-wrap: wrap;">
+                    <ui:VisualElement name="inventory-page" style="width: 99%; height: 99%; background-color: rgba(0, 0, 0, 0.1); flex-wrap: wrap; flex-direction: row; justify-content: space-between; align-items: flex-start; padding-left: 3%; padding-right: 3%; padding-top: 3%; padding-bottom: 3%;">
+                        <ui:VisualElement name="inventory-square" class="ihui-inventory-square" />
+                        <ui:VisualElement name="inventory-square" class="ihui-inventory-square" />
+                        <ui:VisualElement name="inventory-square" class="ihui-inventory-square" />
+                        <ui:VisualElement name="inventory-square" class="ihui-inventory-square" />
+                        <ui:VisualElement name="inventory-square" class="ihui-inventory-square" />
+                        <ui:VisualElement name="inventory-square" class="ihui-inventory-square" />
+                        <ui:VisualElement name="inventory-square" class="ihui-inventory-square" />
+                        <ui:VisualElement name="inventory-square" class="ihui-inventory-square" />
+                        <ui:VisualElement name="inventory-square" class="ihui-inventory-square" />
+                        <ui:VisualElement name="inventory-square" class="ihui-inventory-square" />
+                        <ui:VisualElement name="inventory-square" class="ihui-inventory-square" />
+                        <ui:VisualElement name="inventory-square" class="ihui-inventory-square" />
+                        <ui:VisualElement name="inventory-square" class="ihui-inventory-square" />
+                        <ui:VisualElement name="inventory-square" class="ihui-inventory-square" />
+                        <ui:VisualElement name="inventory-square" class="ihui-inventory-square" />
+                        <ui:VisualElement name="inventory-square" class="ihui-inventory-square" />
+                        <ui:VisualElement name="inventory-square" class="ihui-inventory-square" />
+                        <ui:VisualElement name="inventory-square" class="ihui-inventory-square" />
+                        <ui:VisualElement name="inventory-square" class="ihui-inventory-square" />
+                        <ui:VisualElement name="inventory-square" class="ihui-inventory-square" />
+                        <ui:VisualElement name="inventory-square" class="ihui-inventory-square" />
+                        <ui:VisualElement name="inventory-square" class="ihui-inventory-square" />
+                        <ui:VisualElement name="inventory-square" class="ihui-inventory-square" />
+                        <ui:VisualElement name="inventory-square" class="ihui-inventory-square" />
+                        <ui:VisualElement name="inventory-square" class="ihui-inventory-square" />
+                        <ui:VisualElement name="inventory-square" class="ihui-inventory-square" />
+                        <ui:VisualElement name="inventory-square" class="ihui-inventory-square" />
+                        <ui:VisualElement name="inventory-square" class="ihui-inventory-square" />
+                        <ui:VisualElement name="inventory-square" class="ihui-inventory-square" />
+                        <ui:VisualElement name="inventory-square" class="ihui-inventory-square" />
+                        <ui:VisualElement name="inventory-square" class="ihui-inventory-square" />
+                        <ui:VisualElement name="inventory-square" class="ihui-inventory-square" />
+                        <ui:VisualElement name="inventory-square" class="ihui-inventory-square" />
+                        <ui:VisualElement name="inventory-square" class="ihui-inventory-square" />
+                        <ui:VisualElement name="inventory-square" class="ihui-inventory-square" />
+                        <ui:VisualElement name="inventory-square" class="ihui-inventory-square" />
+                        <ui:VisualElement name="inventory-square" class="ihui-inventory-square" />
+                        <ui:VisualElement name="inventory-square" class="ihui-inventory-square" />
+                        <ui:VisualElement name="inventory-square" class="ihui-inventory-square" />
+                        <ui:VisualElement name="inventory-square" class="ihui-inventory-square" />
+                        <ui:VisualElement name="inventory-square" class="ihui-inventory-square" />
+                        <ui:VisualElement name="inventory-square" class="ihui-inventory-square" />
+                        <ui:VisualElement name="inventory-square" class="ihui-inventory-square" />
+                        <ui:VisualElement name="inventory-square" class="ihui-inventory-square" />
+                        <ui:VisualElement name="inventory-square" class="ihui-inventory-square" />
+                        <ui:VisualElement name="inventory-square" class="ihui-inventory-square" />
+                        <ui:VisualElement name="inventory-square" class="ihui-inventory-square" />
+                        <ui:VisualElement name="inventory-square" class="ihui-inventory-square" />
+                        <ui:VisualElement name="inventory-square" class="ihui-inventory-square" />
+                        <ui:VisualElement name="inventory-square" class="ihui-inventory-square" />
+                        <ui:VisualElement name="inventory-square" class="ihui-inventory-square" />
+                        <ui:VisualElement name="inventory-square" class="ihui-inventory-square" />
+                        <ui:VisualElement name="inventory-square" class="ihui-inventory-square" />
+                        <ui:VisualElement name="inventory-square" class="ihui-inventory-square" />
+                        <ui:VisualElement name="inventory-square" class="ihui-inventory-square" />
+                    </ui:VisualElement>
+                </ui:VisualElement>
+                <ui:VisualElement name="right-arrow" class="ihui-page-switch-buttons" style="height: 100%; width: 7.5%; align-items: auto;" />
+            </ui:VisualElement>
+        </ui:VisualElement>
+    </ui:VisualElement>
+</ui:UXML>

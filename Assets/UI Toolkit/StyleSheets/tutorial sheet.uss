@@ -1,0 +1,20 @@
+.tutorialbutton:active {
+}
+
+.tutorialbutton {
+    background-color: rgb(21, 115, 91);
+    -unity-background-scale-mode: stretch-to-fill;
+    -unity-font: url('project://database/Assets/TextMesh%20Pro/Examples%20&%20Extras/Fonts/Roboto-Bold.ttf?fileID=12800000&guid=4beb055f07aaff244873dec698d0363e&type=3#Roboto-Bold');
+    font-size: 20px;
+    color: rgb(255, 255, 255);
+    -unity-text-align: upper-center;
+}
+
+.tutorialbutton:hover {
+    background-color: rgb(0, 255, 189);
+}
+
+.screen {
+    flex-grow: 1;
+    align-items: center;
+}
