@@ -1,4 +1,4 @@
-.ihui-page-switch-buttons {
+.ihui-page-switch-ve {
     height: 100%;
     width: 7.5%;
     background-color: rgba(255, 0, 0, 0);
@@ -30,6 +30,32 @@
     height: 105px;
     margin-left: 11px;
     margin-right: 11px;
-    margin-top: 12px;
-    margin-bottom: 12px;
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
+
+.ihui-page-switch-button {
+    width: 100%;
+    height: 100%;
+    background-color: rgba(228, 228, 228, 0);
+    background-image: url('project://database/Assets/Sprites/UI/Info%20Hub%20UI/IH%20Page%20Icons.png?fileID=-446064577331464269&guid=b254a7ff434e92149a9a7b673d05777c&type=3#IH Page Icons_3');
+    -unity-background-scale-mode: scale-to-fit;
+    transition-property: all;
+    transition-duration: 0s;
+    transition-timing-function: ease;
+    transition-delay: 0s;
+    align-items: center;
+}
+
+.ihui-page-switch-button:hover {
+    background-image: url('project://database/Assets/Sprites/UI/Info%20Hub%20UI/IH%20Page%20Icons.png?fileID=-6456032321413047177&guid=b254a7ff434e92149a9a7b673d05777c&type=3#IH Page Icons_22');
+}
+
+.ihui-page-switch-button:active {
+    width: 85%;
+    height: 100%;
+}
+
+.ihui-inventory-square:hover {
+    background-color: rgba(189, 255, 244, 0.55);
 }

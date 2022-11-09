@@ -10,7 +10,7 @@ public class Button_effector : MonoBehaviour
     public AudioClip Spawn;
     private float coolDownTimer;
     public float coolDownTargetTime = 5f;
-    public GameObject Spawnable;
+    public GameObject[] Spawnable;
     public bool toggleable;
     private GameObject Spawnableclone;
     public float Spawnamount;
@@ -24,7 +24,7 @@ public class Button_effector : MonoBehaviour
         coolDownTimer = coolDownTargetTime;
         animator = GetComponent<Animator>();
         audiosource = GetComponent<AudioSource>();
-        Spawnableclone = Spawnable;
+        Spawnableclone = Spawnable[0];
     }
 
     // Update is called once per frame
@@ -58,7 +58,8 @@ public class Button_effector : MonoBehaviour
                 //loops spawning *spawnamount* amount of times. Second line applies random velocity based on params
                 for (int i = 0; i < Spawnamount; i++)
                 {
-                    Spawnableclone = Instantiate(Spawnable, new Vector2(transform.position.x, transform.position.y + 0.2f), Quaternion.identity);
+                    GameObject randomSpawnable = Spawnable[Random.Range(0, Spawnable.Length)];
+                    Spawnableclone = Instantiate(randomSpawnable, new Vector2(transform.position.x, transform.position.y + 0.2f), Quaternion.identity);
                     Spawnableclone.GetComponent<Rigidbody2D>().velocity = new Vector2(forceX/2 + Random.Range(-0.5f, 0.5f), (forceY/2 + Random.Range(-0.5f, 0.5f) + 0.2f));
                     Spawnableclone.GetComponent<Rigidbody2D>().AddTorque(Random.Range(forceRotation, -forceRotation));
                 }
@@ -79,7 +80,8 @@ public class Button_effector : MonoBehaviour
             //loops spawning *spawnamount* amount of times. Second line applies random velocity based on params
             for (int i = 0; i < Spawnamount; i++)
             {
-                Spawnableclone = Instantiate(Spawnable, new Vector2(transform.position.x, transform.position.y + 0.2f), Quaternion.identity);
+                GameObject randomSpawnable = Spawnable[Random.Range(0, Spawnable.Length)];
+                Spawnableclone = Instantiate(randomSpawnable, new Vector2(transform.position.x, transform.position.y + 0.2f), Quaternion.identity);
                 Spawnableclone.GetComponent<Rigidbody2D>().velocity = new Vector2(forceX / 2 + Random.Range(-0.5f, 0.5f), (forceY / 2 + Random.Range(-0.5f, 0.5f) + 0.2f));
                 Spawnableclone.GetComponent<Rigidbody2D>().AddTorque(Random.Range(forceRotation, -forceRotation));
             }

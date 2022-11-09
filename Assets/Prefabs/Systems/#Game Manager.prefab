@@ -30357,6 +30357,7 @@ MonoBehaviour:
   playerManager: {fileID: 6856508597050464200}
   BGAudioManager: {fileID: 6856508597534019006}
   inventoryUIHelper: {fileID: 6856508595896684866}
+  ihuiManager: {fileID: 0}
   respawn_Menu_Manager: {fileID: 6856508595631553581}
   welcome_screen_manager: {fileID: 6856508595813604635}
   encounterManager: {fileID: 0}

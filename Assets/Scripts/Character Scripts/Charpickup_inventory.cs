@@ -5,7 +5,8 @@ using TMPro;
 
 public class Charpickup_inventory : MonoBehaviour
 {
-    public List<ItemScriptable> items = new List<ItemScriptable>();
+    [HideInInspector] public List<ItemScriptable> items = new List<ItemScriptable>();
+    public List<Item_in_inventory> inventoryItems = new List<Item_in_inventory>();
     public int inventorySpace = 40;
     public int money;
     private Charcontrol Charcontrol;
@@ -44,8 +45,8 @@ public class Charpickup_inventory : MonoBehaviour
             {
                 //Has item
                 items[i].amountHas += items[i].amount;
-
                 inventoryUIHelper.ShowPickedUpText(item);
+                AddToInventoryVisually(item, true);
                 //inventoryui.UpdateUI();
                 return true;
             }
@@ -54,8 +55,30 @@ public class Charpickup_inventory : MonoBehaviour
         items.Add(item);
         item.amountHas = 0;
         item.amountHas += item.amount;
+        inventoryUIHelper.ShowPickedUpText(item);
+        AddToInventoryVisually(item, false);
         //inventoryui.UpdateUI();
         return true;
+    }
+
+    public void AddToInventoryVisually(ItemScriptable item, bool hasItem)
+    {
+        Item_in_inventory newItem = new Item_in_inventory(item.name, item.amountHas, item.amountInStorage, item.Icon, item.description);
+        if (!hasItem)
+        {
+            inventoryItems.Add(newItem);
+        }
+        else
+        {
+            for (int i = 0; i < inventoryItems.Count; i++)
+            {
+                if (inventoryItems[i].name == item.name)
+                {
+                    //Has item
+                    inventoryItems[i].amountHas += item.amount;
+                }
+            }
+        }
     }
 
     public void RemoveItem(ItemScriptable item)

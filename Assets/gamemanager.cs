@@ -5,7 +5,7 @@ using UnityEngine.EventSystems;
 using UnityEngine.SceneManagement;
 using Cinemachine;
 using MyBox;
-
+using UnityEngine.UIElements;
 
 public class GameManager : MonoBehaviour
 {
@@ -52,6 +52,7 @@ public class GameManager : MonoBehaviour
     public Player_Manager playerManager;
     public BGAudioScript BGAudioManager;    
     public InventoryUIHelper inventoryUIHelper;
+    public Information_hub_ui_manager ihuiManager;
     public Respawn_menu_manager respawn_Menu_Manager;
     public Welcome_screen_manager welcome_screen_manager;
     public EncounterManager encounterManager;
@@ -119,7 +120,15 @@ public class GameManager : MonoBehaviour
 
         if (Input.GetButtonDown("Info Hub"))
         {
-            bool infoHubenabled = infoHub.gameObject.activeSelf;
+            if (ihuiManager.parentElement.style.display == DisplayStyle.Flex)
+            {
+                ihuiManager.parentElement.style.display = DisplayStyle.None;
+            }
+            else
+            {
+                ihuiManager.parentElement.style.display = DisplayStyle.Flex;
+            }
+            /*bool infoHubenabled = infoHub.gameObject.activeSelf;
             infoHub.gameObject.SetActive(!infoHubenabled);
             if (!infoHubenabled) { infoHub.firstPageShown = false; }
             TogglePauseGame();
@@ -128,7 +137,7 @@ public class GameManager : MonoBehaviour
             {
                 ihuiquestmanager.ClearCurrentQuest();
                 ihuiquestmanager.ShowNewQuest(questManager.lastAcceptedQuest);
-            }
+            }*/
         }
 
         if (pause) { paused = true; }
