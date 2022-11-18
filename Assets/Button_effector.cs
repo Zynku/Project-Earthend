@@ -38,7 +38,7 @@ public class Button_effector : MonoBehaviour
         }
     }
 
-    private void OnTriggerStay2D(Collider2D collision)
+    private void OnTriggerStay2D(Collider2D collision)  //Button currently only works when player is moving since it is in this function. Change it to distance check from player
     {
         //If the player enters...
         if (collision.CompareTag("Player"))

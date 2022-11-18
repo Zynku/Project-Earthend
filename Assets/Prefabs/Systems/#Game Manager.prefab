@@ -30350,12 +30350,12 @@ MonoBehaviour:
   dialogueManager: {fileID: 6856508597190390065}
   questManager: {fileID: 6856508595667344657}
   ihuiquestmanager: {fileID: 9049894246485545294}
-  infoHub: {fileID: 6856508596222095245}
   pause_and_scene_manager: {fileID: 1329658319}
   Particle_Manager: {fileID: 6856508596909693845}
   timerManager: {fileID: 6856508595544734364}
   playerManager: {fileID: 6856508597050464200}
   BGAudioManager: {fileID: 6856508597534019006}
+  inventoryManager: {fileID: 0}
   inventoryUIHelper: {fileID: 6856508595896684866}
   ihuiManager: {fileID: 0}
   respawn_Menu_Manager: {fileID: 6856508595631553581}

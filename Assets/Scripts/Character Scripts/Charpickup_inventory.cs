@@ -5,28 +5,28 @@ using TMPro;
 
 public class Charpickup_inventory : MonoBehaviour
 {
+    Charcontrol Charcontrol;
+    InventoryUIHelper inventoryUIHelper;
+    InventoryManager inventoryManager;
+
+
     [HideInInspector] public List<ItemScriptable> items = new List<ItemScriptable>();
     public List<Item_in_inventory> inventoryItems = new List<Item_in_inventory>();
     public int inventorySpace = 40;
     public int money;
-    private Charcontrol Charcontrol;
-    private InventoryUI inventoryui;
-    private InventoryUIHelper inventoryUIHelper;
-    private InfoHubManager infoHub;
 
-    public delegate void onItemChanged();
+/*    public delegate void onItemChanged();
     public onItemChanged onItemChangedCallback;
 
     public delegate void onClearInventory();
-    public onClearInventory onClearInventoryCallback;
+    public onClearInventory onClearInventoryCallback;*/
 
     // Start is called before the first frame update
     void Start()
     {
         Charcontrol = GetComponent<Charcontrol>();
-        inventoryui = GameManager.instance.inventoryui;
         inventoryUIHelper = GameManager.instance.inventoryUIHelper;
-        infoHub = GameManager.instance.infoHub;
+        inventoryManager = GameManager.instance.inventoryManager;
     }
 
     public bool AddItem(ItemScriptable item)
@@ -61,26 +61,29 @@ public class Charpickup_inventory : MonoBehaviour
         return true;
     }
 
-    public void AddToInventoryVisually(ItemScriptable item, bool hasItem)
+    public void AddToInventoryVisually(ItemScriptable item, bool hasItem)   //Creates a version of the inventory item that can be seen in this script from inspector
     {
         Item_in_inventory newItem = new Item_in_inventory(item.name, item.amountHas, item.amountInStorage, item.Icon, item.description);
         if (!hasItem)
         {
+            //Doesn't have item
             inventoryItems.Add(newItem);
+            inventoryManager.FillNewSlot(newItem);
         }
         else
         {
-            for (int i = 0; i < inventoryItems.Count; i++)
+            for (int i = 0; i < inventoryItems.Count; i++)  //Loop through all items to find the specific item
             {
                 if (inventoryItems[i].name == item.name)
                 {
                     //Has item
                     inventoryItems[i].amountHas += item.amount;
+                    inventoryManager.UpdateSlot(newItem);
                 }
             }
         }
     }
-
+/*
     public void RemoveItem(ItemScriptable item)
     {
         items.Remove(item);
@@ -99,7 +102,7 @@ public class Charpickup_inventory : MonoBehaviour
 
         if (onClearInventoryCallback != null)
             onClearInventoryCallback.Invoke();
-    }
+    }*/
 
     public void OnTriggerEnter2D(Collider2D collision)
     {        

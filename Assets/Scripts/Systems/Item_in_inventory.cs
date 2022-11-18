@@ -10,7 +10,7 @@ public class Item_in_inventory
     public int amountHas = 0;
     public int amountInStorage = 0;
     public Sprite Icon = null;
-    [TextArea(15, 20)]
+    [TextArea(2,10)]
     public string description;
 
     public Item_in_inventory(string i_name, int i_amountHas, int i_amountInStorage, Sprite i_icon, string i_description)

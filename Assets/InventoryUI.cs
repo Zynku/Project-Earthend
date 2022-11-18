@@ -41,7 +41,7 @@ public class InventoryUI : MonoBehaviour
     void Start()
     {
         inventory = GameManager.instance.Player.GetComponent<Charpickup_inventory>();
-        inventory.onClearInventoryCallback += ClearInventory;
+        //inventory.onClearInventoryCallback += ClearInventory;
 
         slots = itemsParent.GetComponentsInChildren<InventoryItemSlot>();
         inventoryUIHelper = GameManager.instance.inventoryUIHelper;

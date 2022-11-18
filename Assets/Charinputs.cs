@@ -15,7 +15,7 @@ public class Charinputs : MonoBehaviour
     {
         gamemanager = GameManager.instance;
         charcontrol = GetComponent<Charcontrol>();
-        infohub = GameManager.instance.infoHub;
+        //infohub = GameManager.instance.infoHub;
     }
 
 

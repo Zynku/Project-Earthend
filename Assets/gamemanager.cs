@@ -45,12 +45,13 @@ public class GameManager : MonoBehaviour
     public DialogueManager dialogueManager;             
     public QuestManager questManager;
     public IHUIQuestManager ihuiquestmanager;
-    public InfoHubManager infoHub;
+    //public InfoHubManager infoHub;
     public Pause_and_Scene_manager pause_and_scene_manager;
     public ParticleManager Particle_Manager;
     public TimerManager timerManager;
     public Player_Manager playerManager;
-    public BGAudioScript BGAudioManager;    
+    public BGAudioScript BGAudioManager;
+    public InventoryManager inventoryManager;
     public InventoryUIHelper inventoryUIHelper;
     public Information_hub_ui_manager ihuiManager;
     public Respawn_menu_manager respawn_Menu_Manager;
@@ -68,8 +69,6 @@ public class GameManager : MonoBehaviour
     public EventSystem theEventSystem;
     //------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
-
-    #region Singleton and Awake
     private void Awake()
     {
         if (instance != null)
@@ -97,7 +96,6 @@ public class GameManager : MonoBehaviour
         SceneReady();
         SceneManager.activeSceneChanged += ChangedActiveScene;
     }
-    #endregion
 
     public void Start()
     {
@@ -106,8 +104,6 @@ public class GameManager : MonoBehaviour
 
     public void AssignAllReferences()   
     {
-        infoHub.gameObject.SetActive(true);         //Infohub is special since when it is active, it blocks the scene window in edit mode. It is set inactive in edit mode and activated here.
-        infoHub.ActivatePages();
         playerRespawnPoint = GameObject.FindWithTag("player_respawn");
         if (Player == null) { Player = playerManager.SpawnPlayer(); }
     }
