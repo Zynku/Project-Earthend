@@ -4,9 +4,22 @@ using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 using System.Linq;
+using UnityEngine.UIElements;
 
 public class DialogueManager : MonoBehaviour
 {
+    public VisualElement wholeScreen;
+    public VisualElement colorBarTop;
+    public VisualElement colorBarBottom;
+    public VisualElement characterSpriteElementL;   //Element that holds the sprite
+    public VisualElement characterSpriteElementR;
+    public VisualElement characterSpriteL;          //The actual element sprite
+    public VisualElement characterSpriteR;
+
+    public TextElement characterNameText;
+    public TextElement dialogueText;
+
+
     [Header("Variables to be Assgined")]
     public static DialogueManager instance;
     public GameObject aboveHeadTextPrefab;
@@ -30,7 +43,7 @@ public class DialogueManager : MonoBehaviour
     public bool endOfConversation = false;
 
     [Header("Current Dialogue Variables")]
-    public TextMeshProUGUI dialogueText;            //TextMesh component of the text that is shown on screen
+    //public TextMeshProUGUI dialogueText;            //TextMesh component of the text that is shown on screen
     public GameObject dialogueSource;
     public int currentTreeNumber = 0;
     public string currentTreeId;
@@ -73,8 +86,23 @@ public class DialogueManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        dialogueBox.SetActive(false);
-        choicesBox.SetActive(false);
+        VisualElement root = GetComponent<UIDocument>().rootVisualElement;
+
+        colorBarTop = root.Q<VisualElement>("color-bar-top");
+        colorBarBottom = root.Q<VisualElement>("color-bar-bottom");
+        characterSpriteElementL = root.Q<VisualElement>("character-sprite-box-L");
+        characterSpriteElementR = root.Q<VisualElement>("character-sprite-box-R");
+        characterSpriteL = root.Q<VisualElement>("character-sprite-L");
+        characterSpriteR = root.Q<VisualElement>("character-sprite-R");
+
+        characterNameText = root.Q<TextElement>("name-text");
+        dialogueText = root.Q<TextElement>("dialogue-text");
+
+        wholeScreen = root.Q<VisualElement>("whole-screen");
+        wholeScreen.style.display = DisplayStyle.None;                              //Disables dialoguebox UI initially
+
+        //dialogueBox.SetActive(false);
+        //choicesBox.SetActive(false);
         continueText.enabled = false;
         currentLineArray = 0;
         currentLine = 0;
@@ -84,8 +112,6 @@ public class DialogueManager : MonoBehaviour
 
         //Makes sure text renders infront everything else
         aboveheaddialogue.GetComponent<MeshRenderer>().sortingOrder = 69;
-
-        //dialogueCharAnim = dialogueCharacter.GetComponent<Animator>();
 
 
         charcontrol = GameManager.instance.Player.GetComponent<Charcontrol>();
@@ -211,7 +237,7 @@ public class DialogueManager : MonoBehaviour
         var dialogueTree = dialogue.dialogueTrees.Find(i => i.DialogueTreeId == treeId);    //Finds the dialogue tree in the list by ID
         if (dialogueTree == null)
         {
-            Debug.LogWarning("Cannot find correct Dialogue Tree via ID! Are your IDs correct?");
+            Debug.LogWarning("Cannot find correct Dialogue Tree via ID! Are your IDs correct? Make sure to assign your first dialogue tree as 1 and subsequent trees as subsequent letters / numbers");
             return;
         }
         else
@@ -221,7 +247,9 @@ public class DialogueManager : MonoBehaviour
             this.currentDialogueLine = dialogueTree.dialogueLines[currentLineArray];
         }
 
-        dialogueBox.SetActive(true);                //Enables all the shit
+        wholeScreen.style.display = DisplayStyle.Flex;
+
+        //dialogueBox.SetActive(true);                //Enables all the shit
         choicesBox.SetActive(false);
         aboveheaddialogueBox.SetActive(false);
         aboveheaddialogue.enabled = false;
@@ -241,17 +269,15 @@ public class DialogueManager : MonoBehaviour
                 currentLine = 1;
 
                 //Passes the first line to the Coroutine so its starts typing
-                //StopCoroutine(TypeDialogue(firstLine.lineString, firstLine.typeSpeed));
                 if (TypeCO != null) { StopCoroutine(TypeCO); }
                 TypeCO = StartCoroutine(TypeDialogue(firstLine.lineString, firstLine.typeSpeed));
 
-                //Passes the audio to the below function to play audio clip
                 endOfConversation = false;
                 playerInConversation = true;
             }
         }
 
-        if (currentDialogueLine.audio.Count > 0)
+        if (currentDialogueLine.audio.Count > 0)    //If the dialogue has audio to use (recorded audio), play it.
         {
             lineHasAudio = true;
             int randomNum = Random.Range(0, currentDialogueLine.audio.Count);
@@ -287,7 +313,7 @@ public class DialogueManager : MonoBehaviour
             this.currentDialogueLine = dialogueTree.dialogueLines[currentLineArray];
             StartCoroutine(TypeDialogue(currentDialogueLine.lineString, currentDialogueLine.typeSpeed));
 
-            //Passes the audio to the below function to play audio clip
+            //Passes the audio to PlayDialogueLine() to play audio clip
             if (currentDialogueLine.audio.Count > 0)
             {
                 lineHasAudio = true;
@@ -339,14 +365,11 @@ public class DialogueManager : MonoBehaviour
     {
         if (currentDialogueLine.hasChoice)
         {
-            //Debug.LogWarning("Can't exit out of a line that has a choice!");
-            dialogueBox.SetActive(false);
+            //dialogueBox.SetActive(false);
+            wholeScreen.style.display = DisplayStyle.None;
             choicesBox.SetActive(false);
             aboveheaddialogueBox.SetActive(false);
             aboveheaddialogue.enabled = false;
-            //endOfConversation = true;
-            //currentLineArray = 0;
-            //currentLine = 1;
             playerInConversation = false;
             isTyping = false;
 
@@ -355,9 +378,10 @@ public class DialogueManager : MonoBehaviour
 
             StopAllCoroutines();
         }
-        else if (dialogueBox.activeInHierarchy)
+        else
         {
-            dialogueBox.SetActive(false);
+            //dialogueBox.SetActive(false);
+            wholeScreen.style.display = DisplayStyle.None;
             choicesBox.SetActive(false);
             aboveheaddialogueBox.SetActive(false);
             aboveheaddialogue.enabled = false;
@@ -450,8 +474,6 @@ public class DialogueManager : MonoBehaviour
             }
 
             float yieldTime = (1 / (lettersPerSecond * Time.deltaTime))/10;
-            //Debug.Log($"Yielding for {yieldTime} seconds");
-            //yield return new WaitForSecondsRealtime(1 / typeSpeed);
             yield return new WaitForSeconds(yieldTime);
         }
         isTyping = false;

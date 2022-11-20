@@ -15,6 +15,7 @@ public class Information_hub_ui_manager : MonoBehaviour
     private void OnEnable()
     {
         root = GetComponent<UIDocument>().rootVisualElement;
+        root.SetEnabled(true);
         parentElement = root.Q<VisualElement>("whole-screen");
         leftArrow = root.Q<Button>("page-left-button");
         rightArrow = root.Q<Button>("page-right-button");

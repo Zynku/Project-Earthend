@@ -86,14 +86,9 @@ public class Doorscript : MonoBehaviour
             }
         }
 
-        if ((Vector3.Distance(Player.transform.position, transform.position) < interactionRange))
-        {
-            playerInRange = true;
-        }
-        else
-        {
-            playerInRange = false;
-        }
+        if (Vector3.Distance(Player.transform.position, transform.position) < interactionRange)
+        { playerInRange = true; }
+        else { playerInRange = false; }
     }
 
     void openDoor()

@@ -33976,7 +33976,6 @@ MonoBehaviour:
   isTyping: 0
   isParsingTag: 0
   endOfConversation: 0
-  dialogueText: {fileID: 6856508596846867946}
   dialogueSource: {fileID: 0}
   currentTreeNumber: 0
   currentTreeId: 
