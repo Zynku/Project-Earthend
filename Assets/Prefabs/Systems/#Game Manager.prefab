@@ -33985,6 +33985,7 @@ MonoBehaviour:
   currentDialogueTree:
     DialogueTreeName: 
     DialogueTreeId: 
+    dialogueSpeaker: 
     pauseGameOnOpen: 0
     dialogueLines: []
   currentDialogueLine:
@@ -34002,6 +34003,7 @@ MonoBehaviour:
     audio: []
     audioVol: 1
   lineHasAudio: 0
+  currentNpcScript: {fileID: 0}
   dialogueOnChoiceText: {fileID: 6856508596412862591}
   choiceOneText: {fileID: 6856508597600656736}
   choiceTwoText: {fileID: 6856508596403144638}

@@ -16,6 +16,7 @@ MonoBehaviour:
   dialogueTrees:
   - DialogueTreeName: Default
     DialogueTreeId: 1
+    dialogueSpeaker: Professor Davidson
     pauseGameOnOpen: 0
     dialogueLines:
     - lineString: Hey there! My name is Professor Davidson. I'm the head of the Developer

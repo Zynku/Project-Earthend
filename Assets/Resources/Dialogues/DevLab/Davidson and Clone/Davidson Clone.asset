@@ -16,6 +16,7 @@ MonoBehaviour:
   dialogueTrees:
   - DialogueTreeName: 
     DialogueTreeId: 1
+    dialogueSpeaker: Professor Davidson's Clone
     pauseGameOnOpen: 0
     dialogueLines:
     - lineString: You nEw personnN?
@@ -53,7 +54,7 @@ MonoBehaviour:
       treeIdToSwitchTo: 
       canTriggerQuest: 0
       myQuest: {fileID: 0}
-      lineOwner: 
+      lineOwner: give him a second...
       typeSpeed: 0
       audio: []
       audioVol: 0
@@ -66,7 +67,7 @@ MonoBehaviour:
       treeIdToSwitchTo: 
       canTriggerQuest: 0
       myQuest: {fileID: 0}
-      lineOwner: 
+      lineOwner: give him a second...
       typeSpeed: 0
       audio: []
       audioVol: 0
@@ -79,7 +80,7 @@ MonoBehaviour:
       treeIdToSwitchTo: 
       canTriggerQuest: 0
       myQuest: {fileID: 0}
-      lineOwner: 
+      lineOwner: he's a bit slow
       typeSpeed: 0
       audio: []
       audioVol: 0

@@ -16,6 +16,7 @@ MonoBehaviour:
   dialogueTrees:
   - DialogueTreeName: 
     DialogueTreeId: 1
+    dialogueSpeaker: Lab Researcher Gigi
     pauseGameOnOpen: 0
     dialogueLines:
     - lineString: Hiiii nice to see you, I'm Gigi

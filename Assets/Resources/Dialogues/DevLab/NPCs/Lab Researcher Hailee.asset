@@ -16,6 +16,7 @@ MonoBehaviour:
   dialogueTrees:
   - DialogueTreeName: 
     DialogueTreeId: 1
+    dialogueSpeaker: Lab Researcher Hailee
     pauseGameOnOpen: 0
     dialogueLines:
     - lineString: Hey! I assume you've met our boss upstairs.
@@ -44,7 +45,48 @@ MonoBehaviour:
       typeSpeed: 0
       audio: []
       audioVol: 0
-    - lineString: Cya!
+    - lineString: Not really, having a look around
+      canChangeAboveHeadDialogue: 0
+      AHDialogueIndexToSwitchTo: 0
+      hasChoice: 0
+      choiceTreeID: 
+      canChangeDefaultTreeId: 0
+      treeIdToSwitchTo: 
+      canTriggerQuest: 0
+      myQuest: {fileID: 0}
+      lineOwner: Nikita
+      typeSpeed: 0
+      audio: []
+      audioVol: 0
+    - lineString: What is there to do?
+      canChangeAboveHeadDialogue: 0
+      AHDialogueIndexToSwitchTo: 0
+      hasChoice: 0
+      choiceTreeID: 
+      canChangeDefaultTreeId: 0
+      treeIdToSwitchTo: 
+      canTriggerQuest: 0
+      myQuest: {fileID: 0}
+      lineOwner: Nikita
+      typeSpeed: 0
+      audio: []
+      audioVol: 0
+    - lineString: Some holographic enemies downstairs, some replicated items to the
+        right, and some miscellaneous stuff all around.
+      canChangeAboveHeadDialogue: 0
+      AHDialogueIndexToSwitchTo: 0
+      hasChoice: 0
+      choiceTreeID: 
+      canChangeDefaultTreeId: 0
+      treeIdToSwitchTo: 
+      canTriggerQuest: 0
+      myQuest: {fileID: 0}
+      lineOwner: 
+      typeSpeed: 0
+      audio: []
+      audioVol: 0
+    - lineString: I think somebody needed some help in the room to the right, check
+        them out.
       canChangeAboveHeadDialogue: 0
       AHDialogueIndexToSwitchTo: 0
       hasChoice: 0

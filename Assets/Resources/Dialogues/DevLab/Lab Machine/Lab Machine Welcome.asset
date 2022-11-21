@@ -16,6 +16,7 @@ MonoBehaviour:
   dialogueTrees:
   - DialogueTreeName: 
     DialogueTreeId: 1
+    dialogueSpeaker: Lab Machine
     pauseGameOnOpen: 0
     dialogueLines:
     - lineString: Welcome to the Developer Labs!

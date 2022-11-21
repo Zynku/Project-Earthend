@@ -22,8 +22,9 @@ public class Npcscript : MonoBehaviour
     [SerializeField] public Dialogue myDialogue;                         //Dialogue is a function of the dialogue class. Check Systems folder in Assets
     [SerializeField] public AboveHeadDialogueLine[] ahDialogueList;
     [SerializeField] public int currentAHD;                     //The Above Head Dialogue that will show currently above the NPC
-    [SerializeField] public bool showingAHD;                    //Has an AHD been instantiated from the dialogue manager and is currently live?
+    [HideInInspector] public bool showingAHD;                    //Has an AHD been instantiated from the dialogue manager and is currently live?
     [SerializeField] public Dialogue specialDialogue;
+    [SerializeField] public List<CharacterDialogueSprite> dialogueSprites;
 
 
     DialogueManager dialogueManager;

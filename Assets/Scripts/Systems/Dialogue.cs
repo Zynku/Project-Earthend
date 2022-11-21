@@ -18,6 +18,7 @@ public class DialogueTree
 {
     public string DialogueTreeName;
     public string DialogueTreeId;
+    public string dialogueSpeaker;          //The main speaker in the conversation. Note that this can be overidden by the lineOwner variable.
     public bool pauseGameOnOpen;            //TODO: Pause Game if this is true
     [SerializeField] public List<DialogueLine> dialogueLines;
 }
@@ -47,6 +48,13 @@ public class DialogueLine
     public List<AudioClip> audio;           //List of Audio that says the line
     [Range(0f, 1f)]
     public float audioVol = 1;
+}
+[System.Serializable]
+public class CharacterDialogueSprite
+{
+    public Sprite characterSprite;
+    public string spriteMood = "default";
+    public bool flipSpriteX;
 }
 
 [System.Serializable]

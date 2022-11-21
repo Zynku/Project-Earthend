@@ -5,6 +5,9 @@ using UnityEngine.UI;
 using TMPro;
 using System.Linq;
 using UnityEngine.UIElements;
+using UnityEditor.Rendering;
+using JetBrains.Annotations;
+using Newtonsoft.Json.Serialization;
 
 public class DialogueManager : MonoBehaviour
 {
@@ -53,6 +56,7 @@ public class DialogueManager : MonoBehaviour
     public DialogueTree currentDialogueTree;
     public DialogueLine currentDialogueLine;
     public bool lineHasAudio = false;
+    public Npcscript currentNpcScript;
 
     [Header("Dialogue Choice Variables")]
     public TextMeshProUGUI dialogueOnChoiceText;    //TextMesh component of the text that is shown on screen before a choice
@@ -245,14 +249,32 @@ public class DialogueManager : MonoBehaviour
             currentTreeId = dialogueTree.DialogueTreeId;
             this.currentDialogueTree = dialogueTree;
             this.currentDialogueLine = dialogueTree.dialogueLines[currentLineArray];
+            currentNpcScript = dialogueSource.GetComponent<Npcscript>();
         }
 
         wholeScreen.style.display = DisplayStyle.Flex;
+        characterSpriteL.style.display = DisplayStyle.None;
+        characterSpriteR.style.display = DisplayStyle.None;
+
+
 
         //dialogueBox.SetActive(true);                //Enables all the shit
         choicesBox.SetActive(false);
         aboveheaddialogueBox.SetActive(false);
         aboveheaddialogue.enabled = false;
+
+        if (dialogueTree.dialogueLines[currentLineArray].lineOwner == "") { characterNameText.text = dialogueTree.dialogueSpeaker;} //Assigns the speaker based on the dialogueLine
+        else { characterNameText.text = dialogueTree.dialogueLines[currentLineArray].lineOwner;}
+
+        if (currentNpcScript.dialogueSprites != null)
+        { 
+            characterSpriteL.style.display = DisplayStyle.Flex;
+            CharacterDialogueSprite defaultSprite = currentNpcScript.dialogueSprites.Where(defaultSprite => defaultSprite.spriteMood == "default").FirstOrDefault(); //Finds the sprite with the default mood
+            
+            if (defaultSprite.flipSpriteX) { characterSpriteL.style.scale = new Scale(new Vector2(-1,1)); } //Flips the sprite if needed
+            characterSpriteL.style.backgroundImage = new StyleBackground(defaultSprite.characterSprite);
+            //TODO: Clear sprite after conversation ends, remove black BG
+        }
 
         DialogueLine firstLine = currentDialogueTree.dialogueLines[0];
         if (!isTyping)
@@ -311,6 +333,14 @@ public class DialogueManager : MonoBehaviour
 
             DialogueTree dialogueTree = this.currentDialogueTree;
             this.currentDialogueLine = dialogueTree.dialogueLines[currentLineArray];
+            if (dialogueTree.dialogueLines[currentLineArray].lineOwner == "")
+            {
+                characterNameText.text = dialogueTree.dialogueSpeaker;
+            }
+            else
+            {
+                characterNameText.text = dialogueTree.dialogueLines[currentLineArray].lineOwner;
+            }
             StartCoroutine(TypeDialogue(currentDialogueLine.lineString, currentDialogueLine.typeSpeed));
 
             //Passes the audio to PlayDialogueLine() to play audio clip
