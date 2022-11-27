@@ -1,9 +1,10 @@
 .character-sprite-box {
-    width: 18%;
-    height: 100%;
+    width: 350px;
+    height: 432px;
     margin-left: 16%;
     margin-right: 16%;
     background-color: rgba(0, 0, 0, 0.36);
+    overflow: hidden;
 }
 
 .character-sprite {
@@ -13,4 +14,6 @@
     padding-right: 5%;
     padding-top: 5%;
     padding-bottom: 0;
+    background-image: none;
+    -unity-background-scale-mode: scale-to-fit;
 }

@@ -53,6 +53,7 @@ public class DialogueLine
 public class CharacterDialogueSprite
 {
     public Sprite characterSprite;
+    public string spriteOwner;
     public string spriteMood = "default";
     public bool flipSpriteX;
 }

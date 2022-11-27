@@ -22,6 +22,8 @@ public class DialogueManager : MonoBehaviour
     public TextElement characterNameText;
     public TextElement dialogueText;
 
+    public List<CharacterDialogueSprite> importantDialogueSprites;
+
 
     [Header("Variables to be Assgined")]
     public static DialogueManager instance;
@@ -113,6 +115,9 @@ public class DialogueManager : MonoBehaviour
 
         aboveheaddialogueBox.SetActive(false);
         aboveheaddialogue.enabled = false;
+
+        characterSpriteElementL.style.backgroundColor = new Color(0, 0, 0, 0);
+        characterSpriteElementR.style.backgroundColor = new Color(0, 0, 0, 0);
 
         //Makes sure text renders infront everything else
         aboveheaddialogue.GetComponent<MeshRenderer>().sortingOrder = 69;
@@ -252,13 +257,10 @@ public class DialogueManager : MonoBehaviour
             currentNpcScript = dialogueSource.GetComponent<Npcscript>();
         }
 
-        wholeScreen.style.display = DisplayStyle.Flex;
+        wholeScreen.style.display = DisplayStyle.Flex;          //Enables the whole UI Screen while disabling character sprites.
         characterSpriteL.style.display = DisplayStyle.None;
         characterSpriteR.style.display = DisplayStyle.None;
 
-
-
-        //dialogueBox.SetActive(true);                //Enables all the shit
         choicesBox.SetActive(false);
         aboveheaddialogueBox.SetActive(false);
         aboveheaddialogue.enabled = false;
@@ -266,14 +268,29 @@ public class DialogueManager : MonoBehaviour
         if (dialogueTree.dialogueLines[currentLineArray].lineOwner == "") { characterNameText.text = dialogueTree.dialogueSpeaker;} //Assigns the speaker based on the dialogueLine
         else { characterNameText.text = dialogueTree.dialogueLines[currentLineArray].lineOwner;}
 
-        if (currentNpcScript.dialogueSprites != null)
-        { 
-            characterSpriteL.style.display = DisplayStyle.Flex;
-            CharacterDialogueSprite defaultSprite = currentNpcScript.dialogueSprites.Where(defaultSprite => defaultSprite.spriteMood == "default").FirstOrDefault(); //Finds the sprite with the default mood
+        if (currentNpcScript.dialogueSprites.Count > 0)
+        {
+            characterSpriteL.style.display = DisplayStyle.Flex; //Enables character sprites if there is one to be used.
+            CharacterDialogueSprite defaultSprite = currentNpcScript.dialogueSprites.Where(defaultSprite => defaultSprite.spriteMood == "default" || defaultSprite.spriteMood == "").FirstOrDefault(); //Finds the sprite with the default mood
             
-            if (defaultSprite.flipSpriteX) { characterSpriteL.style.scale = new Scale(new Vector2(-1,1)); } //Flips the sprite if needed
             characterSpriteL.style.backgroundImage = new StyleBackground(defaultSprite.characterSprite);
-            //TODO: Clear sprite after conversation ends, remove black BG
+            if (defaultSprite.flipSpriteX) { characterSpriteL.style.scale = new Scale(new Vector2(-1, 1)); } //Flips the sprite if needed
+
+            characterSpriteR.style.display = DisplayStyle.Flex;
+            for (int i = 0; i < importantDialogueSprites.Count; i++)
+            {
+                if (importantDialogueSprites[i].spriteOwner == "player")
+                {
+                    if (importantDialogueSprites[i].spriteMood == "default" || importantDialogueSprites[i].spriteMood == "")
+                    {
+                        characterSpriteR.style.backgroundImage = new StyleBackground(importantDialogueSprites[i].characterSprite); 
+                    }
+                }
+            }
+        }
+        else
+        {
+            characterSpriteL.style.backgroundImage = null;
         }
 
         DialogueLine firstLine = currentDialogueTree.dialogueLines[0];
@@ -412,6 +429,9 @@ public class DialogueManager : MonoBehaviour
         {
             //dialogueBox.SetActive(false);
             wholeScreen.style.display = DisplayStyle.None;
+            characterSpriteL.style.backgroundImage = null;
+            characterSpriteR.style.backgroundImage = null;
+            characterSpriteL.style.scale = new Scale(new Vector2(1, 1));
             choicesBox.SetActive(false);
             aboveheaddialogueBox.SetActive(false);
             aboveheaddialogue.enabled = false;
