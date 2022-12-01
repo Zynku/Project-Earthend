@@ -8,21 +8,19 @@ using UnityEngine.UIElements;
 using UnityEditor.Rendering;
 using JetBrains.Annotations;
 using Newtonsoft.Json.Serialization;
+using UnityEngine.U2D;
 
 public class DialogueManager : MonoBehaviour
 {
     public VisualElement wholeScreen;
     public VisualElement colorBarTop;
     public VisualElement colorBarBottom;
-    public VisualElement characterSpriteElementL;   //Element that holds the sprite
-    public VisualElement characterSpriteElementR;
-    public VisualElement characterSpriteL;          //The actual element sprite
-    public VisualElement characterSpriteR;
-
     public TextElement characterNameText;
     public TextElement dialogueText;
 
     public List<CharacterDialogueSprite> importantDialogueSprites;
+    public List<CharSpriteBox> spriteBoxesLeft; //Classes that control Character Sprite Box UI Elements on the left;
+    public List<CharSpriteBox> spriteBoxesRight;
 
 
     [Header("Variables to be Assgined")]
@@ -49,12 +47,12 @@ public class DialogueManager : MonoBehaviour
 
     [Header("Current Dialogue Variables")]
     //public TextMeshProUGUI dialogueText;            //TextMesh component of the text that is shown on screen
-    public GameObject dialogueSource;
+    public GameObject dialogueSource;               //The gameObject that has this dialogue attached to it
     public int currentTreeNumber = 0;
     public string currentTreeId;
     public int currentLine = 0;                     //What number line are we on?(Used for visual purposes)
     public int currentLineArray = 0;                //What number line are we on?(used for array references)                
-    public Dialogue dialogue;
+    public Dialogue currentDialogue;
     public DialogueTree currentDialogueTree;
     public DialogueLine currentDialogueLine;
     public bool lineHasAudio = false;
@@ -96,10 +94,26 @@ public class DialogueManager : MonoBehaviour
 
         colorBarTop = root.Q<VisualElement>("color-bar-top");
         colorBarBottom = root.Q<VisualElement>("color-bar-bottom");
-        characterSpriteElementL = root.Q<VisualElement>("character-sprite-box-L");
-        characterSpriteElementR = root.Q<VisualElement>("character-sprite-box-R");
-        characterSpriteL = root.Q<VisualElement>("character-sprite-L");
-        characterSpriteR = root.Q<VisualElement>("character-sprite-R");
+        //characterSpriteBoxL = root.Q<VisualElement>("character-sprite-box-L");
+        //characterSpriteBoxR = root.Q<VisualElement>("character-sprite-box-R");
+        List<VisualElement> listOfCharBoxes = root.Query(className: "character-sprite-box").ToList();   //Adds all sprite boxes to a temp list
+        for (int i = 0; i < listOfCharBoxes.Count; i++)                                                 //Loops through all sprite boxes, creates a CharacterSpriteBox, and adds them to a left or right list based on its parent name
+        {
+            CharSpriteBox CSB = new(listOfCharBoxes[i], null, i, "", false);
+            CSB.name = listOfCharBoxes[i].name;
+
+            if (listOfCharBoxes[i].parent.name == "boxes-left")
+            {
+                CSB.characterSpriteBox.AddToClassList("char-sprite-box-offscreenL");
+                spriteBoxesLeft.Add(CSB);
+            }
+            else
+            {
+                CSB.characterSpriteBox.AddToClassList("char-sprite-box-offscreenR");
+                spriteBoxesRight.Add(CSB);
+            }
+            
+        }
 
         characterNameText = root.Q<TextElement>("name-text");
         dialogueText = root.Q<TextElement>("dialogue-text");
@@ -107,8 +121,6 @@ public class DialogueManager : MonoBehaviour
         wholeScreen = root.Q<VisualElement>("whole-screen");
         wholeScreen.style.display = DisplayStyle.None;                              //Disables dialoguebox UI initially
 
-        //dialogueBox.SetActive(false);
-        //choicesBox.SetActive(false);
         continueText.enabled = false;
         currentLineArray = 0;
         currentLine = 0;
@@ -116,8 +128,8 @@ public class DialogueManager : MonoBehaviour
         aboveheaddialogueBox.SetActive(false);
         aboveheaddialogue.enabled = false;
 
-        characterSpriteElementL.style.backgroundColor = new Color(0, 0, 0, 0);
-        characterSpriteElementR.style.backgroundColor = new Color(0, 0, 0, 0);
+        //characterSpriteBoxL.style.backgroundColor = new Color(0, 0, 0, 0);
+        //characterSpriteBoxR.style.backgroundColor = new Color(0, 0, 0, 0);
 
         //Makes sure text renders infront everything else
         aboveheaddialogue.GetComponent<MeshRenderer>().sortingOrder = 69;
@@ -197,6 +209,7 @@ public class DialogueManager : MonoBehaviour
 
                     aHDialogue.GetComponentInChildren<TextMeshPro>().color = transpcolor;
                     StartCoroutine(FadeAHD(transpcolor, opaquecolor, AHDFadeOutTime, aHDialogue));
+                    return;
                 }
             }
         }
@@ -240,7 +253,7 @@ public class DialogueManager : MonoBehaviour
     //Takes dialogue and passes it to coroutine, also sets text box to be active. Is only called at the START of every conversation
     public void StartConversation(Dialogue dialogue, string treeId, GameObject dialogueSource)
     {
-        this.dialogue = dialogue;
+        this.currentDialogue = dialogue;
         this.dialogueSource = dialogueSource;
 
         var dialogueTree = dialogue.dialogueTrees.Find(i => i.DialogueTreeId == treeId);    //Finds the dialogue tree in the list by ID
@@ -258,41 +271,25 @@ public class DialogueManager : MonoBehaviour
         }
 
         wholeScreen.style.display = DisplayStyle.Flex;          //Enables the whole UI Screen while disabling character sprites.
-        characterSpriteL.style.display = DisplayStyle.None;
-        characterSpriteR.style.display = DisplayStyle.None;
+
+        foreach (var item in spriteBoxesLeft) { item.characterSpriteBox.style.display = DisplayStyle.None;}
+        foreach (var item in spriteBoxesRight) { item.characterSpriteBox.style.display = DisplayStyle.None; }
 
         choicesBox.SetActive(false);
         aboveheaddialogueBox.SetActive(false);
         aboveheaddialogue.enabled = false;
 
-        if (dialogueTree.dialogueLines[currentLineArray].lineOwner == "") { characterNameText.text = dialogueTree.dialogueSpeaker;} //Assigns the speaker based on the dialogueLine
-        else { characterNameText.text = dialogueTree.dialogueLines[currentLineArray].lineOwner;}
-
-        if (currentNpcScript.dialogueSprites.Count > 0)
+        //--------Finds Speaker-----------------------------------------------
+        if (dialogueTree.dialogueLines[currentLineArray].lineOwner == "")
         {
-            characterSpriteL.style.display = DisplayStyle.Flex; //Enables character sprites if there is one to be used.
-            CharacterDialogueSprite defaultSprite = currentNpcScript.dialogueSprites.Where(defaultSprite => defaultSprite.spriteMood == "default" || defaultSprite.spriteMood == "").FirstOrDefault(); //Finds the sprite with the default mood
-            
-            characterSpriteL.style.backgroundImage = new StyleBackground(defaultSprite.characterSprite);
-            if (defaultSprite.flipSpriteX) { characterSpriteL.style.scale = new Scale(new Vector2(-1, 1)); } //Flips the sprite if needed
-
-            characterSpriteR.style.display = DisplayStyle.Flex;
-            for (int i = 0; i < importantDialogueSprites.Count; i++)
-            {
-                if (importantDialogueSprites[i].spriteOwner == "player")
-                {
-                    if (importantDialogueSprites[i].spriteMood == "default" || importantDialogueSprites[i].spriteMood == "")
-                    {
-                        characterSpriteR.style.backgroundImage = new StyleBackground(importantDialogueSprites[i].characterSprite); 
-                    }
-                }
-            }
-        }
+            characterNameText.text = dialogueTree.dialogueSpeaker; //Assigns the speaker to the whole Dialogue owner if the line doesn't have an individual owner
+        } 
         else
         {
-            characterSpriteL.style.backgroundImage = null;
+            characterNameText.text = dialogueTree.dialogueLines[currentLineArray].lineOwner; //Assigns the speaker as the line owner if this specific line is owned by another
         }
-
+        AssignCharacterSpriteBoxes();
+        
         DialogueLine firstLine = currentDialogueTree.dialogueLines[0];
         if (!isTyping)
         {
@@ -300,6 +297,7 @@ public class DialogueManager : MonoBehaviour
             if (currentDialogueTree.dialogueLines.Count == 0)
             {
                 Debug.LogWarning("Character has no dialogue lines!");
+                return;
             }
             //Otherwise, passes one line at a time to coroutine
             else
@@ -328,11 +326,17 @@ public class DialogueManager : MonoBehaviour
             lineHasAudio = false;
             MakeConversationBeeps();
         }
+
+        if (currentDialogueTree.pauseGameOnOpen)
+        {
+            GameManager.instance.PauseGame();
+        }
     }
 
     //Is called while inside a conversation, and pressing [Interact]. Pulls the next line for the Coroutine to use
     public void ContinueConversation()
     {
+
         if (currentDialogueLine.hasChoice)
         {
             Debug.LogWarning("Can't exit out of a line that has a choice!");
@@ -350,6 +354,8 @@ public class DialogueManager : MonoBehaviour
 
             DialogueTree dialogueTree = this.currentDialogueTree;
             this.currentDialogueLine = dialogueTree.dialogueLines[currentLineArray];
+
+            //--------Finds Speaker-----------------------------------------------
             if (dialogueTree.dialogueLines[currentLineArray].lineOwner == "")
             {
                 characterNameText.text = dialogueTree.dialogueSpeaker;
@@ -358,6 +364,8 @@ public class DialogueManager : MonoBehaviour
             {
                 characterNameText.text = dialogueTree.dialogueLines[currentLineArray].lineOwner;
             }
+
+
             StartCoroutine(TypeDialogue(currentDialogueLine.lineString, currentDialogueLine.typeSpeed));
 
             //Passes the audio to PlayDialogueLine() to play audio clip
@@ -412,7 +420,6 @@ public class DialogueManager : MonoBehaviour
     {
         if (currentDialogueLine.hasChoice)
         {
-            //dialogueBox.SetActive(false);
             wholeScreen.style.display = DisplayStyle.None;
             choicesBox.SetActive(false);
             aboveheaddialogueBox.SetActive(false);
@@ -427,11 +434,22 @@ public class DialogueManager : MonoBehaviour
         }
         else
         {
-            //dialogueBox.SetActive(false);
             wholeScreen.style.display = DisplayStyle.None;
-            characterSpriteL.style.backgroundImage = null;
-            characterSpriteR.style.backgroundImage = null;
-            characterSpriteL.style.scale = new Scale(new Vector2(1, 1));
+            foreach (var item in spriteBoxesLeft) 
+            {
+                item.Reset();
+                item.characterSpriteBox.AddToClassList("char-sprite-box-offscreenL");   //Moves characterspriteboxes back offscreen
+                VisualElement visualSprite = item.characterSpriteBox.Q<VisualElement>("character-sprite");
+                visualSprite.style.scale = new Scale(new Vector2(1, 1));    //Flips all sprites back to default orientation
+            }
+            foreach (var item in spriteBoxesRight)
+            {
+                item.Reset();
+                item.characterSpriteBox.AddToClassList("char-sprite-box-offscreenR");
+                VisualElement visualSprite = item.characterSpriteBox.Q<VisualElement>("character-sprite");
+                visualSprite.style.scale = new Scale(new Vector2(1, 1));
+            }
+
             choicesBox.SetActive(false);
             aboveheaddialogueBox.SetActive(false);
             aboveheaddialogue.enabled = false;
@@ -446,12 +464,122 @@ public class DialogueManager : MonoBehaviour
 
             StopAllCoroutines();
         }
+
+        if (GameManager.instance.paused)
+        {
+            GameManager.instance.ResumeGame();
+        }
+    }
+
+    public void AssignCharacterSpriteBoxes()
+    {
+        //Find dialogue owner first and assign that as dialogue box owner 1
+        //Create new list keeping track of owners as strings
+        //Loop through all dialogue lines looking at dialogue line owners
+        //If line owner is different than dialogue owner, check list to make sure we haven't logged this owner before
+        //If we have, move to next line
+        //If we haven't assign new owner to new dialogue box
+
+        List<string> dialogueLineOwnersInDialogue = new();
+
+        spriteBoxesLeft[0].speakerName = currentDialogueTree.dialogueSpeaker;   //Assigns the first sprite box to the speaker of the dialogue
+        spriteBoxesLeft[0].speaker = dialogueSource;                            //Assign gameObject as well
+        dialogueLineOwnersInDialogue.Add(spriteBoxesLeft[0].speakerName);
+
+        spriteBoxesRight[0].speakerName = "Nikita";
+        spriteBoxesRight[0].speaker = GameManager.instance.Player;
+        dialogueLineOwnersInDialogue.Add("Nikita");
+
+        int startingIndex = 1;
+        foreach (var item in currentDialogueTree.dialogueLines) //Loop through all dialogue lines...
+        {
+            if (item.lineOwner != "")                           //If the line owner isnt empty (meaning the line owner is the dialogue tree owner)
+            {
+                if (!dialogueLineOwnersInDialogue.Contains(item.lineOwner)) //If the line owner isnt one that we've checked before...
+                {
+                    spriteBoxesLeft[startingIndex].speakerName = item.lineOwner;    //Assign a new sprite box to this new owner that we haven't seen before
+                    dialogueLineOwnersInDialogue.Add(item.lineOwner);           //Adds this new name to the list of names we check against for future names
+                    startingIndex++;
+                }
+            }
+        }
+
+        //--------Finds Sprites-----------------------------------------------
+        if (currentNpcScript.dialogueSprites.Count > 0) //Enables character sprites if there is one to be used.
+        {
+            //NPC Sprite
+            spriteBoxesLeft[0].active = true;
+            spriteBoxesLeft[0].characterSpriteBox.RemoveFromClassList("char-sprite-box-offscreenL");
+            VisualElement spriteBox = spriteBoxesLeft[0].characterSpriteBox;
+            spriteBox.style.display = DisplayStyle.Flex;
+            spriteBox.style.backgroundColor = new Color(0, 0, 0, 0);
+            for (int i = 0; i < currentNpcScript.dialogueSprites.Count; i++)    //Loops through all the NPC's sprites located in NPC Script looking for the default one
+            {
+                if (currentNpcScript.dialogueSprites[i].spriteMood == "default" || currentNpcScript.dialogueSprites[i].spriteMood == "")
+                {
+                    VisualElement visualSprite = spriteBox.Q<VisualElement>("character-sprite");
+                    visualSprite.style.backgroundImage = new StyleBackground(currentNpcScript.dialogueSprites[i].characterSprite);
+                    visualSprite.style.backgroundColor = new Color(0, 0, 0, 0);
+                    if (currentNpcScript.dialogueSprites[i].flipSpriteX) { visualSprite.style.scale = new Scale(new Vector2(-1, 1)); } //Flips the sprite if needed
+                    break;
+                }
+            }
+
+            //Player Sprite
+            spriteBoxesRight[0].active = true;
+            spriteBoxesRight[0].characterSpriteBox.RemoveFromClassList("char-sprite-box-offscreenR");
+            VisualElement spriteBoxP = spriteBoxesRight[0].characterSpriteBox;
+            spriteBoxP.style.display = DisplayStyle.Flex;
+            spriteBoxP.style.backgroundColor = new Color(0, 0, 0, 0);
+            for (int i = 0; i < importantDialogueSprites.Count; i++)    //Loops through all player sprites located on DialogueManager looking for the default one
+            {
+                if (importantDialogueSprites[i].spriteOwner == "player")
+                {
+                    if (importantDialogueSprites[i].spriteMood == "default" || importantDialogueSprites[i].spriteMood == "")
+                    {
+                        VisualElement visualSprite = spriteBoxP.Q<VisualElement>("character-sprite");
+                        visualSprite.style.backgroundImage = new StyleBackground(importantDialogueSprites[i].characterSprite);
+                        visualSprite.style.backgroundColor = new Color(0, 0, 0, 0);
+                        if (importantDialogueSprites[i].flipSpriteX) { visualSprite.style.scale = new Scale(new Vector2(-1, 1)); } //Flips the sprite if needed
+                        break;
+                    }
+                }
+            }
+        }
+        else
+        {
+            spriteBoxesLeft[0].characterSpriteBox.style.backgroundImage = null;
+        }
+    }
+
+    public IEnumerator AnimateCharacterSprites()
+    {
+        yield return new WaitForSeconds(0.4f);
+        for (int i = 0; i < spriteBoxesLeft.Count; i++)
+        {
+            if (spriteBoxesLeft[i].speakerName == currentDialogueLine.lineOwner || spriteBoxesLeft[i].speakerName == "")
+            {
+                spriteBoxesLeft[i].characterSpriteBox.AddToClassList("char-sprite-box-speaking");
+            }
+
+            if (i == spriteBoxesLeft.Count - 1)
+            {
+                for (int j = 0; j < spriteBoxesRight.Count; j++)
+                {
+                    if (spriteBoxesLeft[j].speakerName == currentDialogueLine.lineOwner)
+                    {
+                        spriteBoxesLeft[j].characterSpriteBox.AddToClassList("char-sprite-box-speaking");
+                    }
+                }
+            }
+        }
     }
 
     private Coroutine TypeCO;
     //Takes dialogue and shows it letter by letter
     public IEnumerator TypeDialogue(string line, int lettersPerSecond)
     {
+        StartCoroutine(AnimateCharacterSprites());
         isTyping = true;
         dialogueText.text = "";
         int currentLetterIndex = 0;
@@ -486,7 +614,7 @@ public class DialogueManager : MonoBehaviour
         //If the choice can change the default tree to a different one, let it, and set the new tree ID
         if (currentDialogueTree.dialogueLines[currentLineArray].canChangeDefaultTreeId)
         {
-            dialogue.defaultTreeId = currentDialogueTree.dialogueLines[currentLineArray].treeIdToSwitchTo;
+            currentDialogue.defaultTreeId = currentDialogueTree.dialogueLines[currentLineArray].treeIdToSwitchTo;
         }
 
         yield return new WaitForSeconds(0.2f);
@@ -533,8 +661,8 @@ public class DialogueManager : MonoBehaviour
     //The player doesn't notice because they have the same dimensions
     public IEnumerator GivePlayerChoices(string line, int lettersPerSecond)
     {
-        DialogueLine currentDialogueLine = this.dialogue.dialogueTrees[currentTreeNumber].dialogueLines[currentLineArray];
-        ChoiceTree choiceTree = dialogue.choiceTrees.Find(i => i.choiceTreeID == currentDialogueLine.choiceTreeID);
+        DialogueLine currentDialogueLine = this.currentDialogue.dialogueTrees[currentTreeNumber].dialogueLines[currentLineArray];
+        ChoiceTree choiceTree = currentDialogue.choiceTrees.Find(i => i.choiceTreeID == currentDialogueLine.choiceTreeID);
         ChoiceLine choiceOne = choiceTree.choices[0];
         ChoiceLine choiceTwo = choiceTree.choices[1];
 
@@ -574,16 +702,16 @@ public class DialogueManager : MonoBehaviour
 
     public void ChoiceOneSelected()
     {
-        DialogueLine currentDialogueLine = this.dialogue.dialogueTrees[currentTreeNumber].dialogueLines[currentLineArray];
-        ChoiceTree choiceTree = dialogue.choiceTrees.Find(i => i.choiceTreeID == currentDialogueLine.choiceTreeID);
+        DialogueLine currentDialogueLine = this.currentDialogue.dialogueTrees[currentTreeNumber].dialogueLines[currentLineArray];
+        ChoiceTree choiceTree = currentDialogue.choiceTrees.Find(i => i.choiceTreeID == currentDialogueLine.choiceTreeID);
         ChoiceLine choiceOne = choiceTree.choices[0];
         ChoiceLine choiceTwo = choiceTree.choices[1];
 
         currentTreeId = choiceOne.treeIdToSwitchTo;             //Switches tree ID so the character can "respond"
-        dialogue.defaultTreeId = choiceOne.newDefaultTreeId;    //Switches default tree ID so character says different things based on what you chose
+        currentDialogue.defaultTreeId = choiceOne.newDefaultTreeId;    //Switches default tree ID so character says different things based on what you chose
         currentLineArray = 0;
         currentLine = 1;
-        StartConversation(this.dialogue, choiceOne.treeIdToSwitchTo, dialogueSource);
+        StartConversation(this.currentDialogue, choiceOne.treeIdToSwitchTo, dialogueSource);
         /*        if (currentDialogueLine.audio != null)
                 {
                     lineHasAudio = true;
@@ -605,16 +733,16 @@ public class DialogueManager : MonoBehaviour
 
     public void ChoiceTwoSelected()
     {
-        DialogueLine currentDialogueLine = this.dialogue.dialogueTrees[currentTreeNumber].dialogueLines[currentLineArray];
-        ChoiceTree choiceTree = dialogue.choiceTrees.Find(i => i.choiceTreeID == currentDialogueLine.choiceTreeID);
+        DialogueLine currentDialogueLine = this.currentDialogue.dialogueTrees[currentTreeNumber].dialogueLines[currentLineArray];
+        ChoiceTree choiceTree = currentDialogue.choiceTrees.Find(i => i.choiceTreeID == currentDialogueLine.choiceTreeID);
         ChoiceLine choiceOne = choiceTree.choices[0];
         ChoiceLine choiceTwo = choiceTree.choices[1];
 
         currentTreeId = choiceTwo.treeIdToSwitchTo;
-        dialogue.defaultTreeId = choiceTwo.newDefaultTreeId;
+        currentDialogue.defaultTreeId = choiceTwo.newDefaultTreeId;
         currentLineArray = 0;
         currentLine = 1;
-        StartConversation(this.dialogue, choiceTwo.treeIdToSwitchTo, dialogueSource);
+        StartConversation(this.currentDialogue, choiceTwo.treeIdToSwitchTo, dialogueSource);
         /*        if (currentDialogueLine.audio != null)
                 {
                     lineHasAudio = true;

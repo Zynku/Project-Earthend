@@ -17,7 +17,7 @@ MonoBehaviour:
   - DialogueTreeName: 
     DialogueTreeId: 1
     dialogueSpeaker: Lab Machine
-    pauseGameOnOpen: 0
+    pauseGameOnOpen: 1
     dialogueLines:
     - lineString: You may attack this sphere for training
       canChangeAboveHeadDialogue: 0

@@ -10,13 +10,29 @@
                 <ui:Label tabindex="-1" text="Who even is you?" display-tooltip-when-elided="true" name="name-text" style="padding-left: 50px; height: 100%; width: 100%; justify-content: flex-start; align-items: flex-start; -unity-font-definition: url(&apos;project://database/Assets/Fonts/DigitalDisco%20SDF%20regular.asset?fileID=11400000&amp;guid=93c8f32f1edc64848bcb46523266af80&amp;type=2#DigitalDisco SDF regular&apos;); font-size: 50px; padding-top: 10px; color: rgb(209, 209, 209);" />
             </ui:VisualElement>
             <ui:VisualElement name="color-bar-top" style="width: 100%; height: 0.5%; background-color: rgb(0, 255, 157);" />
-            <ui:VisualElement name="character-sprite-box-holder" style="width: 100%; height: 40%; flex-direction: row; justify-content: center;">
-                <ui:VisualElement name="character-sprite-box-L" class="character-sprite-box">
-                    <ui:VisualElement name="character-sprite-L" class="character-sprite" />
+            <ui:VisualElement name="character-sprite-box-holder" style="width: 100%; height: 40%; flex-direction: row; justify-content: space-between; align-items: flex-end;">
+                <ui:VisualElement name="boxes-left" style="width: 45%; height: 100%; flex-direction: row-reverse;">
+                    <ui:VisualElement name="character-sprite-box-1" class="character-sprite-box" style="display: flex; visibility: visible;">
+                        <ui:VisualElement name="character-sprite" class="character-sprite" style="-unity-background-scale-mode: scale-to-fit;" />
+                    </ui:VisualElement>
+                    <ui:VisualElement name="character-sprite-box-2" class="character-sprite-box" style="display: flex; visibility: visible;">
+                        <ui:VisualElement name="character-sprite" class="character-sprite" style="-unity-background-scale-mode: scale-to-fit; background-color: rgb(183, 121, 28);" />
+                    </ui:VisualElement>
+                    <ui:VisualElement name="character-sprite-box-3" class="character-sprite-box" style="display: flex; visibility: visible;">
+                        <ui:VisualElement name="character-sprite" class="character-sprite" style="-unity-background-scale-mode: scale-to-fit; background-color: rgb(183, 88, 28);" />
+                    </ui:VisualElement>
                 </ui:VisualElement>
-                <ui:VisualElement name="character-sprite-box-R" class="character-sprite-box">
-                    <ui:VisualElement name="character-sprite-R" class="character-sprite" style="background-image: url(&apos;project://database/Assets/Sprites/Dialogue/Low%20Polly%20Dialogue%20Idle.png?fileID=21300000&amp;guid=5687d6fbfa388a34786dd48d422bddda&amp;type=3#Low Polly Dialogue Idle&apos;); -unity-background-scale-mode: scale-to-fit;" />
+                <ui:VisualElement name="boxes-right" style="width: 45%; height: 100%; flex-direction: row;">
+                    <ui:VisualElement name="character-sprite-box-1" class="character-sprite-box" style="display: flex; visibility: visible;">
+                        <ui:VisualElement name="character-sprite" class="character-sprite" style="-unity-background-scale-mode: scale-to-fit;" />
+                    </ui:VisualElement>
+                    <ui:VisualElement name="character-sprite-box-2" class="character-sprite-box" style="display: flex; visibility: visible;">
+                        <ui:VisualElement name="character-sprite" class="character-sprite" style="-unity-background-scale-mode: scale-to-fit; background-color: rgb(183, 121, 28);" />
+                    </ui:VisualElement>
                 </ui:VisualElement>
+            </ui:VisualElement>
+            <ui:VisualElement name="centre" style="width: 100%; height: 4%; align-items: center;">
+                <ui:VisualElement style="width: 0.5%; height: 100%; background-color: rgb(255, 0, 135);" />
             </ui:VisualElement>
         </ui:VisualElement>
     </ui:VisualElement>

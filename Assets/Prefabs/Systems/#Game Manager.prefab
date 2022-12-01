@@ -33961,6 +33961,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   importantDialogueSprites: []
+  spriteBoxesLeft: []
+  spriteBoxesRight: []
   aboveHeadTextPrefab: {fileID: 2668390392641921699, guid: cf6bce07a63d2734dba165256f22a2dc,
     type: 3}
   AboveHeadDialogueOffset: {x: 0, y: 0.3, z: 0}
@@ -33982,7 +33984,7 @@ MonoBehaviour:
   currentTreeId: 
   currentLine: 0
   currentLineArray: 0
-  dialogue: {fileID: 0}
+  currentDialogue: {fileID: 0}
   currentDialogueTree:
     DialogueTreeName: 
     DialogueTreeId: 

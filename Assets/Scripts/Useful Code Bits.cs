@@ -124,4 +124,7 @@ public void BFS(string id, int orderNumber = 1) //Breadth first search, gives al
 
     /*spriterenderer.color = new Color(1, 1, 1, 1)*/
 
+    //Retuns the first object in a list with a given property. Similar to a for loop searching for an item
+    //var object = List.Where(object => object.property == value).FirstOrDefault(); 
+
 }

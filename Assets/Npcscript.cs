@@ -128,7 +128,7 @@ public class Npcscript : MonoBehaviour
 
     public void BeginConversation()
     {
-        if (canTalk && !dialogueManager.playerInConversation)
+        if (canTalk && !dialogueManager.playerInConversation )
         {
             if (!myDialogue)
             {

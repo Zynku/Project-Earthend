@@ -67,6 +67,9 @@ public class GameManager : MonoBehaviour
 
     [Separator("Event System")]
     public EventSystem theEventSystem;
+
+    [Separator("Important Variables")]
+    public const string playerName = "Nikita";
     //------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
     private void Awake()

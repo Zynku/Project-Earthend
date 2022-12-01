@@ -2,7 +2,10 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.UIElements;
 using MyBox;
+using JetBrains.Annotations;
+using UnityEditor.PackageManager.Requests;
 
 [System.Serializable]
 [CreateAssetMenu(fileName = "New Character Dialogue", menuName = "Dialogue/New Character Dialogue")]
@@ -19,7 +22,7 @@ public class DialogueTree
     public string DialogueTreeName;
     public string DialogueTreeId;
     public string dialogueSpeaker;          //The main speaker in the conversation. Note that this can be overidden by the lineOwner variable.
-    public bool pauseGameOnOpen;            //TODO: Pause Game if this is true
+    public bool pauseGameOnOpen;            
     [SerializeField] public List<DialogueLine> dialogueLines;
 }
 
@@ -56,6 +59,33 @@ public class CharacterDialogueSprite
     public string spriteOwner;
     public string spriteMood = "default";
     public bool flipSpriteX;
+}
+
+[System.Serializable]
+public class CharSpriteBox  //Contains a reference to the UI Elements on screen, as well as who is speaking and other sprite references.
+{
+    public VisualElement characterSpriteBox;
+    public GameObject speaker;
+    public string speakerName;
+    public int spriteBoxIndex;
+    public bool active;
+    public string name;
+
+    public CharSpriteBox(VisualElement characterSpriteBox, GameObject speaker, int spriteBoxIndex, string speakerName, bool active)
+    {
+        this.characterSpriteBox = characterSpriteBox;
+        this.speaker = speaker;
+        this.speakerName = speakerName;
+        this.spriteBoxIndex = spriteBoxIndex;
+        this.active = active;
+    }
+
+    public void Reset()
+    {
+        speaker = null;
+        speakerName = null;
+        active = false;
+    }
 }
 
 [System.Serializable]
