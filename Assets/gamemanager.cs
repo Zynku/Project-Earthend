@@ -117,6 +117,8 @@ public class GameManager : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.P)) { PauseGame(); }
         if (Input.GetKeyDown(KeyCode.O)) { ResumeGame(); }
 
+        if (Input.GetKeyDown(KeyCode.T)) { }
+
         if (Input.GetButtonDown("Info Hub"))
         {
             if (ihuiManager.parentElement.style.display == DisplayStyle.Flex)
@@ -259,6 +261,16 @@ public class GameManager : MonoBehaviour
         //Time.timeScale = 0;
         pause_and_scene_manager.isGamePaused = true;
         GameManager.instance.PauseGame();
+    }
+
+    public void FadeToBlack()
+    {
+        cameraManager.FadeToBlack();
+    }
+
+    public void FadeFromBlack()
+    {
+        cameraManager.FadeFromBlack();
     }
 
     public IEnumerator MeleeHitStop()

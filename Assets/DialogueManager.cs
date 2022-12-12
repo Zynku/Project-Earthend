@@ -78,18 +78,8 @@ public class DialogueManager : MonoBehaviour
 
     private void Awake()
     {
-        /*        if (instance != null)
-                {
-                    Debug.LogWarning("More than one instance of Dialogue Manager found!");
-
-                    DialogueManager old_dm = instance;
-                    instance = this;
-                    Destroy(old_dm.gameObject);
-                }
-                else
-                {
-                    instance = this;
-                }*/
+        UIDocument UIDoc = GetComponent<UIDocument>();
+        UIDoc.enabled = true;
         instance = this;
     }
 

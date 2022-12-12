@@ -34,7 +34,7 @@ public class Information_hub_ui_manager : MonoBehaviour
 
     public void DebugYourLog()
     {
-        Debug.Log("bleh");
+        Debug.Log("Debugged!");
     }
 
 

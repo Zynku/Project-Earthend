@@ -13,11 +13,14 @@ public class CameraManager : MonoBehaviour
     CinemachineBasicMultiChannelPerlin camPerlin;
 
     GameManager gameManager;
+    public GameObject blackOutScreen;
+    public bool blackedOut;
 
     // Start is called before the first frame update
     void Start()
     {
         gameManager = GameManager.instance;
+        blackOutScreen.SetActive(false);
     }
 
     public void SetupCameras()
@@ -33,6 +36,26 @@ public class CameraManager : MonoBehaviour
     void Update()
     {
         
+    }
+
+    public void FadeToBlack()
+    {
+        blackOutScreen.SetActive(true);
+        blackOutScreen.GetComponent<Animator>().Play("Wipe to Black from Left");
+        blackedOut = true;
+    }
+
+    public void FadeFromBlack()
+    {
+        blackOutScreen.GetComponent<Animator>().Play("Wipe from Black to Right");
+
+        Invoke(nameof(SetScreensInactive), 1f);
+        blackedOut = false;
+    }
+
+    public void SetScreensInactive()
+    {
+        blackOutScreen.SetActive(false);
     }
 
     public IEnumerator DoScreenShake(float intensity, float time)
