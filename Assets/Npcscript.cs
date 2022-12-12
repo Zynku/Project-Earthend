@@ -82,7 +82,7 @@ public class Npcscript : MonoBehaviour
         //Out of range and this is the closest NPC
         if (!playerInRange && Player.GetComponent<Charcontrol>().closestNPC == this.gameObject && showingAHD)
         {
-            dialogueManager.HideDialogue();
+            //dialogueManager.HideDialogue();
             StartCoroutine(dialogueManager.HideAboveHeadDialogue(gameObject));
             audiosource.Stop();
         }

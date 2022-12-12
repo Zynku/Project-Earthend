@@ -89,7 +89,7 @@ public class Charhealth : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.L)) { TakeDamage(19); }
 
         if (poisoned) { Poisoned(poisonTargetTime, poisonDamage); }
-        else { poisonTimer = poisonTargetTime; spriterenderer.color = new Color(1, 1, 1, 1); }
+        else { poisonTimer = poisonTargetTime; /*Reassign sprite color to initial here*/; }
     }
 
     private void FixedUpdate()

@@ -21,7 +21,7 @@ public class Information_hub_ui_manager : MonoBehaviour
         rightArrow = root.Q<Button>("page-right-button");
         inventoryslots = root.Query<VisualElement>("inventory-sprite").ToList();
 
-        Debug.Log($"{inventoryslots.Count}");
+        //Debug.Log($"{inventoryslots.Count} inventory slots counted!");
 
         leftArrow.clickable.clicked += () => DebugYourLog();
         rightArrow.clickable.clicked -= () => DebugYourLog();

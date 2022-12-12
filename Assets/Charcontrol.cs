@@ -981,6 +981,7 @@ public class Charcontrol : MonoBehaviour
     {
         yield return new WaitForSeconds(delay);
         rb2d.AddForce(force, ForceMode2D.Force);
+        Debug.Log($"Adding a force of {force}");
     }
 
     public void FindClosestNPC()

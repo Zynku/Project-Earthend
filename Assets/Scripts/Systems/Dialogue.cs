@@ -12,6 +12,7 @@ using UnityEditor.PackageManager.Requests;
 public class Dialogue : ScriptableObject
 {
     public string defaultTreeId = "1";
+    public List<GameObject> peopleInConversation;
     [SerializeField] public List<DialogueTree> dialogueTrees;
     [SerializeField] public List<ChoiceTree> choiceTrees;
 }

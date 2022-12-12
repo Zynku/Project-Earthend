@@ -6,14 +6,23 @@ using MyBox;
 public class Player_Manager : MonoBehaviour
 {
     public GameObject playerPrefab;
-    [ReadOnly]public GameObject playerLiveRef;
+    [ReadOnly] public GameObject playerLiveRef;
+    [ReadOnly] public GameObject handSprite;
+    [ReadOnly] public GameObject weapon;
     [ReadOnly] public GameObject playerRespawnPoint;
     public bool preventPlayerMovement = false;
 
-    // Start is called before the first frame update
+    [HideInInspector] public Color playerStartColor;
+    [HideInInspector] public Color handStartColor;
+    [HideInInspector] public Color weaponStartColor;
+    private float lerpTimeElapsed;
+
     void Start()
     {
         playerRespawnPoint = GameManager.instance.playerRespawnPoint;
+        playerStartColor = playerLiveRef.GetComponent<SpriteRenderer>().color;
+        handStartColor = handSprite.GetComponent<SpriteRenderer>().color;
+        weaponStartColor = weapon.GetComponent<SpriteRenderer>().color;
     }
 
     public GameObject SpawnPlayer()
@@ -22,6 +31,13 @@ public class Player_Manager : MonoBehaviour
         if (player != null)
         {
             playerLiveRef = player;
+
+            SpriteRenderer[] children = player.GetComponentsInChildren<SpriteRenderer>();   //Finds the hand sprite and weapon sprites and assigns their gameObjects
+            foreach (var item in children)
+            {
+                if (item.gameObject.name == "Melee Object") { weapon = item.gameObject; }
+                if (item.gameObject.name == "Hand Sprite") { handSprite = item.gameObject; }
+            }
 
             Charcontrol charcontrol = playerLiveRef.GetComponent<Charcontrol>();
             Charhealth charhealth = playerLiveRef.GetComponent<Charhealth>();
@@ -37,6 +53,13 @@ public class Player_Manager : MonoBehaviour
             playerRespawnPoint = GameManager.instance.playerRespawnPoint;
             playerLiveRef = Instantiate(playerPrefab, playerRespawnPoint.transform.position, Quaternion.identity, gameObject.transform);
             playerLiveRef.SetActive(true);
+
+            SpriteRenderer[] children = player.GetComponentsInChildren<SpriteRenderer>();   //Finds the hand sprite and weapon sprites and assigns their gameObjects
+            foreach (var item in children)
+            {
+                if (item.gameObject.name == "Melee Object") { weapon = item.gameObject; }
+                if (item.gameObject.name == "Hand Sprite") { handSprite = item.gameObject; }
+            }
 
             Charcontrol charcontrol = playerLiveRef.GetComponent<Charcontrol>();
             Charhealth charhealth = playerLiveRef.GetComponent<Charhealth>();
@@ -139,6 +162,61 @@ public class Player_Manager : MonoBehaviour
             if (itemAnimator != null) { itemAnimator.enabled = true; }
         }
         preventPlayerMovement = false;
+    }
+
+    public IEnumerator DoFadeOut(float duration)    //Fades from current player color to transparent over duration time
+    {
+        SpriteRenderer pSpriteRenderer = playerLiveRef.GetComponent<SpriteRenderer>();  //Gets the sprite renderers
+        SpriteRenderer hSpriteRenderer = handSprite.GetComponent<SpriteRenderer>();
+        SpriteRenderer wSpriteRenderer = weapon.GetComponent<SpriteRenderer>();
+
+        Color pStartColor = playerStartColor;   //Gets their starting color so we know where to start lerping from
+        Color hStartColor = handStartColor;
+        Color wStartColor = weaponStartColor;
+
+        Color pTransParentColor = new(pStartColor.r, pStartColor.g, pStartColor.b, 0f);    //Finds the color we're trying to get to for each
+        Color hTransParentColor = new(hStartColor.r, hStartColor.g, hStartColor.b, 0f);
+        Color wTransParentColor = new(wStartColor.r, wStartColor.g, wStartColor.b, 0f);
+        lerpTimeElapsed = 0;
+        while (pSpriteRenderer.color != pTransParentColor)  //While loop to continually update values until they match
+        {
+            //Debug.Log($"Lerping color out. Player color is {spriteRenderer.color}");
+            yield return new WaitForEndOfFrame();
+            lerpTimeElapsed += Time.deltaTime;
+            float percentageComplete = lerpTimeElapsed / duration;
+            pSpriteRenderer.color = Color.Lerp(pStartColor, pTransParentColor, percentageComplete);
+            hSpriteRenderer.color = Color.Lerp(hStartColor, hTransParentColor, percentageComplete);
+            wSpriteRenderer.color = Color.Lerp(wStartColor, wTransParentColor, percentageComplete);
+        }
+        //Debug.Log($"Player is transparent!");
+    }
+    
+    public IEnumerator DoFadeIn(float duration) //Fades from transparent to initial player color over time
+    {
+        SpriteRenderer pSpriteRenderer = playerLiveRef.GetComponent<SpriteRenderer>();  //Gets the sprite renderers
+        SpriteRenderer hSpriteRenderer = handSprite.GetComponent<SpriteRenderer>();
+        SpriteRenderer wSpriteRenderer = weapon.GetComponent<SpriteRenderer>();
+
+        Color pStartColor = playerStartColor;   //Gets their starting color so we know where to start lerping from
+        Color hStartColor = handStartColor;
+        Color wStartColor = weaponStartColor;
+
+        Color pTransParentColor = new Color(pStartColor.r, pStartColor.g, pStartColor.b, 0f);
+        Color hTransParentColor = new Color(hStartColor.r, hStartColor.g, hStartColor.b, 0f);
+        Color wTransParentColor = new Color(wStartColor.r, wStartColor.g, wStartColor.b, 0f);
+
+        lerpTimeElapsed = 0;
+        while (pSpriteRenderer.color != pStartColor)
+        {
+            //Debug.Log($"Lerping color in. Player color is {spriteRenderer.color}");
+            yield return new WaitForEndOfFrame();
+            lerpTimeElapsed += Time.deltaTime;
+            float percentageComplete = lerpTimeElapsed / duration;
+            pSpriteRenderer.color = Color.Lerp(pTransParentColor, pStartColor, percentageComplete);
+            hSpriteRenderer.color = Color.Lerp(hTransParentColor, hStartColor, percentageComplete);
+            wSpriteRenderer.color = Color.Lerp(wTransParentColor, wStartColor, percentageComplete);
+        }
+        //Debug.Log($"Player is opaque!");
     }
 
     bool playerPosRecorded = false;

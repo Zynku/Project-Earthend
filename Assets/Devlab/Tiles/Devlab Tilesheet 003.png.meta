@@ -1701,7 +1701,7 @@ TextureImporter:
         width: 16
         height: 16
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -1709,6 +1709,90 @@ TextureImporter:
       bones: []
       spriteID: 122d55d60c52ef950800000000000000
       internalID: 6484662021858382369
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Devlab Tilesheet 003_0
+      rect:
+        serializedVersion: 2
+        x: 192
+        y: 362
+        width: 16
+        height: 16
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: c951c9d46976a824ebecbc44ac0ad1a7
+      internalID: -1768486442
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Devlab Tilesheet 003_1
+      rect:
+        serializedVersion: 2
+        x: 213
+        y: 362
+        width: 16
+        height: 16
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 055c73d6b5fbaf54491173640bbbc81a
+      internalID: -1148281553
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Devlab Tilesheet 003_2
+      rect:
+        serializedVersion: 2
+        x: 213
+        y: 384
+        width: 16
+        height: 16
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 394307528d5ae894c957395b76348783
+      internalID: -724562796
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Devlab Offpath Door
+      rect:
+        serializedVersion: 2
+        x: 196
+        y: 122
+        width: 36
+        height: 64
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 932e5b5e9d7ed064fb35f14dc0cf3389
+      internalID: -2132355557
       vertices: []
       indices: 
       edges: []
@@ -1725,13 +1809,17 @@ TextureImporter:
     secondaryTextures: []
     nameFileIdTable:
       Devlab Tilesheet 003_56: 7896262969838391534
+      Devlab Tilesheet 003_0: -1768486442
       Devlab Tilesheet 003_34: -2708262905899171756
       Devlab Tilesheet 003_60: -2506395928980384287
       Devlab BG Drawer Tile 1: -2352826165923449835
       Devlab Tilesheet 003_16: 1191725096793418451
       Devlab Back Dirt Mound 1_3: -6952541941015599994
+      Devlab Offpath Door: -2132355557
+      Devlab Tilesheet 003_2: -724562796
       Devlab Tilesheet 003_57: 1767077832478273727
       Devlab Back Tile 3: -8209858920255543369
+      Devlab Tilesheet 003_1: -1148281553
       Devlab BG Drawer Tile 2: -4771108553390150535
       Devlab Back Dirt Mound 2_2: -4790357771283013613
       Devlab Tilesheet 003_19: 3211303424519929145
@@ -1764,15 +1852,15 @@ TextureImporter:
       Devlab BG Tile 4: 1720822796425802135
       Devlab Back Dirt Mound 1_4: -627137489928662301
       Devlab Tilesheet 003_15: -3509343974035953495
-      Devlab Tilesheet 003_27: 2936595302130797610
       Devlab Back Tile 2: 5313692483090934467
-      Devlab Tilesheet 003_23: 4693684410214012977
-      Devlab Back Tree 1_2: -7451622703984829151
       Devlab Tilesheet 003_Stairs Reverse: -7950784232809081871
+      Devlab Tilesheet 003_27: 2936595302130797610
+      Devlab Tilesheet 003_23: 4693684410214012977
+      Devlab Tilesheet 003_65: 6484662021858382369
+      Devlab Back Tree 1_2: -7451622703984829151
       Devlab Tilesheet 003_Stairs: -3513931749984003993
       Devlab Tilesheet 003_64: 5239771524116600164
       Devlab Back Tree 1_4: -6910276545929025202
-      Devlab Tilesheet 003_65: 6484662021858382369
       Devlab Tilesheet 003_11: -1552360621436937005
       Devlab BG Tile 1: 5771839997050903671
       Devlab Tilesheet 003_20: -991305513584944583

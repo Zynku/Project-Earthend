@@ -32190,8 +32190,13 @@ MonoBehaviour:
   playerPrefab: {fileID: 4714260749208962275, guid: 86a5801330cfb6149b91312433e75217,
     type: 3}
   playerLiveRef: {fileID: 0}
+  handSprite: {fileID: 0}
+  weapon: {fileID: 0}
   playerRespawnPoint: {fileID: 0}
   preventPlayerMovement: 0
+  playerStartColor: {r: 0, g: 0, b: 0, a: 0}
+  handStartColor: {r: 0, g: 0, b: 0, a: 0}
+  weaponStartColor: {r: 0, g: 0, b: 0, a: 0}
 --- !u!1 &6856508597052984905
 GameObject:
   m_ObjectHideFlags: 0
@@ -34011,6 +34016,8 @@ MonoBehaviour:
   choiceOneText: {fileID: 6856508597600656736}
   choiceTwoText: {fileID: 6856508596403144638}
   questsToGive: []
+  dialogueEnter: {fileID: 0}
+  dialogueExit: {fileID: 0}
 --- !u!1 &6856508597201588132
 GameObject:
   m_ObjectHideFlags: 0

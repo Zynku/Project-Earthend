@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
+using MyBox;
 using System.Linq;
 using UnityEngine.UIElements;
 using UnityEditor.Rendering;
@@ -66,6 +67,11 @@ public class DialogueManager : MonoBehaviour
     [Header("Dialogue Quest Variables")]
     public List<Quest> questsToGive;                //Quests that will be given to the player after this conversation is done
 
+    [Separator("Audio")]
+    AudioSource audioSource;
+    public AudioClip dialogueEnter;
+    public AudioClip dialogueExit;
+
     Animator dialogueCharAnim;                      //Animator component of the dialogue character
     Charcontrol charcontrol;
     QuestManager questManager;
@@ -128,12 +134,10 @@ public class DialogueManager : MonoBehaviour
         aboveheaddialogueBox.SetActive(false);
         aboveheaddialogue.enabled = false;
 
-        //characterSpriteBoxL.style.backgroundColor = new Color(0, 0, 0, 0);
-        //characterSpriteBoxR.style.backgroundColor = new Color(0, 0, 0, 0);
-
         //Makes sure text renders infront everything else
         aboveheaddialogue.GetComponent<MeshRenderer>().sortingOrder = 69;
 
+        audioSource = GetComponent<AudioSource>();
 
         charcontrol = GameManager.instance.Player.GetComponent<Charcontrol>();
         questManager = GameManager.instance.questManager;
@@ -311,6 +315,7 @@ public class DialogueManager : MonoBehaviour
 
                 endOfConversation = false;
                 playerInConversation = true;
+                audioSource.PlayOneShot(dialogueEnter);
             }
         }
 
@@ -462,6 +467,8 @@ public class DialogueManager : MonoBehaviour
             Npcscript npcScript = dialogueSource.GetComponent<Npcscript>();
             npcScript.audiosource.Stop();
 
+            audioSource.PlayOneShot(dialogueExit);
+
             StopAllCoroutines();
         }
 
@@ -552,7 +559,7 @@ public class DialogueManager : MonoBehaviour
         }
     }
 
-    public IEnumerator AnimateCharacterSprites()
+    public IEnumerator AnimateCharacterSprites()    //I can't figure this out. The class list is added but the transition isnt triggering.
     {
         yield return new WaitForSeconds(0.4f);
         for (int i = 0; i < spriteBoxesLeft.Count; i++)
@@ -560,6 +567,7 @@ public class DialogueManager : MonoBehaviour
             if (spriteBoxesLeft[i].speakerName == currentDialogueLine.lineOwner || spriteBoxesLeft[i].speakerName == "")
             {
                 spriteBoxesLeft[i].characterSpriteBox.AddToClassList("char-sprite-box-speaking");
+                spriteBoxesLeft[i].characterSpriteBox.Q<VisualElement>("character-sprite").AddToClassList("char-sprite-box-speaking");
             }
 
             if (i == spriteBoxesLeft.Count - 1)
@@ -569,6 +577,7 @@ public class DialogueManager : MonoBehaviour
                     if (spriteBoxesLeft[j].speakerName == currentDialogueLine.lineOwner)
                     {
                         spriteBoxesLeft[j].characterSpriteBox.AddToClassList("char-sprite-box-speaking");
+                        spriteBoxesLeft[i].characterSpriteBox.Q<VisualElement>("character-sprite").AddToClassList("char-sprite-box-speaking");
                     }
                 }
             }
@@ -579,7 +588,7 @@ public class DialogueManager : MonoBehaviour
     //Takes dialogue and shows it letter by letter
     public IEnumerator TypeDialogue(string line, int lettersPerSecond)
     {
-        StartCoroutine(AnimateCharacterSprites());
+        //StartCoroutine(AnimateCharacterSprites());
         isTyping = true;
         dialogueText.text = "";
         int currentLetterIndex = 0;

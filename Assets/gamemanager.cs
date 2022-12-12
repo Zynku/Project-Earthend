@@ -160,6 +160,7 @@ public class GameManager : MonoBehaviour
 
     private void ChangedActiveScene(Scene currentScene, Scene nextScene)    //Is called every time the scene is changed
     {
+        currentSceneName = SceneManager.GetActiveScene().name;
         Debug.Log($"-----------------------------------Scene changed to {currentSceneName}------------------------------------");
         DisableStuff();
     }
