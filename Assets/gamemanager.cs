@@ -70,6 +70,8 @@ public class GameManager : MonoBehaviour
 
     [Separator("Important Variables")]
     public const string playerName = "Nikita";
+
+    VisualElement fadeToBlackScreen;
     //------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
     private void Awake()
@@ -102,7 +104,8 @@ public class GameManager : MonoBehaviour
 
     public void Start()
     {
-
+        VisualElement root = GetComponent<UIDocument>().rootVisualElement;
+        fadeToBlackScreen = root.Q<VisualElement>("blackSprite");
     }
 
     public void AssignAllReferences()   
@@ -265,12 +268,14 @@ public class GameManager : MonoBehaviour
 
     public void FadeToBlack()
     {
-        cameraManager.FadeToBlack();
+        //cameraManager.FadeToBlack();
+        fadeToBlackScreen.style.display = DisplayStyle.Flex;
     }
 
     public void FadeFromBlack()
     {
-        cameraManager.FadeFromBlack();
+        //cameraManager.FadeFromBlack();
+        fadeToBlackScreen.style.display = DisplayStyle.None;
     }
 
     public IEnumerator MeleeHitStop()
