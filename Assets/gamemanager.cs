@@ -64,6 +64,9 @@ public class GameManager : MonoBehaviour
     [Separator("Important Game Objects & Scripts")]
     public InGameUi ingame_UI;
     public InventoryUI inventoryui;
+    VisualElement fadeToBlackScreen;
+    private bool fadeColorReached;
+    private float lerpTimeElapsed;
 
     [Separator("Event System")]
     public EventSystem theEventSystem;
@@ -71,7 +74,6 @@ public class GameManager : MonoBehaviour
     [Separator("Important Variables")]
     public const string playerName = "Nikita";
 
-    VisualElement fadeToBlackScreen;
     //------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
     private void Awake()
@@ -266,16 +268,73 @@ public class GameManager : MonoBehaviour
         GameManager.instance.PauseGame();
     }
 
-    public void FadeToBlack()
+    public void FadeToBlack(float duration)
     {
-        //cameraManager.FadeToBlack();
         fadeToBlackScreen.style.display = DisplayStyle.Flex;
+        //fadeToBlackScreen.AddToClassList("fadeToBlack");
+        StartCoroutine(FadeToBlackCO(duration));
     }
 
-    public void FadeFromBlack()
+    public void FadeFromBlack(float duration)
     {
-        //cameraManager.FadeFromBlack();
-        fadeToBlackScreen.style.display = DisplayStyle.None;
+        //fadeToBlackScreen.RemoveFromClassList("fadeToBlack");
+        StartCoroutine(FadeFromBlackCO(duration));
+    }
+
+    public IEnumerator FadeToBlackCO(float duration)
+    {
+        Debug.Log("Starting fade TO black Coroutine");
+        fadeColorReached = false;
+
+        Color startColor = new Color(0, 0, 0, 0);
+        Color endColor = new Color(0, 0, 0, 100);
+
+        while (!fadeColorReached)
+        {
+            yield return new WaitForEndOfFrame();
+
+            lerpTimeElapsed += Time.deltaTime;
+            float percentageComplete = lerpTimeElapsed / duration;
+
+            //fadeToBlackScreen.style.backgroundColor = Color.Lerp(startColor, endColor, percentageComplete);
+            fadeToBlackScreen.style.opacity = Mathf.Lerp(0,100, percentageComplete);
+            Debug.Log($"Screen opacity is {fadeToBlackScreen.style.opacity}");
+
+            if (fadeToBlackScreen.style.opacity == 100)
+            {
+                Debug.Log("Screen is fully opaque");
+                fadeColorReached = true;
+                lerpTimeElapsed = 0;
+            }
+        }
+    }
+
+    public IEnumerator FadeFromBlackCO(float duration)
+    {
+        Debug.Log("Starting fade FROM black Coroutine");
+        fadeColorReached = false;
+
+        Color startColor = new Color(0, 0, 0, 100);
+        Color endColor = new Color(0, 0, 0, 0);
+
+        while (!fadeColorReached)
+        {
+            lerpTimeElapsed += Time.deltaTime;
+            float percentageComplete = lerpTimeElapsed / duration;
+
+            yield return new WaitForEndOfFrame();
+            //fadeToBlackScreen.style.backgroundColor = Color.Lerp(startColor, endColor, percentageComplete);
+            fadeToBlackScreen.style.opacity = Mathf.Lerp(100, 0, percentageComplete);
+            Debug.Log($"Screen opacity is {fadeToBlackScreen.style.opacity}");
+
+            if (fadeToBlackScreen.style.opacity == 0)
+            {
+                Debug.Log("Screen is fully transparent");
+                fadeColorReached = true;
+                lerpTimeElapsed = 0;
+                fadeToBlackScreen.style.display = DisplayStyle.None;
+            }
+        }
     }
 
     public IEnumerator MeleeHitStop()

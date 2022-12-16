@@ -74,6 +74,7 @@ public class OffPath_Door : MonoBehaviour
             {
                 if (doorcooldown != 0) { return; }
                 StartCoroutine(MovePlayerToMiddle());   //If the door isnt on cooldown, lerp the player to the center of the door
+                doorcooldown = doorcooldowntargettime;
             }
             else
             {
@@ -84,6 +85,7 @@ public class OffPath_Door : MonoBehaviour
 
     public IEnumerator MovePlayerToMiddle()
     {
+        Debug.Log("Starting door procedures");
         playerAtMiddle = false;
         lerpTimeElapsed = 0;
         float playerYPos = player.transform.position.y; //Records current Y pos so we stay constant
@@ -103,14 +105,14 @@ public class OffPath_Door : MonoBehaviour
                 //Debug.Log("Player is in the middle of the door!");
                 StartCoroutine(GameManager.instance.playerManager.DoFadeOut(0.2f)); //Fade Player out
                 yield return new WaitForSeconds(0.05f);
-                GameManager.instance.FadeToBlack();
-                yield return new WaitForSeconds(0.1f);
+                GameManager.instance.FadeToBlack(0.5f);
+                yield return new WaitForSeconds(0.6f);
                 MovePlayer();   //Teleports to new door location
-                yield return new WaitForSeconds(0.8f);
-                GameManager.instance.FadeFromBlack();
-                yield return new WaitForSeconds(0.1f);
+                yield return new WaitForSeconds(0.4f);
+                GameManager.instance.FadeFromBlack(0.5f);
+                yield return new WaitForSeconds(0.3f);
                 StartCoroutine(GameManager.instance.playerManager.DoFadeIn(0.2f));  //Fade Player in
-
+                yield break;
             }
         }
         
