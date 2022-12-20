@@ -104,13 +104,13 @@ public class OffPath_Door : MonoBehaviour
                 playerAtMiddle = true;
                 //Debug.Log("Player is in the middle of the door!");
                 StartCoroutine(GameManager.instance.playerManager.DoFadeOut(0.2f)); //Fade Player out
-                yield return new WaitForSeconds(0.05f);
+                yield return new WaitForSeconds(0.2f);
                 GameManager.instance.FadeToBlack(0.5f);
                 yield return new WaitForSeconds(0.6f);
                 MovePlayer();   //Teleports to new door location
-                yield return new WaitForSeconds(0.4f);
+                yield return new WaitForSeconds(0.1f);
                 GameManager.instance.FadeFromBlack(0.5f);
-                yield return new WaitForSeconds(0.3f);
+                yield return new WaitForSeconds(0.4f);
                 StartCoroutine(GameManager.instance.playerManager.DoFadeIn(0.2f));  //Fade Player in
                 yield break;
             }

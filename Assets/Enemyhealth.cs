@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Enemyhealth : MonoBehaviour
+public class Enemyhealth : MonoBehaviour    //This class gives enemies a health bar and represents how much health it has
 {
     
     public int maxHealth;

@@ -37,10 +37,6 @@
     padding-top: 1px;
     padding-bottom: 10px;
     background-image: url('project://database/Assets/Sprites/UI/Inventory%20UI/Inventory%20BG%20slots.png?fileID=6007070166288541563&guid=b8ece1f97fbb9364296de8698eafe81e&type=3#Inventory BG Slot');
-    -unity-slice-left: -50;
-    -unity-slice-top: -50;
-    -unity-slice-right: -50;
-    -unity-slice-bottom: -50;
 }
 
 .ihui-page-switch-button {

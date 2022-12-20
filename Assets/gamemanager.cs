@@ -106,7 +106,7 @@ public class GameManager : MonoBehaviour
 
     public void Start()
     {
-        VisualElement root = GetComponent<UIDocument>().rootVisualElement;
+        VisualElement root = ingame_UI.GetComponent<UIDocument>().rootVisualElement;
         fadeToBlackScreen = root.Q<VisualElement>("blackSprite");
     }
 
@@ -268,17 +268,18 @@ public class GameManager : MonoBehaviour
         GameManager.instance.PauseGame();
     }
 
-    public void FadeToBlack(float duration)
+    public void FadeToBlack(float duration) //I can't figure out why this won't work.
     {
         fadeToBlackScreen.style.display = DisplayStyle.Flex;
-        //fadeToBlackScreen.AddToClassList("fadeToBlack");
-        StartCoroutine(FadeToBlackCO(duration));
+        fadeToBlackScreen.AddToClassList("fadeToBlack");
+        //StartCoroutine(FadeToBlackCO(duration));
     }
 
     public void FadeFromBlack(float duration)
     {
-        //fadeToBlackScreen.RemoveFromClassList("fadeToBlack");
-        StartCoroutine(FadeFromBlackCO(duration));
+        fadeToBlackScreen.style.display = DisplayStyle.Flex;
+        fadeToBlackScreen.RemoveFromClassList("fadeToBlack");
+        //StartCoroutine(FadeFromBlackCO(duration));
     }
 
     public IEnumerator FadeToBlackCO(float duration)

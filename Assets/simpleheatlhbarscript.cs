@@ -48,12 +48,6 @@ public class simpleheatlhbarscript : MonoBehaviour
             case Enemyattachedto.Enemy:
                 parentMaxHealth = enemymain.maxHealth;
                 parentHealth = enemymain.currentHealth;
-
-                if (GetComponentInParent<Enemy_controller>().currentState == Enemy_controller.State.Stunned)
-                { stunned = true; }
-                else
-                { stunned = false; }
-
                 break;
 
             case Enemyattachedto.Target_dummy:
