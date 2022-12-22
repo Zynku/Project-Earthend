@@ -6,6 +6,7 @@ using UnityEngine.SceneManagement;
 using Cinemachine;
 using MyBox;
 using UnityEngine.UIElements;
+using System;
 
 public class GameManager : MonoBehaviour
 {
@@ -118,6 +119,7 @@ public class GameManager : MonoBehaviour
     private void Update()
     {
         //Debug.Log($"Current Scene number is {SceneManager.GetActiveScene().buildIndex} and Scene name is {SceneManager.GetActiveScene().name}");
+        Debug.Log($"Time scale is {Time.timeScale}");
 
         if (Input.GetKeyDown(KeyCode.P)) { PauseGame(); }
         if (Input.GetKeyDown(KeyCode.O)) { ResumeGame(); }
@@ -150,11 +152,11 @@ public class GameManager : MonoBehaviour
         if (resume) { resumed = true; }
 
 
-        if (overwriteTime) 
+        if (overwriteTime && !hitStopped) 
         {            
             Time.timeScale = timeScale; 
         }
-        else
+        else if (!hitStopped)
         {
             Time.timeScale = 1;
         }
