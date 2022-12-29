@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using MyBox;
+using UnityEngine.InputSystem;
 
 public class Charhealth : MonoBehaviour
 {
@@ -83,10 +84,10 @@ public class Charhealth : MonoBehaviour
 
         //healthbarOver.SetHealth(currentHealth);
 
-        if (Input.GetKeyDown(KeyCode.J)) { ResetHealth(true);}
-        if (Input.GetKeyDown(KeyCode.H)) { AddHealth(20); }
-        if (Input.GetKeyDown(KeyCode.K)) { TakeDamage(maxHealth); }
-        if (Input.GetKeyDown(KeyCode.L)) { TakeDamage(19); }
+        if (Keyboard.current.jKey.wasPressedThisFrame) { ResetHealth(true);}
+        if (Keyboard.current.hKey.wasPressedThisFrame) { AddHealth(20); }
+        if (Keyboard.current.kKey.wasPressedThisFrame) { TakeDamage(maxHealth); }
+        if (Keyboard.current.lKey.wasPressedThisFrame) { TakeDamage(19); }
 
         if (poisoned) { Poisoned(poisonTargetTime, poisonDamage); }
         else { poisonTimer = poisonTargetTime; /*Reassign sprite color to initial here*/; }

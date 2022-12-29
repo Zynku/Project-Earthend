@@ -2,11 +2,13 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using MyBox;
+using UnityEngine.InputSystem;
 
 
 public class Charcontrol : MonoBehaviour
 {
     public static Charcontrol Instance;
+    Charinputs charinputs;
     Charanimation charanimation;
     Charattacks charattacks;
     Chareffects chareffects;
@@ -167,8 +169,10 @@ public class Charcontrol : MonoBehaviour
         Dead
     }
 
+
     void Start()
     {
+        charinputs = GetComponent<Charinputs>();
         charattacks = GetComponent<Charattacks>();
         charanimation = GetComponent<Charanimation>();
         chareffects = GetComponent<Chareffects>();
@@ -193,8 +197,8 @@ public class Charcontrol : MonoBehaviour
         //Debug.Log($"Current state is {currentState}");
         xVel = rb2d.velocity.x;
         yVel = rb2d.velocity.y;
-        inputX = Input.GetAxisRaw("Horizontal");
-        inputY = Input.GetAxisRaw("Vertical");
+        //inputX = Input.GetAxisRaw("Horizontal");
+        //inputY = Input.GetAxisRaw("Vertical");
         onscreenTimer.GetComponent<SimpleTimerScript>().timerTime = combatStateTime;
         playerInConversation = DialogueManager.instance.playerInConversation;
         //switchedDirOnscreenTimer.GetComponent<SimpleTimerScript>().timerTime = switchingDirTime;
@@ -438,11 +442,14 @@ public class Charcontrol : MonoBehaviour
 
             case State.Idle:                    //Idle anim inside the animator has a behaviour that forces this state during its animation
                 {
+                    Debug.LogWarning("Idle");
                     inCombat = false;
                     Idle();
                     //Transition to Walking
-                    if (Input.GetAxisRaw("Horizontal") != 0)
+                    //if (Input.GetAxisRaw("Horizontal") != 0)
+                    if (charinputs.move.ReadValue<Vector2>().x != 0)
                     {
+                        Debug.LogWarning("Switching to walking");
                         if (allowWalking)
                         {
                             currentState = State.Walking;
@@ -472,7 +479,7 @@ public class Charcontrol : MonoBehaviour
                     inCombat = false;
                     Walking();
                     //Transition back to Idle
-                    if (Input.GetAxisRaw("Horizontal") == 0 /*&& Mathf.Abs(Mathf.Floor(rb2d.velocity.x)) == 0*/)
+                    if (charinputs.move.ReadValue<Vector2>().x == 0)
                     {
                         currentState = State.Idle;
                     }
@@ -515,7 +522,7 @@ public class Charcontrol : MonoBehaviour
                     //Transition back to Walk
                     //Nothing haha fuck you
                     //Transition to Sliding
-                    if (Input.GetButtonDown("Dodge"))
+                   /* if (Input.GetButtonDown("Dodge"))
                     {
                         currentState = State.Dodging;
                     }
@@ -523,7 +530,7 @@ public class Charcontrol : MonoBehaviour
                     if (Input.GetAxisRaw("Vertical") > 0)
                     {
                         currentState = State.Jumping;
-                    }
+                    }*/
 
                     if (!isGrounded)
                     {
@@ -531,10 +538,9 @@ public class Charcontrol : MonoBehaviour
                     }
 
                     //Transition back to Idle
-                    if (Input.GetAxisRaw("Horizontal") != 0)    //If you're moving...
+                    if (charinputs.move.ReadValue<Vector2>().x != 0)    //If you're moving...
                     {
-                        runStateLingerTime = runStateLingerTargetTime;
-
+                        runStateLingerTime = runStateLingerTargetTime;  //Don't countdown timer
                     }
                     else
                     {
@@ -692,8 +698,8 @@ public class Charcontrol : MonoBehaviour
 
         currentDrag = GetComponent<Rigidbody2D>().drag;
 
-        if (Input.GetAxisRaw("Horizontal") == 1) { facingDir = 1; }
-        if (Input.GetAxisRaw("Horizontal") == -1) { facingDir = -1; }
+        if (charinputs.move.ReadValue<Vector2>().x > 0) { facingDir = 1; }
+        if (charinputs.move.ReadValue<Vector2>().x < 0) { facingDir = -1; }
 
         FindClosestNPC();
         checkforGrounded();
@@ -829,7 +835,7 @@ public class Charcontrol : MonoBehaviour
         //Adds a force equal to horizontaldirection variable * acceleration
         //rb2d.AddForce(new Vector2(Input.GetAxisRaw("Horizontal") * walkAcceleration, 0f));
         //rb2d.velocity = new Vector2(Mathf.Lerp(0f, walkAcceleration*facingDir, 3f), 0f);
-        rb2d.velocity = new Vector2(walkSpeed * Input.GetAxis("Horizontal"), rb2d.velocity.y);
+        rb2d.velocity = new Vector2(walkSpeed * charinputs.move.ReadValue<Vector2>().x, rb2d.velocity.y);
         //If velocity is more than maxmovespeed, set speed to maxmovespeed
 
         /*        if (rb2d.velocity.x != 0)
@@ -857,7 +863,7 @@ public class Charcontrol : MonoBehaviour
         //Adds a force equal to horizontaldirection variable * acceleration
         //rb2d.AddForce(new Vector2(Input.GetAxisRaw("Horizontal") * runAcceleration, 0f));
         //rb2d.velocity = new Vector2(Mathf.Lerp(0f, runAcceleration*facingDir, 3f), 0f);
-        rb2d.velocity = new Vector2(runSpeed * Input.GetAxis("Horizontal"), rb2d.velocity.y);
+        rb2d.velocity = new Vector2(runSpeed * charinputs.move.ReadValue<Vector2>().x, rb2d.velocity.y);
         //If velocity is more than maxmovespeed, set speed to maxmovespeed
         rolled = false;
         canFlipXDir();
@@ -1032,12 +1038,12 @@ public class Charcontrol : MonoBehaviour
     {
         if (scaleSet == false) { scale = transform.localScale; scaleSet = true; }
         //FLIP THOSE ANIMS BABY
-        if (Input.GetAxisRaw("Horizontal") > 0)
+        if (charinputs.move.ReadValue<Vector2>().x > 0)
         {
             transform.localScale = scale;
         }
 
-        if (Input.GetAxisRaw("Horizontal") < 0)
+        if (charinputs.move.ReadValue<Vector2>().x < 0)
         {
             transform.localScale = new Vector3(-Mathf.Abs(scale.x), scale.y, scale.z);
         }

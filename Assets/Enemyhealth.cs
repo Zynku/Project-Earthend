@@ -1,10 +1,11 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 public class Enemyhealth : MonoBehaviour    //This class gives enemies a health bar and represents how much health it has
 {
-    
+    Charinputs charinputs;
     public int maxHealth;
     public int currentHealth;
     private int damageDoneToMeMax;
@@ -26,6 +27,7 @@ public class Enemyhealth : MonoBehaviour    //This class gives enemies a health 
     void Start()
     {
         currentHealth = maxHealth;
+        charinputs = GameManager.instance.charinputs;
     }
 
     // Update is called once per frame
@@ -37,11 +39,6 @@ public class Enemyhealth : MonoBehaviour    //This class gives enemies a health 
         //Stops health from overflowing or underflowing
         if (currentHealth > maxHealth) { currentHealth = maxHealth; }
         if (currentHealth < 0) { currentHealth = 0; }
-
-        if (Input.GetKeyDown(KeyCode.K))
-        {
-            ResetHealth();
-        }
     }
 
     private void FixedUpdate()

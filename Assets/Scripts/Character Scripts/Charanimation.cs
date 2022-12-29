@@ -32,10 +32,9 @@ public class Charanimation : MonoBehaviour
     Animator animator;
     Rigidbody2D rb2d;
     Charcontrol charcontrol;
-    Charanimation charanimation;
-    Charaudio charaudio;
     Charattacks charattacks;
     Chareffects chareffects;
+    Charinputs charinputs;
 
     public delegate void ComboBufferClearEvent();
     public event ComboBufferClearEvent comboBufferCleared;
@@ -46,10 +45,9 @@ public class Charanimation : MonoBehaviour
         animator = GetComponent<Animator>();
         rb2d = GetComponent<Rigidbody2D>();
         charcontrol = GetComponent<Charcontrol>();
-        charanimation = GetComponent<Charanimation>();
-        charaudio = GetComponent<Charaudio>();
         charattacks = GetComponent<Charattacks>();
         chareffects = GetComponent<Chareffects>();
+        charinputs = GetComponent<Charinputs>();
     }
 
 
@@ -399,8 +397,8 @@ public class Charanimation : MonoBehaviour
         animator.SetFloat("xVel", rb2d.velocity.x);
         animator.SetFloat("yVelAbs", Mathf.Abs(Mathf.Clamp(rb2d.velocity.y, -1, 1)));
         animator.SetFloat("xVelAbs", Mathf.Abs(Mathf.Clamp(rb2d.velocity.x, -1, 1)));
-        animator.SetFloat("verticalPressed", Input.GetAxis("Vertical"));
-        animator.SetFloat("horizontalPressed", Mathf.Abs(Input.GetAxis("Horizontal")));
+        animator.SetFloat("verticalPressed", charinputs.move.ReadValue<Vector2>().y);
+        animator.SetFloat("horizontalPressed", charinputs.move.ReadValue<Vector2>().x);
     }
 }
 

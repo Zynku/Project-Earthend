@@ -58841,6 +58841,7 @@ MonoBehaviour:
   Player: {fileID: 0}
   playerRespawnPoint: {fileID: 0}
   Enemies: []
+  charinputs: {fileID: 0}
   mainCharRespawned: 0
   paused: 0
   resumed: 0

@@ -36,6 +36,8 @@ public class GameManager : MonoBehaviour
     public GameObject playerRespawnPoint;
     public GameObject[] Enemies;
 
+    public Charinputs charinputs;
+
     public bool mainCharRespawned = false;
 
     public static bool pause, resume;
@@ -99,10 +101,11 @@ public class GameManager : MonoBehaviour
         {
             instance = this;
         }
-        AssignAllReferences();
+        AssignAllReferences();  //Assigns player
         DontDestroyOnLoad(this);
         SceneReady();
         SceneManager.activeSceneChanged += ChangedActiveScene;
+        charinputs = Player.GetComponent<Charinputs>();
     }
 
     public void Start()

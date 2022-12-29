@@ -1,27 +1,43 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.InputSystem;
 using UnityEngine.UI;
 using MyBox;
 
 
 public class Charinputs : MonoBehaviour
 {
+    public PlayerInput inputs;
     Charcontrol charcontrol;
     GameManager gamemanager;
     InfoHubManager infohub;
+
+    [ReadOnly] public InputAction move;
+    [ReadOnly] public InputAction interact;
+
+    private void Awake()
+    { 
+        inputs = GetComponent<PlayerInput>();
+
+        move = inputs.actions["Move"];
+        interact = inputs.actions["Interact"];
+        
+    }
+
 
     private void Start()
     {
         gamemanager = GameManager.instance;
         charcontrol = GetComponent<Charcontrol>();
-        //infohub = GameManager.instance.infoHub;
     }
 
 
     public void Update()
     {
-        //AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA FUCK
+        Debug.Log($"Move value X is {move.ReadValue<Vector2>().x}.");
+        Debug.Log($"Interact key value is {interact.ReadValue<float>()}.");
+        
     }
 
     // P Pauses the game. Called from Gamemanager Update()
@@ -33,4 +49,7 @@ public class Charinputs : MonoBehaviour
     // L Takes 20 damage from health. Called from Charhealth Update()
     // esc Pauses and unpauses the game. Called from Pause_and_Scene_manager Update()
     // Tab opens and closes the Info Hub. Called from Gamemanager Update()
+
+    //Keyboard.current.aKey.wasPressedThisFrame;        //Returns a bool checking to see if this particular key was pressed
+    //inputs.onActionTriggered +=                   //Is called when any button is pressed from this action map
 }
