@@ -15,14 +15,19 @@ public class Charinputs : MonoBehaviour
 
     [ReadOnly] public InputAction move;
     [ReadOnly] public InputAction interact;
+    [ReadOnly] public InputAction dodge;
+
+    public const string moveInput = "Move";
+    public const string interactInput = "Interact";
+    public const string dodgeInput = "Dodge";
 
     private void Awake()
     { 
         inputs = GetComponent<PlayerInput>();
 
-        move = inputs.actions["Move"];
-        interact = inputs.actions["Interact"];
-        
+        move = inputs.actions[moveInput];
+        interact = inputs.actions[interactInput];
+        dodge = inputs.actions[dodgeInput];
     }
 
 
@@ -38,6 +43,12 @@ public class Charinputs : MonoBehaviour
         Debug.Log($"Move value X is {move.ReadValue<Vector2>().x}.");
         Debug.Log($"Interact key value is {interact.ReadValue<float>()}.");
         
+    }
+
+    public IEnumerator DisableInputs(float duration)
+    {
+        yield return new WaitForSeconds(duration);
+
     }
 
     // P Pauses the game. Called from Gamemanager Update()

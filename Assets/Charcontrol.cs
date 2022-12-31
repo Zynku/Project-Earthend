@@ -116,8 +116,6 @@ public class Charcontrol : MonoBehaviour
     [HideInInspector] public float attackComboTimer;
     [HideInInspector] public int attackdamageMax;
     [HideInInspector] public int attackdamageMin;
-    //private SpriteRenderer meleeSpriteR;
-    //private ParticleSystem particles;
 
     [Foldout("Dialogue Variables", true)]
     public bool playerInConversation;
@@ -125,7 +123,6 @@ public class Charcontrol : MonoBehaviour
     public float switchingDirTime;
     public float switchingDirTargetTime = 0.2f;
     public bool switchedDirToLeft, switchedDirToRight;
-    //public GameObject switchedDirOnscreenTimer;
 
     
 
@@ -197,14 +194,12 @@ public class Charcontrol : MonoBehaviour
         //Debug.Log($"Current state is {currentState}");
         xVel = rb2d.velocity.x;
         yVel = rb2d.velocity.y;
-        //inputX = Input.GetAxisRaw("Horizontal");
-        //inputY = Input.GetAxisRaw("Vertical");
         onscreenTimer.GetComponent<SimpleTimerScript>().timerTime = combatStateTime;
         playerInConversation = DialogueManager.instance.playerInConversation;
         //switchedDirOnscreenTimer.GetComponent<SimpleTimerScript>().timerTime = switchingDirTime;
 
         //Crouching Stuff---------------------------------------------------------------------------------------------------------------------------------------
-        if (inCrouchingTrigger && Input.GetButtonDown("Interact"))
+        if (inCrouchingTrigger && charinputs.interact.WasPressedThisFrame())
         {
             if (currentState != State.Crouching_Idle)
             {
@@ -269,9 +264,9 @@ public class Charcontrol : MonoBehaviour
 
                     if (combatStateTime == 0) { currentState = State.Idle; }
 
-                    if (Input.GetAxisRaw("Vertical") > 0) { currentState = State.COMBAT_Jumping; }
-                    if (Input.GetAxisRaw("Horizontal") != 0) { currentState = State.COMBAT_Running; }
-                    if (Input.GetButtonDown("Dodge")) { currentState = State.COMBAT_Dodging; }
+                    if (charinputs.move.ReadValue<Vector2>().y > 0) { currentState = State.COMBAT_Jumping; }
+                    if (charinputs.move.ReadValue<Vector2>().x != 0) { currentState = State.COMBAT_Running; }
+                    if (charinputs.dodge.WasPressedThisFrame()) { currentState = State.COMBAT_Dodging; }
                 }
                 break;
 
@@ -282,8 +277,8 @@ public class Charcontrol : MonoBehaviour
                     if (charanimation.comboBuffer.Count > 0) { charanimation.ClearComboBuffer(); }
                     combatStateTime = combatStateTargetTime;
 
-                    if (Input.GetAxisRaw("Vertical") > 0) { currentState = State.COMBAT_Jumping; }
-                    if (Input.GetButtonDown("Dodge")) { currentState = State.COMBAT_Dodging; }
+                    if (charinputs.move.ReadValue<Vector2>().y > 0) { currentState = State.COMBAT_Jumping; }
+                    if (charinputs.dodge.WasPressedThisFrame()) { currentState = State.COMBAT_Dodging; }
                 }
                 break;
 
@@ -295,9 +290,9 @@ public class Charcontrol : MonoBehaviour
                     combatStateTime = combatStateTargetTime;
                     checkforSwitchingDir();
 
-                    if (Input.GetAxisRaw("Vertical") > 0) { currentState = State.COMBAT_Jumping; }
+                    if (charinputs.move.ReadValue<Vector2>().y > 0) { currentState = State.COMBAT_Jumping; }
                     if (Mathf.Abs(Mathf.Ceil(rb2d.velocity.x)) == 0) { currentState = State.COMBAT_Idle; }
-                    if (Input.GetButtonDown("Dodge")) { currentState = State.COMBAT_Dodging; }
+                    if (charinputs.dodge.WasPressedThisFrame()) { currentState = State.COMBAT_Dodging; }
                     //Transition back to Walk
                     //Nothing haha fuck you
                 }
@@ -349,8 +344,7 @@ public class Charcontrol : MonoBehaviour
                         currentState = State.COMBAT_Idle;
                     }
                     //Transition to AirJumping
-                    //if (Input.GetAxisRaw("Vertical") > 0 && airJumpsHas != 0)
-                    if (Input.GetButtonDown("Vertical") && airJumpsHas != 0)
+                    if (charinputs.move.ReadValue<Vector2>().y > 0 && airJumpsHas != 0)
                     {
                         currentState = State.COMBAT_AirJumping;
                     }
@@ -368,10 +362,6 @@ public class Charcontrol : MonoBehaviour
                 {
                     inCombat = true;
                     combatStateTime = combatStateTargetTime;
-                    /*                if (!charanimation.currentlyComboing)
-                                    {
-                                        currentState = State.COMBAT_Idle;
-                                    }*/
                 }
                 break;
 
@@ -415,17 +405,19 @@ public class Charcontrol : MonoBehaviour
                 {
                     LedgeGrabbing();
 
-                    if (Input.GetAxisRaw("Vertical") < 0 || //If you press down start or...
-                        Input.GetAxisRaw("Horizontal") == ledgeScript.ledgeDirInt * -1 //Move away from ledge...
+                    if (charinputs.move.ReadValue<Vector2>().y < 0 || //If you press down start or...
+                        charinputs.move.ReadValue<Vector2>().x == ledgeScript.ledgeDirInt * -1 //Move away from ledge...
                         && minimumLedgeTimer <= 0)   //and the minimum time has been reached...
                     {
                         rb2d.velocity = new Vector2(rb2d.velocity.x, 0);
-                        Debug.Log($"Letting go of a ledge");
+                        //Debug.Log($"Letting go of a ledge");
                         airJumpsHas = airJumps;
                         currentState = State.Falling;   //Let go of the ledge
                     }
 
-                    if (Input.GetAxisRaw("Vertical") > 0 || Input.GetAxisRaw("Horizontal") == ledgeScript.ledgeDirInt && minimumLedgeTimer <= 0)
+                    if (charinputs.move.ReadValue<Vector2>().y > 0 || //If you press up or....
+                        charinputs.move.ReadValue<Vector2>().x == ledgeScript.ledgeDirInt   //Move towards the ledge
+                        && minimumLedgeTimer <= 0)
                     {
                         currentState = State.Ledgepullup;
                     }
@@ -442,14 +434,11 @@ public class Charcontrol : MonoBehaviour
 
             case State.Idle:                    //Idle anim inside the animator has a behaviour that forces this state during its animation
                 {
-                    Debug.LogWarning("Idle");
                     inCombat = false;
                     Idle();
                     //Transition to Walking
-                    //if (Input.GetAxisRaw("Horizontal") != 0)
                     if (charinputs.move.ReadValue<Vector2>().x != 0)
                     {
-                        Debug.LogWarning("Switching to walking");
                         if (allowWalking)
                         {
                             currentState = State.Walking;
@@ -461,13 +450,13 @@ public class Charcontrol : MonoBehaviour
                         //Debug.Log("Pressing horizontal...");
                     }
                     //Transition to Jumping
-                    if (Input.GetAxisRaw("Vertical") > 0)
+                    if (charinputs.move.ReadValue<Vector2>().y > 0)
                     {
                         currentState = State.Jumping;
                         //Debug.Log("Pressing vertical...");
                     }
 
-                    if (Input.GetButtonDown("Dodge"))
+                    if (charinputs.dodge.WasPressedThisFrame())
                     {
                         currentState = State.Dodging;
                     }
@@ -488,17 +477,20 @@ public class Charcontrol : MonoBehaviour
                     {
                         currentState = State.Running;
                     }
+
                     //Transition to Attacking
                     if (Input.GetAxisRaw("Light Attack") != 0 || Input.GetAxisRaw("Heavy Attack") != 0 || Input.GetAxisRaw("Ranged Attack") != 0)
                     {
                         currentState = State.Attacking;
                     }
+
                     //Transition to Jumping
-                    if (Input.GetAxisRaw("Vertical") > 0)
+                    if (charinputs.move.ReadValue<Vector2>().y > 0)
                     {
                         currentState = State.Jumping;
                     }
-                    if (Input.GetButtonDown("Dodge"))
+
+                    if (charinputs.dodge.WasPressedThisFrame())
                     {
                         currentState = State.Dodging;
                     }
@@ -519,39 +511,20 @@ public class Charcontrol : MonoBehaviour
                     Running();
                     checkforSwitchingDir();
 
-                    //Transition back to Walk
-                    //Nothing haha fuck you
-                    //Transition to Sliding
-                   /* if (Input.GetButtonDown("Dodge"))
-                    {
-                        currentState = State.Dodging;
-                    }
-                    //Transition to Jumping
-                    if (Input.GetAxisRaw("Vertical") > 0)
-                    {
-                        currentState = State.Jumping;
-                    }*/
-
                     if (!isGrounded)
                     {
                         currentState = State.Falling;
                     }
 
                     //Transition back to Idle
-                    if (charinputs.move.ReadValue<Vector2>().x != 0)    //If you're moving...
+                    if (charinputs.move.ReadValue<Vector2>().x == 0)    //If you're moving...
                     {
-                        runStateLingerTime = runStateLingerTargetTime;  //Don't countdown timer
+                        currentState = State.Idle;
                     }
-                    else
+
+                    if (charinputs.move.ReadValue<Vector2>().y > 0)
                     {
-                        if (runStateLingerTime > 0)
-                        {
-                            runStateLingerTime -= Time.deltaTime;
-                        }
-                        else
-                        {
-                            currentState = State.Idle;
-                        }
+                        currentState = State.Jumping;
                     }
                 }
                 break;
@@ -571,12 +544,12 @@ public class Charcontrol : MonoBehaviour
                         currentState = State.Idle;
                     }
 
-                    if (Input.GetButtonDown("Vertical") && airJumpsHas != 0)
+                    if (charinputs.move.ReadValue<Vector2>().y > 0 && charinputs.move.WasPerformedThisFrame() && airJumpsHas != 0)
                     {
                         currentState = State.AirJumping;
                     }
 
-                    if (inGrabbable_LedgeZone && Input.GetAxisRaw("Horizontal") != 0 && doesPlayerFaceLedge)   //If you're near a ledge and you're facing the right way
+                    if (inGrabbable_LedgeZone && charinputs.move.ReadValue<Vector2>().x != 0 && doesPlayerFaceLedge)   //If you're near a ledge and you're facing the right way
                     {
                         Debug.Log($"Grabbing a ledge");
                         currentState = State.Ledgegrabbing;
@@ -608,13 +581,12 @@ public class Charcontrol : MonoBehaviour
                         currentState = State.Idle;
                     }
                     //Transition to AirJumping
-                    //if (Input.GetAxisRaw("Vertical") > 0 && airJumpsHas != 0)
-                    if (Input.GetButtonDown("Vertical") && airJumpsHas != 0)
+                    if (charinputs.move.ReadValue<Vector2>().y > 0 && airJumpsHas != 0)
                     {
                         currentState = State.AirJumping;
                     }
                     
-                    if (inGrabbable_LedgeZone && Input.GetAxisRaw("Horizontal") == ledgeScript.ledgeDirInt && doesPlayerFaceLedge)   //If you're near a ledge and you're facing the right way
+                    if (inGrabbable_LedgeZone && charinputs.move.ReadValue<Vector2>().x == ledgeScript.ledgeDirInt && doesPlayerFaceLedge)   //If you're near a ledge and you're facing the right way
                     {
                         Debug.Log($"Grabbing a ledge");
                         currentState = State.Ledgegrabbing;
@@ -640,7 +612,7 @@ public class Charcontrol : MonoBehaviour
             case State.Crouching_Idle:
                 {
                     inCombat = false;
-                    if (Input.GetAxisRaw("Horizontal") != 0) { currentState = State.CrouchWalking; }
+                    if (charinputs.move.ReadValue<Vector2>().x != 0) { currentState = State.CrouchWalking; }
                     //boxCol.size = boxColSize;
                     //boxCol.offset = boxColOffset;
 
@@ -658,7 +630,7 @@ public class Charcontrol : MonoBehaviour
                     CrouchingWalking();
                     inCombat = false;
 
-                    if (Input.GetAxisRaw("Horizontal") == 0)
+                    if (charinputs.move.ReadValue<Vector2>().x == 0)
                     {
                         currentState = State.Crouching_Idle;
                     }
@@ -790,19 +762,19 @@ public class Charcontrol : MonoBehaviour
 
     void checkforSwitchingDir()
     {
-        if (Input.GetAxisRaw("Horizontal") == 1)    //If moving right....
+        if (charinputs.move.ReadValue<Vector2>().x > 0)    //If moving right....
         {
             switchingDirTime = switchingDirTargetTime;
         }
 
-        if (Input.GetAxisRaw("Horizontal") == -1)    //If moving left....
+        if (charinputs.move.ReadValue<Vector2>().x < 0)    //If moving left....
         {
             switchingDirTime = switchingDirTargetTime;
         }
 
         if (switchingDirTime > 0 && facingDir == 1) //If within the switchingdirtime and you're moving right
         {
-            if (Input.GetAxisRaw("Horizontal") == -1)   //...and you press left
+            if (charinputs.move.ReadValue<Vector2>().x < 0)   //...and you press left
             {
                 switchedDirToLeft = true;
             }
@@ -810,7 +782,7 @@ public class Charcontrol : MonoBehaviour
 
         if (switchingDirTime > 0 && facingDir == -1) //If within the switchingdirtime and you're moving left
         {
-            if (Input.GetAxisRaw("Horizontal") == 1)   //...and you press right
+            if (charinputs.move.ReadValue<Vector2>().x > 0)   //...and you press right
             {
                 switchedDirToRight = true;
             }
@@ -824,47 +796,26 @@ public class Charcontrol : MonoBehaviour
         currentState = State.Idle;
         airJumpsHas = airJumps;
         rolled = false;
-
-        //attackTimer = attackTimerTargetTime;
-        //attackComboTimer = attackComboTargetTime;
         canFlipXDir();
     }
 
     public void Walking()
     {
         //Adds a force equal to horizontaldirection variable * acceleration
-        //rb2d.AddForce(new Vector2(Input.GetAxisRaw("Horizontal") * walkAcceleration, 0f));
-        //rb2d.velocity = new Vector2(Mathf.Lerp(0f, walkAcceleration*facingDir, 3f), 0f);
         rb2d.velocity = new Vector2(walkSpeed * charinputs.move.ReadValue<Vector2>().x, rb2d.velocity.y);
-        //If velocity is more than maxmovespeed, set speed to maxmovespeed
-
-        /*        if (rb2d.velocity.x != 0)
-                {
-                    if (rb2d.velocity.x > -0.1 && Input.GetAxisRaw("Horizontal") == -1)  //Moving right and press left
-                    {
-                        Debug.Log("Switching direction left");
-                    }
-                    if (rb2d.velocity.x < 0.1 && Input.GetAxisRaw("Horizontal") == 1)  //Moving left and press right
-                    {
-                        Debug.Log("Switching direction right");
-                    }
-                }*/
         canFlipXDir();
     }
 
     public void CrouchingWalking()
     {
-        rb2d.velocity = new Vector2(crouchWalkingSpeed * Input.GetAxis("Horizontal"), rb2d.velocity.y);
+        rb2d.velocity = new Vector2(crouchWalkingSpeed * charinputs.move.ReadValue<Vector2>().x, rb2d.velocity.y);
         canFlipXDir();
     }
 
     public void Running()
     {
         //Adds a force equal to horizontaldirection variable * acceleration
-        //rb2d.AddForce(new Vector2(Input.GetAxisRaw("Horizontal") * runAcceleration, 0f));
-        //rb2d.velocity = new Vector2(Mathf.Lerp(0f, runAcceleration*facingDir, 3f), 0f);
         rb2d.velocity = new Vector2(runSpeed * charinputs.move.ReadValue<Vector2>().x, rb2d.velocity.y);
-        //If velocity is more than maxmovespeed, set speed to maxmovespeed
         rolled = false;
         canFlipXDir();
     }
@@ -874,33 +825,32 @@ public class Charcontrol : MonoBehaviour
         //Against a right wall, only allows left movement
         if (!isAgainstWallLeft && isAgainstWallRight)
         {
-            rb2d.velocity = new Vector2((Input.GetAxisRaw("Horizontal") * airHorizontalAcc), rb2d.velocity.y);  //Allows horizontal movement
+            rb2d.velocity = new Vector2((charinputs.move.ReadValue<Vector2>().x * airHorizontalAcc), rb2d.velocity.y);  //Allows horizontal movement
         }
 
         //Against a left wall, only allows right movement
         if (!isAgainstWallRight && isAgainstWallLeft)
         {
-            rb2d.velocity = new Vector2((Input.GetAxisRaw("Horizontal") * airHorizontalAcc), rb2d.velocity.y);  //Allows horizontal movement
+            rb2d.velocity = new Vector2((charinputs.move.ReadValue<Vector2>().x * airHorizontalAcc), rb2d.velocity.y);  //Allows horizontal movement
         }
 
 
         //If moving right and not moving into a right wall...
-        if (Input.GetAxisRaw("Horizontal") > 0 && !isAgainstWallRight)
+        if (charinputs.move.ReadValue<Vector2>().x > 0 && !isAgainstWallRight)
         {
-            rb2d.velocity = new Vector2((Input.GetAxisRaw("Horizontal") * airHorizontalAcc), rb2d.velocity.y);  //Allows horizontal movement
+            rb2d.velocity = new Vector2((charinputs.move.ReadValue<Vector2>().x * airHorizontalAcc), rb2d.velocity.y);  //Allows horizontal movement
         }
 
         //If moving left and not moving to a left wall, allow movement
-        if (Input.GetAxisRaw("Horizontal") < 0 && !isAgainstWallLeft)
+        if (charinputs.move.ReadValue<Vector2>().x < 0 && !isAgainstWallLeft)
         {
-            rb2d.velocity = new Vector2((Input.GetAxisRaw("Horizontal") * airHorizontalAcc), rb2d.velocity.y);  //Allows horizontal movement
+            rb2d.velocity = new Vector2((charinputs.move.ReadValue<Vector2>().x * airHorizontalAcc), rb2d.velocity.y);  //Allows horizontal movement
         }
         if (!jumped)
         {
             //Debug.Log("Jumping");
             //rb2d.AddForce(Vector2.up * jumpForce, ForceMode2D.Force); 
-            rb2d.velocity = new Vector2((Input.GetAxisRaw("Horizontal") * airHorizontalAcc), jumpForce);    //Adds jumpforce once
-            //rb2d.AddForce(new Vector2(Input.GetAxisRaw("Horizontal") * runAcceleration * airHorizontalAcc, 0f));
+            rb2d.velocity = new Vector2((charinputs.move.ReadValue<Vector2>().x * airHorizontalAcc), jumpForce);    //Adds jumpforce once
             jumped = true;
         }
         //Jumped Check
@@ -917,10 +867,9 @@ public class Charcontrol : MonoBehaviour
         {
             rb2d.velocity = new Vector2(rb2d.velocity.x, 0);                                           //Sets Y velocity to 0 so calculations are consistent
             rb2d.AddForce(Vector2.up * jumpForce, ForceMode2D.Impulse);                                //Adds a force upwards
-            //rb2d.AddForce(new Vector2(Input.GetAxisRaw("Horizontal") * runSpeed * airHorizontalAcc, 0f));
             if (!isAgainstWallLeft && !isAgainstWallRight)
             {
-                rb2d.velocity = new Vector2((Input.GetAxisRaw("Horizontal") * airHorizontalAcc), rb2d.velocity.y);  //Allows horizontal movement
+                rb2d.velocity = new Vector2((charinputs.move.ReadValue<Vector2>().x * airHorizontalAcc), rb2d.velocity.y);  //Allows horizontal movement
             }
             jumped = true;
             --airJumpsHas;
@@ -931,17 +880,16 @@ public class Charcontrol : MonoBehaviour
 
     public void Falling()
     {
-        //rb2d.AddForce(new Vector2(Input.GetAxisRaw("Horizontal") * airHorizontalAcc, 0f));
         //If moving right and not moving into a right wall...
-        if (Input.GetAxisRaw("Horizontal") > 0 && !isAgainstWallRight)
+        if (charinputs.move.ReadValue<Vector2>().x > 0 && !isAgainstWallRight)
         {
-            rb2d.velocity = new Vector2((Input.GetAxisRaw("Horizontal") * airHorizontalAcc), rb2d.velocity.y);  //Allows horizontal movement
+            rb2d.velocity = new Vector2((charinputs.move.ReadValue<Vector2>().x * airHorizontalAcc), rb2d.velocity.y);  //Allows horizontal movement
         }
 
         //If moving left and not moving to a left wall, allow movement
-        if (Input.GetAxisRaw("Horizontal") < 0 && !isAgainstWallLeft)
+        if (charinputs.move.ReadValue<Vector2>().x < 0 && !isAgainstWallLeft)
         {
-            rb2d.velocity = new Vector2((Input.GetAxisRaw("Horizontal") * airHorizontalAcc), rb2d.velocity.y);  //Allows horizontal movement
+            rb2d.velocity = new Vector2((charinputs.move.ReadValue<Vector2>().x * airHorizontalAcc), rb2d.velocity.y);  //Allows horizontal movement
         }
         canFlipXDir();
     }
