@@ -58,12 +58,13 @@ public class teleporterscript : MonoBehaviour
         {
             if ((Vector3.Distance(Player.transform.position, transform.position) < teleportRange))
             {
-                if (Input.GetButtonDown("Interact") && canActivateTPMenu)
+                if (Charinputs.instance.interact.WasPressedThisFrame() && canActivateTPMenu)
                 {
-                    Debug.Log("Activating teleport menu");
-                    Network.showNetworkUI();
-                    PlayMenuTyping();
-                    Network.activatedAt = gameObject;
+                    Debug.LogError("Teleporters are currently unusable due to the new input system. Please use the stairs in the meanwhile");
+                    return;
+                    //Network.showNetworkUI();
+                    //PlayMenuTyping();
+                    //Network.activatedAt = gameObject;
                 }
             }
         }

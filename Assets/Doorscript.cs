@@ -72,7 +72,7 @@ public class Doorscript : MonoBehaviour
             closeDoor();
         }
 
-        if (playerInRange && Input.GetAxisRaw("Interact") > 0 && doorcooldown == 0)
+        if (playerInRange && Charinputs.instance.interact.WasPressedThisFrame() && doorcooldown == 0)
         {
             if (isDoorOpen == false)
             {

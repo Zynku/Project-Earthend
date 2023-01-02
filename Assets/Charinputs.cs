@@ -9,6 +9,7 @@ using MyBox;
 public class Charinputs : MonoBehaviour
 {
     public PlayerInput inputs;
+    public static Charinputs instance;
     Charcontrol charcontrol;
     GameManager gamemanager;
     InfoHubManager infohub;
@@ -23,6 +24,11 @@ public class Charinputs : MonoBehaviour
 
     private void Awake()
     { 
+        if (instance == null)
+        {
+            instance = this;
+        }
+
         inputs = GetComponent<PlayerInput>();
 
         move = inputs.actions[moveInput];
@@ -42,13 +48,19 @@ public class Charinputs : MonoBehaviour
     {
         Debug.Log($"Move value X is {move.ReadValue<Vector2>().x}.");
         Debug.Log($"Interact key value is {interact.ReadValue<float>()}.");
-        
+        if (Keyboard.current.numpad1Key.wasPressedThisFrame)
+        {
+            StartCoroutine(DisableInputs(0f));
+        }
     }
 
     public IEnumerator DisableInputs(float duration)
     {
-        yield return new WaitForSeconds(duration);
-
+        inputs.DeactivateInput();
+        Debug.Log("Inputs disabled");
+        yield return new WaitForSeconds(3f);
+        inputs.ActivateInput();
+        Debug.Log("Inputs enabled");
     }
 
     // P Pauses the game. Called from Gamemanager Update()

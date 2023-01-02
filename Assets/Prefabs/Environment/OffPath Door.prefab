@@ -99,15 +99,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b84a00500bb7143439534334bfa15d0c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  linkedDoor: {fileID: 0}
   pointer: {fileID: 3515409079234125660}
-  doorName: {fileID: 3459773793436765630}
+  doorNameGameObject: {fileID: 3459773793436765630}
+  linkedDoor: {fileID: 0}
   doorDestination: 
   playerInRange: 0
   playerAtMiddle: 0
-  interactionRange: 0.3
-  lerpTargetDuration: 0.5
-  minimumRange: 0.05
 --- !u!1 &3459773793436765630
 GameObject:
   m_ObjectHideFlags: 0

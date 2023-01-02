@@ -7,33 +7,34 @@ using UnityEngine.UIElements;
 
 public class OffPath_Door : MonoBehaviour
 {
-    [Separator("Important GameObjects")]
+    [Foldout("Necessary Components", true)]
+    [MustBeAssigned] public GameObject pointer;
+    [MustBeAssigned] public GameObject doorNameGameObject;
+
+    [Foldout("Important GameObjects", true)]
     GameObject player;
     Charinputs charinputs;
     OffPath_Door linkedDoorScript;
     public GameObject linkedDoor;
-    public GameObject pointer;
-    public GameObject doorName;
 
-    [Separator("Variables")]
+    [Foldout("Variables", true)]
     private bool doorLinked = false;
     public string doorDestination;
-    public float interactionRange;
     [ReadOnly]public bool playerInRange;
     [ReadOnly]public bool playerAtMiddle;
     
-    [Separator("Ranges")]
+    private float interactionRange = 0.3f;
     private float doorcooldown = 0;
     private float doorcooldowntargettime = 0.5f;
-    public float lerpTargetDuration = 0.01f;
+    private float lerpTargetDuration = 0.5f;
     private float lerpTimeElapsed;
-    public float minimumRange = 0.05f;
+    private float minimumRange = 0.05f;
     
     void Start()
     {
         player = GameManager.instance.Player;
         charinputs = GameManager.instance.charinputs;
-        doorName.GetComponent<TextMeshPro>().text = doorDestination;
+        doorNameGameObject.GetComponent<TextMeshPro>().text = doorDestination;
         if (linkedDoor != null) //If this is the door that is assigned its destination in the inspector, it automatically sets up the destination door
         {
             linkedDoorScript = linkedDoor.GetComponent<OffPath_Door>();
@@ -49,7 +50,6 @@ public class OffPath_Door : MonoBehaviour
         linkedDoorScript.doorLinked = true;
     }
 
-
     // Update is called once per frame
     void Update()
     {
@@ -60,13 +60,13 @@ public class OffPath_Door : MonoBehaviour
         { 
             playerInRange = true;
             pointer.SetActive(true);    //Enables name and pointer
-            doorName.SetActive(true);
+            doorNameGameObject.SetActive(true);
         }
         else
         {
             playerInRange = false;
             pointer.SetActive(false);   //Makes sure they're disabled when not close
-            doorName.SetActive(false);
+            doorNameGameObject.SetActive(false);
         }
 
         if (charinputs.interact.ReadValue<float>() > 0)   //If the player interacts
@@ -125,6 +125,20 @@ public class OffPath_Door : MonoBehaviour
         player.transform.position = linkedDoor.transform.position;
         doorcooldown = doorcooldowntargettime;
         linkedDoorScript.doorcooldown = linkedDoorScript.doorcooldowntargettime;
+    }
+
+    [ButtonMethod]
+    public void ChangeDoorNameInEditor()
+    {
+        doorNameGameObject.GetComponent<TextMeshPro>().text = doorDestination;
+    }
+
+    [ButtonMethod]
+    public void ResetLinkedDoor()
+    {
+        linkedDoor = null;
+        linkedDoorScript = null;
+        doorLinked = false;
     }
 
     private void OnDrawGizmos()
