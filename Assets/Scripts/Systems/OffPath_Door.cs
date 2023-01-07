@@ -13,7 +13,6 @@ public class OffPath_Door : MonoBehaviour
 
     [Foldout("Important GameObjects", true)]
     GameObject player;
-    Charinputs charinputs;
     OffPath_Door linkedDoorScript;
     public GameObject linkedDoor;
 
@@ -33,7 +32,6 @@ public class OffPath_Door : MonoBehaviour
     void Start()
     {
         player = GameManager.instance.Player;
-        charinputs = GameManager.instance.charinputs;
         doorNameGameObject.GetComponent<TextMeshPro>().text = doorDestination;
         if (linkedDoor != null) //If this is the door that is assigned its destination in the inspector, it automatically sets up the destination door
         {
@@ -69,7 +67,7 @@ public class OffPath_Door : MonoBehaviour
             doorNameGameObject.SetActive(false);
         }
 
-        if (charinputs.interact.ReadValue<float>() > 0)   //If the player interacts
+        if (Charinputs.instance.interact.ReadValue<float>() > 0)   //If the player interacts
         {
             if (!playerInRange) { return; }
             if (doorLinked)

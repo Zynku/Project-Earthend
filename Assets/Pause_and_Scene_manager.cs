@@ -7,6 +7,7 @@ using UnityEngine.EventSystems;
 using UnityEngine.Audio;
 using MyBox;
 using TMPro;
+using UnityEngine.InputSystem;
 
 public class Pause_and_Scene_manager : MonoBehaviour
 {
@@ -76,7 +77,7 @@ public class Pause_and_Scene_manager : MonoBehaviour
     void Update()
     {
         //Activates pause menu and stops time if pause menu is not already activated. Restarts time and deactivates pause menu if it is activated
-        if (Input.GetKeyDown("escape") && GameManager.instance.currentScenePausable)
+        if (Keyboard.current.escapeKey.wasPressedThisFrame && GameManager.instance.currentScenePausable)
         {
             if (isGamePaused)
             {
@@ -88,7 +89,7 @@ public class Pause_and_Scene_manager : MonoBehaviour
             }
         }
 
-        if (Input.GetKeyDown(KeyCode.Space) && loading)
+        if (Keyboard.current.spaceKey.wasPressedThisFrame && loading)
         {
             inputToContinue = true;
         }

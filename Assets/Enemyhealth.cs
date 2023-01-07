@@ -5,7 +5,6 @@ using UnityEngine.InputSystem;
 
 public class Enemyhealth : MonoBehaviour    //This class gives enemies a health bar and represents how much health it has
 {
-    Charinputs charinputs;
     public int maxHealth;
     public int currentHealth;
     private int damageDoneToMeMax;
@@ -27,7 +26,6 @@ public class Enemyhealth : MonoBehaviour    //This class gives enemies a health 
     void Start()
     {
         currentHealth = maxHealth;
-        charinputs = GameManager.instance.charinputs;
     }
 
     // Update is called once per frame

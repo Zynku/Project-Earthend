@@ -60,7 +60,7 @@ public class devlab_energy_bullet : MonoBehaviour
 
             case "Player":
                 int randomDamage = Mathf.FloorToInt(Random.Range(minDamage, maxDamage));
-                collision.GetComponent<Charhealth>().TakeDamage(randomDamage);
+                collision.GetComponent<Charhealth>().TakeDamage(randomDamage, true);
                 break;
 
             case "enemy":

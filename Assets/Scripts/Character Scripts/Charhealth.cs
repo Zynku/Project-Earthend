@@ -84,10 +84,11 @@ public class Charhealth : MonoBehaviour
 
         //healthbarOver.SetHealth(currentHealth);
 
-        if (Keyboard.current.jKey.wasPressedThisFrame) { ResetHealth(true);}
-        if (Keyboard.current.hKey.wasPressedThisFrame) { AddHealth(20); }
-        if (Keyboard.current.kKey.wasPressedThisFrame) { TakeDamage(maxHealth); }
-        if (Keyboard.current.lKey.wasPressedThisFrame) { TakeDamage(19); }
+        if (Keyboard.current.jKey.wasPressedThisFrame) { Debug.Log("Resetting player health"); ResetHealth(true);}
+        if (Keyboard.current.hKey.wasPressedThisFrame) { Debug.Log("Adding 20 health"); AddHealth(20); }
+        if (Keyboard.current.kKey.wasPressedThisFrame) { Debug.Log("Killing player"); TakeDamage(maxHealth, true); }
+        if (Keyboard.current.lKey.wasPressedThisFrame) { Debug.Log("Taking 19 health"); TakeDamage(19, true); }
+        if (Keyboard.current.numpad2Key.wasPressedThisFrame) { Debug.Log("Draining player health"); StartCoroutine(DrainPlayerHealth(10)); }
 
         if (poisoned) { Poisoned(poisonTargetTime, poisonDamage); }
         else { poisonTimer = poisonTargetTime; /*Reassign sprite color to initial here*/; }
@@ -120,7 +121,7 @@ public class Charhealth : MonoBehaviour
             damageDoneToMeMax = Mathf.FloorToInt(collision.gameObject.GetComponentInParent<Enemy_controller>().attackdamageMax);
             damageDoneToMeMin = Mathf.FloorToInt(collision.gameObject.GetComponentInParent<Enemy_controller>().attackdamageMin);
             damageDoneToMe = (Random.Range(damageDoneToMeMax, damageDoneToMeMin));
-            TakeDamage(damageDoneToMe);
+            TakeDamage(damageDoneToMe, true);
         }
 
         if (collision.gameObject.CompareTag("damage_object"))
@@ -136,7 +137,7 @@ public class Charhealth : MonoBehaviour
             }
 
             damageDoneToMe = collision.gameObject.GetComponent<damageObject>().damage;
-            TakeDamage(damageDoneToMe);
+            TakeDamage(damageDoneToMe, true);
         }
 
         if (collision.gameObject.CompareTag("gas_cloud"))
@@ -157,11 +158,11 @@ public class Charhealth : MonoBehaviour
     }
     //Subtracts damage calculated above from health, healthbar reacts to show this. Only executes when damage cooldown timer is 0 or less
     //Instantiates dmg text, gives it dmg value to display
-    public void TakeDamage(int damage)
+    public void TakeDamage(int damage, bool triggerIFrames)
     {
         if (dmgCooldownTime <= 0 && currentHealth > 0)
         {
-            dmgCooldownTime = dmgCooldownTargetTime;
+            if (triggerIFrames) { dmgCooldownTime = dmgCooldownTargetTime; Hit?.Invoke(); }
             currentHealth -= damage;
             healthbarOver.SetHealth(currentHealth);
             healthbarUnder.SetHealth(currentHealth);
@@ -170,12 +171,10 @@ public class Charhealth : MonoBehaviour
             floattext.GetComponent<TMPro.TextMeshPro>().text = damage.ToString();
             //Applies force to show direction hit from.
             floattext.GetComponent<Rigidbody2D>().AddForce(new Vector2(collisionDir, 0), ForceMode2D.Impulse);
-            Hit?.Invoke();
         }
     }
 
-    //Adds health, healthbar reacts to show this.
-    //Instantiates health text, gives it health value to display
+    //Adds health, healthbar reacts to show this and instantiates health text, gives it health value to display
     public void AddHealth(int health)
     {
         currentHealth += health;
@@ -198,6 +197,15 @@ public class Charhealth : MonoBehaviour
         {
             var floattext = Instantiate(floatingHealthTextPrefab, transform.position + dmgTextOffset, Quaternion.identity);
             floattext.GetComponent<TMPro.TextMeshPro>().text = maxHealth.ToString();
+        }
+    }
+
+    public IEnumerator DrainPlayerHealth(int healthLeft)
+    {
+        while(currentHealth >= healthLeft)
+        {
+            TakeDamage(1, false);
+            yield return new WaitForEndOfFrame();
         }
     }
 

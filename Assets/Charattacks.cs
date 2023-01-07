@@ -4,6 +4,8 @@ using System.Linq;
 using UnityEngine;
 using MyBox;
 using System;
+using System.Threading;
+using UnityEngine.InputSystem;
 
 public class Charattacks : MonoBehaviour
 {
@@ -35,8 +37,6 @@ public class Charattacks : MonoBehaviour
     //[ReadOnly] public float comboSustainTime;   //How long you have to input another attack before you can chain with previous attacks to make a combo. If it runs out, currentcombo is set to null
     public float comboChainTimeLocLeeway;       //How much time should be subtracted from the combo chain time location (located in all combos) to make a new time that is checked for in ManageComboTimer();
     public bool canAcceptAttackInput;           //Attack inputs can only be registered while this is true. It is set false while a combo is playing and before its combo chain time location.
-    private float buttonHeldFloat;
-    public float buttonHeldThreshold;           //How much time needs to pass (measured from time.deltaTime) for the button to be considered as "held"
     public float clearAttacksDelay;              //How long should we wait before receiving the command to clear the attack list.
 
     [HideInInspector] public int longestComboLength;
@@ -73,6 +73,13 @@ public class Charattacks : MonoBehaviour
         FindLongestCombo();
         //OrganizeComboFamilies();
         OrganizeComboFamilyTypes();
+
+        Charinputs.instance.lightAttack.canceled += OnLightPressed;  //Subscribes OnLightPressed to the canceled callback of the "Light attack" input action. It is fired every time "light attack" is let go
+        Charinputs.instance.lightAttack.performed += OnLightHeld;    //Subscribes OnLightHeld to the performed callback of the "light attack" input action. It is fired every time "lightattack" is held longer than the held threshold, defined in the input settings.
+        Charinputs.instance.heavyAttack.canceled += OnHeavyPressed;
+        Charinputs.instance.heavyAttack.performed += OnHeavyHeld;
+        Charinputs.instance.rangedAttack.canceled += OnRangedPressed;
+        Charinputs.instance.rangedAttack.performed += OnRangedHeld;
     }
 
     void OrganizeComboFamilyTypes()
@@ -144,97 +151,89 @@ public class Charattacks : MonoBehaviour
         }
     }
 
-    // Update is called once per frame
+    public void OnLightPressed(InputAction.CallbackContext context)
+    {
+        if(!canAcceptAttackInput) { return; }
+        if (charcontrol.currentState == Charcontrol.State.COMBAT_Air_Attacking /* Add condition for regular combat air */)
+        {
+            return; //This would be an air light attack
+        }
+        Debug.Log("Light!");
+        Attack newattack = new("Light", lightDamageMin, Attack.AttackType.LIGHT);
+        currentAttacks.Add(newattack);
+        canAcceptAttackInput = false;
+        CheckforCombos();
+        attackInputRegistered?.Invoke();
+    }
+
+    public void OnLightHeld(InputAction.CallbackContext context)
+    {
+        if (!canAcceptAttackInput) { return; }
+        Debug.Log($"Light attack is being held");
+        Attack newattack = new("Light_Held", lightDamageMin, Attack.AttackType.LIGHT_HELD);
+        currentAttacks.Add(newattack);
+        canAcceptAttackInput = false;
+        CheckforCombos();
+        attackInputRegistered?.Invoke();
+    }
+
+    public void OnHeavyPressed(InputAction.CallbackContext context)
+    {
+        if (!canAcceptAttackInput) { return; }
+        if (charcontrol.currentState == Charcontrol.State.COMBAT_Air_Attacking /* Add condition for regular combat air */)
+        {
+            return; //This would be an air heavy attack
+        }
+        Debug.Log("Heavy!");
+        Attack newattack = new("Heavy", heavyDamageMin, Attack.AttackType.HEAVY);
+        currentAttacks.Add(newattack);
+        canAcceptAttackInput = false;
+        CheckforCombos();
+        attackInputRegistered?.Invoke();
+    }
+
+    public void OnHeavyHeld(InputAction.CallbackContext context)
+    {
+        if (!canAcceptAttackInput) { return; }
+        Debug.Log($"Heavy attack is being held");
+        Attack newattack = new("Heavy_Held", heavyDamageMin, Attack.AttackType.HEAVY_HELD);
+        currentAttacks.Add(newattack);
+        canAcceptAttackInput = false;
+        CheckforCombos();
+        attackInputRegistered?.Invoke();
+    }
+
+    public void OnRangedPressed(InputAction.CallbackContext context)
+    {
+        if (!canAcceptAttackInput) { return; }
+        if (charcontrol.currentState == Charcontrol.State.COMBAT_Air_Attacking /* Add condition for regular combat air */)
+        {
+            return; //This would be an air ranged attack
+        }
+        Debug.Log($"Ranged!");
+        Attack newattack = new("Ranged", rangedDamageMin, Attack.AttackType.RANGED);
+        currentAttacks.Add(newattack);
+        canAcceptAttackInput = false;
+        CheckforCombos();
+        attackInputRegistered?.Invoke();
+    }
+
+    public void OnRangedHeld(InputAction.CallbackContext context)
+    {
+        if (!canAcceptAttackInput) { return; }
+        Debug.Log($"Ranged is being held");
+        Attack newattack = new("Ranged", rangedDamageMin, Attack.AttackType.RANGED_HELD);
+        currentAttacks.Add(newattack);
+        canAcceptAttackInput = false;
+        CheckforCombos();
+        attackInputRegistered?.Invoke();
+    }
+
     void Update()
     {
         currentState = charcontrol.currentState.ToString();
         ManageAttackInputs();
-
-        if (canAcceptAttackInput)
-        {
-            if (Input.GetButton("Light Attack"))
-            {
-                if (buttonHeldFloat < buttonHeldThreshold)
-                {
-                    buttonHeldFloat += Time.deltaTime;              //If player holds the light attack button, start counting the buttonHeldFloat by adding Time.deltaTime each frame
-                }
-                else if (buttonHeldFloat > buttonHeldThreshold)   //If we have passed the buttonHeldThreshold time, this button was held long enough to count as a held press.
-                {
-                    Debug.Log($"Light attack is being held");
-                    Attack newattack = new ("Light_Held", lightDamageMin, Attack.AttackType.LIGHT_HELD);
-                    currentAttacks.Add(newattack);
-                    canAcceptAttackInput = false;
-                    CheckforCombos();
-                    attackInputRegistered?.Invoke();
-                    buttonHeldFloat = 0;
-                }
-            }
-
-            if (Input.GetButtonUp("Light Attack"))
-            {
-                if (charcontrol.currentState == Charcontrol.State.COMBAT_Air_Attacking /* Add condition for regular combat air */)
-                {
-                    return; //This would be an air light attack
-                }
-
-                if (buttonHeldFloat < buttonHeldThreshold)
-                {
-                    //Debug.Log("Light!");
-                    Attack newattack = new ("Light", lightDamageMin, Attack.AttackType.LIGHT);
-                    currentAttacks.Add(newattack);
-                    canAcceptAttackInput = false;
-                    CheckforCombos();
-                    attackInputRegistered?.Invoke();
-                }
-                buttonHeldFloat = 0;
-            }
-
-            if (Input.GetButton("Heavy Attack"))
-            {
-                if (buttonHeldFloat < buttonHeldThreshold)
-                {
-                    buttonHeldFloat += Time.deltaTime;              //If player holds the heavy attack button, start counting the buttonHeldFloat by adding Time.deltaTime each frame
-                }
-                else if (buttonHeldFloat > buttonHeldThreshold)   //If we have passed the buttonHeldThreshold time, this button was held long enough to count as a held press.
-                {
-                    Debug.Log($"Heavy attack is being held");
-                    Attack newattack = new ("Heavy_Held", heavyDamageMin, Attack.AttackType.HEAVY_HELD);
-                    currentAttacks.Add(newattack);
-                    canAcceptAttackInput = false;
-                    CheckforCombos();
-                    attackInputRegistered?.Invoke();
-                    buttonHeldFloat = 0;
-                }
-            }
-
-            if (Input.GetButtonUp("Heavy Attack"))
-            {
-                if (charcontrol.currentState == Charcontrol.State.COMBAT_Air_Attacking /* Add condition for regular combat air */)
-                {
-                    return; //This would be an air heavy attack
-                }
-
-                if (buttonHeldFloat < buttonHeldThreshold)
-                {
-                    //Debug.Log("Light!");
-                    Attack newattack = new ("Heavy", heavyDamageMin, Attack.AttackType.HEAVY);
-                    currentAttacks.Add(newattack);
-                    canAcceptAttackInput = false;
-                    CheckforCombos();
-                    attackInputRegistered?.Invoke();
-                }
-                buttonHeldFloat = 0;
-            }
-
-            if (Input.GetButtonDown("Ranged Attack"))
-            {
-                Attack newattack = new ("Ranged", rangedDamageMin, Attack.AttackType.RANGED);
-                currentAttacks.Add(newattack);
-                CheckforCombos();
-                canAcceptAttackInput = false;
-                attackInputRegistered?.Invoke();
-            }
-        }
+        //Debug.LogWarning($"Accept input is {canAcceptAttackInput}!");
     }
 
     public void ManageAttackInputs()
@@ -278,12 +277,6 @@ public class Charattacks : MonoBehaviour
         charcontrol.canFlipXDir();
     }
 
-
-    public void FilterCombo()
-    {
-
-    }
-
     public void CheckforCombos()
     {
         //This is a debug section-------------------------------------------------------------------------
@@ -301,27 +294,25 @@ public class Charattacks : MonoBehaviour
         {
             foreach (var cFamType in comboFamilyTypes)  //Loop through all families
             {
-                if (cFamType.cFamilyTypeName == currentAttacks[0].attackType.ToString())    //If it matches, we using that fam
+                if (cFamType.cFamilyTypeName == currentAttacks[0].attackType.ToString()) //If it matches, we using that fam
                 {
                     comboFamType = cFamType;
-                    //Debug.Log($"Combo family is {comboFamType.cFamilyTypeName}");
-
-                    //foreach (Combo combo in comboFamType.familyTypeList) //If the combo...        //P.S. This can be improved, it currently checks every combo in order in the possible combo list. If you could
+                    Debug.Log($"Combo family is {comboFamType.cFamilyTypeName}");
                     for (int h = 0; h < comboFamType.familyTypeList.Count; h++)  
                     {
-                        Combo combo = comboFamType.familyTypeList[h];
-                        //Debug.Log($"Checking combo named {combo.comboName}.");
-                        if (currentAttacks.Count == combo.attackList.Count)//Has the same amount of attacks in its list
+                        Combo combo = comboFamType.familyTypeList[h];   //Loop through all combos in this combo family
+                        Debug.Log($"Checking combo named {combo.comboName}.");
+                        if (currentAttacks.Count == combo.attackList.Count)//If the combo being checked has the same amount of attacks in its list
                         {
-                            //Debug.Log(combo.comboName + " has the same amount of attacks as the current attack count, which is " + currentAttacks.Count);
+                            Debug.Log(combo.comboName + " has the same amount of attacks as the current attack count, which is " + currentAttacks.Count);
                             for (int i = 0; i < combo.attackList.Count; i++)    //Loop through all attacks in the combo attack list, checking if they match
                             {
-                                //Debug.Log($"Checking {combo.comboName} to see if {combo.attackList[i].attackType} is the same as {currentAttacks[i].attackType} for attack #{i}");
+                                Debug.Log($"Checking {combo.comboName} to see if {combo.attackList[i].attackType} is the same as {currentAttacks[i].attackType} for attack #{i + 1}");
                                 if (combo.attackList[i].attackType == currentAttacks[i].attackType)
                                 {
                                     if (i == combo.attackList.Count - 1 && combo.attackList[i].attackType == currentAttacks[i].attackType)  //If the last attack matches...
                                     {
-                                        //Debug.Log($"----------------------------------{combo.comboName} identified, sending off to be animated.-------------------------------------");
+                                        Debug.Log($"----------------------------------{combo.comboName} identified, sending off to be animated.-------------------------------------");
                                         currentlyComboing = true;
                                         AnimateCombos(combo);
 
@@ -332,29 +323,23 @@ public class Charattacks : MonoBehaviour
 
                                     if (i == combo.attackList.Count - 1 && combo.attackList[i].attackType != currentAttacks[i].attackType)  //If the last attack DOESN'T match...
                                     {
-                                        //Debug.Log($"So close! the final attack of {combo.comboName} doesn't match! ({combo.attackList[i].attackType} vs. {currentAttacks[i].attackType})");
+                                        Debug.Log($"So close! the final attack of {combo.comboName} doesn't match! ({combo.attackList[i].attackType} vs. {currentAttacks[i].attackType})");
                                         ClearAttackList();
-
-                                        currentlyComboing = true;
-                                        AnimateCombos(combo);
-
-                                        if (combo.canChangeState) { StartCoroutine(charanimation.ComboCharcontrolStates(combo)); } //Checks the current combo to see if it requires a state change
-                                        if (combo.endOfComboChain) { ClearAttackList(); }
                                         return;
                                     }
                                 }
                                 else
                                 {
-                                    //Debug.Log($"{combo.attackList[i].attackType} is NOT the same as {currentAttacks[i].attackType}, checking next combo...");
-                                    //Also, if more than 2 inputs are put in and no combos match, the player is down a path that wont result in combos ever, clear attack list.
-                                    //Or maybe just clear after it finds no combos that match since that means no combos will ever match down that path.
-                                    break;
+                                    Debug.Log($"{combo.attackList[i].attackType} is NOT the same as {currentAttacks[i].attackType}. Abandoning this list by clearing it.");
+                                    ClearAttackList();
+                                    continue;
                                 }
                             }
                         }
                         else
                         {
-                            //Debug.Log($"{combo.comboName} doesn't have the same amount of attacks, checking next combo...");
+                            Debug.Log($"{combo.comboName} doesn't have the same amount of attacks, checking next combo...");
+                            continue;
                         }
                         if (h == comboFamType.familyTypeList.Count)
                         {
@@ -366,7 +351,7 @@ public class Charattacks : MonoBehaviour
 
                             if (combo.canChangeState) { StartCoroutine(charanimation.ComboCharcontrolStates(combo)); } //Checks the current combo to see if it requires a state change
                             if (combo.endOfComboChain) { ClearAttackList(); }
-                            return;
+                            continue;
                         }
                     }
                 }
@@ -435,21 +420,6 @@ public class Charattacks : MonoBehaviour
                     allHeavyCombosEver.RemoveAt(i);
                     currentPossibleCombos.Add(foundCombo);
                     comboFound=true;
-                    return;
-                }
-            }
-        }
-        
-        if (!comboFound)
-        {
-            for (int i = 0; i < allRangedCombosEver.Count; i++)
-            {
-                if (allRangedCombosEver[i].comboName == ComboName)
-                {
-                    foundCombo = allRangedCombosEver[i];
-                    allRangedCombosEver.RemoveAt(i);
-                    currentPossibleCombos.Add(foundCombo);
-                    comboFound = true;
                     return;
                 }
             }

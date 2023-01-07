@@ -134,7 +134,8 @@ public class Enemymain : MonoBehaviour  //This class is reponsible for everythin
             healCooldownTime = 0;
             if (canHeal && currentHealth != maxHealth)
             {
-                AddHealth(healAmount);
+                //AddHealth(healAmount);
+                AddHealth(Random.Range((int)(healAmount / 0.5), (int)(healAmount * 1.5)));
                 healCooldownTime = healDelay;
             }
         }

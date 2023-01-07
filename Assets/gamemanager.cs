@@ -7,6 +7,7 @@ using Cinemachine;
 using MyBox;
 using UnityEngine.UIElements;
 using System;
+using UnityEngine.InputSystem;
 
 public class GameManager : MonoBehaviour
 {
@@ -35,8 +36,6 @@ public class GameManager : MonoBehaviour
     public GameObject Player;
     public GameObject playerRespawnPoint;
     public GameObject[] Enemies;
-
-    public Charinputs charinputs;
 
     public bool mainCharRespawned = false;
 
@@ -105,7 +104,6 @@ public class GameManager : MonoBehaviour
         DontDestroyOnLoad(this);
         SceneReady();
         SceneManager.activeSceneChanged += ChangedActiveScene;
-        charinputs = Player.GetComponent<Charinputs>();
     }
 
     public void Start()
@@ -122,14 +120,12 @@ public class GameManager : MonoBehaviour
     private void Update()
     {
         //Debug.Log($"Current Scene number is {SceneManager.GetActiveScene().buildIndex} and Scene name is {SceneManager.GetActiveScene().name}");
-        Debug.Log($"Time scale is {Time.timeScale}");
+        //Debug.Log($"Time scale is {Time.timeScale}");
 
-        if (Input.GetKeyDown(KeyCode.P)) { PauseGame(); }
-        if (Input.GetKeyDown(KeyCode.O)) { ResumeGame(); }
+        if (Keyboard.current.pKey.wasPressedThisFrame) { PauseGame(); }
+        if (Keyboard.current.oKey.wasPressedThisFrame) { ResumeGame(); }
 
-        if (Input.GetKeyDown(KeyCode.T)) { }
-
-        if (Input.GetButtonDown("Info Hub"))
+        if (Keyboard.current.tabKey.wasPressedThisFrame)
         {
             if (ihuiManager.parentElement.style.display == DisplayStyle.Flex)
             {

@@ -34,7 +34,6 @@ public class Charanimation : MonoBehaviour
     Charcontrol charcontrol;
     Charattacks charattacks;
     Chareffects chareffects;
-    Charinputs charinputs;
 
     public delegate void ComboBufferClearEvent();
     public event ComboBufferClearEvent comboBufferCleared;
@@ -47,7 +46,6 @@ public class Charanimation : MonoBehaviour
         charcontrol = GetComponent<Charcontrol>();
         charattacks = GetComponent<Charattacks>();
         chareffects = GetComponent<Chareffects>();
-        charinputs = GetComponent<Charinputs>();
     }
 
 
@@ -361,18 +359,12 @@ public class Charanimation : MonoBehaviour
 
     public void onAnimate()
     {
-        if (isGrounded)
-        {
-            animator.SetBool("Grounded", true);
-            animator.SetBool("Jumping", false);
-            jumped = false;
-            ledgeGrabbed = false;
-            ledgePulledUp = false;
-        }
-        if (!isGrounded)
-        {
-            animator.SetBool("Grounded", false);
-        }
+        animator.SetBool("Grounded", isGrounded);
+        animator.SetBool("Jumping", !isGrounded);
+        jumped = !isGrounded;
+        ledgeGrabbed = !isGrounded;
+        ledgePulledUp = !isGrounded;
+
 
         if (charcontrol.airJumped && charcontrol.currentState == Charcontrol.State.Jumping)
         {
@@ -385,20 +377,17 @@ public class Charanimation : MonoBehaviour
         }
 
         animClipInfo = this.animator.GetCurrentAnimatorClipInfo(0);
-        try {currentAnimName = animClipInfo[0].clip.name; } catch (System.IndexOutOfRangeException) { };
-        try {currentAnimLength = animClipInfo[0].clip.length; } catch (System.IndexOutOfRangeException) { };
+        try { currentAnimName = animClipInfo[0].clip.name; } catch (System.IndexOutOfRangeException) { };   //Tries to get the current animation name. If it returns null, it catches a debug error
+        try { currentAnimLength = animClipInfo[0].clip.length; } catch (System.IndexOutOfRangeException) { };
         AnimatorStateInfo currentAnimSInfo = animator.GetCurrentAnimatorStateInfo(0);
         currentStateNormalizedTime = currentAnimSInfo.normalizedTime;
 
-
-        //animator.SetFloat("yVel", Mathf.Clamp(rb2d.velocity.y, -1, 1));
         animator.SetFloat("yVel", rb2d.velocity.y);
-        //animator.SetFloat("xVel", Mathf.Clamp(rb2d.velocity.x, -1, 1));
         animator.SetFloat("xVel", rb2d.velocity.x);
         animator.SetFloat("yVelAbs", Mathf.Abs(Mathf.Clamp(rb2d.velocity.y, -1, 1)));
         animator.SetFloat("xVelAbs", Mathf.Abs(Mathf.Clamp(rb2d.velocity.x, -1, 1)));
-        animator.SetFloat("verticalPressed", charinputs.move.ReadValue<Vector2>().y);
-        animator.SetFloat("horizontalPressed", charinputs.move.ReadValue<Vector2>().x);
+        animator.SetFloat("verticalPressed", Charinputs.instance.move.ReadValue<Vector2>().y);
+        animator.SetFloat("horizontalPressed", Charinputs.instance.move.ReadValue<Vector2>().x);
     }
 }
 

@@ -18,22 +18,31 @@ public class Charinputs : MonoBehaviour
     [ReadOnly] public InputAction interact;
     [ReadOnly] public InputAction dodge;
 
+    [ReadOnly] public InputAction lightAttack;
+    [ReadOnly] public InputAction heavyAttack;
+    [ReadOnly] public InputAction rangedAttack;
+
     public const string moveInput = "Move";
     public const string interactInput = "Interact";
     public const string dodgeInput = "Dodge";
 
+    public const string lightAtk = "Light Attack";
+    public const string heavyAtk = "Heavy Attack";
+    public const string rangedAtk = "Ranged Attack";
+
     private void Awake()
-    { 
-        if (instance == null)
-        {
-            instance = this;
-        }
+    {
+        if (instance == null) { instance = this; }
 
         inputs = GetComponent<PlayerInput>();
 
         move = inputs.actions[moveInput];
         interact = inputs.actions[interactInput];
         dodge = inputs.actions[dodgeInput];
+
+        lightAttack = inputs.actions[lightAtk];
+        heavyAttack = inputs.actions[heavyAtk];
+        rangedAttack = inputs.actions[rangedAtk];
     }
 
 
@@ -46,18 +55,23 @@ public class Charinputs : MonoBehaviour
 
     public void Update()
     {
-        Debug.Log($"Move value X is {move.ReadValue<Vector2>().x}.");
-        Debug.Log($"Interact key value is {interact.ReadValue<float>()}.");
+        //Debug.Log($"Move value X is {move.ReadValue<Vector2>().x}.");
+        //Debug.Log($"Interact key value is {interact.ReadValue<float>()}.");
         if (Keyboard.current.numpad1Key.wasPressedThisFrame)
         {
             StartCoroutine(DisableInputs(0f));
         }
     }
 
+    public void OnLightAttack(InputValue value)
+    {
+       //This is called every time the light attack is pressed. Useful
+    }
+
     public IEnumerator DisableInputs(float duration)
     {
         inputs.DeactivateInput();
-        Debug.Log("Inputs disabled");
+        Debug.Log("Inputs disabled for 3 seconds");
         yield return new WaitForSeconds(3f);
         inputs.ActivateInput();
         Debug.Log("Inputs enabled");
