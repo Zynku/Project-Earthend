@@ -271,7 +271,7 @@ public class Charattacks : MonoBehaviour
 
     public void Combat_Running()
     {
-        charcontrol.rb2d.velocity = new Vector2(charcontrol.runSpeed * Input.GetAxis("Horizontal"), charcontrol.rb2d.velocity.y);
+        charcontrol.rb2d.velocity = new Vector2(charcontrol.runSpeed * Charinputs.instance.move.ReadValue<Vector2>().x, charcontrol.rb2d.velocity.y);
 
         charcontrol.rolled = false;
         charcontrol.canFlipXDir();

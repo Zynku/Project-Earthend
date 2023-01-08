@@ -59,7 +59,7 @@ public class Charinputs : MonoBehaviour
         //Debug.Log($"Interact key value is {interact.ReadValue<float>()}.");
         if (Keyboard.current.numpad1Key.wasPressedThisFrame)
         {
-            StartCoroutine(DisableInputs(0f));
+            StartCoroutine(DisableAllInputs(0f));
         }
     }
 
@@ -68,7 +68,7 @@ public class Charinputs : MonoBehaviour
        //This is called every time the light attack is pressed. Useful
     }
 
-    public IEnumerator DisableInputs(float duration)
+    public IEnumerator DisableAllInputs(float duration)
     {
         inputs.DeactivateInput();
         Debug.Log("Inputs disabled for 3 seconds");
