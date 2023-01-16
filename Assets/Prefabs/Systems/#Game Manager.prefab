@@ -42719,6 +42719,7 @@ MonoBehaviour:
   allLightCombosEver:
   - comboName: Double Swing
     comboType: 0
+    comboDir: 0
     myComboFamilyName: No Family
     myComboFamilyOrder: -1
     moveName: Light x 2
@@ -42740,6 +42741,7 @@ MonoBehaviour:
       attackType: 0
   - comboName: Triple Light
     comboType: 0
+    comboDir: 0
     myComboFamilyName: No Family
     myComboFamilyOrder: -1
     moveName: Light x 3
@@ -42764,6 +42766,7 @@ MonoBehaviour:
       attackType: 0
   - comboName: Single Swing
     comboType: 0
+    comboDir: 0
     myComboFamilyName: No Family
     myComboFamilyOrder: -1
     moveName: Light x1
@@ -42782,6 +42785,7 @@ MonoBehaviour:
       attackType: 0
   - comboName: Double Swing
     comboType: 0
+    comboDir: 0
     myComboFamilyName: 
     myComboFamilyOrder: 0
     moveName: Light x2
@@ -42803,6 +42807,7 @@ MonoBehaviour:
       attackType: 0
   - comboName: Triple Swing
     comboType: 0
+    comboDir: 0
     myComboFamilyName: 
     myComboFamilyOrder: 0
     moveName: Light x3
@@ -42827,6 +42832,7 @@ MonoBehaviour:
       attackType: 0
   - comboName: Quad Swing
     comboType: 0
+    comboDir: 0
     myComboFamilyName: 
     myComboFamilyOrder: 0
     moveName: Light x4
@@ -42855,6 +42861,7 @@ MonoBehaviour:
   allHeavyCombosEver:
   - comboName: Mega Heavyyyy
     comboType: 0
+    comboDir: 0
     myComboFamilyName: No Family
     myComboFamilyOrder: -1
     moveName: Heavy x 5
@@ -42888,6 +42895,7 @@ MonoBehaviour:
       attackType: 1
   - comboName: Heavy
     comboType: 0
+    comboDir: 0
     myComboFamilyName: 
     myComboFamilyOrder: 0
     moveName: Heavy
@@ -42907,6 +42915,7 @@ MonoBehaviour:
   allRangedCombosEver:
   - comboName: Ranged Shot
     comboType: 0
+    comboDir: 0
     myComboFamilyName: 
     myComboFamilyOrder: 0
     moveName: Ranged x 1
@@ -42926,6 +42935,7 @@ MonoBehaviour:
   currentPossibleCombos:
   - comboName: L-A1 Attack
     comboType: 0
+    comboDir: 0
     myComboFamilyName: L-A Attack
     myComboFamilyOrder: -1
     moveName: 
@@ -42945,6 +42955,7 @@ MonoBehaviour:
       attackType: 0
   - comboName: L-A2 Attack
     comboType: 0
+    comboDir: 0
     myComboFamilyName: L-A Attack
     myComboFamilyOrder: -1
     moveName: 
@@ -42967,6 +42978,7 @@ MonoBehaviour:
       attackType: 0
   - comboName: L-A3 Attack
     comboType: 0
+    comboDir: 0
     myComboFamilyName: L-A Attack
     myComboFamilyOrder: -1
     moveName: 
@@ -42992,6 +43004,7 @@ MonoBehaviour:
       attackType: 0
   - comboName: Ranged Close Shot
     comboType: 0
+    comboDir: 0
     myComboFamilyName: Ranged 1
     myComboFamilyOrder: -1
     moveName: 
@@ -43011,6 +43024,7 @@ MonoBehaviour:
       attackType: 4
   - comboName: Light then Heavy
     comboType: 0
+    comboDir: 0
     myComboFamilyName: No Family
     myComboFamilyOrder: -1
     moveName: Light then Heavy
@@ -43032,6 +43046,7 @@ MonoBehaviour:
       attackType: 2
   - comboName: Light Held
     comboType: 0
+    comboDir: 0
     myComboFamilyName: No Family
     myComboFamilyOrder: -1
     moveName: Air Launch
@@ -43055,6 +43070,7 @@ MonoBehaviour:
   comboBeingMovedFromPossible:
     comboName: L-A1 Attack
     comboType: 0
+    comboDir: 0
     myComboFamilyName: L-A Attack
     myComboFamilyOrder: -1
     moveName: 
@@ -43075,6 +43091,7 @@ MonoBehaviour:
   comboBeingMovedToPossible:
     comboName: Double Swing
     comboType: 0
+    comboDir: 0
     myComboFamilyName: No Family
     myComboFamilyOrder: -1
     moveName: Light x 2

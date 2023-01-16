@@ -9,6 +9,7 @@ public class Combo
     string name;
     public string comboName = "nullCombo";
     public ComboType comboType;
+    public ComboDirection comboDir;
     public string myComboFamilyName = "No Family";
     public int myComboFamilyOrder = -1;
     public string moveName;
@@ -25,9 +26,5 @@ public class Combo
     public List<Attack> attackList; //Contains the list of attacks required to execute this combo
 
     public enum ComboType {LIGHT, HEAVY, RANGED}
-
-    public Combo()
-    {
-        name = comboName;
-    }
+    public enum ComboDirection { RIGHT, LEFT, UP, DOWN, SCREEN_IN, SCREEN_OUT}
 }
