@@ -37,7 +37,7 @@ public class target_dummy_controller : MonoBehaviour
     {
         if (healCooldown <= 0 && enemymainscript.currentHealth < enemymainscript.maxHealth) //Automatically starts regenerating health if the time has been reached
         {
-            enemymainscript.AddHealth(30);
+           enemymainscript.AddHealth(30);
         }
 
         if (enemymainscript.currentHealth == enemymainscript.maxHealth)

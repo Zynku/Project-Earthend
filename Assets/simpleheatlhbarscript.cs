@@ -59,7 +59,7 @@ public class simpleheatlhbarscript : MonoBehaviour
         //Ensures healthbar doesnt rotate with enemy.
         transform.localScale = transform.localScale;
         fillPercent = parentHealth / parentMaxHealth;
-        if (fillPercent <= 0) { fillPercent = 0.1f; }
+        if (fillPercent < 0) { fillPercent = 0f; }
 
         //Changes x scale based on fill percent
         healthbarFill.transform.localScale = new Vector3(fillPercent, 1, 1);

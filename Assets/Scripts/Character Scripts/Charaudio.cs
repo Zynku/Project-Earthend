@@ -110,8 +110,9 @@ public class Charaudio : MonoBehaviour
         {
             audiosource.volume = voiceSwingVolume;
             audiosource.pitch = 1;
-            audiosource.clip = voice_swing[Random.Range(0, voice_swing.Length)];
-            audiosource.Play();
+            //audiosource.clip = voice_swing[Random.Range(0, voice_swing.Length)];
+            //audiosource.Play();
+            audiosource.PlayOneShot(voice_swing[Random.Range(0, voice_swing.Length)]);
         }
     }
 

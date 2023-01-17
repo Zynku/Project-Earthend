@@ -312,7 +312,7 @@ public class Charattacks : MonoBehaviour
                                 {
                                     if (i == combo.attackList.Count - 1 && combo.attackList[i].attackType == currentAttacks[i].attackType)  //If the last attack matches...
                                     {
-                                        Debug.Log($"----------------------------------{combo.comboName} identified, sending off to be animated.-------------------------------------");
+                                        Debug.Log($"-------------------------Last attack matches, as well as previous ones, {combo.comboName} identified, sending off to be animated.----------------------------");
                                         currentlyComboing = true;
                                         AnimateCombos(combo);
 
@@ -477,6 +477,7 @@ public class Charattacks : MonoBehaviour
 
         GameManager.instance.Particle_Manager.PlayHitParticles(enemy.GetComponent<Collider2D>().ClosestPoint(transform.position));
         StartCoroutine(GameManager.instance.MeleeHitStop());
+        charaudio.HitSomething();
         GameManager.instance.DoScreenShake(screenShakeIntensity, screenShakeTime);
 
         switch (currentComboRef[0].comboType)
