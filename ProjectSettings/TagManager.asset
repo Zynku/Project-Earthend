@@ -26,6 +26,7 @@ TagManager:
   - crouching_trigger_area
   - crouching_trigger_stay_zone
   - Walls
+  - grabbable_ledge
   layers:
   - Default
   - TransparentFX
@@ -48,7 +49,7 @@ TagManager:
   - Dropped Weapons
   - NPC
   - Walls
-  - 
+  - Post Processing
   - 
   - 
   - 
@@ -89,4 +90,7 @@ TagManager:
     locked: 0
   - name: FRONT 3
     uniqueID: 1703296247
+    locked: 0
+  - name: PLAYER_MELEE_FX
+    uniqueID: 3771974173
     locked: 0
