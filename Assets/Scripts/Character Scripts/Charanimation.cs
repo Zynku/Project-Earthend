@@ -140,6 +140,9 @@ public class Charanimation : MonoBehaviour
                 }
                 
                 animator.SetBool("Falling", true);
+                ledgePulledUp = false;
+                ledgeGrabbed = false;
+                
                 break;
 
             case Charcontrol.State.Landing:
@@ -355,6 +358,8 @@ public class Charanimation : MonoBehaviour
         animator.SetBool("Walking", false);
         animator.SetBool("In combat", false);
         animator.SetBool("Falling", false);
+        ledgeGrabbed = false;
+        ledgePulledUp = false;
     }
 
     public void onAnimate()
@@ -362,8 +367,8 @@ public class Charanimation : MonoBehaviour
         animator.SetBool("Grounded", isGrounded);
         animator.SetBool("Jumping", !isGrounded);
         jumped = !isGrounded;
-        ledgeGrabbed = !isGrounded;
-        ledgePulledUp = !isGrounded;
+        //ledgeGrabbed = !isGrounded;
+        //ledgePulledUp = !isGrounded;
 
 
         if (charcontrol.airJumped && charcontrol.currentState == Charcontrol.State.Jumping)

@@ -15,9 +15,10 @@ public class Charcontrol : MonoBehaviour
     [HideInInspector] public Rigidbody2D rb2d;
     BoxCollider2D boxCol;
 
-    public State currentState;
-    public State lastState;
-    public bool stateChanged;
+    public State currentState;      //The current charcontrol state
+    public State lastState;         //The previous state
+    private State lastStateCache;   //A temporary value to store the last state until the bool is updated
+    public bool stateChanged;       //Is triggered for ~1 frame when the state is changed.
 
     [Foldout("Variables", true)]
     public float xVel;
@@ -219,14 +220,15 @@ public class Charcontrol : MonoBehaviour
 
 
         //State Checks
-        if (currentState == lastState)
+        if (currentState == lastStateCache)
         {
             stateChanged = false;
         }
         else
         {
             stateChanged = true;
-            lastState = currentState;
+            lastState = lastStateCache;
+            lastStateCache = currentState;
             //Debug.Log($"State changed!");
         }
 
@@ -238,7 +240,7 @@ public class Charcontrol : MonoBehaviour
         switchingDirTime -= Time.deltaTime;
         if (switchingDirTime < 0) { switchingDirTime = 0; switchedDirToLeft = false; switchedDirToRight = false; }
 
-        if (currentState == State.Ledgegrabbing)
+        if (currentState == State.Ledgegrabbing)    //This if statement is here because you need to keep track of when not in ledgegrabbing state.
         {
             if (minimumLedgeTimer > 0) { minimumLedgeTimer -= Time.deltaTime; }
         }
@@ -410,6 +412,7 @@ public class Charcontrol : MonoBehaviour
                         rb2d.velocity = new Vector2(rb2d.velocity.x, 0);
                         //Debug.Log($"Letting go of a ledge");
                         airJumpsHas = airJumps;
+                        ledgeScript.ResetCoolDown();
                         currentState = State.Falling;   //Let go of the ledge
                     }
 
@@ -417,6 +420,7 @@ public class Charcontrol : MonoBehaviour
                         Charinputs.instance.move.ReadValue<Vector2>().x == ledgeScript.ledgeDirInt   //Move towards the ledge
                         && minimumLedgeTimer <= 0)
                     {
+                        ledgeScript.ResetCoolDown();
                         currentState = State.Ledgepullup;
                     }
                 }
@@ -547,8 +551,9 @@ public class Charcontrol : MonoBehaviour
                         currentState = State.AirJumping;
                     }
 
-                    if (inGrabbable_LedgeZone && Charinputs.instance.move.ReadValue<Vector2>().x != 0 && doesPlayerFaceLedge)   //If you're near a ledge and you're facing the right way
+                    if (inGrabbable_LedgeZone && Charinputs.instance.move.ReadValue<Vector2>().x != 0)   //If you're near a ledge and you're facing the right way
                     {
+                        if (!doesPlayerFaceLedge) { return; }
                         Debug.Log($"Grabbing a ledge");
                         currentState = State.Ledgegrabbing;
                     }
@@ -584,8 +589,10 @@ public class Charcontrol : MonoBehaviour
                         currentState = State.AirJumping;
                     }
                     
-                    if (inGrabbable_LedgeZone && Charinputs.instance.move.ReadValue<Vector2>().x == ledgeScript.ledgeDirInt && doesPlayerFaceLedge)   //If you're near a ledge and you're facing the right way
+                    if (inGrabbable_LedgeZone && Charinputs.instance.move.ReadValue<Vector2>().x == ledgeScript.ledgeDirInt)   //If you're near a ledge and you're facing the right way
                     {
+                        if (!doesPlayerFaceLedge) { return; }
+                        if (ledgeScript.ledgeCoolDownTime > 0) { Debug.Log("This ledge is still on cooldown, cannot grab yet!"); return; }
                         Debug.Log($"Grabbing a ledge");
                         currentState = State.Ledgegrabbing;
                     }
@@ -748,7 +755,7 @@ public class Charcontrol : MonoBehaviour
 
     void checkforLedges()
     {
-        if (thisLedge != null)
+        if (thisLedge != null && ledgeScript != null)
         {
             doesPlayerFaceLedge = ledgeScript.DoesPlayerDirMatch();
         }
@@ -911,6 +918,7 @@ public class Charcontrol : MonoBehaviour
         GetComponent<Animator>().Play("Low Poly Idle");
         transform.position = ledgeScript.PlayerAfterGrabLoc.transform.position;
         rb2d.velocity = new Vector2(0,0);
+        ledgeScript.ResetCoolDown();
         StartCoroutine(AddAForce(afterLedgeVelDelay, new Vector2(afterLedgeVelAdded * Time.deltaTime * 1000, 0)));
     }
 

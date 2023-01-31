@@ -640,7 +640,7 @@ public class DialogueManager : MonoBehaviour
                 currentLetterIndex++;
                 //dialogueText.text += letter;
             }
-            if (isTyping && Input.GetButton("Interact"))
+            if (isTyping && Charinputs.instance.interact.WasPressedThisFrame())
             {
                 isTyping = false;
                 if (TypeCO != null) { StopCoroutine(TypeCO); }

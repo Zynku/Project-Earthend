@@ -69,6 +69,8 @@ MonoBehaviour:
   PlayerLoc: {fileID: 2585997337997238952}
   PlayerAfterGrabLoc: {fileID: 2585997338156026967}
   ledgeDirInt: 0
+  ledgeCoolDownTargetTime: 0.3
+  ledgeCoolDownTime: 0
   direction: 1
 --- !u!95 &2585997337524747211
 Animator:

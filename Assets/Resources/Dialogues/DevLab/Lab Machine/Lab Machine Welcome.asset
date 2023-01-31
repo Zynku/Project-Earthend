@@ -13,6 +13,7 @@ MonoBehaviour:
   m_Name: Lab Machine Welcome
   m_EditorClassIdentifier: 
   defaultTreeId: 1
+  peopleInConversation: []
   dialogueTrees:
   - DialogueTreeName: 
     DialogueTreeId: 1
@@ -32,8 +33,8 @@ MonoBehaviour:
       typeSpeed: 0
       audio: []
       audioVol: 1
-    - lineString: Use WASD to walk around, A for a ranged attack, S for a heavy attack,
-        and D for a light attack.
+    - lineString: Use the arrow keys to walk around, A for a ranged attack, S for
+        a heavy attack, and D for a light attack.
       canChangeAboveHeadDialogue: 0
       AHDialogueIndexToSwitchTo: 0
       hasChoice: 0

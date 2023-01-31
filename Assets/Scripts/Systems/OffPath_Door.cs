@@ -67,7 +67,7 @@ public class OffPath_Door : MonoBehaviour
             doorNameGameObject.SetActive(false);
         }
 
-        if (Charinputs.instance.interact.ReadValue<float>() > 0)   //If the player interacts
+        if (Charinputs.instance.interact.WasPressedThisFrame())   //If the player interacts
         {
             if (!playerInRange) { return; }
             if (doorLinked)
@@ -108,7 +108,7 @@ public class OffPath_Door : MonoBehaviour
                 GameManager.instance.FadeToBlack(0.5f);
                 yield return new WaitForSeconds(0.6f);
                 MovePlayer();   //Teleports to new door location
-                yield return new WaitForSeconds(0.1f);
+                yield return new WaitForSeconds(0.3f);
                 GameManager.instance.FadeFromBlack(0.5f);
                 yield return new WaitForSeconds(0.4f);
                 StartCoroutine(GameManager.instance.playerManager.DoFadeIn(0.2f));  //Fade Player in

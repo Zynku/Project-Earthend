@@ -9,7 +9,12 @@ public class Grabbable_LedgeArea : MonoBehaviour
     public GameObject PlayerLoc;    //The location the player will be attached to when it grabs the ledge
     public GameObject PlayerAfterGrabLoc;   //The location the player is deposited at when it is done pulling up
     Animator animator;
+    Charcontrol charcontrol;
+
     [HideInInspector] public int ledgeDirInt;
+    public float ledgeCoolDownTargetTime;
+    public float ledgeCoolDownTime;
+
     public LedgeDir direction;
     public enum LedgeDir    //The direction the player must hold in order to face the edge
     {
@@ -22,32 +27,29 @@ public class Grabbable_LedgeArea : MonoBehaviour
     {
         Player = GameManager.instance.Player;
         animator = GetComponent<Animator>();
+        charcontrol = Player.GetComponent<Charcontrol>();
     }
 
     // Update is called once per frame
     void Update()
-    {
-        switch (direction)
+    {//This is some magic code from Visual studio
+        ledgeDirInt = direction switch
         {
-            case LedgeDir.Left:
-                ledgeDirInt = -1;
-                break;
-            case LedgeDir.Right:
-                ledgeDirInt = 1;
-                break;
-            default:
-                ledgeDirInt = 0;
-                break;
-        }
+            LedgeDir.Left => -1,
+            LedgeDir.Right => 1,
+            _ => 0,
+        };
+
+        if (ledgeCoolDownTime > 0) { ledgeCoolDownTime -= Time.deltaTime; }
     }
 
     public bool DoesPlayerDirMatch()
     {
-        if (Player.GetComponent<Charcontrol>().facingDir == 1 && direction == LedgeDir.Right)
+        if (charcontrol.facingDir == 1 && direction == LedgeDir.Right)
         {
             return true;
         }
-        else if (Player.GetComponent<Charcontrol>().facingDir == -1 && direction == LedgeDir.Left)
+        else if (charcontrol.facingDir == -1 && direction == LedgeDir.Left)
         {
             return true;
         }
@@ -59,11 +61,16 @@ public class Grabbable_LedgeArea : MonoBehaviour
 
     public void LetPlayerIdle()
     {
-        Player.GetComponent<Charcontrol>().FinishLedgePullUp();
+        charcontrol.FinishLedgePullUp();
     }
 
     public void PullUpPlayer()
     {
         //animator.Play("Grabbable Ledge Pull Up Player Loc");
+    }
+
+    public void ResetCoolDown()
+    {
+        ledgeCoolDownTime = ledgeCoolDownTargetTime;
     }
 }

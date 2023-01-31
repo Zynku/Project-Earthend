@@ -8,6 +8,9 @@ using MyBox;
 using UnityEngine.UIElements;
 using System;
 using UnityEngine.InputSystem;
+using Cinemachine.PostFX;
+using UnityEngine.Rendering;
+using UnityEngine.Rendering.Universal;
 
 public class GameManager : MonoBehaviour
 {
@@ -22,6 +25,9 @@ public class GameManager : MonoBehaviour
     [Header("Frame Rate")]
     [Range(1f, 60f)]
     public int frameRate = -1;
+
+    public Cinemachine.PostFX.CinemachineVolumeSettings volumeSettings;    //Global post processing volume settings
+    private LiftGammaGain darkness;
 
     [Separator("Scene Variables")]
     public string currentSceneName;
@@ -110,6 +116,13 @@ public class GameManager : MonoBehaviour
     {
         VisualElement root = ingame_UI.GetComponent<UIDocument>().rootVisualElement;
         fadeToBlackScreen = root.Q<VisualElement>("blackSprite");
+
+        volumeSettings = cameraManager.mainCamera.GetComponent<CinemachineVolumeSettings>();
+
+        foreach (VolumeComponent volumeComponent in volumeSettings.m_Profile.components)
+        {
+            if (volumeComponent.name == "LiftGammaGain") { darkness = volumeComponent as LiftGammaGain;}
+        }
     }
 
     public void AssignAllReferences()   
@@ -121,7 +134,6 @@ public class GameManager : MonoBehaviour
     {
         //Debug.Log($"Current Scene number is {SceneManager.GetActiveScene().buildIndex} and Scene name is {SceneManager.GetActiveScene().name}");
         //Debug.Log($"Time scale is {Time.timeScale}");
-
         if (Keyboard.current.pKey.wasPressedThisFrame) { PauseGame(); }
         if (Keyboard.current.oKey.wasPressedThisFrame) { ResumeGame(); }
 
@@ -271,38 +283,36 @@ public class GameManager : MonoBehaviour
 
     public void FadeToBlack(float duration) //I can't figure out why this won't work.
     {
-        fadeToBlackScreen.style.display = DisplayStyle.Flex;
-        fadeToBlackScreen.AddToClassList("fadeToBlack");
-        //StartCoroutine(FadeToBlackCO(duration));
+        //fadeToBlackScreen.style.display = DisplayStyle.Flex;
+        //fadeToBlackScreen.AddToClassList("fadeToBlack");
+        StartCoroutine(FadeToBlackCO(duration));
     }
 
     public void FadeFromBlack(float duration)
     {
-        fadeToBlackScreen.style.display = DisplayStyle.Flex;
-        fadeToBlackScreen.RemoveFromClassList("fadeToBlack");
-        //StartCoroutine(FadeFromBlackCO(duration));
+        //fadeToBlackScreen.style.display = DisplayStyle.Flex;
+        //fadeToBlackScreen.RemoveFromClassList("fadeToBlack");
+        StartCoroutine(FadeFromBlackCO(duration));
     }
 
     public IEnumerator FadeToBlackCO(float duration)
     {
         Debug.Log("Starting fade TO black Coroutine");
+
         fadeColorReached = false;
-
-        Color startColor = new Color(0, 0, 0, 0);
-        Color endColor = new Color(0, 0, 0, 100);
-
+        float startColor = darkness.gain.value.w;
+        float endColor = -1;
         while (!fadeColorReached)
         {
+            Debug.Log($"Gain is {darkness.gain.value}.");
             yield return new WaitForEndOfFrame();
 
             lerpTimeElapsed += Time.deltaTime;
             float percentageComplete = lerpTimeElapsed / duration;
+            float lerpedValue = Mathf.Lerp(startColor, endColor, percentageComplete);
+            darkness.gain.value = new Vector4(1, 1, 1, lerpedValue);
 
-            //fadeToBlackScreen.style.backgroundColor = Color.Lerp(startColor, endColor, percentageComplete);
-            fadeToBlackScreen.style.opacity = Mathf.Lerp(0,100, percentageComplete);
-            Debug.Log($"Screen opacity is {fadeToBlackScreen.style.opacity}");
-
-            if (fadeToBlackScreen.style.opacity == 100)
+            if (darkness.gain.value.w == -1)
             {
                 Debug.Log("Screen is fully opaque");
                 fadeColorReached = true;
@@ -314,27 +324,25 @@ public class GameManager : MonoBehaviour
     public IEnumerator FadeFromBlackCO(float duration)
     {
         Debug.Log("Starting fade FROM black Coroutine");
+
         fadeColorReached = false;
-
-        Color startColor = new Color(0, 0, 0, 100);
-        Color endColor = new Color(0, 0, 0, 0);
-
+        float startColor = darkness.gain.value.w;
+        float endColor = 0;
         while (!fadeColorReached)
         {
+            Debug.Log($"Gain is {darkness.gain.value}.");
+            yield return new WaitForEndOfFrame();
+
             lerpTimeElapsed += Time.deltaTime;
             float percentageComplete = lerpTimeElapsed / duration;
+            float lerpedValue = Mathf.Lerp(startColor, endColor, percentageComplete);
+            darkness.gain.value = new Vector4(1, 1, 1, lerpedValue);
 
-            yield return new WaitForEndOfFrame();
-            //fadeToBlackScreen.style.backgroundColor = Color.Lerp(startColor, endColor, percentageComplete);
-            fadeToBlackScreen.style.opacity = Mathf.Lerp(100, 0, percentageComplete);
-            Debug.Log($"Screen opacity is {fadeToBlackScreen.style.opacity}");
-
-            if (fadeToBlackScreen.style.opacity == 0)
+            if (darkness.gain.value.w == 0)
             {
                 Debug.Log("Screen is fully transparent");
                 fadeColorReached = true;
                 lerpTimeElapsed = 0;
-                fadeToBlackScreen.style.display = DisplayStyle.None;
             }
         }
     }

@@ -88,7 +88,7 @@ public class Npcscript : MonoBehaviour
         }
 
         //Initiates dialogue
-        if (playerInRange && Input.GetButtonDown("Interact"))
+        if (playerInRange && Charinputs.instance.interact.WasPressedThisFrame())
         {
             BeginConversation();
         }
