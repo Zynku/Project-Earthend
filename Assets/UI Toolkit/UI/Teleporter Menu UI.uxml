@@ -1,0 +1,19 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" xsi="http://www.w3.org/2001/XMLSchema-instance" engine="UnityEngine.UIElements" editor="UnityEditor.UIElements" noNamespaceSchemaLocation="../../../UIElementsSchema/UIElements.xsd" editor-extension-mode="False">
+    <ui:VisualElement style="width: 100%; height: 100%;">
+        <ui:VisualElement style="width: 100%; height: 100%; flex-direction: column-reverse; background-color: rgba(10, 22, 19, 0.59);">
+            <ui:VisualElement name="box-holder" style="width: 100%; height: 60%;">
+                <ui:VisualElement name="top-box" style="width: 100%; height: 10%;">
+                    <ui:VisualElement name="name-box" style="width: 30%; height: 100%; background-color: rgb(0, 226, 236); display: flex; padding-left: 10px; padding-right: 10px; padding-top: 10px; padding-bottom: 10px;">
+                        <ui:Label tabindex="-1" text="Where would you like to go?" display-tooltip-when-elided="true" name="name-element" style="width: 100%; height: 100%; -unity-font-definition: url(&apos;project://database/Assets/Fonts/DigitalDisco%20SDF%20regular.asset?fileID=11400000&amp;guid=93c8f32f1edc64848bcb46523266af80&amp;type=2#DigitalDisco SDF regular&apos;); -unity-font-style: bold; -unity-font: url(&apos;project://database/Assets/TextMesh%20Pro/Examples%20&amp;%20Extras/Fonts/Anton.ttf?fileID=12800000&amp;guid=997a43b767814dd0a7642ec9b78cba41&amp;type=3#Anton&apos;);" />
+                    </ui:VisualElement>
+                </ui:VisualElement>
+                <ui:VisualElement name="separator" style="width: 100%; height: 1%; background-color: rgb(0, 226, 236);" />
+                <ui:VisualElement name="bottom-box" style="width: 100%; height: 89%; background-color: rgba(0, 0, 0, 0.62);">
+                    <ui:ScrollView name="scroll-box" style="width: 100%; height: 100%; padding-left: 2%; padding-right: 2%; padding-top: 2%; padding-bottom: 2%;">
+                        <ui:Button tabindex="-1" text="Teleporter name" display-tooltip-when-elided="true" style="width: 90%; height: 75px; font-size: 45px; -unity-text-align: middle-left; -unity-font-definition: url(&apos;project://database/Assets/Fonts/DigitalDisco%20SDF%20regular.asset?fileID=11400000&amp;guid=93c8f32f1edc64848bcb46523266af80&amp;type=2#DigitalDisco SDF regular&apos;); background-color: rgba(88, 88, 88, 0);" />
+                    </ui:ScrollView>
+                </ui:VisualElement>
+            </ui:VisualElement>
+        </ui:VisualElement>
+    </ui:VisualElement>
+</ui:UXML>

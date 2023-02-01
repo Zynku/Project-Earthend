@@ -91,6 +91,7 @@ public class OffPath_Door : MonoBehaviour
         float playerYPos = player.transform.position.y; //Records current Y pos so we stay constant
         Vector2 startPosition = player.transform.position;
         Vector2 endPosition = transform.position;   //End position is the door transform point
+        StartCoroutine(Charinputs.instance.DisableAllInputsForDuration(2f));        //Stops player from moving around
         while (!playerAtMiddle) //While loop until player reaches the middle
         {
             //Debug.Log($"Player is {Vector3.Distance(player.transform.position, transform.position)} away");

@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using UnityEditor;
 using UnityEngine;
 using UnityEngine.UIElements;
 
@@ -11,6 +12,31 @@ public class Information_hub_ui_manager : MonoBehaviour
     Button leftArrow;
     Button rightArrow;
     List<VisualElement> inventoryslots;
+
+    private void OnValidate()   //Runs at the start of script loading in edit mode
+    {
+        EditorApplication.playModeStateChanged += DisableUIInEditMode;
+    }
+
+    public void DisableUIInEditMode(PlayModeStateChange state)
+    {
+        try
+        {
+            UIDocument UIDoc = GetComponent<UIDocument>();
+            UIDoc.enabled = false;
+            Debug.Log("Disabling IHUI in edit mode");
+        }
+        catch (MissingReferenceException)
+        {
+        }
+
+    }
+
+    private void Awake()
+    {
+        UIDocument UIDoc = GetComponent<UIDocument>();
+        UIDoc.enabled = true;
+    }
 
     private void OnEnable()
     {

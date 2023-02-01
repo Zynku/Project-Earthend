@@ -50,6 +50,9 @@ public class Charinputs : MonoBehaviour
     {
         gamemanager = GameManager.instance;
         charcontrol = GetComponent<Charcontrol>();
+
+        inputs.ActivateInput();
+        move.Enable();
     }
 
 
@@ -59,7 +62,7 @@ public class Charinputs : MonoBehaviour
         //Debug.Log($"Interact key value is {interact.ReadValue<float>()}.");
         if (Keyboard.current.numpad1Key.wasPressedThisFrame)
         {
-            StartCoroutine(DisableAllInputs(0f));
+            StartCoroutine(DisableAllInputsForDuration(0f));
         }
     }
 
@@ -68,13 +71,56 @@ public class Charinputs : MonoBehaviour
        //This is called every time the light attack is pressed. Useful
     }
 
-    public IEnumerator DisableAllInputs(float duration)
+    public IEnumerator DisableAllInputsForDuration(float duration)
+    {
+        if (duration == -1)
+        {
+            inputs.DeactivateInput();
+        }
+        else
+        {
+            inputs.DeactivateInput();
+            Debug.Log($"Inputs disabled for {duration} seconds.");
+            yield return new WaitForSeconds(duration);
+            inputs.ActivateInput();
+            Debug.Log("Inputs enabled");
+        }
+    }
+
+    public IEnumerator DisableMovementOnlyForDuration(float duration)
+    {
+        if (duration == -1)
+        {
+            move.Disable();
+        }
+        else
+        {
+            move.Disable();
+            Debug.Log($"Movement disabled for {duration} seconds.");
+            yield return new WaitForSeconds(duration);
+            move.Enable();
+            Debug.Log("Movement enabled");
+        }
+    }
+
+    public void DisableAllInputs()
     {
         inputs.DeactivateInput();
-        Debug.Log("Inputs disabled for 3 seconds");
-        yield return new WaitForSeconds(3f);
+    }
+
+    public void DisableMovementOnly()
+    {
+        move.Disable();
+    }
+
+    public void EnableAllInputs()
+    {
         inputs.ActivateInput();
-        Debug.Log("Inputs enabled");
+    }
+
+    public void EnableMovementOnly()
+    {
+        move.Enable();
     }
 
     // P Pauses the game. Called from Gamemanager Update()

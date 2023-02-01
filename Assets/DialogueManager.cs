@@ -10,6 +10,8 @@ using UnityEditor.Rendering;
 using JetBrains.Annotations;
 using Newtonsoft.Json.Serialization;
 using UnityEngine.U2D;
+using UnityEditor;
+using System;
 
 public class DialogueManager : MonoBehaviour
 {
@@ -75,6 +77,24 @@ public class DialogueManager : MonoBehaviour
     Animator dialogueCharAnim;                      //Animator component of the dialogue character
     Charcontrol charcontrol;
     QuestManager questManager;
+
+    private void OnValidate()   //Runs at the start of script loading in edit mode
+    {
+        EditorApplication.playModeStateChanged += DisableUIInEditMode;
+    }
+
+    public void DisableUIInEditMode(PlayModeStateChange state)
+    {
+        try
+        {
+            UIDocument UIDoc = GetComponent<UIDocument>();
+            UIDoc.enabled = false;
+            Debug.Log("Disabling dialogue UI in edit mode");
+        }
+        catch (MissingReferenceException)
+        {
+        }
+    }
 
     private void Awake()
     {
@@ -312,7 +332,7 @@ public class DialogueManager : MonoBehaviour
         if (currentDialogueLine.audio.Count > 0)    //If the dialogue has audio to use (recorded audio), play it.
         {
             lineHasAudio = true;
-            int randomNum = Random.Range(0, currentDialogueLine.audio.Count);
+            int randomNum = UnityEngine.Random.Range(0, currentDialogueLine.audio.Count);
             AudioClip clip = currentDialogueLine.audio[randomNum];
             PlayDialogueLine(clip, currentDialogueLine.audioVol, dialogueSource.GetComponent<AudioSource>());
         }
@@ -367,7 +387,7 @@ public class DialogueManager : MonoBehaviour
             if (currentDialogueLine.audio.Count > 0)
             {
                 lineHasAudio = true;
-                int randomNum = Random.Range(0, currentDialogueLine.audio.Count);
+                int randomNum = UnityEngine.Random.Range(0, currentDialogueLine.audio.Count);
                 AudioClip clip = currentDialogueLine.audio[randomNum];
                 PlayDialogueLine(clip, currentDialogueLine.audioVol, dialogueSource.GetComponent<AudioSource>());
             }

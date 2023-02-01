@@ -222,7 +222,8 @@ public class GameManager : MonoBehaviour
     public void PauseGame()
     {
         //Debug.Log("Pausing game...");
-        playerManager.DisablePlayer();
+        //playerManager.DisablePlayer();
+        Charinputs.instance.DisableAllInputs();
         BGAudioManager.FadeMixerLowPass(BGAudioManager.masterMixer.audioMixer, "MasterLowPassCutoffFreq", 0.5f);
         pause_and_scene_manager.isGamePaused = true;
         Time.timeScale = 0;
@@ -235,7 +236,8 @@ public class GameManager : MonoBehaviour
     public void ResumeGame()
     {
         //Debug.Log("Resuming game...");
-        playerManager.ResetPlayer();
+        //playerManager.ResetPlayer();
+        Charinputs.instance.EnableAllInputs();
         BGAudioManager.RemoveMixerLowPass(BGAudioManager.masterMixer.audioMixer);
         pause_and_scene_manager.isGamePaused = false;
         Time.timeScale = 1;
@@ -263,22 +265,18 @@ public class GameManager : MonoBehaviour
     public void ResumeFromMenu()
     {
         Debug.Log("Resuming game...");
-        //PlayerAnim.enabled = true;
         pause_and_scene_manager.PauseMenuUi.SetActive(false);
-        //Time.timeScale = 1;
         pause_and_scene_manager.isGamePaused = false;
-        GameManager.instance.ResumeGame();
+        ResumeGame();
 
     }
 
     public void PauseWithMenu()
     {
         Debug.Log("Pausing game...");
-        //PlayerAnim.enabled = false;
         pause_and_scene_manager.PauseMenuUi.SetActive(true);
-        //Time.timeScale = 0;
         pause_and_scene_manager.isGamePaused = true;
-        GameManager.instance.PauseGame();
+        PauseGame();
     }
 
     public void FadeToBlack(float duration) //I can't figure out why this won't work.
@@ -304,7 +302,7 @@ public class GameManager : MonoBehaviour
         float endColor = -1;
         while (!fadeColorReached)
         {
-            Debug.Log($"Gain is {darkness.gain.value}.");
+            //Debug.Log($"Gain is {darkness.gain.value}.");
             yield return new WaitForEndOfFrame();
 
             lerpTimeElapsed += Time.deltaTime;
@@ -330,7 +328,7 @@ public class GameManager : MonoBehaviour
         float endColor = 0;
         while (!fadeColorReached)
         {
-            Debug.Log($"Gain is {darkness.gain.value}.");
+            //Debug.Log($"Gain is {darkness.gain.value}.");
             yield return new WaitForEndOfFrame();
 
             lerpTimeElapsed += Time.deltaTime;

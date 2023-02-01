@@ -21,12 +21,6 @@ public class Button_Stabber : MonoBehaviour
         Melee1.SetActive(false);
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
-
     void FixedUpdate()
     {
         //coolDownTimer counts down rounded to two decimal places. At 0 resets to coolDown
@@ -43,7 +37,7 @@ public class Button_Stabber : MonoBehaviour
         if (collision.CompareTag("Player"))
         {
             //if they interact and button not on cooldown...
-            if (Input.GetAxisRaw("Interact") > 0 && coolDownTimer == 0)
+            if (Charinputs.instance.interact.WasPressedThisFrame() && coolDownTimer == 0)
             {
                 //restarts cooldown, presses button, plays audio, does the thing
                 coolDownTimer = coolDownTargetTime;
