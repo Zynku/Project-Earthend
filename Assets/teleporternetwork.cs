@@ -3,6 +3,11 @@ using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
 using UnityEngine.EventSystems;
+using UnityEditor;
+using UnityEngine.UIElements;
+using UnityEditor.Search;
+using static UnityEngine.UI.Image;
+
 public class teleporternetwork : MonoBehaviour
 {
     private GameObject Player;
@@ -15,6 +20,12 @@ public class teleporternetwork : MonoBehaviour
     public GameObject teleporterUIPrefab;
     public GameObject tpMenuBG;
 
+    public bool isMenuActive;
+
+    VisualElement tpMenu;
+    List<VisualElement> tpLines;
+    public List<TeleporterUIScript> tpUIScripts;
+
 
     Animator animatorFrom;
     Animator animatorTo;
@@ -24,6 +35,22 @@ public class teleporternetwork : MonoBehaviour
 
     //public int pageNumber = 0;
     //public int startTeleporterNumber;
+
+    private void OnValidate()   //Runs at the start of script loading in edit mode
+    {
+        EditorApplication.playModeStateChanged += DisableUIInEditMode;
+    }
+
+    public void DisableUIInEditMode(PlayModeStateChange state)
+    {
+        try
+        {
+            //UIDocument UIDoc = GetComponent<UIDocument>();
+            //UIDoc.enabled = false;
+            //Debug.Log("Disabling teleporter UI in edit mode");
+        }
+        catch (MissingReferenceException){}
+    }
 
     private void OnEnable()
     {
@@ -39,31 +66,36 @@ public class teleporternetwork : MonoBehaviour
         teleporters = GameObject.FindGameObjectsWithTag("teleporter");  //Finds all teleporters in scene and assigns them to the array
         teleportNetwork = GetComponentInChildren<teleporternetwork>();
 
-        foreach (GameObject teleporter in teleporters)
+        UIDocument UIDoc = GetComponent<UIDocument>();
+        UIDoc.enabled = true;
+        tpMenu = GetComponent<UIDocument>().rootVisualElement;
+        tpMenu.style.display = DisplayStyle.None;
+        tpLines = tpMenu.Query<VisualElement>("tp-info").ToList();                  //Gets all 32 visualelements created
+
+        for (int i = 0; i < teleporters.Length-1; i++)  //Loop through all teleporters...
         {
-            teleporter.GetComponent<teleporterscript>().Network = teleportNetwork;
-            GameObject tp = Instantiate(teleporterUIPrefab, tpMenuBG.transform);
-            tp.GetComponent<TeleporterUIScript>().myTeleporter = teleporter;
-            tp.GetComponent<TeleporterUIScript>().teleporterNameText.text = teleporter.name;
-            teleporterUiElements.Add(tp);
-            //Debug.Log("Creating a TP UI Object for " + teleporter.name);
+            tpLines[i].Q<Button>("tp-selector-button").text = teleporters[i].name;
+            TeleporterUIScript newTpUIScript = new(teleporters[i], tpLines[i], this);
+            tpUIScripts.Add(newTpUIScript);
+            Debug.Log("Creating a TP UI Object for " + teleporters[i].name);
         }
-        uiElements.SetActive(false);
     }
 
     public void showNetworkUI()
     {
         //Shows teleport menu, makes sure the event system can select the menu objects, and pauses game.
-        uiElements.SetActive(true);
-        EventSystem.current.SetSelectedGameObject(null);
-        EventSystem.current.SetSelectedGameObject(teleporterUiElements[0]);
-        GameManager.instance.PauseGame();
+        //EventSystem.current.SetSelectedGameObject(null);
+        //EventSystem.current.SetSelectedGameObject(teleporterUiElements[0]);
+        Charinputs.instance.DisableMovementOnly();
+        tpMenu.style.display = DisplayStyle.Flex;
+        isMenuActive = true;
     }
 
     public void hideNetworkUI()
     {
-        uiElements.SetActive(false);
-        GameManager.instance.ResumeGame();
+        Charinputs.instance.EnableMovementOnly();
+        tpMenu.style.display = DisplayStyle.None;
+        isMenuActive = false;
     }
 
     // Update is called once per frame
@@ -93,7 +125,8 @@ public class teleporternetwork : MonoBehaviour
         }
         uiElements.SetActive(false);
 
-        GameManager.instance.ResumeGame();
+        //GameManager.instance.ResumeGame();
+        Charinputs.instance.EnableAllInputs();
     }
 
     public void PlayTypingSounds()

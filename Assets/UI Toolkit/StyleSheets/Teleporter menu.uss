@@ -1,0 +1,13 @@
+.tp-selector-button {
+}
+
+.tp-selector-button:hover {
+    color: rgb(27, 169, 176);
+}
+
+.tp-selector-button:active {
+    color: rgb(52, 112, 115);
+}
+
+.tp-info-main {
+}

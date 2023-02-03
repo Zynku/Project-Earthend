@@ -2,17 +2,20 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
+using UnityEngine.UIElements;
 
-public class TeleporterUIScript : MonoBehaviour
+[System.Serializable]
+public class TeleporterUIScript
 {
-    public TextMeshProUGUI teleporterNameText;
     public GameObject myTeleporter;
+    public VisualElement uIElement;
     teleporternetwork teleporternetwork;
 
-    // Start is called before the first frame update
-    void Start()
+    public TeleporterUIScript(GameObject myTeleporter, VisualElement uIElement, teleporternetwork teleporternetwork)
     {
-        teleporternetwork = GetComponentInParent<teleporternetwork>();
+        this.myTeleporter = myTeleporter;
+        this.uIElement = uIElement;
+        this.teleporternetwork = teleporternetwork;
     }
 
     public void TeleportToMyTeleporter()

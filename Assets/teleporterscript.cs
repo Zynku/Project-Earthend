@@ -60,11 +60,17 @@ public class teleporterscript : MonoBehaviour
             {
                 if (Charinputs.instance.interact.WasPressedThisFrame() && canActivateTPMenu)
                 {
-                    Debug.LogError("Teleporters are currently unusable due to the new input system. Please use the stairs in the meanwhile");
-                    return;
-                    //Network.showNetworkUI();
-                    //PlayMenuTyping();
-                    //Network.activatedAt = gameObject;
+                    if (!Network.isMenuActive)  //If the teleporter menu is not active, we show it
+                    {
+                        Network.showNetworkUI();
+                        PlayMenuTyping();
+                        Network.activatedAt = gameObject;
+                    }
+                    else        //If it is active, we hide it
+                    {
+                        Network.hideNetworkUI();
+                    }
+
                 }
             }
         }
