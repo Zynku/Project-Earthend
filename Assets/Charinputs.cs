@@ -14,6 +14,8 @@ public class Charinputs : MonoBehaviour
     GameManager gamemanager;
     InfoHubManager infohub;
 
+    [ReadOnly] public InputActionMap uiInput;
+
     [ReadOnly] public InputAction move;
     [ReadOnly] public InputAction interact;
     [ReadOnly] public InputAction dodge;
@@ -121,6 +123,16 @@ public class Charinputs : MonoBehaviour
     public void EnableMovementOnly()
     {
         move.Enable();
+    }
+
+    public void DisableUIInputs()
+    {
+        uiInput.Disable();
+    }
+
+    public void EnableUIInputs()
+    {
+        uiInput.Enable();
     }
 
     // P Pauses the game. Called from Gamemanager Update()

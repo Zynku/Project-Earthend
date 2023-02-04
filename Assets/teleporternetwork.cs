@@ -7,6 +7,7 @@ using UnityEditor;
 using UnityEngine.UIElements;
 using UnityEditor.Search;
 using static UnityEngine.UI.Image;
+using System.Linq;
 
 public class teleporternetwork : MonoBehaviour
 {
@@ -72,12 +73,20 @@ public class teleporternetwork : MonoBehaviour
         tpMenu.style.display = DisplayStyle.None;
         tpLines = tpMenu.Query<VisualElement>("tp-info").ToList();                  //Gets all 32 visualelements created
 
-        for (int i = 0; i < teleporters.Length-1; i++)  //Loop through all teleporters...
+        for (int i = 0; i < tpLines.Count; i++) //Loop through all UI elements for TP
         {
-            tpLines[i].Q<Button>("tp-selector-button").text = teleporters[i].name;
-            TeleporterUIScript newTpUIScript = new(teleporters[i], tpLines[i], this);
-            tpUIScripts.Add(newTpUIScript);
-            Debug.Log("Creating a TP UI Object for " + teleporters[i].name);
+            if(i > teleporters.Length-1) 
+            {
+                Debug.Log("Ran out of teleporters to make UI Elements for!");
+                tpLines[i].style.display = DisplayStyle.None;
+            }
+            else
+            {
+                tpLines[i].Q<Button>("tp-selector-button").text = teleporters[i].name;
+                TeleporterUIScript newTpUIScript = new(teleporters[i], tpLines[i], this);
+                tpUIScripts.Add(newTpUIScript);
+                Debug.Log("Creating a TP UI Object for " + teleporters[i].name);
+            }
         }
     }
 
@@ -86,7 +95,8 @@ public class teleporternetwork : MonoBehaviour
         //Shows teleport menu, makes sure the event system can select the menu objects, and pauses game.
         //EventSystem.current.SetSelectedGameObject(null);
         //EventSystem.current.SetSelectedGameObject(teleporterUiElements[0]);
-        Charinputs.instance.DisableMovementOnly();
+        Charinputs.instance.DisableMovementOnly();                              //TODO. Attacks need to be disabled too
+        //Charinputs.instance.EnableUIInputs();
         tpMenu.style.display = DisplayStyle.Flex;
         isMenuActive = true;
     }
