@@ -18593,6 +18593,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   inputs: {fileID: 0}
+  eventSystem: {fileID: 0}
   uiInput:
     m_Name: 
     m_Id: 

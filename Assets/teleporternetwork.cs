@@ -8,6 +8,8 @@ using UnityEngine.UIElements;
 using UnityEditor.Search;
 using static UnityEngine.UI.Image;
 using System.Linq;
+using JetBrains.Annotations;
+using UnityEngine.InputSystem;
 
 public class teleporternetwork : MonoBehaviour
 {
@@ -27,6 +29,8 @@ public class teleporternetwork : MonoBehaviour
     List<VisualElement> tpLines;
     public List<TeleporterUIScript> tpUIScripts;
 
+    PointerEventData pED = new PointerEventData(EventSystem.current) { pointerId = -1, };
+    List<RaycastResult> results = new List<RaycastResult>();
 
     Animator animatorFrom;
     Animator animatorTo;
@@ -83,6 +87,7 @@ public class teleporternetwork : MonoBehaviour
             else
             {
                 tpLines[i].Q<Button>("tp-selector-button").text = teleporters[i].name;
+                tpLines[i].Q<Button>("tp-selector-button").RegisterCallback<ClickEvent>(MyCallBack);
                 TeleporterUIScript newTpUIScript = new(teleporters[i], tpLines[i], this);
                 tpUIScripts.Add(newTpUIScript);
                 Debug.Log("Creating a TP UI Object for " + teleporters[i].name);
@@ -90,12 +95,17 @@ public class teleporternetwork : MonoBehaviour
         }
     }
 
+    void MyCallBack(ClickEvent evt)
+    {
+        Debug.Log("Clicked mouse on a thing");
+    }
+
     public void showNetworkUI()
     {
         //Shows teleport menu, makes sure the event system can select the menu objects, and pauses game.
         //EventSystem.current.SetSelectedGameObject(null);
         //EventSystem.current.SetSelectedGameObject(teleporterUiElements[0]);
-        Charinputs.instance.DisableMovementOnly();                              //TODO. Attacks need to be disabled too
+        //Charinputs.instance.DisableMovementOnly();                              //TODO. Attacks need to be disabled too
         //Charinputs.instance.EnableUIInputs();
         tpMenu.style.display = DisplayStyle.Flex;
         isMenuActive = true;
@@ -111,6 +121,7 @@ public class teleporternetwork : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        EventSystem.current.RaycastAll(pED, results);
     }
 
     public void Teleport(GameObject teleporter)

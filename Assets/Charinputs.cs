@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.UI;
 using MyBox;
-
+using UnityEngine.EventSystems;
 
 public class Charinputs : MonoBehaviour
 {
@@ -13,6 +13,7 @@ public class Charinputs : MonoBehaviour
     Charcontrol charcontrol;
     GameManager gamemanager;
     InfoHubManager infohub;
+    public EventSystem eventSystem;
 
     [ReadOnly] public InputActionMap uiInput;
 
@@ -31,6 +32,8 @@ public class Charinputs : MonoBehaviour
     public const string lightAtk = "Light Attack";
     public const string heavyAtk = "Heavy Attack";
     public const string rangedAtk = "Ranged Attack";
+
+
 
     private void Awake()
     {
@@ -52,6 +55,7 @@ public class Charinputs : MonoBehaviour
     {
         gamemanager = GameManager.instance;
         charcontrol = GetComponent<Charcontrol>();
+        eventSystem = GetComponentInChildren<EventSystem>();
 
         inputs.ActivateInput();
         move.Enable();
@@ -66,6 +70,11 @@ public class Charinputs : MonoBehaviour
         {
             StartCoroutine(DisableAllInputsForDuration(0f));
         }
+
+        
+        //PointerEventData pEdata = new(Charinputs.instance.eventSystem);
+        //Charinputs.instance.eventSystem.RaycastAll(pEdata, raycastResults);
+        //Debug.Log(raycastResults.ToArray().ToString());
     }
 
     public void OnLightAttack(InputValue value)
