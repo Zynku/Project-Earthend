@@ -32,12 +32,15 @@ public class CameraManager : MonoBehaviour
         mainCamera.Follow = gameManager.Player.transform;
     }
 
-    // Update is called once per frame
-    void Update()
+    public void ChangeCameraFollow(GameObject followObject)
     {
-        
+        mainCamera.Follow = followObject.transform;
     }
 
+    public void FollowPlayer()
+    {
+        mainCamera.Follow = gameManager.Player.transform;
+    }
     public void FadeToBlack()
     {
         blackOutScreen.SetActive(true);

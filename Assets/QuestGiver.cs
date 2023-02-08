@@ -52,7 +52,7 @@ public class QuestGiver : MonoBehaviour
 
     void LateUpdate()
     {
-        if (playerInRange && Input.GetButtonDown("Interact") && acceptQuestByProximity && !acceptQuestByName)
+        if (playerInRange && Charinputs.instance.interact.WasPressedThisFrame() && acceptQuestByProximity && !acceptQuestByName)
         {
             if (myQuest == null)
             {
@@ -63,7 +63,7 @@ public class QuestGiver : MonoBehaviour
                 StartCoroutine(AcceptQuest(myQuest));
             }
         }
-        else if ((playerInRange && Input.GetButtonDown("Interact") && acceptQuestByProximity && acceptQuestByName))
+        else if ((playerInRange && Charinputs.instance.interact.WasPressedThisFrame() && acceptQuestByProximity && acceptQuestByName))
         {
             if (questName == null)
             {

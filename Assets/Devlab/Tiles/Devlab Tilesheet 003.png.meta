@@ -1986,6 +1986,216 @@ TextureImporter:
       indices: 
       edges: []
       weights: []
+    - serializedVersion: 2
+      name: Devlab Tilesheet 003_42
+      rect:
+        serializedVersion: 2
+        x: 241
+        y: 122
+        width: 16
+        height: 16
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 0a4c44a67eeb6f84485b5cadf03f0a84
+      internalID: 1244621852
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Devlab Tilesheet 003_43
+      rect:
+        serializedVersion: 2
+        x: 241
+        y: 102
+        width: 16
+        height: 16
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: a794ceaa4d9a3344dab5053d5192c56d
+      internalID: 517920178
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Devlab Tilesheet 003_45
+      rect:
+        serializedVersion: 2
+        x: 262
+        y: 102
+        width: 16
+        height: 16
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 6217c20146a1e2d4cb0091ff81cd0114
+      internalID: 962667966
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Devlab Tilesheet 003_44
+      rect:
+        serializedVersion: 2
+        x: 262
+        y: 122
+        width: 16
+        height: 16
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 119198f124e321942a434eca17e45432
+      internalID: 230418700
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Devlab Tilesheet 003_46
+      rect:
+        serializedVersion: 2
+        x: 283
+        y: 122
+        width: 16
+        height: 16
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 275cc40e20241d54e98633ebf14cadfe
+      internalID: -1546649823
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Devlab Tilesheet 003_37
+      rect:
+        serializedVersion: 2
+        x: 283
+        y: 102
+        width: 16
+        height: 16
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: cbc1c150e2037fc49ae33d31202833b8
+      internalID: -1214303755
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Devlab Tilesheet 003_38
+      rect:
+        serializedVersion: 2
+        x: 304
+        y: 102
+        width: 16
+        height: 16
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 75814e37d0ab23f4eb6af6d6fd28561d
+      internalID: -1797211121
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Devlab Tilesheet 003_39
+      rect:
+        serializedVersion: 2
+        x: 304
+        y: 122
+        width: 16
+        height: 16
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 0383a1680196cb74dbf889162790c1da
+      internalID: -901970613
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Devlab Tilesheet 003_40
+      rect:
+        serializedVersion: 2
+        x: 325
+        y: 122
+        width: 16
+        height: 16
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: ae15f999169574841944da88b0e2c095
+      internalID: -103987915
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Devlab Tilesheet 003_41
+      rect:
+        serializedVersion: 2
+        x: 325
+        y: 102
+        width: 16
+        height: 16
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 28b78218e8006804cb52a6f7810f1995
+      internalID: 300296000
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     outline: []
     physicsShape: []
     bones: []
@@ -1998,82 +2208,92 @@ TextureImporter:
     secondaryTextures: []
     nameFileIdTable:
       Devlab Tilesheet 003_56: 7896262969838391534
-      Devlab Tilesheet 003_0: -1768486442
       Devlab Tilesheet 003_34: -2708262905899171756
       Devlab Tilesheet 003_60: -2506395928980384287
-      Devlab BG Drawer Tile 1: -2352826165923449835
-      Devlab Tilesheet 003_16: 1191725096793418451
-      Devlab Back Dirt Mound 1_3: -6952541941015599994
       Devlab Offpath Door: -2132355557
-      Devlab Tilesheet 003_2: -724562796
-      Devlab Tilesheet Glass Straight Sheen Tinted: 1945855399
+      Devlab Tilesheet 003_42: 1244621852
       Devlab Tilesheet 003_57: 1767077832478273727
-      Devlab Back Tile 3: -8209858920255543369
       Devlab Tilesheet 003_1: -1148281553
-      Devlab BG Drawer Tile 2: -4771108553390150535
-      Devlab Back Dirt Mound 2_2: -4790357771283013613
-      Devlab Tilesheet 003_19: 3211303424519929145
       Devlab Tilesheet 003_13: -999965165977335842
       Devlab Tilesheet 003_36: 7133848211558172655
-      Devlab BG Tile 5: -2456611111469497165
-      Devlab Tilesheet 003_21: 3118065507198612147
       Devlab Tilesheet 003_29: 1842285849177952913
-      Devlab Tilesheet 003_63: 3164756288111913526
+      Devlab Tilesheet 003_40: -103987915
       Devlab Back Dirt Mound 2_4: 879038649098644419
-      Devlab Back Dirt Mound 1_2: -3620037369096659901
-      Devlab Tilesheet Glass Straight Tinted: -727561581
       Devlab Tilesheet Glass Straight: -1134725374
-      Devlab Tilesheet 003_62: 5428550895797208761
       Devlab Tilesheet 003_17: -3002988694056620831
       Devlab Back Tile 1: -5498092708522915931
       Devlab Tilesheet Glass Corner Tinted: 875850916
       Devlab Tile 2: 7414268096547342732
+      Devlab Back Dirt Mound 1_1: 1837304126968442537
+      Devlab Tilesheet Glass Corner Sheen: 80052350
+      Devlab Tilesheet 003_24: 3737411745549314135
+      Devlab Back Dirt Mound 1_6: -5287479424808243050
+      Devlab Tilesheet 003_43: 517920178
+      Devlab Tilesheet 003_64: 5239771524116600164
+      Devlab Tilesheet 003_9: 3723972462937299690
+      Devlab Tilesheet Glass Pane Tinted: 634017160
+      Devlab Tilesheet 003_23: 4693684410214012977
+      Devlab Tilesheet 003_Stairs: -3513931749984003993
+      Devlab Tilesheet 003_11: -1552360621436937005
+      Devlab Back Tree 1_3: -3340437226474440694
+      Devlab Tilesheet 003_12: -1155479945119150215
+      Devlab Tilesheet 003_30: -4272499749290439781
+      Devlab Back Dirt Mound 1_7: -836381238670600118
+      Devlab Tilesheet 003_45: 962667966
+      Devlab Tilesheet 003_Bigass Screen: -7344887252275576192
+      Devlab Tile 1: 8287542772097880991
+      Devlab Tilesheet 003_0: -1768486442
+      Devlab BG Drawer Tile 1: -2352826165923449835
+      Devlab Tilesheet 003_16: 1191725096793418451
+      Devlab Back Dirt Mound 1_3: -6952541941015599994
+      Devlab Tilesheet Glass Straight Sheen Tinted: 1945855399
+      Devlab Tilesheet 003_2: -724562796
+      Devlab Back Tile 3: -8209858920255543369
+      Devlab Tilesheet 003_41: 300296000
+      Devlab BG Drawer Tile 2: -4771108553390150535
+      Devlab Back Dirt Mound 2_2: -4790357771283013613
+      Devlab Tilesheet 003_37: -1214303755
+      Devlab Tilesheet 003_19: 3211303424519929145
+      Devlab BG Tile 5: -2456611111469497165
+      Devlab Tilesheet 003_21: 3118065507198612147
+      Devlab Tilesheet 003_63: 3164756288111913526
+      Devlab Back Dirt Mound 1_2: -3620037369096659901
+      Devlab Tilesheet Glass Straight Tinted: -727561581
+      Devlab Tilesheet 003_62: 5428550895797208761
       Devlab Tilesheet 003_22: -2307266374584694525
       Devlab Tilesheet Glass Straight Sheen: -601912488
       Devlab Tilesheet 003_28: -5752861081875262245
-      Devlab Tilesheet 003_24: 3737411745549314135
       Devlab Back Dirt Mound 2_3: -3256056424108868531
-      Devlab Back Dirt Mound 1_6: -5287479424808243050
-      Devlab Back Dirt Mound 1_1: 1837304126968442537
-      Devlab Tilesheet Glass Corner Sheen: 80052350
       Devlab Tilesheet 003_10: 9168377686754467985
+      Devlab Tilesheet 003_44: 230418700
       Devlab Tilesheet 003_18: -8741012440220660030
-      Devlab Tilesheet 003_9: 3723972462937299690
+      Devlab Tilesheet Glass Corner Sheen Tinted: 1259219633
       Devlab Tilesheet 003_32: -195309888258985295
       Devlab BG Tile 2: -4661939953930399863
-      Devlab Tilesheet 003_33: 7690146226658476091
       Devlab Back Tree 1_1: -9160028970075402386
-      Devlab Tilesheet 003_35: 7498957662234194218
+      Devlab Tilesheet 003_33: 7690146226658476091
       Devlab BG Tile 4: 1720822796425802135
       Devlab Back Dirt Mound 1_4: -627137489928662301
+      Devlab Tilesheet 003_35: 7498957662234194218
       Devlab Tilesheet 003_15: -3509343974035953495
       Devlab Back Tile 2: 5313692483090934467
+      Devlab Back Tree 1_2: -7451622703984829151
       Devlab Tilesheet 003_Stairs Reverse: -7950784232809081871
       Devlab Tilesheet 003_27: 2936595302130797610
-      Devlab Tilesheet 003_23: 4693684410214012977
+      Devlab Tilesheet 003_39: -901970613
+      Devlab Tilesheet 003_38: -1797211121
       Devlab Tilesheet 003_65: 6484662021858382369
-      Devlab Back Tree 1_2: -7451622703984829151
-      Devlab Tilesheet 003_Stairs: -3513931749984003993
-      Devlab Tilesheet 003_64: 5239771524116600164
       Devlab Back Tree 1_4: -6910276545929025202
-      Devlab Tilesheet Glass Pane Tinted: 634017160
-      Devlab Tilesheet 003_11: -1552360621436937005
       Devlab BG Tile 1: 5771839997050903671
       Devlab Tilesheet 003_20: -991305513584944583
       Devlab Back Dirt Mound 1_5: -8966485752122340001
       Devlab Tilesheet 003_8: -8868765481323418589
       Devlab Tilesheet 003_25: 3133258316082800343
-      Devlab Tilesheet Glass Corner Sheen Tinted: 1259219633
       Devlab Tilesheet 003_26: 7351306218109447648
-      Devlab Back Tree 1_3: -3340437226474440694
-      Devlab Tilesheet 003_12: -1155479945119150215
-      Devlab Tilesheet 003_30: -4272499749290439781
-      Devlab Back Dirt Mound 1_7: -836381238670600118
+      Devlab Tilesheet Glass Corner: -1161541188
       Devlab Tilesheet 003_14: -437959874996424295
       Devlab Back Dirt Mound 2_1: 5072414094255917829
-      Devlab Tilesheet Glass Corner: -1161541188
-      Devlab Tilesheet 003_Bigass Screen: -7344887252275576192
-      Devlab Tile 1: 8287542772097880991
+      Devlab Tilesheet 003_46: -1546649823
       Devlab BG Tile 3: 8104541585102848441
       Devlab Tilesheet 003_31: -2318571819864638827
   spritePackingTag: 

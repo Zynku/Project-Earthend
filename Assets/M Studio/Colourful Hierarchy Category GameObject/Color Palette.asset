@@ -63,6 +63,11 @@ MonoBehaviour:
     backgroundColor: {r: 0.34185937, g: 0.34478125, b: 0.374, a: 1}
     textAlignment: 4
     fontStyle: 0
+  - keyChar: '[SYS3]'
+    textColor: {r: 1, g: 1, b: 1, a: 1}
+    backgroundColor: {r: 0.745283, g: 0.745283, b: 0.745283, a: 1}
+    textAlignment: 4
+    fontStyle: 0
   - keyChar: '[CAM]'
     textColor: {r: 1, g: 1, b: 1, a: 1}
     backgroundColor: {r: 0.48509094, g: 0.8396226, b: 0.18535063, a: 1}

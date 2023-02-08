@@ -123,6 +123,7 @@ public class GameManager : MonoBehaviour
         {
             if (volumeComponent.name == "LiftGammaGain") { darkness = volumeComponent as LiftGammaGain;}
         }
+        darkness.gain.value = new Vector4(1, 1, 1, 0);
     }
 
     public void AssignAllReferences()   
@@ -134,6 +135,7 @@ public class GameManager : MonoBehaviour
     {
         //Debug.Log($"Current Scene number is {SceneManager.GetActiveScene().buildIndex} and Scene name is {SceneManager.GetActiveScene().name}");
         //Debug.Log($"Time scale is {Time.timeScale}");
+        //Debug.Log($"Gain is {darkness.gain.value}.");
         if (Keyboard.current.pKey.wasPressedThisFrame) { PauseGame(); }
         if (Keyboard.current.oKey.wasPressedThisFrame) { ResumeGame(); }
 

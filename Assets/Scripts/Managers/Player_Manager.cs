@@ -5,6 +5,10 @@ using MyBox;
 
 public class Player_Manager : MonoBehaviour
 {
+    Charcontrol charcontrol;
+    Charanimation charanimation;
+    public GameObject playerCamFollowObject;
+
     public GameObject playerPrefab;
     [ReadOnly] public GameObject playerLiveRef;
     [ReadOnly] public GameObject handSprite;
@@ -17,8 +21,17 @@ public class Player_Manager : MonoBehaviour
     [HideInInspector] public Color weaponStartColor;
     private float lerpTimeElapsed;
 
+    public enum WalkDirection
+    {
+        LEFT,
+        RIGHT
+    }
+
     void Start()
     {
+        charcontrol = playerLiveRef.GetComponent<Charcontrol>();
+        charanimation = playerLiveRef.GetComponent<Charanimation>();
+
         playerRespawnPoint = GameManager.instance.playerRespawnPoint;
         playerStartColor = playerLiveRef.GetComponent<SpriteRenderer>().color;
         handStartColor = handSprite.GetComponent<SpriteRenderer>().color;
@@ -162,6 +175,111 @@ public class Player_Manager : MonoBehaviour
             if (itemAnimator != null) { itemAnimator.enabled = true; }
         }
         preventPlayerMovement = false;
+    }
+
+    public void SnapCameraToPosition(Vector2 position)
+    {
+        charcontrol.cameraFollowObject.transform.position = position;
+    }
+
+    public void ResetCameraToPlayer()
+    {
+        charcontrol.cameraFollowObject.transform.position = new Vector3(0, 0, 0);
+    }
+
+    /// <summary>
+    /// Forces the player to walk in a certain direction for a given amount of time
+    /// </summary>
+    public void ForceWalk(WalkDirection walkDir, float duration)
+    {
+        switch (walkDir)
+        {
+            case WalkDirection.LEFT:    //Forcing the character to walk left
+                if (charcontrol.facingDir == -1) //If we're facing left, its already the right direction
+                {
+                    Debug.Log("Must go left, and the player is facing left. Great!");
+                }
+                else                            //If, however, we're facing right, fix that
+                {
+                    Debug.Log("Must go left, and the player is facing right. Flipping X dir to match.");
+                    charcontrol.FlipXDirLeft();
+                }
+                break;
+            case WalkDirection.RIGHT:
+                if (charcontrol.facingDir == 1) //If we're facing right, its already the right direction
+                {
+                    Debug.Log("Must go right, and the player is facing right. Great!");
+                }
+                else                            //If, however, we're facing left, fix that
+                {
+                    Debug.Log("Must go right, and the player is facing left. Flipping X dir to match.");
+                    charcontrol.FlipXDirRight();
+                }
+                break;
+        }
+        StartCoroutine(ForceWalkCO(5));
+    }
+
+    /// <summary>
+    /// Forces the player to run in a certain direction for a given amount of time
+    /// </summary>
+    public void ForceRun(WalkDirection runDir, float duration)
+    {
+        switch (runDir)
+        {
+            case WalkDirection.LEFT:    //Forcing the character to walk left
+                if (charcontrol.facingDir == -1) //If we're facing left, its already the right direction
+                {
+                    Debug.Log("Must go left, and the player is facing left. Great!");
+                }
+                else                            //If, however, we're facing right, fix that
+                {
+                    Debug.Log("Must go left, and the player is facing right. Flipping X dir to match.");
+                    charcontrol.FlipXDirLeft();
+                }
+                break;
+            case WalkDirection.RIGHT:
+                if (charcontrol.facingDir == 1) //If we're facing right, its already the right direction
+                {
+                    Debug.Log("Must go right, and the player is facing right. Great!");
+                }
+                else                            //If, however, we're facing left, fix that
+                {
+                    Debug.Log("Must go right, and the player is facing left. Flipping X dir to match.");
+                    charcontrol.FlipXDirRight();
+                }
+                break;
+        }
+        StartCoroutine(ForceRunCO(duration));
+    }
+
+    private IEnumerator ForceWalkCO(float duration)
+    {
+        float forceWalkTimer = duration;
+        while (forceWalkTimer > 0)
+        {
+            yield return new WaitForEndOfFrame();
+            forceWalkTimer -= Time.deltaTime;
+            Debug.Log($"Forcing walk for {forceWalkTimer} more seconds");
+            charcontrol.ForceWalking();
+        }
+    }
+
+    private IEnumerator ForceRunCO(float duration)
+    {
+        float forceRunTimer = duration;
+        charanimation.animator.SetBool("Running", true);
+        StartCoroutine(Charinputs.instance.DisableAllInputsForDuration(0.7f));
+        while (forceRunTimer > 0)
+        {
+            yield return new WaitForEndOfFrame();
+            forceRunTimer -= Time.deltaTime;
+            Debug.Log($"Forcing walk for {forceRunTimer} more seconds");
+            charcontrol.ForceRunning();
+            charcontrol.currentState = Charcontrol.State.Running;
+        }
+        Debug.Log("Done running");
+        charanimation.animator.SetBool("Running", false);
     }
 
     public IEnumerator DoFadeOut(float duration)    //Fades from current player color to transparent over duration time

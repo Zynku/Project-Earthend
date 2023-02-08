@@ -71,7 +71,17 @@ public class Charinputs : MonoBehaviour
             StartCoroutine(DisableAllInputsForDuration(0f));
         }
 
-        
+        if (Keyboard.current.numpad4Key.wasPressedThisFrame)
+        {
+            GameManager.instance.playerManager.ForceRun(Player_Manager.WalkDirection.LEFT, 1f);
+        }
+
+        if (Keyboard.current.numpad6Key.wasPressedThisFrame)
+        {
+            GameManager.instance.playerManager.ForceRun(Player_Manager.WalkDirection.RIGHT, 1f);
+        }
+
+
         //PointerEventData pEdata = new(Charinputs.instance.eventSystem);
         //Charinputs.instance.eventSystem.RaycastAll(pEdata, raycastResults);
         //Debug.Log(raycastResults.ToArray().ToString());

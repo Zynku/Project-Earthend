@@ -8,6 +8,7 @@ using UnityEngine.InputSystem;
 public class Charcontrol : MonoBehaviour
 {
     public static Charcontrol Instance;
+    public GameObject cameraFollowObject;
     Charanimation charanimation;
     Charattacks charattacks;
     Chareffects chareffects;
@@ -74,10 +75,12 @@ public class Charcontrol : MonoBehaviour
     public float HorizontalDirection;
     public float airHorizontalAcc;
     [HideInInspector] public bool jumped = false;
-    [HideInInspector] public float fallThreshold;
+    public float fallThreshold;
     [HideInInspector] public bool airJumped;
     public int airJumps = 2;
     public int airJumpsHas;
+    public float coyoteTargetTime;  //A couple extra milliseconds of time after not being grounded and you're still allowed to jump
+    public float coyoteTime;
 
     [Foldout("Ground and Wall Checks", true)]
     public bool isGrounded;
@@ -123,8 +126,6 @@ public class Charcontrol : MonoBehaviour
     public float switchingDirTime;
     public float switchingDirTargetTime = 0.2f;
     public bool switchedDirToLeft, switchedDirToRight;
-
-    
 
     public enum State
     {
@@ -236,6 +237,10 @@ public class Charcontrol : MonoBehaviour
         if (inCombat) { combatStateTime -= Time.deltaTime; }
         else { combatStateTime = combatStateTargetTime; }
         if (combatStateTime < 0) { combatStateTime = 0; }
+
+        if (coyoteTime < 0) { coyoteTime = 0;  }
+        if (isGrounded) { coyoteTime = coyoteTargetTime; }
+        else { coyoteTime -= Time.deltaTime; }
 
         switchingDirTime -= Time.deltaTime;
         if (switchingDirTime < 0) { switchingDirTime = 0; switchedDirToLeft = false; switchedDirToRight = false; }
@@ -375,13 +380,15 @@ public class Charcontrol : MonoBehaviour
                 break;
 
             case State.COMBAT_Air_Attacking:
-                inCombat = true;
-                combatStateTime = combatStateTargetTime;
-                if (isGrounded)
                 {
-                    currentState = State.COMBAT_Idle;
+                    inCombat = true;
+                    combatStateTime = combatStateTargetTime;
+                    if (isGrounded)
+                    {
+                        currentState = State.COMBAT_Idle;
+                    }
+                    Falling();
                 }
-                Falling();
                 break;
 
             case State.COMBAT_Rolling:
@@ -584,10 +591,12 @@ public class Charcontrol : MonoBehaviour
                         currentState = State.Idle;
                     }
                     //Transition to AirJumping
-                    if (Charinputs.instance.move.ReadValue<Vector2>().y > 0 && airJumpsHas != 0)
+                    if (Charinputs.instance.move.ReadValue<Vector2>().y > 0)
                     {
-                        currentState = State.AirJumping;
+                        if(coyoteTime > 0) { currentState = State.Jumping; }    //If we have coyote time, allow a normal jump
+                        else if (airJumpsHas != 0) { currentState = State.AirJumping; } //If not, we've been in the air long enough, so allow an air jump
                     }
+                        
                     
                     if (inGrabbable_LedgeZone && Charinputs.instance.move.ReadValue<Vector2>().x == ledgeScript.ledgeDirInt)   //If you're near a ledge and you're facing the right way
                     {
@@ -811,6 +820,11 @@ public class Charcontrol : MonoBehaviour
         canFlipXDir();
     }
 
+    public void ForceWalking()
+    {
+        rb2d.velocity = new Vector2(walkSpeed * facingDir, rb2d.velocity.y);
+    }
+
     public void CrouchingWalking()
     {
         rb2d.velocity = new Vector2(crouchWalkingSpeed * Charinputs.instance.move.ReadValue<Vector2>().x, rb2d.velocity.y);
@@ -823,6 +837,11 @@ public class Charcontrol : MonoBehaviour
         rb2d.velocity = new Vector2(runSpeed * Charinputs.instance.move.ReadValue<Vector2>().x, rb2d.velocity.y);
         rolled = false;
         canFlipXDir();
+    }
+
+    public void ForceRunning()
+    {
+        rb2d.velocity = new Vector2(runSpeed * facingDir, rb2d.velocity.y);
     }
 
     public void Jumping()
@@ -1001,6 +1020,18 @@ public class Charcontrol : MonoBehaviour
         {
             transform.localScale = new Vector3(-Mathf.Abs(scale.x), scale.y, scale.z);
         }
+    }
+
+    public void FlipXDirRight()
+    {
+        transform.localScale = scale;
+        facingDir = 1;
+    }
+
+    public void FlipXDirLeft()
+    {
+        transform.localScale = new Vector3(-Mathf.Abs(scale.x), scale.y, scale.z);
+        facingDir = -1;
     }
 
     public void onDodge(int force)  //This function called on the last frame of the dodge animation via AnimationEvent

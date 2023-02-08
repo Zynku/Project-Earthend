@@ -171,6 +171,37 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!1 &2446302823703765042
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 7035541441451627905}
+  m_Layer: 0
+  m_Name: Camera Follow Object
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &7035541441451627905
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2446302823703765042}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 0.2, y: 0.2, z: 0.2}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 4714260749208962286}
+  m_RootOrder: -1
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &2533638324985885764
 GameObject:
   m_ObjectHideFlags: 0
@@ -5297,6 +5328,7 @@ Transform:
   - {fileID: 1588018902}
   - {fileID: 6856508595741552670}
   - {fileID: 6856508597295786203}
+  - {fileID: 7035541441451627905}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -5384,6 +5416,68 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2ce22384a3a0f5246a0921ef34a51052, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  inputs: {fileID: 0}
+  eventSystem: {fileID: 0}
+  uiInput:
+    m_Name: 
+    m_Id: 
+    m_Asset: {fileID: 0}
+    m_Actions: []
+    m_Bindings: []
+  move:
+    m_Name: 
+    m_Type: 0
+    m_ExpectedControlType: 
+    m_Id: 
+    m_Processors: 
+    m_Interactions: 
+    m_SingletonActionBindings: []
+    m_Flags: 0
+  interact:
+    m_Name: 
+    m_Type: 0
+    m_ExpectedControlType: 
+    m_Id: 
+    m_Processors: 
+    m_Interactions: 
+    m_SingletonActionBindings: []
+    m_Flags: 0
+  dodge:
+    m_Name: 
+    m_Type: 0
+    m_ExpectedControlType: 
+    m_Id: 
+    m_Processors: 
+    m_Interactions: 
+    m_SingletonActionBindings: []
+    m_Flags: 0
+  lightAttack:
+    m_Name: 
+    m_Type: 0
+    m_ExpectedControlType: 
+    m_Id: 
+    m_Processors: 
+    m_Interactions: 
+    m_SingletonActionBindings: []
+    m_Flags: 0
+  heavyAttack:
+    m_Name: 
+    m_Type: 0
+    m_ExpectedControlType: 
+    m_Id: 
+    m_Processors: 
+    m_Interactions: 
+    m_SingletonActionBindings: []
+    m_Flags: 0
+  rangedAttack:
+    m_Name: 
+    m_Type: 0
+    m_ExpectedControlType: 
+    m_Id: 
+    m_Processors: 
+    m_Interactions: 
+    m_SingletonActionBindings: []
+    m_Flags: 0
 --- !u!114 &4714260749208962282
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5410,6 +5504,7 @@ MonoBehaviour:
   inCombat: 0
   currentComboAnimName: 
   currentComboAnimLength: 0
+  animator: {fileID: 0}
 --- !u!114 &2957286605088644087
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5422,9 +5517,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f5d896844c7126849ad6e09b018b8f13, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  cameraFollowObject: {fileID: 2446302823703765042}
   rb2d: {fileID: 4714260749208962284}
   currentState: 17
   lastState: 0
+  stateChanged: 0
   xVel: 0
   yVel: 0
   inputX: 0
@@ -5454,6 +5551,7 @@ MonoBehaviour:
   runStateLingerTime: 0
   groundLinearDrag: 3
   rolled: 0
+  dodgeForce: 0
   rollDrag: 0.2
   jumpForce: 3.5
   airLinearDrag: 1
@@ -5464,6 +5562,8 @@ MonoBehaviour:
   airJumped: 0
   airJumps: 1
   airJumpsHas: 1
+  coyoteTargetTime: 0
+  coyoteTime: 0
   isGrounded: 1
   groundCheckDistances: 0.05
   groundYCheckOffset: -0.26
@@ -5515,9 +5615,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   currentState: Idle
   comboFamilies: []
+  comboFamilyTypes: []
   allLightCombosEver:
   - comboName: Double Swing
     comboType: 0
+    comboDir: 0
     myComboFamilyName: No Family
     myComboFamilyOrder: -1
     moveName: Light x 2
@@ -5539,6 +5641,7 @@ MonoBehaviour:
       attackType: 0
   - comboName: Triple Light
     comboType: 0
+    comboDir: 0
     myComboFamilyName: No Family
     myComboFamilyOrder: -1
     moveName: Light x 3
@@ -5563,6 +5666,7 @@ MonoBehaviour:
       attackType: 0
   - comboName: Single Swing
     comboType: 0
+    comboDir: 0
     myComboFamilyName: No Family
     myComboFamilyOrder: -1
     moveName: Light x1
@@ -5581,6 +5685,7 @@ MonoBehaviour:
       attackType: 0
   - comboName: Double Swing
     comboType: 0
+    comboDir: 0
     myComboFamilyName: 
     myComboFamilyOrder: 0
     moveName: Light x2
@@ -5602,6 +5707,7 @@ MonoBehaviour:
       attackType: 0
   - comboName: Triple Swing
     comboType: 0
+    comboDir: 0
     myComboFamilyName: 
     myComboFamilyOrder: 0
     moveName: Light x3
@@ -5626,6 +5732,7 @@ MonoBehaviour:
       attackType: 0
   - comboName: Quad Swing
     comboType: 0
+    comboDir: 0
     myComboFamilyName: 
     myComboFamilyOrder: 0
     moveName: Light x4
@@ -5654,6 +5761,7 @@ MonoBehaviour:
   allHeavyCombosEver:
   - comboName: Mega Heavyyyy
     comboType: 0
+    comboDir: 0
     myComboFamilyName: No Family
     myComboFamilyOrder: -1
     moveName: Heavy x 5
@@ -5687,6 +5795,7 @@ MonoBehaviour:
       attackType: 1
   - comboName: Heavy
     comboType: 0
+    comboDir: 0
     myComboFamilyName: 
     myComboFamilyOrder: 0
     moveName: Heavy
@@ -5706,6 +5815,7 @@ MonoBehaviour:
   allRangedCombosEver:
   - comboName: Ranged Shot
     comboType: 0
+    comboDir: 0
     myComboFamilyName: 
     myComboFamilyOrder: 0
     moveName: Ranged x 1
@@ -5725,6 +5835,7 @@ MonoBehaviour:
   currentPossibleCombos:
   - comboName: L-A1 Attack
     comboType: 0
+    comboDir: 0
     myComboFamilyName: L-A Attack
     myComboFamilyOrder: -1
     moveName: 
@@ -5744,6 +5855,7 @@ MonoBehaviour:
       attackType: 0
   - comboName: L-A2 Attack
     comboType: 0
+    comboDir: 0
     myComboFamilyName: L-A Attack
     myComboFamilyOrder: -1
     moveName: 
@@ -5766,6 +5878,7 @@ MonoBehaviour:
       attackType: 0
   - comboName: L-A3 Attack
     comboType: 0
+    comboDir: 0
     myComboFamilyName: L-A Attack
     myComboFamilyOrder: -1
     moveName: 
@@ -5791,6 +5904,7 @@ MonoBehaviour:
       attackType: 0
   - comboName: Ranged Close Shot
     comboType: 0
+    comboDir: 0
     myComboFamilyName: Ranged 1
     myComboFamilyOrder: -1
     moveName: 
@@ -5810,6 +5924,7 @@ MonoBehaviour:
       attackType: 4
   - comboName: Light then Heavy
     comboType: 0
+    comboDir: 0
     myComboFamilyName: No Family
     myComboFamilyOrder: -1
     moveName: Light then Heavy
@@ -5831,6 +5946,7 @@ MonoBehaviour:
       attackType: 2
   - comboName: Light Held
     comboType: 0
+    comboDir: 0
     myComboFamilyName: No Family
     myComboFamilyOrder: -1
     moveName: Air Launch
@@ -5848,14 +5964,17 @@ MonoBehaviour:
       attackDamage: 0
       attackType: 1
   currentAttacks: []
+  comboBufferRef: []
+  currentComboRef: []
   currentlyComboing: 0
-  inputTargetTime: 0.155
-  inputTime: 0
-  buttonHeldThreshold: 0.225
+  comboChainTimeLocLeeway: 0
+  canAcceptAttackInput: 0
+  clearAttacksDelay: 0
   longestComboLength: 4
   longestCombo:
     comboName: Quad Swing
     comboType: 0
+    comboDir: 0
     myComboFamilyName: No Family
     myComboFamilyOrder: -1
     moveName: Light x4
@@ -5904,6 +6023,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   items: []
+  inventoryItems: []
   inventorySpace: 40
   money: 0
 --- !u!114 &4714260749208962283
@@ -5921,7 +6041,9 @@ MonoBehaviour:
   maxHealth: 200
   currentHealth: 1
   damageDoneToMe: 0
+  onDamageCoolDown: 0
   collisionDir: 0
+  dmgCooldownTime: 0
   dmgCooldownTargetTime: 0.1
   floatingDmgTextPrefab: {fileID: 8643512900438567647, guid: ad1b848197b5aff4c8f3d74d8cb7a242,
     type: 3}
@@ -5931,6 +6053,7 @@ MonoBehaviour:
   healthbarOver: {fileID: 0}
   healthbarUnder: {fileID: 0}
   level: 1
+  playerDead: 0
   poisoned: 0
   poisonDamage: 5
   poisonTargetTime: 5
@@ -5957,7 +6080,10 @@ MonoBehaviour:
   jumpVolume: 1
   coin_Pickup: {fileID: 0}
   coinPickupVolume: 1
-  hit_Something: {fileID: 8300000, guid: 9b6d2f1102ac9d241a69536975fa75d4, type: 3}
+  hit_Something:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
   hitSomethingVolume: 1
   voice_jump:
   - {fileID: 8300000, guid: b537414e86433054abf3690484d2964e, type: 3}
@@ -5970,8 +6096,8 @@ MonoBehaviour:
   - {fileID: 8300000, guid: 9f19a9bfbab5f6d4eaad69b04ba5fa5f, type: 3}
   - {fileID: 8300000, guid: 69ae4f3caf8f2c44982ec7c1b73b40ab, type: 3}
   voiceSwingVolume: 1
-  voice_get_hit: []
-  voiceGetHitVolume: 1
+  voiceBeenHit: []
+  voiceBeenHitVol: 1
   Jumped: 0
 --- !u!114 &5018750462390839927
 MonoBehaviour:
@@ -5988,6 +6114,10 @@ MonoBehaviour:
   runParticles: {fileID: 2957286604354441660}
   jumpParticles: {fileID: 6856508596791008803}
   meleeFX: {fileID: 6856508595741554657}
+  IFrameBlinkDelayStart: 0
+  IFrameBlinkDelayEnd: 0
+  IFrameBlinkDelayCurr: 0
+  IFrameBlinking: 0
 --- !u!114 &8801354859547125414
 MonoBehaviour:
   m_ObjectHideFlags: 0

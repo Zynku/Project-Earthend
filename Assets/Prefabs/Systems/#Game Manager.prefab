@@ -60700,6 +60700,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7ff610309e7361342bbbc23cdcf4ca1c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  playerCamFollowObject: {fileID: 0}
   playerPrefab: {fileID: 4714260749208962275, guid: 86a5801330cfb6149b91312433e75217,
     type: 3}
   playerLiveRef: {fileID: 0}

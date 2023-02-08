@@ -29,7 +29,7 @@ public class Charanimation : MonoBehaviour
     public string currentComboAnimName;
     public float currentComboAnimLength;
 
-    Animator animator;
+    [HideInInspector] public Animator animator;
     Rigidbody2D rb2d;
     Charcontrol charcontrol;
     Charattacks charattacks;
