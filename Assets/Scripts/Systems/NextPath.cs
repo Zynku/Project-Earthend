@@ -99,8 +99,8 @@ public class NextPath : MonoBehaviour
         GameManager.instance.FadeFromBlack(0.5f);
         yield return new WaitForSeconds(0.4f);
         linkedPathScript.myCamera.Priority = 5;
-        block.SetActive(true);
-        linkedPathScript.block.SetActive(true);
+        //block.SetActive(true);
+        //linkedPathScript.block.SetActive(true);
     }
 
     public void MovePlayer()
