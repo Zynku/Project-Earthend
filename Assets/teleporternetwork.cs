@@ -6,9 +6,7 @@ using UnityEngine.EventSystems;
 using UnityEditor;
 using UnityEngine.UIElements;
 using UnityEditor.Search;
-using static UnityEngine.UI.Image;
 using System.Linq;
-using JetBrains.Annotations;
 using UnityEngine.InputSystem;
 
 public class teleporternetwork : MonoBehaviour
@@ -67,13 +65,14 @@ public class teleporternetwork : MonoBehaviour
 
     private void Start()
     {
-        Player = GameManager.instance.Player;                      //Finds player automatically
-        teleporters = GameObject.FindGameObjectsWithTag("teleporter");  //Finds all teleporters in scene and assigns them to the array
+        Player = GameManager.instance.Player;                             //Finds player automatically
+        teleporters = GameObject.FindGameObjectsWithTag("teleporter");      //Finds all teleporters in scene and assigns them to the array
         teleportNetwork = GetComponentInChildren<teleporternetwork>();
 
         UIDocument UIDoc = GetComponent<UIDocument>();
         UIDoc.enabled = true;
         tpMenu = GetComponent<UIDocument>().rootVisualElement;
+        tpMenu.RegisterCallback<ClickEvent>(MyCallBack, TrickleDown.TrickleDown);
         tpMenu.style.display = DisplayStyle.None;
         tpLines = tpMenu.Query<VisualElement>("tp-info").ToList();                  //Gets all 32 visualelements created
 
@@ -81,13 +80,16 @@ public class teleporternetwork : MonoBehaviour
         {
             if(i > teleporters.Length-1) 
             {
-                Debug.Log("Ran out of teleporters to make UI Elements for!");
+                //Debug.Log("Ran out of teleporters to make UI Elements for!");
                 tpLines[i].style.display = DisplayStyle.None;
             }
             else
             {
                 tpLines[i].Q<Button>("tp-selector-button").text = teleporters[i].name;
                 tpLines[i].Q<Button>("tp-selector-button").RegisterCallback<ClickEvent>(MyCallBack);
+                tpLines[i].RegisterCallback<ClickEvent>(MyCallBack);
+                tpLines[i].Q<Button>("tp-selector-button").CaptureMouse();
+
                 TeleporterUIScript newTpUIScript = new(teleporters[i], tpLines[i], this);
                 tpUIScripts.Add(newTpUIScript);
                 Debug.Log("Creating a TP UI Object for " + teleporters[i].name);

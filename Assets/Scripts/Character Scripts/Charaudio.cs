@@ -57,7 +57,7 @@ public class Charaudio : MonoBehaviour
 
     private void Update()
     {
-       
+
     }
 
     public void AudOnFootStep()
@@ -133,8 +133,7 @@ public class Charaudio : MonoBehaviour
         {
             audiosource.volume = hitSomethingVolume;
             audiosource.pitch = 1;
-            audiosource.clip = hit_Something[Random.Range(0, hit_Something.Length - 1)];
-            audiosource.Play();
+            audiosource.PlayOneShot(hit_Something[Random.Range(0, hit_Something.Length - 1)]);
         }
     }
 
@@ -167,10 +166,10 @@ public class Charaudio : MonoBehaviour
     }
 }
 
-                        
-                    
-                
-            
-        
-    
+
+
+
+
+
+
 

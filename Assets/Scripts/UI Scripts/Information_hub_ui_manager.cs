@@ -7,6 +7,8 @@ using UnityEngine.UIElements;
 
 public class Information_hub_ui_manager : MonoBehaviour
 {
+    public bool IHUIActive;
+
     public VisualElement root;
     public VisualElement parentElement;
     Button leftArrow;
@@ -45,7 +47,7 @@ public class Information_hub_ui_manager : MonoBehaviour
         parentElement = root.Q<VisualElement>("whole-screen");
         leftArrow = root.Q<Button>("page-left-button");
         rightArrow = root.Q<Button>("page-right-button");
-        inventoryslots = root.Query<VisualElement>("inventory-sprite").ToList();
+        inventoryslots = root.Query<VisualElement>("IHUI-sprite").ToList();
 
         //Debug.Log($"{inventoryslots.Count} inventory slots counted!");
 
@@ -56,6 +58,15 @@ public class Information_hub_ui_manager : MonoBehaviour
     private void Start()
     {
         parentElement.style.display = DisplayStyle.None;
+    }
+
+    private void Update()
+    {
+        if (Charinputs.instance.IHUI.WasPressedThisFrame())
+        {
+            if (!IHUIActive) { parentElement.style.display = DisplayStyle.Flex; }
+            else { parentElement.style.display = DisplayStyle.None; }
+        }
     }
 
     public void DebugYourLog()

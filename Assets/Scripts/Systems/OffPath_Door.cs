@@ -19,6 +19,7 @@ public class OffPath_Door : MonoBehaviour
     [Foldout("Variables", true)]
     private bool doorLinked = false;
     public string doorDestination;
+    public bool doFadeOut = true;
     [ReadOnly]public bool playerInRange;
     [ReadOnly]public bool playerAtMiddle;
     
@@ -91,7 +92,10 @@ public class OffPath_Door : MonoBehaviour
         float playerYPos = player.transform.position.y; //Records current Y pos so we stay constant
         Vector2 startPosition = player.transform.position;
         Vector2 endPosition = transform.position;   //End position is the door transform point
-        StartCoroutine(Charinputs.instance.DisableAllInputsForDuration(2f));        //Stops player from moving around
+        float inputDisabledTime;
+        if (doFadeOut) { inputDisabledTime = 2; }
+        else { inputDisabledTime = 1; }
+        StartCoroutine(Charinputs.instance.DisableAllInputsForDuration(inputDisabledTime));        //Stops player from moving around
         while (!playerAtMiddle) //While loop until player reaches the middle
         {
             //Debug.Log($"Player is {Vector3.Distance(player.transform.position, transform.position)} away");
@@ -106,12 +110,18 @@ public class OffPath_Door : MonoBehaviour
                 //Debug.Log("Player is in the middle of the door!");
                 StartCoroutine(GameManager.instance.playerManager.DoFadeOut(0.2f)); //Fade Player out
                 yield return new WaitForSeconds(0.2f);
-                GameManager.instance.FadeToBlack(0.5f);
-                yield return new WaitForSeconds(0.6f);
+                if (doFadeOut) 
+                {
+                    GameManager.instance.FadeToBlack(0.5f);
+                    yield return new WaitForSeconds(0.6f);
+                }
                 MovePlayer();   //Teleports to new door location
                 yield return new WaitForSeconds(0.3f);
-                GameManager.instance.FadeFromBlack(0.5f);
-                yield return new WaitForSeconds(0.4f);
+                if (doFadeOut) 
+                {
+                    GameManager.instance.FadeFromBlack(0.5f);
+                    yield return new WaitForSeconds(0.4f);
+                }
                 StartCoroutine(GameManager.instance.playerManager.DoFadeIn(0.2f));  //Fade Player in
                 yield break;
             }

@@ -459,7 +459,7 @@ public class Charcontrol : MonoBehaviour
                         //Debug.Log("Pressing horizontal...");
                     }
                     //Transition to Jumping
-                    if (Charinputs.instance.move.ReadValue<Vector2>().y > 0)
+                    if (Charinputs.instance.jump.WasPressedThisFrame())
                     {
                         currentState = State.Jumping;
                         //Debug.Log("Pressing vertical...");
@@ -531,9 +531,15 @@ public class Charcontrol : MonoBehaviour
                         currentState = State.Idle;
                     }
 
-                    if (Charinputs.instance.move.ReadValue<Vector2>().y > 0)
+                    //if (Charinputs.instance.move.ReadValue<Vector2>().y > 0)
+                    if (Charinputs.instance.jump.WasPressedThisFrame())
                     {
                         currentState = State.Jumping;
+                    }
+
+                    if (Charinputs.instance.dodge.WasPressedThisFrame())
+                    {
+                        currentState = State.Dodging;
                     }
                 }
                 break;
@@ -591,7 +597,7 @@ public class Charcontrol : MonoBehaviour
                         currentState = State.Idle;
                     }
                     //Transition to AirJumping
-                    if (Charinputs.instance.move.ReadValue<Vector2>().y > 0)
+                    if (Charinputs.instance.jump.WasPressedThisFrame())
                     {
                         if(coyoteTime > 0) { currentState = State.Jumping; }    //If we have coyote time, allow a normal jump
                         else if (airJumpsHas != 0) { currentState = State.AirJumping; } //If not, we've been in the air long enough, so allow an air jump

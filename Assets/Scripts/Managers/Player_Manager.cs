@@ -177,6 +177,24 @@ public class Player_Manager : MonoBehaviour
         preventPlayerMovement = false;
     }
 
+    public void SetGravityForDuration(float gravity, float duration)
+    {
+        StartCoroutine(SetGravityForDurationCO(gravity, duration));
+    }
+    private IEnumerator SetGravityForDurationCO(float gravity, float duration)
+    {
+        float endTime = Time.time + duration;
+        float startingGravity = playerLiveRef.GetComponent<Rigidbody2D>().gravityScale;
+        while (Time.time < endTime)
+        {
+            yield return new WaitForEndOfFrame();
+            playerLiveRef.GetComponent<Rigidbody2D>().gravityScale = gravity;
+            Debug.Log($"Temporarily setting gravity to {gravity} for {duration} seconds");
+        }
+        playerLiveRef.GetComponent<Rigidbody2D>().gravityScale = startingGravity;
+        Debug.Log($"Resetting gravity to {startingGravity}");
+    }
+
     public void SnapCameraToPosition(Vector2 position)
     {
         charcontrol.cameraFollowObject.transform.position = position;
@@ -186,6 +204,7 @@ public class Player_Manager : MonoBehaviour
     {
         charcontrol.cameraFollowObject.transform.position = new Vector3(0, 0, 0);
     }
+
 
     /// <summary>
     /// Forces the player to walk in a certain direction for a given amount of time

@@ -17,12 +17,12 @@ public class InventoryManager : MonoBehaviour
         inventory = GameManager.instance.Player.GetComponent<Charpickup_inventory>();
 
         VisualElement root = GetComponent<UIDocument>().rootVisualElement;
-        inventorySlots = root.Query<VisualElement>("inventory-sprite").ToList();
+        inventorySlots = root.Query<VisualElement>("IHUI-sprite").ToList();
 
         foreach (var invSlot in inventorySlots)
         {
             slotNumber++;
-            VisualElement sprite = invSlot.Q<VisualElement>("inventory-sprite");
+            VisualElement sprite = invSlot.Q<VisualElement>("IHUI-sprite");
             TextElement itemCounter = invSlot.Q<TextElement>("item-counter");
             CreateInventorySlots(slotNumber, invSlot, sprite, itemCounter);
         }

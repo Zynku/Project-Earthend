@@ -18,16 +18,20 @@ public class Charinputs : MonoBehaviour
     [ReadOnly] public InputActionMap uiInput;
 
     [ReadOnly] public InputAction move;
+    [ReadOnly] public InputAction jump;
     [ReadOnly] public InputAction interact;
     [ReadOnly] public InputAction dodge;
+    [ReadOnly] public InputAction IHUI;
 
     [ReadOnly] public InputAction lightAttack;
     [ReadOnly] public InputAction heavyAttack;
     [ReadOnly] public InputAction rangedAttack;
 
     public const string moveInput = "Move";
+    public const string jumpInput = "Jump";
     public const string interactInput = "Interact";
     public const string dodgeInput = "Dodge";
+    public const string IHUIInput = "IHUI";
 
     public const string lightAtk = "Light Attack";
     public const string heavyAtk = "Heavy Attack";
@@ -42,8 +46,10 @@ public class Charinputs : MonoBehaviour
         inputs = GetComponent<PlayerInput>();
 
         move = inputs.actions[moveInput];
+        jump = inputs.actions[jumpInput];
         interact = inputs.actions[interactInput];
         dodge = inputs.actions[dodgeInput];
+        IHUI = inputs.actions[IHUIInput];
 
         lightAttack = inputs.actions[lightAtk];
         heavyAttack = inputs.actions[heavyAtk];
@@ -74,6 +80,11 @@ public class Charinputs : MonoBehaviour
         if (Keyboard.current.numpad4Key.wasPressedThisFrame)
         {
             GameManager.instance.playerManager.ForceRun(Player_Manager.WalkDirection.LEFT, 1f);
+        }
+
+        if (Keyboard.current.numpad5Key.wasPressedThisFrame)
+        {
+            GameManager.instance.playerManager.SetGravityForDuration(0f, 1f);
         }
 
         if (Keyboard.current.numpad6Key.wasPressedThisFrame)

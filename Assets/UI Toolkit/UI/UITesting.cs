@@ -17,8 +17,6 @@ public class UITesting : MonoBehaviour
             dragStartPos = e.localMousePosition;
         });
 
-        drag.RegisterCallback<MouseCaptureEvent>(MyCallBack);
-
         drag.RegisterCallback<MouseMoveEvent>(e =>
         {
             if (!e.target.HasMouseCapture())
@@ -36,10 +34,5 @@ public class UITesting : MonoBehaviour
 
         var area = root.Q("area");
         area.RegisterCallback<MouseEnterEvent>(e => Debug.Log("Enter Area"));
-    }
-
-    public void MyCallBack(MouseCaptureEvent evt)
-    {
-        Debug.Log("Called back or osmething idk");
     }
 }

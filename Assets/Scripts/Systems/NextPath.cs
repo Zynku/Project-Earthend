@@ -7,16 +7,19 @@ using UnityEngine.Pool;
 
 public class NextPath : MonoBehaviour
 {
+    [Foldout("Important Stuff", true)]
     private GameObject player;
-    public EnterDir enterDirection;              //Which direction does the player go to enter this nextpath?
     public GameObject teleportPoint;
     public GameObject linkedPath;
     public GameObject cameraStayPos;
     public GameObject block;
-    public CinemachineVirtualCamera myCamera;
+    [HideInInspector] public CinemachineVirtualCamera myCamera;
     [HideInInspector] public NextPath linkedPathScript;
 
-    public float pathCoolDown = 0;
+    [Foldout("Variables", true)]
+    public EnterDir enterDirection;              //Which direction does the player go to enter this nextpath?
+    public bool canBeEntered = true;
+    private float pathCoolDown = 0;
     public float pathCoolDownTargetTime = 1f;
     [HideInInspector] public bool pathLinked;
 
@@ -73,6 +76,7 @@ public class NextPath : MonoBehaviour
         {
             case "Player":
                 if (pathCoolDown != 0) { Debug.Log($"{gameObject.name} is currently on cooldown, cannot teleport"); return; }
+                if (!canBeEntered) { Debug.Log($"{gameObject.name} is set to not be enterable, cannot teleport"); return; }
                 myCamera.Priority = 100;
                 if (enterDirection == EnterDir.RIGHT) { GameManager.instance.playerManager.ForceRun(Player_Manager.WalkDirection.RIGHT, 1); }
                 else if (enterDirection == EnterDir.LEFT) { GameManager.instance.playerManager.ForceRun(Player_Manager.WalkDirection.LEFT, 1); }
@@ -86,15 +90,15 @@ public class NextPath : MonoBehaviour
     {
         if (linkedPath == null) { Debug.LogWarning("This path is not linked to another, no teleportation can happen"); yield break; }
 
+        ExecuteOnMyDirection();
         StartCoroutine(Charinputs.instance.DisableMovementOnlyForDuration(1.5f));
         yield return new WaitForSeconds(0.2f);
         GameManager.instance.FadeToBlack(0.5f);
         yield return new WaitForSeconds(0.6f);
         MovePlayer();   //Teleports to new path location
         myCamera.Priority = 5;
-        linkedPathScript.myCamera.Priority = 100;                                               //TODO: FUCKING FADE TO BLACK ONLY WORKS ON MAIN CAM. MAKE IT APPLY TO ALL CAMS BOI
-        if (linkedPathScript.enterDirection == EnterDir.RIGHT) { GameManager.instance.playerManager.ForceRun(Player_Manager.WalkDirection.LEFT, .6f); }
-        else if (linkedPathScript.enterDirection == EnterDir.LEFT) { GameManager.instance.playerManager.ForceRun(Player_Manager.WalkDirection.RIGHT, .6f); }
+        linkedPathScript.myCamera.Priority = 100;
+        ExecuteOnLinkedDirection();
         yield return new WaitForSeconds(0.5f);
         GameManager.instance.FadeFromBlack(0.5f);
         yield return new WaitForSeconds(0.4f);
@@ -108,5 +112,40 @@ public class NextPath : MonoBehaviour
         player.transform.position = linkedPathScript.teleportPoint.transform.position;
         pathCoolDown = pathCoolDownTargetTime;
         linkedPathScript.pathCoolDown = pathCoolDownTargetTime;
+    }
+
+    public void ExecuteOnMyDirection()
+    {
+        switch (enterDirection)
+        {
+            case EnterDir.LEFT:
+                break;
+            case EnterDir.RIGHT:
+                break;
+            case EnterDir.UP:
+                GameManager.instance.playerManager.SetGravityForDuration(-0.8f, .6f);
+                break;
+            case EnterDir.DOWN:
+                break;
+        }
+    }
+
+    public void ExecuteOnLinkedDirection()
+    {
+        switch (linkedPathScript.enterDirection)
+        {
+            case EnterDir.LEFT:
+                GameManager.instance.playerManager.ForceRun(Player_Manager.WalkDirection.RIGHT, .6f);
+                break;
+            case EnterDir.RIGHT:
+                GameManager.instance.playerManager.ForceRun(Player_Manager.WalkDirection.LEFT, .6f);
+                break;
+            case EnterDir.UP:
+                GameManager.instance.playerManager.SetGravityForDuration(0f, .6f);
+                break;
+            case EnterDir.DOWN:
+                GameManager.instance.playerManager.SetGravityForDuration(-0.5f, 1.2f);
+                break;
+        }
     }
 }

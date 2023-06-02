@@ -5,6 +5,20 @@ using UnityEngine;
 
 public class Devlab_stand_in : MonoBehaviour
 {
+    [Foldout("Audio", true)]
+    [Range(0f, 1f)]
+    public float appearAlertVolume = 1;
+    public AudioClip appearAlertAud;
+    [Range(0f, 1f)]
+    public float appearVolume = 1;
+    public AudioClip appearAud;
+    [Range(0f, 1f)]
+    public float brokenVolume = 1;
+    public AudioClip brokenAud;
+    [Range(0f, 1f)]
+    public float completedVolume = 1;
+    public AudioClip completedAud;
+    AudioSource audioSource;
     Animator animator;
     Enemymain enemymainscript;
     Collider2D hitbox;
@@ -27,7 +41,7 @@ public class Devlab_stand_in : MonoBehaviour
     [Tooltip("Percentage damage of requiredDamage necessary for a big hit")]
     public float percentDmgForBigHit;
     [Tooltip("Has the stand appeared or disappeared yet?")]
-    public bool appeared, disappeared;  
+    public bool appeared, disappeared;
     [Tooltip("Has it taken enough damage to be completed")]
     public bool completed;
     private bool finishedCompletion;
@@ -39,12 +53,13 @@ public class Devlab_stand_in : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        audioSource = GetComponent<AudioSource>();
         animator = GetComponent<Animator>();
         enemymainscript = GetComponent<Enemymain>();
         hitbox = GetComponent<Collider2D>();
         hitbox.enabled = false;
         squareSprite = GetComponent<SpriteRenderer>();
-        squareSprite.enabled = false;  
+        squareSprite.enabled = false;
         enemymainscript.enemyBeenHit += BeenHit;
         enemymainscript.spawnOrActivate += ActivateStand;
     }
@@ -52,7 +67,7 @@ public class Devlab_stand_in : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (enemymainscript.playerInsideRadius) 
+        if (enemymainscript.playerInsideRadius)
         {
             if (!spawnViaDistance) { return; }  //Do nothing if not in range
             if (completed) { return; }          //Do nothing if enemy has been defeated before and doesn't reset
@@ -180,7 +195,7 @@ public class Devlab_stand_in : MonoBehaviour
     public void ActivateStand()
     {
         if (!appeared)
-        { 
+        {
             animator.SetTrigger("Appear");
             top.GetComponent<SpriteRenderer>().sprite = topNormal;
             appeared = true;
@@ -209,9 +224,9 @@ public class Devlab_stand_in : MonoBehaviour
         {
             disappeared = true;
             animator.SetTrigger("Disappear");
-            appeared=false;
+            appeared = false;
             hitbox.enabled = false;
-            if (resetOnCompleted) { Invoke(nameof(ResetStand), resetTime);}
+            if (resetOnCompleted) { Invoke(nameof(ResetStand), resetTime); }
         }
     }
 
@@ -225,6 +240,22 @@ public class Devlab_stand_in : MonoBehaviour
         finishedCompletion = false;
     }
 
+    public void PlayActivateAlertSound()
+    {
+        if (appearAlertAud != null) PlaySoundFX(1, appearAlertAud);
+    }
+
+    public void PlayActivateSound()
+    {
+        if (appearAud != null) PlaySoundFX(1, appearAud);
+    }
+
+    public void PlaySoundFX(float volume, AudioClip clip)
+    {
+        audioSource.volume = volume;
+        //audioSource.pitch = (Random.Range(0.5f, 1f));
+        audioSource.PlayOneShot(clip);
+    }
     public void DeactivateHitbox()
     {
         hitbox.enabled = false;
